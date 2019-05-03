@@ -1,0 +1,57 @@
+import {
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_ERROR,
+    LOGOUT_SUCCESS,
+    REFRESH_TOKEN_PROMISE
+} from './types'
+import router from '../../../../router'
+import { UserService, AuthenticationError } from '../../../../services/user.service'
+
+export default {
+    async login({commit}, payload) {
+        commit(LOGIN_REQUEST)
+        try {
+            let tokenAndProfile = await UserService.login(payload.username, payload.password)
+            commit(LOGIN_SUCCESS, tokenAndProfile)
+            return true
+        } catch (error) {
+            if (error instanceof AuthenticationError) {
+                commit(LOGIN_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(LOGIN_ERROR, {errorCode: 500, errorMessage: "Undefined"})
+            }
+            return false
+        }
+    },
+
+    logout({ commit }) {
+        UserService.logout()
+        commit(LOGOUT_SUCCESS)
+        router.push('login')
+    },
+
+    refreshToken({ commit, state}) {
+        // If this is the first time the refreshToken has been called, make a request
+        // otherwise return the same promise to the caller
+        if (!state.refreshToken) {
+
+            let p = UserService.refreshToken()
+            commit(REFRESH_TOKEN_PROMISE, p)
+
+            // Wait for the UserService.refreshToken() to resolve. On success set the token and clear promise
+            // Clear the promise on error as well.
+            p.then(
+                response => {
+                    commit(REFRESH_TOKEN_PROMISE, null)
+                    commit(LOGIN_SUCCESS, response)
+                },
+                error => {
+                    commit(REFRESH_TOKEN_PROMISE, null)
+                }
+            )
+        }
+
+        return state.refreshToken
+    }
+}
