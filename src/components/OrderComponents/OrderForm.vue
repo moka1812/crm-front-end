@@ -164,18 +164,18 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn class="contactBtn"
-            @click="turnOffDialog"
+            @click="this.contractHandle"
             >
             Contract
             </v-btn>
             <v-btn class="cancelBtn"
-            @click="turnOffDialog"
+            @click="this.cancleHandle"
             >
             Cancel
             </v-btn>
             <v-btn
             class="OkBtn"
-            @click="turnOffDialog"
+            @click="this.okHandle"
             :disabled="!valid"
             >
             OK
@@ -241,7 +241,7 @@ export default {
     agent: {
         type: String,
         default: ''
-    }
+    },
   },
   data(){
     return {
@@ -302,12 +302,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      changeDialog: 'order/changeDialog'
-    }),
-    turnOffDialog: function() {
+    contractHandle: function() {
+        this.$emit('contract')
+    },
+    cancleHandle: function() {
         this.$refs.form.reset()
-        this.changeDialog({dialog: false})
+        this.$emit('cancle')
+    },
+    okHandle: function() {
+        this.$emit('ok')
     }
   }
 }

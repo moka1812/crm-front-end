@@ -6,10 +6,10 @@
           <i class="fas fa-plus"></i>
         </div>
             New order
-        </v-btn>
+      </v-btn>
     </template>
     <v-card>
-      <order-form type='new'/>
+      <order-form type='new' @ok="okHandle" @cancle="cancleHandle" @contract="contractHandle"/>
     </v-card>
   </v-dialog>
 </template>
@@ -23,23 +23,21 @@ export default {
   components: {
     OrderForm
   },
-  computed: {
-    ...mapGetters({
-      dialogStatus: 'order/dialog'
-    }),
-    dialog: {
-      get: function(){
-        return this.dialogStatus
-      },
-      set: function(value){
-        this.changeDialog({dialog: value})
-      }
+  data(){
+    return {
+      dialog: false
     }
   },
   methods: {
-    ...mapActions({
-      changeDialog: 'order/changeDialog'
-    })
+    okHandle: function() {
+      this.dialog = false
+    },
+    cancleHandle: function() {
+      this.dialog = false
+    },
+    contractHandle: function() {
+      this.dialog = false
+    }
   }
 }
 </script>
