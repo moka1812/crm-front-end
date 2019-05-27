@@ -3,7 +3,8 @@ import {
     LOGIN_SUCCESS,
     LOGIN_ERROR,
     LOGOUT_SUCCESS,
-    REFRESH_TOKEN_PROMISE
+    REFRESH_TOKEN_PROMISE,
+    REFRESH_TOKEN_SUCCESS
 } from './types'
 import router from '../../../../router'
 import { UserService, AuthenticationError } from '../../../../services/user.service'
@@ -42,9 +43,9 @@ export default {
             // Wait for the UserService.refreshToken() to resolve. On success set the token and clear promise
             // Clear the promise on error as well.
             p.then(
-                response => {
+                token => {
                     commit(REFRESH_TOKEN_PROMISE, null)
-                    commit(LOGIN_SUCCESS, response)
+                    commit(REFRESH_TOKEN_SUCCESS, token)
                 },
                 error => {
                     commit(REFRESH_TOKEN_PROMISE, null)

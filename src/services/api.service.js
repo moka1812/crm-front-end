@@ -46,16 +46,16 @@ const ApiService = {
         return axios(data)
     },
 
-    // Stores the 404 interceptor position so that it can be later ejected when needed
-    _404interceptor: null,
+    // Stores the 403 interceptor position so that it can be later ejected when needed
+    _403interceptor: null,
 
-    mount404Interceptor() {
-        this._404interceptor = axios.interceptors.response.use(
+    mount403Interceptor() {
+        this._403interceptor = axios.interceptors.response.use(
             (response) => {
                 return response
             },
             async (error) => {
-                if (error.request.status == 404) {
+                if (error.request.status == 403) {
                     
                     if (error.config.url.includes(refreshTokenApi)) {
                         
@@ -83,15 +83,15 @@ const ApiService = {
                         
                     }
                 }
-                // If error was not 404 just reject as is
+                // If error was not 403 just reject as is
                 throw error
             }
         )
     },
 
-    unmount404Interceptor() {
+    unmount403Interceptor() {
         // Eject the interceptor
-        axios.interceptors.response.eject(this._404interceptor)
+        axios.interceptors.response.eject(this._403interceptor)
     }
 }
 

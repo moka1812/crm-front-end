@@ -15,6 +15,7 @@ import { TokenService } from './services/storage.service'
 
 if (TokenService.getToken()) {
   ApiService.setHeader()
+  ApiService.mount403Interceptor();
 }
 
 Vue.config.productionTip = false;

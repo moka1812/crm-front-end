@@ -5,7 +5,8 @@ import {
     LOGIN_SUCCESS,
     LOGIN_ERROR,
     LOGOUT_SUCCESS,
-    REFRESH_TOKEN_PROMISE
+    REFRESH_TOKEN_PROMISE,
+    REFRESH_TOKEN_SUCCESS
 } from './types'
 
 export default {
@@ -30,5 +31,8 @@ export default {
     },
     [REFRESH_TOKEN_PROMISE] (state, promise) {
         Vue.set(state, 'refreshTokenPromise', promise)
+    },
+    [REFRESH_TOKEN_SUCCESS] (state, accessToken) {
+        Vue.set(state, 'accessToken', accessToken)
     } 
 }

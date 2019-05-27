@@ -9,7 +9,7 @@
       </v-btn>
     </template>
     <v-card>
-      <order-form type='new' @ok="okHandle" @cancle="cancleHandle" @contract="contractHandle"/>
+      <order-form type='new' @ok="okHandle" @cancle="cancleHandle"/>
     </v-card>
   </v-dialog>
 </template>
@@ -35,9 +35,6 @@ export default {
     cancleHandle: function() {
       this.dialog = false
     },
-    contractHandle: function() {
-      this.dialog = false
-    }
   }
 }
 </script>

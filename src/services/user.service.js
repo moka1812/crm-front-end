@@ -29,11 +29,11 @@ const UserService = {
             TokenService.saveToken(response.data.access)
             TokenService.saveRefreshToken(response.data.refresh)
 
-            let profile = {name: response.data.fullname, branch: response.data.branch}
+            let profile = {name: response.data.name, branch: response.data.branch}
             ProfileService.saveProfile(profile)
 
             ApiService.setHeader()
-            ApiService.mount404Interceptor()
+            ApiService.mount403Interceptor()
 
             return {token: response.data.access, profile: profile}
         } catch (error) {
@@ -49,7 +49,7 @@ const UserService = {
             url: refreshTokenApi,
             data: {
                 refresh: refreshToken
-            }
+            },
         }
 
         try {
@@ -66,7 +66,7 @@ const UserService = {
         TokenService.removeToken()
         ProfileService.removeProfile()
         ApiService.removeHeader()
-        ApiService.unmount404Interceptor()
+        ApiService.unmount403Interceptor()
     },
 }
 

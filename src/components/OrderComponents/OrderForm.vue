@@ -19,22 +19,24 @@
                                     v => /^[+]?[0-9]{10,13}$/.test(v) || 'Phone is not valid'
                                 ]"
                                 label="Phone"
+                                @keyup="this.search"
+                                :loading="this.isSearching"
+                                :disabled="this.isSearching"
                                 required
                                 >
                             </v-text-field>
                         </v-flex>
                         <v-flex sm6>
-                            <v-text-field
-                                v-model.lazy="IDCardInput"
-                                :rules="[
-                                        v => !!v || 'ID Card is required',
-                                        //Validate ID Card or Passport number
-                                        v => /^[+]?[0-9]{9,13}$|^[A-PR-WY][1-9]\d\s?\d{4}[1-9]$/.test(v) || 'ID Card is not valid',
-                                    ]"
-                                label="ID Card"
+                            <v-select
+                                v-model="branchInput"
+                                :items="branchItems"
+                                :rules="[v => !!v || 'Branch is required']"
+                                label="Branch"
+                                :disabled="disabled"
+                                required
                                 >
-                            </v-text-field>
-                        </v-flex> 
+                            </v-select>
+                        </v-flex>
                     </v-layout>
                     <v-layout>
                         <v-flex sm6>
@@ -132,17 +134,6 @@
                         </v-flex>
                     </v-layout>
                     <v-layout>
-                        <v-flex sm6>
-                            <v-select
-                                v-model="branchInput"
-                                :items="branchItems"
-                                :rules="[v => !!v || 'Branch is required']"
-                                label="Branch"
-                                :disabled="disabled"
-                                required
-                                >
-                            </v-select>
-                        </v-flex>
                         <v-flex sm6 v-if="admin">
                             <v-select
                                 v-model="agentInput"
@@ -164,6 +155,7 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn class="contactBtn"
+            v-if="isContract"
             @click="this.contractHandle"
             >
             Contract
@@ -186,6 +178,8 @@
 
 <script>
 import {mapActions} from 'vuex'
+import { ClientService, ClientError } from '../../services/client.service'
+import { setTimeout, clearTimeout } from 'timers';
 
 export default {
   name: "order-form",
@@ -286,7 +280,10 @@ export default {
         expectedAmountInput: this.expectedAmount,
         validatorAmountInput: this.validatorAmount,
         noteInput: this.note,
-        agentInput: this.agent
+        agentInput: this.agent,
+        //for Search fuction
+        isSearching: false,
+        searchTime: null,
     }
   },
   computed: {
@@ -299,6 +296,12 @@ export default {
             default:
                 return 'Form'
         }
+    },
+    isContract() {
+        if (this.type == 'new') {
+            return false
+        }
+        return true
     }
   },
   methods: {
@@ -311,6 +314,27 @@ export default {
     },
     okHandle: function() {
         this.$emit('ok')
+    },
+    search: function() {
+        if (this.timer !== null) {
+            clearTimeout(this.searchTime);
+            this.searchTime = null;
+            this.isSearching = false
+        }
+        this.searchTime = setTimeout(() => {
+            this.isSearching = true
+            ClientService.getClientByPhone(this.phoneInput).then((result) => {
+                this.isSearching = false
+                this.disabled = false
+                if (result.status == true) { //existing customer
+                    this.firstNameInput = result.data.first_name
+                    this.lastNameInput = result.data.last_name
+                }
+
+            }).catch(error => {
+                this.isSearching = false
+            })
+        }, 2000)
     }
   }
 }
