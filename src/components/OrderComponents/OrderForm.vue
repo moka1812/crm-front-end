@@ -22,6 +22,7 @@
                                 @keyup="this.search"
                                 :loading="this.isSearching"
                                 :disabled="this.isSearching"
+                                ref="phone"
                                 required
                                 >
                             </v-text-field>
@@ -281,9 +282,10 @@ export default {
         validatorAmountInput: this.validatorAmount,
         noteInput: this.note,
         agentInput: this.agent,
-        //for Search fuction
+        //for Search Client fuction
         isSearching: false,
         searchTime: null,
+        phoneInputError: false
     }
   },
   computed: {
@@ -326,21 +328,22 @@ export default {
             ClientService.getClientByPhone(this.phoneInput).then((result) => {
 
                 this.isSearching = false
-                this.firstNameInput = null
-                this.lastNameInput = null
-                
+
                 if (result.status == true) {
                     //existing customer
                     this.firstNameInput = result.data.first_name
                     this.lastNameInput = result.data.last_name
                     this.disabled = false
-                } else if (!this.valid) {
+                    return
+                } else if (this.$refs['phone'].hasError) {
                     //PhoneInput rule is failing
                     this.disabled = true
                 } else { 
                     //New customer
                     this.disabled = false
                 }
+                this.firstNameInput = null
+                this.lastNameInput = null
 
             }).catch(error => {
                 this.isSearching = false
