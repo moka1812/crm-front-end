@@ -324,11 +324,22 @@ export default {
         this.searchTime = setTimeout(() => {
             this.isSearching = true
             ClientService.getClientByPhone(this.phoneInput).then((result) => {
+
                 this.isSearching = false
-                this.disabled = false
-                if (result.status == true) { //existing customer
+                this.firstNameInput = null
+                this.lastNameInput = null
+                
+                if (result.status == true) {
+                    //existing customer
                     this.firstNameInput = result.data.first_name
                     this.lastNameInput = result.data.last_name
+                    this.disabled = false
+                } else if (!this.valid) {
+                    //PhoneInput rule is failing
+                    this.disabled = true
+                } else { 
+                    //New customer
+                    this.disabled = false
                 }
 
             }).catch(error => {
