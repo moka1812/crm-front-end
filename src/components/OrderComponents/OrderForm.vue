@@ -20,8 +20,8 @@
                                 ]"
                                 label="Phone"
                                 @keyup="this.search"
-                                :loading="this.isSearching"
-                                :disabled="this.isSearching"
+                                :loading="this.clientSearching"
+                                :disabled="this.clientSearching"
                                 ref="phone"
                                 required
                                 >
@@ -178,7 +178,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import { ClientService, ClientError } from '../../services/client.service'
 import { setTimeout, clearTimeout } from 'timers';
 
@@ -242,7 +242,6 @@ export default {
     return {
         valid: false,
         admin: false,
-        disabled: true,
         assetTypeItems: [
             'Laptop',
             'Camera',
@@ -283,9 +282,7 @@ export default {
         noteInput: this.note,
         agentInput: this.agent,
         //for Search Client fuction
-        isSearching: false,
         searchTime: null,
-        phoneInputError: false
     }
   },
   computed: {
@@ -304,9 +301,49 @@ export default {
             return false
         }
         return true
+    },
+    ...mapGetters({
+      clientSearching:'order/clientSearching',
+      clientSearchErrorCode:'order/clientSearchErrorCode',
+      clientSearchError:'order/clientSearchError',
+      clientResult: 'order/clientResult'
+    }),
+    disabled() {
+        //If Error Code == 200 then disable is false
+        if (this.clientSearchErrorCode == 200){
+            //PhoneInput rule is failing
+            if (this.$refs['phone'].hasError) {
+                return true
+            } 
+            return false
+        
+        } else if (this.clientSearchErrorCode != 0){
+            this.$notify({
+                group: 'foo',
+                type: 'error',
+                title: "Error: "+this.clientSearchErrorCode,
+                text: this.clientSearchError
+            });
+        }
+        return true
+    }
+  },
+  watch: {
+    clientResult() {
+        if (this.clientResult != null) {
+            this.firstNameInput = this.clientResult.first_name
+            this.lastNameInput = this.clientResult.last_name
+        } else {
+            this.firstNameInput = null
+            this.lastNameInput = null
+        }
     }
   },
   methods: {
+    ...mapActions({
+        clientSearch: 'order/searchClient',
+        clientReset: 'order/clientReset'
+    }),
     contractHandle: function() {
         this.$emit('contract')
     },
@@ -321,33 +358,13 @@ export default {
         if (this.timer !== null) {
             clearTimeout(this.searchTime);
             this.searchTime = null;
-            this.isSearching = false
         }
         this.searchTime = setTimeout(() => {
-            this.isSearching = true
-            ClientService.getClientByPhone(this.phoneInput).then((result) => {
-
-                this.isSearching = false
-
-                if (result.status == true) {
-                    //existing customer
-                    this.firstNameInput = result.data.first_name
-                    this.lastNameInput = result.data.last_name
-                    this.disabled = false
-                    return
-                } else if (this.$refs['phone'].hasError) {
-                    //PhoneInput rule is failing
-                    this.disabled = true
-                } else { 
-                    //New customer
-                    this.disabled = false
-                }
-                this.firstNameInput = null
-                this.lastNameInput = null
-
-            }).catch(error => {
-                this.isSearching = false
-            })
+            if (!this.$refs['phone'].hasError) {
+                this.clientSearch({phone: this.phoneInput})
+            } else {
+                this.clientReset()
+            }
         }, 2000)
     }
   }

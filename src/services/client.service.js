@@ -26,7 +26,7 @@ const ClientService = {
             } 
 
         } catch (error) {
-            if (error.response.status == 400) {
+            if (error.response.status == 400) { //New Client
                 return {
                     status: false,
                     data: error.response.data[0]
