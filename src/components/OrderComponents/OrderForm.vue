@@ -53,10 +53,8 @@
                         <v-flex sm6>
                             <v-text-field
                                 v-model.lazy="lastNameInput"
-                                :rules="[v => !!v || 'Last name is required']"
                                 label="Last Name"
-                                :disabled="disabled"
-                                required
+                                :disabled="true"
                                 >
                             </v-text-field>
                         </v-flex>

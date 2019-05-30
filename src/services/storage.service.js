@@ -6,31 +6,37 @@ const PROFILE = 'profile'
  * Manage the how Access Tokens are being stored and retreived from storage.
  *
  * Current implementation stores to localStorage. Local Storage should always be
- * accessed through this instace.
+ * accessed through window instace.
 **/
 const TokenService = {
     getToken() {
-        return localStorage.getItem(TOKEN_KEY)
+        return window.$cookies.get(TOKEN_KEY);
+        //return localStorage.getItem(TOKEN_KEY)
     },
 
     saveToken(accessToken) {
-        localStorage.setItem(TOKEN_KEY, accessToken)
+        window.$cookies.set(TOKEN_KEY, accessToken);
+        //localStorage.setItem(TOKEN_KEY, accessToken)
     },
 
     removeToken() {
-        localStorage.removeItem(TOKEN_KEY)
+        window.$cookies.delete(TOKEN_KEY);
+        //localStorage.removeItem(TOKEN_KEY)
     },
 
     getRefreshToken() {
-        return localStorage.getItem(REFRESH_TOKEN_KEY)
+        return window.$cookies.get(REFRESH_TOKEN_KEY);
+        //return localStorage.getItem(REFRESH_TOKEN_KEY)
     },
 
     saveRefreshToken(refreshToken) {
-        localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+        window.$cookies.set(REFRESH_TOKEN_KEY, refreshToken);
+        //localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
     },
 
     removeRefreshToken() {
-        localStorage.removeItem(REFRESH_TOKEN_KEY)
+        window.$cookies.delete(REFRESH_TOKEN_KEY);
+        //localStorage.removeItem(REFRESH_TOKEN_KEY)
     }
 
 }

@@ -5,6 +5,7 @@ import "./plugins/vuetify";
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import "./plugins/vue-notification"
 import "./plugins/google-auth"
+import "./plugins/vue-cookies"
 
 import App from "./App.vue";
 import router from "./router";

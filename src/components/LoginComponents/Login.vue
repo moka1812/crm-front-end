@@ -17,12 +17,15 @@
                             <h1>CAMDO<strong>NHANH</strong></h1>
                         </div>
                         <h3>LOGIN</h3>
-                        <input type="text" placeholder="username" v-model="username"/>
-                        <input type="password" placeholder="password" v-model="password"/>
-                        <br/>
-                        <button :disabled="authenticating" class="button" @click="loginHandle">
-                            Login
-                        </button>
+                        <form @submit.prevent="loginHandle">
+                          <input id="username" type="text" placeholder="username" v-model="username"/>
+                          <input id="password" type="password" placeholder="password" v-model="password"/>
+                        
+                          <br/>
+                          <button type="submit" :disabled="authenticating" class="button">
+                              Login
+                          </button>
+                        </form>
                         <hr/>
 
                         <button :disabled="true" class="loginBtn loginBtn--google">

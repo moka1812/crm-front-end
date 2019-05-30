@@ -11,19 +11,18 @@ class OrderError extends Error {
 }
 
 const OrderService = {
-    validate:  function(newOrderInfo) {
-        
-    },
 
     create : async function(newOrderInfo) {
-        let requestData = {
-            method: 'post',
-            url: createOrderApi,
-            data: newOrderInfo
+        let data = {
+            phone: newOrderInfo.phone,
+            first_name: newOrderInfo.firstName,
+            required_amount: newOrderInfo.expectedAmount,
+            proposed_amount: newOrderInfo.validatorAmount,
+            status: "In Progress",
         }
 
         try {
-            let response = await ApiService.customRequest(requestData)
+            let response = await ApiService.post(createOrderApi, data)
         } catch (error) {
             
         }

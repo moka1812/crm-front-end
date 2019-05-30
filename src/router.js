@@ -48,20 +48,27 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+  //Components require auth
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (TokenService.getToken() == null) {
+      //Come back Login Component 
       next({
         name: 'login',
         params: { nextUrl: to.fullPath }
       })
     } else {
+      //Continue
       next()
-    } 
+    }
+  //Component for Guest, Example Login Component
   } else if (to.matched.some(record => record.meta.guest)) {
+    //Nothing Token, Continue
     if (TokenService.getToken() == null) {
       next()
     }
+    //Having Token, Don't come back Login Component
     next({name: 'homepage'})
+  //Anything else
   } else {
     next()
   }
