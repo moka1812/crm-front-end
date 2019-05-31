@@ -168,9 +168,15 @@
             class="OkBtn"
             @click="this.okHandle"
             :disabled="!valid"
+            v-if="!orderRequest"
             >
             OK
             </v-btn>
+            <v-progress-circular
+            indeterminate
+            color="red"
+            v-else
+            ></v-progress-circular>
         </v-card-actions>
     </div>
 </template>
@@ -304,7 +310,9 @@ export default {
       clientSearching:'order/clientSearching',
       clientSearchErrorCode:'order/clientSearchErrorCode',
       clientSearchError:'order/clientSearchError',
-      clientResult: 'order/clientResult'
+      clientResult: 'order/clientResult',
+      orderRequest: 'order/orderRequest',
+      orderCreatingErrorCode: 'order/orderCreatingErrorCode',
     }),
     disabled() {
         //If Error Code == 200 then disable is false
@@ -327,6 +335,7 @@ export default {
     }
   },
   watch: {
+    //When clientResult changes
     clientResult() {
         if (this.clientResult != null) {
             this.firstNameInput = this.clientResult.first_name
@@ -334,6 +343,16 @@ export default {
         } else {
             this.firstNameInput = null
             this.lastNameInput = null
+        }
+    },
+    //When Finish Create Order
+    orderCreatingErrorCode() {
+        //Check Form is New Order
+        if (this.type == 'new') {
+            //Create Order Successful, Empty Form 
+            if (this.orderCreatingErrorCode == 201) {
+                this.$refs.form.reset()
+            }
         }
     }
   },
@@ -350,7 +369,13 @@ export default {
         this.$emit('cancle')
     },
     okHandle: function() {
-        this.$emit('ok')
+        let data = {
+            phone: this.phoneInput,
+            firstName: this.firstNameInput,
+            expectedAmount: this.expectedAmountInput,
+            validatorAmount: this.validatorAmountInput,
+        }
+        this.$emit('ok', data)
     },
     search: function() {
         if (this.timer !== null) {

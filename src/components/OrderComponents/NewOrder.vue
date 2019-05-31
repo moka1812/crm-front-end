@@ -28,10 +28,25 @@ export default {
       dialog: false
     }
   },
+  computed: {
+    ...mapGetters({
+      orderCreatingErrorCode: 'order/orderCreatingErrorCode',
+    })
+  },
   methods: {
-    okHandle: function() {
-      this.dialog = false
+    ...mapActions({
+        createOrder: 'order/createOrder',
+    }),
+    //Create new order
+    okHandle: function(data) {
+      this.createOrder(data).then(() => {
+        //Create New Order Successfully, Close Dialog
+        if (this.orderCreatingErrorCode == 201) {
+          this.dialog = false
+        }
+      })
     },
+
     cancleHandle: function() {
       this.dialog = false
     },

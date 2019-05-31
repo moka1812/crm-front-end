@@ -20,7 +20,7 @@ const TokenService = {
     },
 
     removeToken() {
-        window.$cookies.delete(TOKEN_KEY);
+        window.$cookies.remove(TOKEN_KEY);
         //localStorage.removeItem(TOKEN_KEY)
     },
 
@@ -35,7 +35,7 @@ const TokenService = {
     },
 
     removeRefreshToken() {
-        window.$cookies.delete(REFRESH_TOKEN_KEY);
+        window.$cookies.remove(REFRESH_TOKEN_KEY);
         //localStorage.removeItem(REFRESH_TOKEN_KEY)
     }
 
@@ -65,6 +65,17 @@ const ProfileService = {
         return profile ? profile.name : null
     },
 
+    setID(id) {
+        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        profile.id = id
+        localStorage.setItem(PROFILE, JSON.stringify(profile))
+    },
+
+    getID() {
+        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        return profile ? profile.id : null
+    },
+
     setBranch(branch) {
         let profile = JSON.parse(localStorage.getItem(PROFILE))
         profile.branch = branch
@@ -74,6 +85,17 @@ const ProfileService = {
     getBranch() {
         let profile = JSON.parse(localStorage.getItem(PROFILE))
         return profile ? profile.branch : null
+    },
+
+    setBranchID(branchID) {
+        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        profile.branchID = branchID
+        localStorage.setItem(PROFILE, JSON.stringify(profile))
+    },
+
+    getBranchID() {
+        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        return profile ? profile.branchID : null
     },
     
 }

@@ -29,7 +29,12 @@ const UserService = {
             TokenService.saveToken(response.data.access)
             TokenService.saveRefreshToken(response.data.refresh)
 
-            let profile = {name: response.data.name, branch: response.data.branch}
+            let profile = {
+                name: response.data.name,
+                id: response.data.id,
+                branch: response.data.branch,
+                branchID: response.data.branch_id,
+            }
             ProfileService.saveProfile(profile)
 
             ApiService.setHeader()
