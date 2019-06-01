@@ -31,6 +31,7 @@ export default {
   computed: {
     ...mapGetters({
       orderCreatingErrorCode: 'order/orderCreatingErrorCode',
+      orderCreatingError: 'order/orderCreatingError'
     })
   },
   methods: {
@@ -43,7 +44,21 @@ export default {
         //Create New Order Successfully, Close Dialog
         if (this.orderCreatingErrorCode == 201) {
           this.dialog = false
+          this.$notify({
+            group: 'foo',
+            type: 'success',
+            title: "Create Order Successfully",
+            text: ''
+          });
+        } else {
+          this.$notify({
+            group: 'foo',
+            type: 'error',
+            title: "Error: "+this.orderCreatingErrorCode,
+            text: this.orderCreatingError
+          });
         }
+
       })
     },
 

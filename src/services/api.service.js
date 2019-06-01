@@ -55,33 +55,29 @@ const ApiService = {
                 return response
             },
             async (error) => {
+                if (error.config.url.includes(refreshTokenApi)) {
+                    // Refresh token has failed. Logout the user
+                    store.dispatch("auth/logout")
+                    return 
+                }
                 if (error.request.status == 403) {
+
+                    try {
+                        //Refresh the access token
+                        await store.dispatch("auth/refreshToken")
+
+                        //Retry the original request
+                        return this.customRequest({
+                            method: error.config.method,
+                            url: error.config.url,
+                            data: error.config.data,
+                        })
                     
-                    if (error.config.url.includes(refreshTokenApi)) {
-                        
-                        // Refresh token has failed. Logout the user
-                        store.dispatch("auth/logout")
+                    } catch (error) {
+                        // Refresh has failed - reject the original request
                         throw error
-
-                    } else {
-
-                        try {
-                           //Refresh the access token
-                           await store.dispatch("auth/refreshToken")
-
-                           //Retry the original request
-                           return this.customRequest({
-                               method: error.config.method,
-                               url: error.config.url,
-                               data: error.config.data,
-                           })
-                        
-                        } catch (error) {
-                            // Refresh has failed - reject the original request
-                            throw error
-                        }
-                        
                     }
+                        
                 }
                 // If error was not 403 just reject as is
                 throw error
