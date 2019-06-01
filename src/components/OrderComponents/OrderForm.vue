@@ -323,13 +323,6 @@ export default {
             } 
             return false
         
-        } else if (this.clientSearchErrorCode != 0){
-            this.$notify({
-                group: 'foo',
-                type: 'error',
-                title: "Error: "+this.clientSearchErrorCode,
-                text: this.clientSearchError
-            });
         }
         return true
     }
@@ -353,6 +346,16 @@ export default {
             if (this.orderCreatingErrorCode == 201) {
                 this.$refs.form.reset()
             }
+        }
+    },
+    clientSearchErrorCode() {
+        if (this.clientSearchErrorCode != 0 && this.clientSearchErrorCode != 200){
+            this.$notify({
+                group: 'foo',
+                type: 'error',
+                title: "Error: "+this.clientSearchErrorCode,
+                text: this.clientSearchError
+            });
         }
     }
   },
