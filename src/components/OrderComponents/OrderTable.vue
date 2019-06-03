@@ -10,7 +10,7 @@
             <td class="text-xs-left">{{ props.item.orderID }}</td>
             <td class="text-xs-left">{{ props.item.createdDate }}</td>
             <td class="text-xs-left">{{ props.item.lastModify }}</td>
-            <td class="text-xs-left">{{ props.item.agent }}</td>
+            <td class="text-xs-left">{{ props.item.staffName }}</td>
             <td class="text-xs-left" :style="{color: getColor(props.item.step)}">
               {{ props.item.step }}
             </td>

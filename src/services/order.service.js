@@ -48,6 +48,8 @@ const OrderService = {
                     phone: item.phone,
                     name: item.first_name,
                     client: item.client,
+                    staff: item.staff,
+                    staffName: item.staff_name,
                     requiredAmount: item.required_amount,
                     marketAmount: item.market_amount,
                     proposedAmount: item.proposed_amount,
@@ -60,8 +62,7 @@ const OrderService = {
                     status: item.status,
                     asset: item.asset,
                     stage: item.stage,
-                    step: item.step,
-                    agent: item.staff
+                    step: item.step
                 })
             }
             return data
