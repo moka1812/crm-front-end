@@ -42,6 +42,11 @@ const UserService = {
 
             return {token: response.data.access, profile: profile}
         } catch (error) {
+            if (error.response.data.hasOwnProperty("non_field_errors")) {
+                if (error.response.data.non_field_errors == "Invalid username or password") {
+                    throw new AuthenticationError(error.response.status, "Tài khoản hoặc mật khẩu không hợp lệ")
+                }
+            }
             throw new AuthenticationError(error.response.status, error.response.data.detail)
         }
     },

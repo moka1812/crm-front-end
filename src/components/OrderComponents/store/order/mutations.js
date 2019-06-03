@@ -5,9 +5,14 @@ import {
     CLIENT_SEARCHING_SUCCESS,
     CLIENT_SEARCHING_ERROR,
     CLIENT_SEARCHING_RESET,
+
     ORDER_CREATING_REQUEST,
     ORDER_CREATING_SUCCESS,
-    ORDER_CREATING_ERROR
+    ORDER_CREATING_ERROR,
+
+    ORDER_LIST_REQUEST,
+    ORDER_LIST_SUCCESS,
+    ORDER_LIST_ERROR
 } from './types'
 
 export default {
@@ -56,5 +61,24 @@ export default {
         Vue.set(state, 'orderCreating', false)
         Vue.set(state, 'orderCreatingError', errorMessage)
         Vue.set(state, 'orderCreatingErrorCode', errorCode)
+    },
+
+    //Order List Getting Function
+    [ORDER_LIST_REQUEST] (state) {
+        Vue.set(state, 'orderListRequest', true)
+        Vue.set(state, 'orderListResult', [])
+        Vue.set(state, 'orderListError', '')
+        Vue.set(state, 'orderListErrorCode', 0)
+    },
+    [ORDER_LIST_SUCCESS] (state, {result}) {
+        Vue.set(state, 'orderListRequest', false)
+        Vue.set(state, 'orderListResult', result)
+        Vue.set(state, 'orderListError', '')
+        Vue.set(state, 'orderListErrorCode', 200)
+    },
+    [ORDER_LIST_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'orderListRequest', false)
+        Vue.set(state, 'orderListError', errorMessage)
+        Vue.set(state, 'orderListErrorCode', errorCode)
     },
 }

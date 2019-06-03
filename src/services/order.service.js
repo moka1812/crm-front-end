@@ -1,6 +1,6 @@
-import ApiService from '../services/api.service'
-import {ProfileService} from '../services/storage.service'
-import { createOrderApi } from '../backend_api'
+import ApiService from './api.service'
+import { ProfileService } from './storage.service'
+import { createOrderApi, orderListApi } from '../backend_api'
 
 class OrderError extends Error {
     constructor(errorCode, message) {
@@ -28,6 +28,73 @@ const OrderService = {
                 return response.data
             }
         } catch (error) {
+            throw OrderError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    filterRawOrderList: function(rawData) {
+        let data = []
+        try {
+            for (let item of rawData) {
+                //Example created: "2019-05-31T14:16:03.932314+07:00"
+                let createdYear = item.created.substring(0,4)
+                let createMonth = item.created.substring(5,7)
+                let createDay   = item.created.substring(8,10)
+    
+                let created = `${createDay}/${createMonth}/${createdYear}`
+    
+                data.push({
+                    orderID: item.id,
+                    phone: item.phone,
+                    name: item.first_name,
+                    client: item.client,
+                    requiredAmount: item.required_amount,
+                    marketAmount: item.market_amount,
+                    proposedAmount: item.proposed_amount,
+                    approvedAmount: item.approved_amount,
+                    createdDate: created,
+                    appointment: item.appointment,
+                    dateClaim: item.date_claim,
+                    lastModify: item.last_modify,
+                    tagId: item.tag_id,
+                    status: item.status,
+                    asset: item.asset,
+                    stage: item.stage,
+                    step: item.step,
+                    agent: item.staff
+                })
+            }
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+        
+    },
+
+    getOrderList: async function() {
+        try {
+
+            let response = await ApiService.get(orderListApi)
+
+            let unclaimedPromise = new Promise((resolve, reject) => {
+                let data = this.filterRawOrderList(response.data["unclaimed"])
+                resolve(data)
+            })
+
+            let inprogressPromise = new Promise((resolve, reject) => {
+                let data = this.filterRawOrderList(response.data["inprogress"])
+                resolve(data)
+            })
+
+            let [unclaimed, inprogress] = await Promise.all([
+                unclaimedPromise,
+                inprogressPromise
+            ])
+
+            return unclaimed.concat(inprogress)
+
+        } catch (error) {
+
             throw OrderError(error.response.status, error.response.data.detail)
         }
     }

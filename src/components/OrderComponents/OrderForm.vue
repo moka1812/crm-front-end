@@ -43,10 +43,8 @@
                         <v-flex sm6>
                             <v-text-field
                                 v-model.lazy="firstNameInput"
-                                :rules="[v => !!v || 'First name is required']"
                                 label="First Name"
                                 :disabled="disabled"
-                                required
                                 >
                             </v-text-field>
                         </v-flex>
@@ -397,7 +395,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .title {
   font-size: 30px !important;
   font-weight: bold;

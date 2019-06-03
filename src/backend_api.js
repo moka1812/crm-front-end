@@ -4,3 +4,4 @@ export const loginApi = `${baseURL}/auth/token/`
 export const refreshTokenApi = `${baseURL}/auth/token/refresh/`
 export const getClientByPhoneApi = `${baseURL}/get-client-by-phone/`
 export const createOrderApi = `${baseURL}/orders/`
+export const orderListApi = `${baseURL}/listorders/`

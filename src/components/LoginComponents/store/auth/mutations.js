@@ -24,7 +24,7 @@ export default {
     [LOGIN_ERROR] (state, {errorCode, errorMessage}) {
         Vue.set(state, 'authenticating', false)
         Vue.set(state, 'authenticationErrorCode', errorCode)
-        Vue.set(state, 'authenticationError', errorCode == 400 ? 'User not defined' : errorMessage)
+        Vue.set(state, 'authenticationError', errorMessage)
     },
     [LOGOUT_SUCCESS] (state) {
         Vue.set(state, 'accessToken', '')

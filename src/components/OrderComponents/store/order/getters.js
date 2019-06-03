@@ -33,5 +33,21 @@ export default  {
 
     orderCreatingError: (state) => {
         return state.orderCreatingError
-    }
+    },
+
+    orderListRequest: (state) => {
+        return state.orderListRequest
+    },
+
+    orderListResult: (state) => {
+        return state.orderListResult
+    },
+
+    orderListErrorCode: (state) => {
+        return state.orderListErrorCode
+    },
+
+    orderListError: (state) => {
+        return state.orderListError
+    },
 }

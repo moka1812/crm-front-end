@@ -3,9 +3,14 @@ import {
     CLIENT_SEARCHING_SUCCESS,
     CLIENT_SEARCHING_ERROR,
     CLIENT_SEARCHING_RESET,
+
     ORDER_CREATING_REQUEST,
     ORDER_CREATING_SUCCESS,
-    ORDER_CREATING_ERROR
+    ORDER_CREATING_ERROR,
+
+    ORDER_LIST_REQUEST,
+    ORDER_LIST_SUCCESS,
+    ORDER_LIST_ERROR
 } from './types'
 
 import { ClientService, ClientError } from '../../../../services/client.service'
@@ -24,7 +29,7 @@ export default {
             if (error instanceof ClientError) {
                 commit(CLIENT_SEARCHING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
             } else {
-                commit(CLIENT_SEARCHING_ERROR, {errorCode: 500, errorMessage: "Undefined"})
+                commit(CLIENT_SEARCHING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
     },
@@ -42,8 +47,23 @@ export default {
             if (error instanceof OrderError) {
                 commit(ORDER_CREATING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
             } else {
-                commit(ORDER_CREATING_ERROR, {errorCode: 500, errorMessage: "Undefined"})
+                commit(ORDER_CREATING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
-    } 
+    },
+
+    async getOrderList({commit}) {
+        commit(ORDER_LIST_REQUEST)
+        try {
+            let result = await OrderService.getOrderList()
+            commit(ORDER_LIST_SUCCESS, {result})
+        } catch (error) {
+            console.log(error.message)
+            if (error instanceof OrderError) {
+                commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(ORDER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    }
 }

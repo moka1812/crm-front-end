@@ -11,4 +11,10 @@ export default  {
     orderCreatingResult: null,
     orderCreatingErrorCode: 0,
     orderCreatingError: '',
+
+    //Order List Getting Function
+    orderListRequest: false,
+    orderListResult: Array(),
+    orderListErrorCode: 0,
+    orderListError: '',
 }

@@ -20,7 +20,7 @@ export default {
             if (error instanceof AuthenticationError) {
                 commit(LOGIN_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
             } else {
-                commit(LOGIN_ERROR, {errorCode: 500, errorMessage: "Undefined"})
+                commit(LOGIN_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
             return false
         }
