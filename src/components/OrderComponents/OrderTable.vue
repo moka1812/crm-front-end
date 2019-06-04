@@ -28,6 +28,7 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import caseStatus from './case_status'
 
 import ActionButton from "@/components/OrderComponents/ActionButtonComponent/ActionButton.vue";
 
@@ -67,6 +68,7 @@ export default {
           text: "ACTION", value: "action", align: 'center'
         },
       ],
+      caseStatus: caseStatus
     }
   },
   computed: {
@@ -85,18 +87,7 @@ export default {
         getOrderList: 'order/getOrderList',
     }),
     getColor: function(status) {
-      switch (status) {
-        case "Waiting":
-          return "#70cc3b"
-        case "Unclaimed":
-          return "#c12121"
-        case "Pending":
-          return "#c122b1"
-        case "Quoted":
-          return "#f3f711"
-        case "Contract":
-          return "#2b56a9"
-      }
+      return this.caseStatus[status.toUpperCase()].color
     }
   }
 }
