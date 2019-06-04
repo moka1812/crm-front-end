@@ -58,7 +58,6 @@ export default {
             let result = await OrderService.getOrderList()
             commit(ORDER_LIST_SUCCESS, {result})
         } catch (error) {
-            console.log(error.message)
             if (error instanceof OrderError) {
                 commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
             } else {
