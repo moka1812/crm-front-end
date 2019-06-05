@@ -41,7 +41,7 @@ export default {
     async createOrder({commit}, payload) {
         commit(ORDER_CREATING_REQUEST)
         try {
-            let result = OrderService.createOrder(payload)
+            let result = await OrderService.createOrder(payload)
             commit(ORDER_CREATING_SUCCESS, {result})
         } catch (error) {
             if (error instanceof OrderError) {

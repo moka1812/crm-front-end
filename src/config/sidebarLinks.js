@@ -7,7 +7,18 @@ export default [
   {
     name: 'ORDERS',
     icon: 'email',
-    link: '/orders',
+    groups: [
+      {
+        name: 'ALL ORDERS',
+        icon: 'drafts',
+        link: '/orders',
+      },
+      {
+        name: 'MY INBOX',
+        icon: 'assignment_ind',
+        link: '/my_inbox',
+      },
+    ]
   },
   {
     name: 'CONTRACTS',

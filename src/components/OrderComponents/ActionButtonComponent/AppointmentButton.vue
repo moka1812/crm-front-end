@@ -21,15 +21,20 @@
 import stages from './stages'
 
 const stageItems = [
-  { title: stages.WINDOW_SHOPPING },
-  { title: stages.DUPLICATE },
-  { title: stages.SPAM },
-  { title: stages.ORDER_CLAIMED },
-  { title: stages.UNCLAIMED },
+  { title: stages.NO_PICK_UP },
+  { title: stages.NO_SHOW },
+  { title: stages.MONEY_FROM_DIFFERENT_CHANNEL },
+  { title: stages.CALL_AGAIN_LATER },
+  { title: stages.CONSIDERING },
+  { title: stages.APPOINTMENT_1 },
+  { title: stages.APPOINTMENT_2 },
+  { title: stages.APPOINTMENT_3 },
+  { title: stages.APPOINTMENT_4 },
+  { tile:  stages.CUSTOMER_PENDING},
 ]
 
 export default {
-    name: "waiting-button",
+    name: "appointment-button",
     data() {
         return {
           items: stageItems

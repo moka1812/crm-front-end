@@ -29,7 +29,7 @@
               icon
               @click.stop="mini = !mini"
             >
-              <v-icon>chevron_left</v-icon>
+              <v-icon color="white">chevron_left</v-icon>
             </v-btn>
           </v-list-tile-action>
         </v-list-tile>
@@ -37,8 +37,46 @@
     </v-toolbar>
 
     <v-list class="pt-0" dense>
+      <template v-for="sidebarLink in sidebarLinks" >
+
+      <!-- Group with subitems -->
+      <v-list-group 
+        v-if="sidebarLink.groups" 
+        :key="sidebarLink.name"  
+        no-action="no-action"
+        :value="!mini"
+      >
+        <v-list-tile slot="activator" ripple="ripple">
+          <v-list-tile-action>
+            <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
+          </v-list-tile-content>
+
+          <v-list-item-action>
+            <v-icon>mdi-menu-down</v-icon>
+          </v-list-item-action>
+        </v-list-tile>
+
+        <v-list-tile 
+          v-for="subItem in sidebarLink.groups" 
+          :key="subItem.name"
+          @click="redirectHandle(subItem.link)"
+        >
+          <v-list-tile-action>
+            <v-icon dark class="icon">{{subItem.icon}}</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title class="content">{{ subItem.name }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list-group>
+
       <v-list-tile
-        v-for="sidebarLink in sidebarLinks" 
+        v-else
         :key="sidebarLink.name"
         @click="redirectHandle(sidebarLink.link)"
       >
@@ -50,6 +88,9 @@
           <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+
+      </template>
+
       <v-list-tile-content 
         :style="{
           'align-items':'center'
@@ -64,7 +105,7 @@
 </template>
 
 <script>
-import sidebarLinks from '../../sidebarLinks'
+import sidebarLinks from '@/config/sidebarLinks'
 
 export default {
   name: "SideBar",
@@ -112,5 +153,8 @@ export default {
 .v-list__tile {
   padding: 25px 0px 25px;
 }
-
+/* Custom expend icon css */
+.v-list__group__header__append-icon {
+  padding: 0 7px !important;
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
     <v-menu top>
       <template v-slot:activator="{ on }">
-       <v-btn flat icon v-on="on">
-            <v-icon color="#70cc3b">check_circle_outline</v-icon>
+        <v-btn flat icon v-on="on">
+            <v-icon color="#43425d">assignment_turned_in</v-icon>
         </v-btn>
       </template>
       <v-list>
@@ -18,17 +18,21 @@
 </template>
 
 <script>
+import stages from './stages'
+
+const stageItems = [
+  { title: stages.NOT_ELIGIBLE },
+  { title: stages.RATE_DISAGREEMENT },
+  { title: stages.TERMS_DISAGREEMENT },
+  { title: stages.FRAUD },
+  { title: stages.ACTIVE_CONTRACT },
+]
+
 export default {
-    name: "waiting-button",
+    name: "contract-button",
     data() {
         return {
-            items: [
-                { title: 'Contracted Started' },
-                { title: 'No Pick-up' },
-                { title: 'No Show' },
-                { title: 'Waiting for information' },
-                { title: 'Considering' }
-            ]
+          items: stageItems
         }
     }
 }

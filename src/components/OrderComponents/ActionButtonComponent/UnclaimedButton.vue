@@ -1,8 +1,8 @@
 <template>
     <v-menu top>
       <template v-slot:activator="{ on }">
-       <v-btn flat icon v-on="on">
-            <v-icon color="#70cc3b">check_circle_outline</v-icon>
+        <v-btn flat icon v-on="on">
+            <v-icon color="#70cc3b">reply</v-icon>
         </v-btn>
       </template>
       <v-list>
@@ -21,15 +21,13 @@
 import stages from './stages'
 
 const stageItems = [
-  { title: stages.WINDOW_SHOPPING },
   { title: stages.DUPLICATE },
   { title: stages.SPAM },
-  { title: stages.ORDER_CLAIMED },
   { title: stages.UNCLAIMED },
 ]
 
 export default {
-    name: "waiting-button",
+    name: "unclaimed-button",
     data() {
         return {
           items: stageItems

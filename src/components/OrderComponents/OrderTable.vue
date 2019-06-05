@@ -53,7 +53,7 @@ export default {
           text: "AGENT", value: "agent"
         },
         {
-          text: "STEP", value: "step"
+          text: "STATUS", value: "step"
         },
         {
           text: "NAME", value: "name"
@@ -87,7 +87,7 @@ export default {
         getOrderList: 'order/getOrderList',
     }),
     getColor: function(status) {
-      if (status !== null) {
+      if (status instanceof String) {
         return this.caseStatus[status.toUpperCase()].color
       }
       return null
