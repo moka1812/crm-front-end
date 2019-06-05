@@ -1,18 +1,16 @@
 <template>
     <div>
-        <v-btn flat icon v-if="orderId == 'Waiting'">
-            <v-icon color="#70cc3b">check_circle_outline</v-icon>
-        </v-btn>
-        <v-btn flat icon v-else-if="orderId == 'Unclaimed'">
+        <waiting-button v-if="orderStep == 'Waiting'" />
+        <v-btn flat icon v-else-if="orderStep == 'Unclaimed'">
             <v-icon color="#70cc3b">reply</v-icon>
         </v-btn>
-        <v-btn flat icon v-else-if="orderId == 'Pending'">
+        <v-btn flat icon v-else-if="orderStep == 'Pending'">
             <v-icon color="#c122b1">contact_support</v-icon>
         </v-btn>
-        <v-btn flat icon v-else-if="orderId == 'Quoted'">
+        <v-btn flat icon v-else-if="orderStep == 'Quoted'">
             <v-icon color="#f3f711">sync</v-icon>
         </v-btn>
-        <v-btn flat icon v-else-if="orderId == 'Contract'">
+        <v-btn flat icon v-else-if="orderStep == 'Contract'">
             <v-icon color="#2b56a9">call</v-icon>
         </v-btn>
 
@@ -23,8 +21,13 @@
 </template>
 
 <script>
+import WaitingButton from "@/components/OrderComponents/ActionButtonComponent/WaitingButton.vue"
+
 export default {
     name: "order-table",
+    components: {
+        WaitingButton
+    },
     props: {
         id: Number,
         step: String
