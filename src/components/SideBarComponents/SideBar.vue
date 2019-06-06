@@ -8,8 +8,7 @@
     app
   >
     <v-toolbar flat class="transparent header">
-      <v-list class="pa-0"
-      >
+      <v-list class="pa-0">
         <v-list-tile avatar>
           <v-list-tile-avatar>
             <img src="../../assets/camdo.png">
@@ -41,7 +40,8 @@
 
       <!-- Group with subitems -->
       <v-list-group 
-        v-if="sidebarLink.groups" 
+        v-if="sidebarLink.groups"
+        class="group"
         :key="sidebarLink.name"  
         no-action="no-action"
         :value="!mini"
@@ -54,10 +54,6 @@
           <v-list-tile-content>
             <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
           </v-list-tile-content>
-
-          <v-list-item-action>
-            <v-icon>mdi-menu-down</v-icon>
-          </v-list-item-action>
         </v-list-tile>
 
         <v-list-tile 
@@ -156,5 +152,9 @@ export default {
 /* Custom expend icon css */
 .v-list__group__header__append-icon {
   padding: 0 7px !important;
+}
+/* Set white color for expand icon*/
+.group .theme--light.v-icon {
+  color: white !important;
 }
 </style>
