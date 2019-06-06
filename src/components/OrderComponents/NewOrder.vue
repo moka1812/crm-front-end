@@ -9,7 +9,7 @@
       </v-btn>
     </template>
     <v-card>
-      <order-form type='new' @ok="okHandle" @cancle="cancleHandle"/>
+      <order-form v-model="reset" type='new' @ok="okHandle" @cancle="cancleHandle"/>
     </v-card>
   </v-dialog>
 </template>
@@ -25,7 +25,8 @@ export default {
   },
   data(){
     return {
-      dialog: false
+      dialog: false,
+      reset: false
     }
   },
   computed: {
@@ -43,13 +44,18 @@ export default {
       this.createOrder(data).then(() => {
         //Create New Order Successfully, Close Dialog
         if (this.orderCreatingErrorCode == 201) {
+          //Turn off Dialog
           this.dialog = false
+          //Reset Form
+          this.reset = true
+          //Notify create Order Successfully
           this.$notify({
             group: 'foo',
             type: 'success',
             title: "Create Order Successfully",
             text: ''
           });
+        //Error
         } else {
           this.$notify({
             group: 'foo',
@@ -63,7 +69,10 @@ export default {
     },
 
     cancleHandle: function() {
+      //Turn off Dialog
       this.dialog = false
+      //Reset Form
+      this.reset = true
     },
   }
 }

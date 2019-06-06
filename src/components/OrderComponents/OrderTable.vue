@@ -87,9 +87,9 @@ export default {
         getOrderList: 'order/getOrderList',
     }),
     getColor: function(status) {
-      if (status instanceof String) {
+      try {
         return this.caseStatus[status.toUpperCase()].color
-      }
+      } catch (error) {}
       return null
     }
   }

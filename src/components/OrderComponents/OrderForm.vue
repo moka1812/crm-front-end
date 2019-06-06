@@ -239,6 +239,11 @@ export default {
         type: String,
         default: ''
     },
+    //Model for reset form
+    value: {
+        type: Boolean,
+        default: false
+    }
   },
   data(){
     return {
@@ -310,7 +315,6 @@ export default {
       clientSearchError:'order/clientSearchError',
       clientResult: 'order/clientResult',
       orderRequest: 'order/orderRequest',
-      orderCreatingErrorCode: 'order/orderCreatingErrorCode',
     }),
     disabled() {
         //If Error Code == 200 then disable is false
@@ -336,14 +340,10 @@ export default {
             this.lastNameInput = null
         }
     },
-    //When Finish Create Order
-    orderCreatingErrorCode() {
-        //Check Form is New Order
-        if (this.type == 'new') {
-            //Create Order Successful, Empty Form 
-            if (this.orderCreatingErrorCode == 201) {
-                this.$refs.form.reset()
-            }
+    value() {
+        if (this.value==true) {
+            this.$refs.form.reset()
+            this.$emit('input', false)
         }
     },
     clientSearchErrorCode() {
@@ -366,7 +366,6 @@ export default {
         this.$emit('contract')
     },
     cancleHandle: function() {
-        this.$refs.form.reset()
         this.$emit('cancle')
     },
     okHandle: function() {
