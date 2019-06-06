@@ -21,7 +21,7 @@
               <div class="has-search mr-1">
                 <span class="fa fa-search form-control-feedback"></span>
                 <input style="width: 200px" type="text" class="form-control"
-                    placeholder="Input Case ID">
+                    placeholder="Nhập số điện thoại">
               </div>
 
               <div class="back-red mr-1">

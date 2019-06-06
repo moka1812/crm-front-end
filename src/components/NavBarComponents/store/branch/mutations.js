@@ -8,12 +8,13 @@ import {
 } from './types'
 
 export default {
-    [CHANGE_BRANCH] (state, branch) {
+    [CHANGE_BRANCH] (state, {branch, id}) {
         Vue.set(state, 'currentBranch', branch)
+        Vue.set(state, 'currentBranchID', id)
     },
     [BRANCH_LIST_REQUEST] (state) {
         Vue.set(state, 'branchListRequest', true)
-        Vue.set(state, 'branchListResult', null)
+        Vue.set(state, 'branchListResult', [])
         Vue.set(state, 'branchListErrorCode', 0)
         Vue.set(state, 'branchListError', '')
     },

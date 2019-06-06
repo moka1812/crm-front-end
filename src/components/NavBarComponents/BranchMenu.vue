@@ -33,7 +33,6 @@
                 <v-list-tile-title><center><font color="red">See all</font></center></v-list-tile-title>
             </v-list>
 
-            
         </v-card>
     </v-menu>
 </template>
@@ -58,8 +57,8 @@ export default {
             getBranchList: 'branch/getBranchList'
         }),
         changeBranchHandle: function(index) {
-            let branch = this.branches[index].name
-            this.changeBranch({branch:branch})
+            let branch = this.branches[index]
+            this.changeBranch({branch:branch.name, id:branch.id})
         }
     }
 }

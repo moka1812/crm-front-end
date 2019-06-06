@@ -5,7 +5,10 @@ export const refreshTokenApi = `${baseURL}/auth/token/refresh/`
 
 export const getBranchAPI = `${baseURL}/branches/`
 
+export const SAssetListAPI = `${baseURL}/sassets/`
+
+export const CAssetsAPI = `${baseURL}/cassets/`
+
 export const getClientByPhoneApi = `${baseURL}/client/get-client-by-phone/`
 
-export const createOrderApi = `${baseURL}/orders/`
-export const orderListApi = `${baseURL}/listorders/`
+export const orderApi = `${baseURL}/order/`

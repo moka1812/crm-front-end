@@ -1,6 +1,7 @@
 import ApiService from './api.service'
 import { ProfileService } from './storage.service'
-import { createOrderApi, orderListApi } from '../config/backend_api'
+import { orderApi, CAssetsAPI } from '../config/backend_api'
+import moment from 'moment'
 
 class OrderError extends Error {
     constructor(errorCode, message) {
@@ -14,16 +15,33 @@ class OrderError extends Error {
 const OrderService = {
 
     createOrder : async function(newOrderInfo) {
+        let CAssetData = {
+            asset: newOrderInfo.assetTypeID,
+            description: newOrderInfo.assetTypeDescription
+        }
+        let CAsset;
+        try {
+            let response = await ApiService.post(CAssetsAPI, CAssetData)
+            CAsset = response.data 
+        } catch (error) {
+            throw OrderError(error.response.status, error.response.data.detail)
+        }
         let data = {
             phone: newOrderInfo.phone,
             first_name: newOrderInfo.firstName,
             staff: ProfileService.getID(),
             required_amount: newOrderInfo.expectedAmount,
             proposed_amount: newOrderInfo.validatorAmount,
+            source: newOrderInfo.source,
+            asset: CAsset.id,
+            branch: newOrderInfo.branchID,
+            date_claim: moment().format("YYYY-MM-DD HH:mm"),
             status: "In Progress",
+            step: "Pending",
+            stage: "Order Claimed",
         }
         try {
-            let response = await ApiService.post(createOrderApi, data)
+            let response = await ApiService.post(orderApi, data)
             if (response.status == 201) {
                 return response.data
             }
@@ -36,12 +54,9 @@ const OrderService = {
         let data = []
         try {
             for (let item of rawData) {
-                //Example created: "2019-05-31T14:16:03.932314+07:00"
-                let createdYear = item.created.substring(0,4)
-                let createMonth = item.created.substring(5,7)
-                let createDay   = item.created.substring(8,10)
-    
-                let created = `${createDay}/${createMonth}/${createdYear}`
+                //Example created: "2019-05-31T14:16:03.932314+07:00"    
+                let created = new moment(item.created).format("DD-MM-YYYY HH:MM")
+                let lastModify = new moment(item.last_modify).format("DD-MM-YYYY HH:MM")
     
                 data.push({
                     orderID: item.id,
@@ -54,13 +69,14 @@ const OrderService = {
                     marketAmount: item.market_amount,
                     proposedAmount: item.proposed_amount,
                     approvedAmount: item.approved_amount,
+                    supporter: item.support_agent,
                     createdDate: created,
                     appointment: item.appointment,
                     dateClaim: item.date_claim,
-                    lastModify: item.last_modify,
+                    lastModify: lastModify,
                     tagId: item.tag_id,
                     status: item.status,
-                    asset: item.asset,
+                    asset: item.asset_type,
                     stage: item.stage,
                     step: item.step
                 })
@@ -76,7 +92,7 @@ const OrderService = {
     getOrderList: async function() {
         try {
 
-            let response = await ApiService.get(orderListApi)
+            let response = await ApiService.get(orderApi)
 
             let unclaimedPromise = new Promise((resolve, reject) => {
                 let data = this.filterRawOrderList(response.data["unclaimed"])

@@ -6,17 +6,22 @@
           :loading="orderListRequest"
           class="elevation-1"
         >
+
           <template v-slot:items="props">
-            <td class="text-xs-left">{{ props.item.orderID }}</td>
-            <td class="text-xs-left">{{ props.item.createdDate }}</td>
-            <td class="text-xs-left">{{ props.item.lastModify }}</td>
-            <td class="text-xs-left">{{ props.item.staffName }}</td>
-            <td class="text-xs-left" :style="{color: getColor(props.item.step)}">
-              {{ props.item.step }}
-            </td>
-            <td class="text-xs-left">{{ props.item.name }}</td>
-            <td class="text-xs-left">{{ props.item.phone }}</td>
-            <td class="text-xs-left">{{ props.item.asset }}</td>
+
+              <td class="text-xs-center">{{ props.item.orderID }}</td>
+              <td class="text-xs-center">{{ props.item.createdDate }}</td>
+              <td class="text-xs-center">{{ props.item.lastModify }}</td>
+              <td class="text-xs-center">{{ props.item.staffName }}</td>
+              <td class="text-xs-center">{{ props.item.supporter }}</td>
+              
+              <td class="text-xs-center" :style="{color: getColor(props.item.step)}">
+                {{ props.item.step }}
+              </td>
+              <td class="text-xs-center">{{ props.item.name }}</td>
+              <td class="text-xs-center">{{ props.item.phone }}</td>
+              <td class="text-xs-center">{{ props.item.asset }}</td>
+      
             <td class="text-xs-center">
               <action-button :id="props.item.orderID" :step="props.item.step"/>
             </td>
@@ -41,31 +46,34 @@ export default {
     return {
       headers: [
         {
-          text: "ORDER ID", value: "orderID"
+          text: "Mã order", value: "orderID", align: 'center'
         },
         {
-          text: "CREATED DATE", value: "createdDate"
+          text: "Ngày tạo", value: "createdDate", align: 'center'
         },
         {
-          text: "LAST MODIFY", value: "lastModify"
+          text: "Ngày chỉnh sửa", value: "lastModify", align: 'center'
         },
         {
-          text: "AGENT", value: "agent"
+          text: "Người tiếp nhận", value: "agent", align: 'center'
         },
         {
-          text: "STATUS", value: "step"
+          text: "Người hỗ trợ", value: "support_agent", align: 'center'
         },
         {
-          text: "NAME", value: "name"
+          text: "Trạng thái", value: "step", align: 'center'
         },
         {
-          text: "PHONE", value: "phone"
+          text: "Tên khách hàng", value: "name", align: 'center'
         },
         {
-          text: "ASSET", value: "asset"
+          text: "Phone", value: "phone", align: 'center'
         },
         {
-          text: "ACTION", value: "action", align: 'center'
+          text: "Tài sản", value: "asset", align: 'center'
+        },
+        {
+          text: "Thao tác", value: "action", align: 'center'
         },
       ],
       caseStatus: caseStatus

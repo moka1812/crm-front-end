@@ -9,7 +9,7 @@ import{ BranchService, BranchError } from '../../../../services/branch.serivce'
 
 export default {
     async changeBranch ({ commit }, payload) {
-        await commit(CHANGE_BRANCH, payload.branch)
+        await commit(CHANGE_BRANCH, payload)
     },
     async getBranchList({commit}) {
         commit(BRANCH_LIST_REQUEST)

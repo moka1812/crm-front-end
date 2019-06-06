@@ -2,6 +2,9 @@ export default  {
     currentBranch: (state) => {
         return state.currentBranch
     },
+    currentBranchID: (state) => {
+        return state.currentBranchID
+    },
     branchListRequest: (state) => {
         return state.branchListRequest
     },

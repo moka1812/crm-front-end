@@ -14,7 +14,7 @@ export default  {
 
     //Order List Getting Function
     orderListRequest: false,
-    orderListResult: Array(),
+    orderListResult: [],
     orderListErrorCode: 0,
     orderListError: '',
 }
