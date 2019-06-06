@@ -1,6 +1,5 @@
 <template>
-    <v-menu 
-        :close-on-content-click="false"
+    <v-menu
         :nudge-width="200"
         nudge-left="200"
         offset-y
@@ -44,34 +43,19 @@ import {mapActions, mapGetters} from 'vuex'
 
 export default {
     name: "branch-menu",
+    mounted() {
+        this.getBranchList()
+    },
     computed: {
         ...mapGetters({
-            currentBranch: 'branch/currentBranch'
+            currentBranch: 'branch/currentBranch',
+            branches: 'branch/branchListResult'
         }),
-        branches() {
-            return [
-                {
-                    name:'CMT8',
-                    address: '1084 CMT8, Tan Binh District, Ho Chi Minh City'
-                },
-                {
-                    name:'DTH',
-                    address: '190 Dinh Tien Hoang, District 1, Ho Chi Minh City'
-                },
-                {
-                    name:'Can Tho',
-                    address: '138 Trần Cao Văn, Ninh Kiều, Can Tho'
-                },
-                {
-                    name:'Lo Duc',
-                    address: '90 Lo Duc, Hai Va Trung District, Hanoi'
-                }
-            ] 
-        }
     },
     methods: {
         ...mapActions({
-            changeBranch: 'branch/changeBranch'
+            changeBranch: 'branch/changeBranch',
+            getBranchList: 'branch/getBranchList'
         }),
         changeBranchHandle: function(index) {
             let branch = this.branches[index].name

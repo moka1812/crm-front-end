@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { TokenService } from './storage.service'
 import store from '../store/store'
-import { refreshTokenApi } from '../backend_api'
+import { refreshTokenApi } from '../config/backend_api'
 
 const PREFIX_TOKEN = 'Bearer'
 

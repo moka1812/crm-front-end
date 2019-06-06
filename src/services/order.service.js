@@ -1,6 +1,6 @@
 import ApiService from './api.service'
 import { ProfileService } from './storage.service'
-import { createOrderApi, orderListApi } from '../backend_api'
+import { createOrderApi, orderListApi } from '../config/backend_api'
 
 class OrderError extends Error {
     constructor(errorCode, message) {
@@ -68,6 +68,7 @@ const OrderService = {
             return data
         } catch (error) {
             console.log(error)
+            throw error
         }
         
     },

@@ -1,5 +1,10 @@
 import { ProfileService } from '../../../../services/storage.service';
 
 export default  {
-    current_branch: ProfileService.getBranch()
+    currentBranch: ProfileService.getBranch(),
+    //For Branch API
+    branchListRequest: false,
+    branchListResult: null,
+    branchListErrorCode: 0,
+    branchListError: '',
 }

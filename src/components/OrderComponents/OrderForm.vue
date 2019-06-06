@@ -60,14 +60,14 @@
                     </v-layout>
                     <v-layout>
                         <v-flex sm6>
-                            <v-text-field
-                                v-model.lazy="assetInput"
-                                :rules="[v => !!v || 'Asset is required']"
-                                label="Asset"
+                            <v-select
+                                v-model="assetTypeInput"
+                                :items="assetTypeItems"
+                                :rules="[v => !!v || 'Asset Type is required']"
+                                label="Asset Type"
                                 :disabled="disabled"
                                 required
-                                >
-                            </v-text-field>
+                            />
                         </v-flex>
                         <v-flex sm6>
                                 <v-text-field
@@ -85,15 +85,14 @@
                     </v-layout>
                     <v-layout>
                         <v-flex sm6>
-                                <v-select
-                                v-model="assetTypeInput"
-                                :items="assetTypeItems"
-                                :rules="[v => !!v || 'Asset Type is required']"
-                                label="Asset Type"
+                                <v-text-field
+                                v-model.lazy="assetInput"
+                                :rules="[v => !!v || 'Asset is required']"
+                                label="Asset"
                                 :disabled="disabled"
                                 required
                                 >
-                            </v-select>
+                            </v-text-field>
                         </v-flex>
                         <v-flex sm6>
                                 <v-text-field
