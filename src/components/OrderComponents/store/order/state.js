@@ -12,9 +12,21 @@ export default  {
     orderCreatingErrorCode: 0,
     orderCreatingError: '',
 
+    //Order Detail
+    orderUpdating: false,
+    orderUpdatingResult: null,
+    orderUpdatingErrorCode: 0,
+    orderUpdatingError: '',
+
     //Order List Getting Function
     orderListRequest: false,
     orderListResult: [],
     orderListErrorCode: 0,
     orderListError: '',
+
+    //Order Detail
+    orderDetailForm: false,
+    orderDetail: null,
+    orderDetailErrorCode: 0,
+    orderDetailError: '',
 }

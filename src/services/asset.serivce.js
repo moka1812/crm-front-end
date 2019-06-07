@@ -1,5 +1,5 @@
 import ApiService from './api.service'
-import { SAssetListAPI } from '../config/backend_api'
+import { SAssetListAPI, CAssetsAPI } from '../config/backend_api'
 
 class AssetError extends Error {
     constructor(errorCode, message) {
@@ -17,6 +17,25 @@ const AssetService = {
             return response.data
         } catch (error) {
             throw AssetError(error.response.status, error.response.data)
+        }
+    },
+    createCAsset: async function(data) {
+        try {
+            let response = await ApiService.post(CAssetsAPI, data)
+            let CAsset = response.data
+            return CAsset 
+        } catch (error) {
+            throw AssetError(error.response.status, error.response.data.detail)
+        }
+    },
+    updateCAsset: async function(id, data){
+        let url = `${CAssetsAPI}${id}/`
+        try {
+            let response = await ApiService.put(url, data)
+            let CAsset = response.data
+            return CAsset 
+        } catch (error) {
+            throw AssetError(error.response.status, error.response.data.detail)
         }
     }
 }

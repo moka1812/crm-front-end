@@ -10,9 +10,18 @@ import {
     ORDER_CREATING_SUCCESS,
     ORDER_CREATING_ERROR,
 
+    ORDER_UPDATING_REQUEST,
+    ORDER_UPDATING_SUCCESS,
+    ORDER_UPDATING_ERROR,
+
     ORDER_LIST_REQUEST,
     ORDER_LIST_SUCCESS,
-    ORDER_LIST_ERROR
+    ORDER_LIST_ERROR,
+
+    ORDER_DETAIL_REQUEST,
+    ORDER_DETAIL_SUCCESS,
+    EDIT_DIALOG,
+    ORDER_DETAIL_ERROR
 } from './types'
 
 export default {
@@ -63,6 +72,26 @@ export default {
         Vue.set(state, 'orderCreatingErrorCode', errorCode)
     },
 
+    //Order Updating Function
+    [ORDER_UPDATING_REQUEST] (state) {
+        Vue.set(state, 'orderRequest', true)
+        Vue.set(state, 'orderUpdating', true)
+        Vue.set(state, 'orderUpdatingResult', null)
+        Vue.set(state, 'orderUpdatingErrorCode', '')
+        Vue.set(state, 'orderUpdatingError', 0)
+    },
+    [ORDER_UPDATING_SUCCESS] (state, {result}) {
+        Vue.set(state, 'orderRequest', false)
+        Vue.set(state, 'orderUpdating', false)
+        Vue.set(state, 'orderUpdatingResult', result)
+        Vue.set(state, 'orderUpdatingErrorCode', 200)
+    },
+    [ORDER_UPDATING_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'orderRequest', false)
+        Vue.set(state, 'orderUpdating', false)
+        Vue.set(state, 'orderUpdatingErrorCode', errorCode)
+        Vue.set(state, 'orderUpdatingError', errorMessage)
+    },
     //Order List Getting Function
     [ORDER_LIST_REQUEST] (state) {
         Vue.set(state, 'orderListRequest', true)
@@ -80,5 +109,27 @@ export default {
         Vue.set(state, 'orderListRequest', false)
         Vue.set(state, 'orderListError', errorMessage)
         Vue.set(state, 'orderListErrorCode', errorCode)
+    },
+
+    //Get Order Detail
+    [ORDER_DETAIL_REQUEST] (state) {
+        Vue.set(state, 'orderDetailForm', false)
+        Vue.set(state, 'orderDetail', null)
+        Vue.set(state, 'orderDetailErrorCode', 0)
+        Vue.set(state, 'orderDetailError', '')
+    },
+    [ORDER_DETAIL_SUCCESS] (state, {result}) {
+        Vue.set(state, 'orderDetailForm', true)
+        Vue.set(state, 'orderDetail', result)
+        Vue.set(state, 'orderDetailErrorCode', 200)
+        Vue.set(state, 'orderDetailError', '')
+    },
+    [EDIT_DIALOG] (state) {
+        Vue.set(state, 'orderDetailForm', false)
+    },
+    [ORDER_DETAIL_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'orderDetail', '')
+        Vue.set(state, 'orderDetailErrorCode', errorCode)
+        Vue.set(state, 'orderDetailError', errorMessage)
     },
 }

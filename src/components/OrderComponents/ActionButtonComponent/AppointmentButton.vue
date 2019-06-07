@@ -21,16 +21,16 @@
 import stages from './stages'
 
 const stageItems = [
-  { title: stages.NO_PICK_UP },
-  { title: stages.NO_SHOW },
-  { title: stages.MONEY_FROM_DIFFERENT_CHANNEL },
-  { title: stages.CALL_AGAIN_LATER },
-  { title: stages.CONSIDERING },
-  { title: stages.APPOINTMENT_1 },
-  { title: stages.APPOINTMENT_2 },
-  { title: stages.APPOINTMENT_3 },
-  { title: stages.APPOINTMENT_4 },
-  { tile:  stages.CUSTOMER_PENDING},
+  { title: stages.NO_PICK_UP.vi },
+  { title: stages.NO_SHOW.vi },
+  { title: stages.MONEY_FROM_DIFFERENT_CHANNEL.vi },
+  { title: stages.CALL_AGAIN_LATER.vi },
+  { title: stages.CONSIDERING.vi },
+  { title: stages.APPOINTMENT_1.vi },
+  { title: stages.APPOINTMENT_2.vi },
+  { title: stages.APPOINTMENT_3.vi },
+  { title: stages.APPOINTMENT_4.vi },
+  { tile:  stages.CUSTOMER_PENDING.vi },
 ]
 
 export default {

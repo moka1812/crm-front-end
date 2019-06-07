@@ -21,15 +21,15 @@
 import stages from './stages'
 
 const stageItems = [
-  { title: stages.UNABLE_TO_APPRAISE_LIQUIDATED },
-  { title: stages.RATE_DISAGREEMENT },
-  { title: stages.MONEY_FROM_DIFFERENT_CHANNEL },
-  { title: stages.TERMS_DISAGREEMENT },
-  { title: stages.CALL_AGAIN_LATER },
-  { title: stages.WAITING_FOR_MORE_INFO },
-  { title: stages.CONSIDERING },
-  { title: stages.WAITING_FOR_RATE },
-  { title: stages.FRAUD },
+  { title: stages.UNABLE_TO_APPRAISE_LIQUIDATED.vi },
+  { title: stages.RATE_DISAGREEMENT.vi },
+  { title: stages.MONEY_FROM_DIFFERENT_CHANNEL.vi },
+  { title: stages.TERMS_DISAGREEMENT.vi },
+  { title: stages.CALL_AGAIN_LATER.vi },
+  { title: stages.WAITING_FOR_MORE_INFO.vi },
+  { title: stages.CONSIDERING.vi },
+  { title: stages.WAITING_FOR_RATE.vi },
+  { title: stages.FRAUD.vi },
 ]
 
 export default {

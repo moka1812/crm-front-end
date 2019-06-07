@@ -21,11 +21,11 @@
 import stages from './stages'
 
 const stageItems = [
-  { title: stages.NOT_ELIGIBLE },
-  { title: stages.RATE_DISAGREEMENT },
-  { title: stages.TERMS_DISAGREEMENT },
-  { title: stages.FRAUD },
-  { title: stages.ACTIVE_CONTRACT },
+  { title: stages.NOT_ELIGIBLE.vi },
+  { title: stages.RATE_DISAGREEMENT.vi },
+  { title: stages.TERMS_DISAGREEMENT.vi },
+  { title: stages.FRAUD.vi },
+  { title: stages.ACTIVE_CONTRACT.vi },
 ]
 
 export default {

@@ -8,23 +8,28 @@
         >
 
           <template v-slot:items="props">
-
-              <td class="text-xs-center">{{ props.item.orderID }}</td>
-              <td class="text-xs-center">{{ props.item.createdDate }}</td>
-              <td class="text-xs-center">{{ props.item.lastModify }}</td>
-              <td class="text-xs-center">{{ props.item.staffName }}</td>
-              <td class="text-xs-center">{{ props.item.supporter }}</td>
+              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
+              <td class="text-xs-left" @click="clickOrder(props.item.orderID)">{{ props.item.createdDate }}</td>
+              <td class="text-xs-left" @click="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
+              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.staffName }}</td>
+              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.supporter }}</td>
               
-              <td class="text-xs-center" :style="{color: getColor(props.item.step)}">
-                {{ props.item.step }}
+              <td class="text-xs-center" :style="{color: getColor(props.item.status)}" @click="clickOrder(props.item.orderID)">
+                {{ props.item.status }}
               </td>
-              <td class="text-xs-center">{{ props.item.name }}</td>
-              <td class="text-xs-center">{{ props.item.phone }}</td>
-              <td class="text-xs-center">{{ props.item.asset }}</td>
+              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.name }}</td>
+              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
+              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
       
-            <td class="text-xs-center">
-              <action-button :id="props.item.orderID" :step="props.item.step"/>
-            </td>
+              <td class="text-xs-center">
+                <action-button :id="props.item.orderID" :step="props.item.status"/>
+              </td>
+          </template>
+
+          <template v-slot:no-data>
+            <v-alert :value="true" type="info" >
+              Chưa có Order
+            </v-alert>
           </template>
 
         </v-data-table>
@@ -46,13 +51,13 @@ export default {
     return {
       headers: [
         {
-          text: "Mã order", value: "orderID", align: 'center'
+          text: "Mã order", value: "orderID", align: 'left', width: "10px"
         },
         {
-          text: "Ngày tạo", value: "createdDate", align: 'center'
+          text: "Ngày tạo", value: "createdDate", align: 'left'
         },
         {
-          text: "Ngày chỉnh sửa", value: "lastModify", align: 'center'
+          text: "Ngày chỉnh sửa", value: "lastModify", align: 'left'
         },
         {
           text: "Người tiếp nhận", value: "agent", align: 'center'
@@ -73,7 +78,7 @@ export default {
           text: "Tài sản", value: "asset", align: 'center'
         },
         {
-          text: "Thao tác", value: "action", align: 'center'
+          text: "Thao tác", value: "action", align: 'center', width: "10%"
         },
       ],
       caseStatus: caseStatus
@@ -93,12 +98,18 @@ export default {
   methods: {
     ...mapActions({
         getOrderList: 'order/getOrderList',
+        getOrderDetail: 'order/getOrderDetail',
     }),
     getColor: function(status) {
       try {
         return this.caseStatus[status.toUpperCase()].color
       } catch (error) {}
       return null
+    },
+    clickOrder: function(orderID) {
+      if (orderID != null) {
+        this.getOrderDetail({orderID})
+      }
     }
   }
 }

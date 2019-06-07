@@ -8,9 +8,17 @@ import {
     ORDER_CREATING_SUCCESS,
     ORDER_CREATING_ERROR,
 
+    ORDER_UPDATING_REQUEST,
+    ORDER_UPDATING_SUCCESS,
+    ORDER_UPDATING_ERROR,
+
     ORDER_LIST_REQUEST,
     ORDER_LIST_SUCCESS,
-    ORDER_LIST_ERROR
+    ORDER_LIST_ERROR,
+
+    ORDER_DETAIL_REQUEST,
+    ORDER_DETAIL_SUCCESS,
+    ORDER_DETAIL_ERROR
 } from './types'
 
 import { ClientService, ClientError } from '../../../../services/client.service'
@@ -62,6 +70,33 @@ export default {
                 commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
             } else {
                 commit(ORDER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async getOrderDetail({commit, getters}, payload) {
+        commit(ORDER_DETAIL_REQUEST)
+        let orderListResult = getters.orderListResult
+        for (let order of orderListResult) {
+            if (order.orderID == payload.orderID) {
+                commit(ORDER_DETAIL_SUCCESS, {result: order})
+                return true
+            }
+        }
+        commit(ORDER_DETAIL_ERROR, {errorCode: 404, errorMessage: "Not found"})
+    },
+
+    async updateOrder({commit}, payload) {
+        commit(ORDER_UPDATING_REQUEST)
+        try {
+            let result = await OrderService.updateOrder(payload)
+            commit(ORDER_UPDATING_SUCCESS, {result})
+        } catch (error) {
+            if (error instanceof OrderError) {
+                commit(ORDER_UPDATING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                console.log(error)
+                commit(ORDER_UPDATING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
     }

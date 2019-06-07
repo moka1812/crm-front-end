@@ -7,8 +7,8 @@ export default {
         name: "Pending",
         color: "#c122b1",
     },
-    CONTRACT: {
-        name: "Contract",
+    CONTACT: {
+        name: "Contact",
         color: "#2b56a9"
     },
     QUOTED: {

@@ -15,7 +15,7 @@
 
 <script>
 import UnclaimedButton from "@/components/OrderComponents/ActionButtonComponent/UnclaimedButton.vue"
-import PendingButon from "@/components/OrderComponents/ActionButtonComponent/UnclaimedButton.vue"
+import PendingButon from "@/components/OrderComponents/ActionButtonComponent/PendingButton.vue"
 import AppointmentButton from "@/components/OrderComponents/ActionButtonComponent/AppointmentButton.vue"
 import ContactButton from "@/components/OrderComponents/ActionButtonComponent/ContactButton.vue"
 import QuotedButton from "@/components/OrderComponents/ActionButtonComponent/QuotedButton.vue"
@@ -40,10 +40,11 @@ export default {
             orderId: this.id,
             orderStep: this.step
         }
-    }
+    },
 }
 </script>
 
 <style scoped>
 
 </style>
+ 

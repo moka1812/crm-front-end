@@ -95,7 +95,7 @@ const ProfileService = {
 
     getBranchID() {
         let profile = JSON.parse(localStorage.getItem(PROFILE))
-        return profile ? profile.branchID : null
+        return profile ? parseInt(profile.branchID) : null
     },
     
 }

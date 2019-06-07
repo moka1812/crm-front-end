@@ -1,5 +1,5 @@
 <template>
-    <v-menu top>
+    <v-menu top min-width="150px">
       <template v-slot:activator="{ on }">
        <v-btn flat icon v-on="on">
             <v-icon color="#70cc3b">check_circle_outline</v-icon>
@@ -21,11 +21,10 @@
 import stages from './stages'
 
 const stageItems = [
-  { title: stages.WINDOW_SHOPPING },
-  { title: stages.DUPLICATE },
-  { title: stages.SPAM },
-  { title: stages.ORDER_CLAIMED },
-  { title: stages.UNCLAIMED },
+  { title: stages.WINDOW_SHOPPING.vi },
+  { title: stages.DUPLICATE.vi },
+  { title: stages.SPAM.vi },
+  { title: stages.ORDER_CLAIMED.vi },
 ]
 
 export default {

@@ -9,43 +9,43 @@
       </v-btn>
     </template>
     <v-card>
-       <v-card-title >
+        <v-card-title >
             <span class="title">New Order</span>
         </v-card-title>
 
-        <hr class="divider"/>
+        <v-divider></v-divider>
 
         <v-card-text>
             <v-form v-model="valid" ref="form">
                 <v-container>
                     <v-layout>
                         <v-flex sm6>
-                            <v-text-field
-                                v-model.lazy="phoneInput"
-                                :rules="[
-                                    v => !!v || 'Phone is required',
-                                    //Phone has charater pre '+' (only one or no), from 10-13 digits.
-                                    v => /^[+]?[0-9]{10,13}$/.test(v) || 'Phone is not valid'
-                                ]"
-                                label="Phone"
-                                @keyup="this.search"
-                                :loading="this.clientSearching"
-                                :disabled="this.clientSearching"
-                                ref="phone"
-                                required
-                                >
-                            </v-text-field>
+                          <v-text-field
+                            v-model.lazy="phoneInput"
+                            :rules="[
+                                v => !!v || 'Phone is required',
+                                //Phone has charater pre '+' (only one or no), from 10-13 digits.
+                                v => /^[+]?[0-9]{10,13}$/.test(v) || 'Phone is not valid'
+                            ]"
+                            label="Phone"
+                            @keyup="this.search"
+                            :loading="this.clientSearching"
+                            :disabled="this.clientSearching"
+                            ref="phone"
+                            required
+                          >
+                          </v-text-field>
                         </v-flex>
                         <v-flex sm6>
-                            <v-select
-                                v-model="sourceInput"
-                                :items="sourceItems"
-                                :rules="[v => !!v || 'Yều cầu cần có']"
-                                label="Source"
-                                :disabled="disabled"
-                                required
-                                >
-                            </v-select>
+                          <v-select
+                              v-model="sourceInput"
+                              :items="sourceItems"
+                              :rules="[v => !!v || 'Yều cầu cần có']"
+                              label="Source"
+                              :disabled="disabled"
+                              required
+                              >
+                          </v-select>
                         </v-flex>
                     </v-layout>
                     <v-layout>
@@ -76,40 +76,41 @@
                                 label="Loại tài sản"
                                 :disabled="disabled"
                                 required
-                            />
+                            >
+                            </v-select>
                         </v-flex>
                         <v-flex sm6>
-                                <v-text-field
-                                v-model.lazy="expectedAmountInput"
-                                :rules="[
-                                        v => /^$|^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                    ]"
-                                label="Giá mong muốn"
-                                :disabled="disabled"
-                                >
-                            </v-text-field>
+                          <v-text-field
+                            v-model.lazy="expectedAmountInput"
+                            :rules="[
+                                    v => /^$|^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                ]"
+                            label="Giá mong muốn"
+                            :disabled="disabled"
+                          >
+                          </v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout>
                         <v-flex sm6>
-                                <v-text-field
-                                v-model.lazy="assetInput"
-                                :rules="[v => !!v || 'Yều cầu cần có']"
-                                label="Mô tả tài sản"
-                                :disabled="disabled"
-                                required
-                                >
+                            <v-text-field
+                              v-model.lazy="assetInput"
+                              :rules="[v => !!v || 'Yều cầu cần có']"
+                              label="Mô tả tài sản"
+                              :disabled="disabled"
+                              required
+                            >
                             </v-text-field>
                         </v-flex>
                         <v-flex sm6>
-                                <v-text-field
-                                v-model.lazy="validatorAmountInput"
-                                :rules="[
-                                        v => /^$|^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                    ]"
-                                label="Giá thẩm định"
-                                :disabled="disabled"
-                                >
+                            <v-text-field
+                              v-model.lazy="validatorAmountInput"
+                              :rules="[
+                                      v => /^$|^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                  ]"
+                              label="Giá thẩm định"
+                              :disabled="disabled"
+                            >
                             </v-text-field>
                         </v-flex>
                     </v-layout>
@@ -163,31 +164,28 @@ export default {
       dialog: false,
       valid: false,
       sourceItems: [
-            'Chat',
-            'Fanpage',
-            'Hotline',
-            'Online',
-            'Walk-in',
-            'Referral'
+          'Chat',
+          'Fanpage',
+          'Hotline',
+          'Online',
+          'Walk-in',
+          'Referral'
       ],
       assetTypeItems: [],
-      firstNameInput: this.firstName,
-      lastNameInput: this.lastName,
-      phoneInput: this.phone,
-      assetTypeInput: this.assetType,
-      assetInput: this.asset,
-      sourceInput: this.source,
-      IDCardInput: this.IDCard,
-      expectedAmountInput: this.expectedAmount,
-      validatorAmountInput: this.validatorAmount,
-      noteInput: this.note,
-      agentInput: this.agent,
+      firstNameInput: '',
+      lastNameInput: '',
+      phoneInput: '',
+      assetTypeInput: '',
+      assetInput: '',
+      sourceInput: '',
+      IDCardInput: '',
+      expectedAmountInput: '',
+      validatorAmountInput: '',
+      noteInput: '',
+      agentInput: '',
       //for Search Client fuction
       searchTime: null,
     }
-  },
-  mounted() {
-    this.getSAssetList()
   },
   computed: {
     ...mapGetters({
@@ -221,14 +219,14 @@ export default {
             this.firstNameInput = this.clientResult.first_name
             this.lastNameInput = this.clientResult.last_name
         } else {
-            this.firstNameInput = null
-            this.lastNameInput = null
+            this.firstNameInput = ''
+            this.lastNameInput = ''
         }
     },
     SAssetListResult() {
       let asset = []
       for (let item of this.SAssetListResult) {
-          asset.push(item.name)
+          asset.push(item.description)
       }
       return this.assetTypeItems = asset
     },
@@ -248,12 +246,11 @@ export default {
         createOrder: 'order/createOrder',
         getOrderList: 'order/getOrderList',
         clientSearch: 'order/searchClient',
-        clientReset: 'order/clientReset',
-        getSAssetList: 'asset/getSAssetList'
+        clientReset: 'order/clientReset'
     }),
     findAssetTypeID(assetType) {
         for (let item of this.SAssetListResult) {
-            if (item.name == assetType) {
+            if (item.description == assetType) {
                 return item.id
             }
         }
@@ -261,15 +258,16 @@ export default {
     //Create new order
     okHandle: async function() {
       let assetTypeID = await this.findAssetTypeID(this.assetTypeInput)
+      
       let data = {
-          phone: this.phoneInput,
-          firstName: this.firstNameInput,
-          expectedAmount: this.expectedAmountInput,
-          validatorAmount: this.validatorAmountInput,
-          assetTypeID: assetTypeID,
-          assetTypeDescription: this.assetInput,
-          source: this.sourceInput,
-          branchID: this.currentBranchID
+        phone: this.phoneInput,
+        firstName: this.firstNameInput,
+        expectedAmount: this.expectedAmountInput,
+        validatorAmount: this.validatorAmountInput,
+        assetTypeID: assetTypeID,
+        assetTypeDescription: this.assetInput,
+        source: this.sourceInput,
+        branchID: this.currentBranchID
       }
 
       this.createOrder(data).then(() => {
@@ -277,8 +275,6 @@ export default {
         if (this.orderCreatingErrorCode == 201) {
           //Turn off Dialog
           this.dialog = false
-          //Reset Form
-          this.reset = true
           //Notify create Order Successfully
           this.$notify({
             group: 'foo',
@@ -358,16 +354,6 @@ export default {
 .title {
   font-size: 30px !important;
   font-weight: bold;
-}
-
-.divider {
-  margin-bottom: 0px;
-  margin-top: 0px;
-}
-
-.contactBtn {
-  background-color: #43425d !important;
-  color: #fff !important;
 }
 
 .cancelBtn {

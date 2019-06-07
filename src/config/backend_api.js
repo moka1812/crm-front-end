@@ -11,4 +11,4 @@ export const CAssetsAPI = `${baseURL}/cassets/`
 
 export const getClientByPhoneApi = `${baseURL}/client/get-client-by-phone/`
 
-export const orderApi = `${baseURL}/order/`
+export const orderApi = `${baseURL}/orders/`
