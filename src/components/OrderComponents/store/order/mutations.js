@@ -53,20 +53,17 @@ export default {
 
     //Order Creating Function
     [ORDER_CREATING_REQUEST] (state) {
-        Vue.set(state, 'orderRequest', true)
         Vue.set(state, 'orderCreating', true)
         Vue.set(state, 'orderCreatingResult', null)
         Vue.set(state, 'orderCreatingErrorCode', '')
         Vue.set(state, 'orderCreatingError', 0)
     },
     [ORDER_CREATING_SUCCESS] (state, {result}) {
-        Vue.set(state, 'orderRequest', false)
         Vue.set(state, 'orderCreating', false)
         Vue.set(state, 'orderCreatingResult', result)
         Vue.set(state, 'orderCreatingErrorCode', 201)
     },
     [ORDER_CREATING_ERROR] (state, {errorCode, errorMessage}) {
-        Vue.set(state, 'orderRequest', false)
         Vue.set(state, 'orderCreating', false)
         Vue.set(state, 'orderCreatingError', errorMessage)
         Vue.set(state, 'orderCreatingErrorCode', errorCode)
@@ -74,20 +71,17 @@ export default {
 
     //Order Updating Function
     [ORDER_UPDATING_REQUEST] (state) {
-        Vue.set(state, 'orderRequest', true)
         Vue.set(state, 'orderUpdating', true)
         Vue.set(state, 'orderUpdatingResult', null)
         Vue.set(state, 'orderUpdatingErrorCode', '')
         Vue.set(state, 'orderUpdatingError', 0)
     },
     [ORDER_UPDATING_SUCCESS] (state, {result}) {
-        Vue.set(state, 'orderRequest', false)
         Vue.set(state, 'orderUpdating', false)
         Vue.set(state, 'orderUpdatingResult', result)
         Vue.set(state, 'orderUpdatingErrorCode', 200)
     },
     [ORDER_UPDATING_ERROR] (state, {errorCode, errorMessage}) {
-        Vue.set(state, 'orderRequest', false)
         Vue.set(state, 'orderUpdating', false)
         Vue.set(state, 'orderUpdatingErrorCode', errorCode)
         Vue.set(state, 'orderUpdatingError', errorMessage)

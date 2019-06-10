@@ -74,6 +74,20 @@ export default {
         }
     },
 
+    async getOrderListFromStaff({commit}) {
+        commit(ORDER_LIST_REQUEST)
+        try {
+            let result = await OrderService.getOrderListFromStaff()
+            commit(ORDER_LIST_SUCCESS, {result})
+        } catch (error) {
+            if (error instanceof OrderError) {
+                commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(ORDER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
     async getOrderDetail({commit, getters}, payload) {
         commit(ORDER_DETAIL_REQUEST)
         let orderListResult = getters.orderListResult
@@ -90,6 +104,37 @@ export default {
         commit(ORDER_UPDATING_REQUEST)
         try {
             let result = await OrderService.updateOrder(payload)
+            commit(ORDER_UPDATING_SUCCESS, {result})
+        } catch (error) {
+            if (error instanceof OrderError) {
+                commit(ORDER_UPDATING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                console.log(error)
+                commit(ORDER_UPDATING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async claimOrder({commit}, payload) {
+        commit(ORDER_UPDATING_REQUEST)
+        try {
+            let result = await OrderService.claimOrder(payload)
+            commit(ORDER_UPDATING_SUCCESS, {result})
+        } catch (error) {
+            if (error instanceof OrderError) {
+                commit(ORDER_UPDATING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                console.log(error)
+                commit(ORDER_UPDATING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async changeStage({commit}, payload) {
+        commit(ORDER_UPDATING_REQUEST)
+        console.log(payload)
+        try {
+            let result = await OrderService.changeStage(payload)
             commit(ORDER_UPDATING_SUCCESS, {result})
         } catch (error) {
             if (error instanceof OrderError) {

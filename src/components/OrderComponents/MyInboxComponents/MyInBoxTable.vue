@@ -91,11 +91,11 @@ export default {
      })
   },
   mounted() {
-    this.getOrderList()
+    this.getOrderListFromStaff()
   },
   methods: {
     ...mapActions({
-        getOrderList: 'order/getOrderList',
+        getOrderListFromStaff: 'order/getOrderListFromStaff',
         getOrderDetail: 'order/getOrderDetail',
     }),
     getColor: function(status) {

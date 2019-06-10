@@ -73,7 +73,7 @@ const ProfileService = {
 
     getID() {
         let profile = JSON.parse(localStorage.getItem(PROFILE))
-        return profile ? profile.id : null
+        return profile ? parseInt(profile.id) : null
     },
 
     setBranch(branch) {

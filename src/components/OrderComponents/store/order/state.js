@@ -6,7 +6,6 @@ export default  {
     clientSearchError: '',
 
     //Order Creating Function
-    orderRequest: false,
     orderCreating: false,
     orderCreatingResult: null,
     orderCreatingErrorCode: 0,

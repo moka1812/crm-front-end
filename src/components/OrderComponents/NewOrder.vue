@@ -139,7 +139,7 @@
         class="OkBtn"
         @click="this.okHandle"
         :disabled="!valid"
-        v-if="!orderRequest"
+        v-if="!orderCreating"
         >
         OK
         </v-btn>
@@ -189,6 +189,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      orderCreating: 'order/orderCreating',
       orderCreatingErrorCode: 'order/orderCreatingErrorCode',
       orderCreatingError: 'order/orderCreatingError',
       currentBranchID: 'branch/currentBranchID',
@@ -196,7 +197,6 @@ export default {
       clientSearchErrorCode:'order/clientSearchErrorCode',
       clientSearchError:'order/clientSearchError',
       clientResult: 'order/clientResult',
-      orderRequest: 'order/orderRequest',
       SAssetListResult: 'asset/SAssetListResult',
     }),
     disabled() {

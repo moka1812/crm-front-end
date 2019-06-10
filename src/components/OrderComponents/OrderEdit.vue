@@ -160,7 +160,7 @@
                                     v-model.lazy="appointmentDateTimeInput"
                                     append-icon="event"
                                     label="Lịch hẹn giờ"
-                                    :disabled="false"
+                                    :disabled="appointmentDisable"
                                     :rules="[
                                         v => !!v || 'Yều cầu cần có',
                                         v => /^\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}$/.test(v) || 'Không hợp lệ'
@@ -190,7 +190,7 @@
             class="OkBtn"
             @click="this.okHandle"
             :disabled="!valid"
-            v-if="!orderRequest"
+            v-if="!orderUpdating"
         >
         OK
         </v-btn>
@@ -210,6 +210,7 @@ import {mapActions, mapGetters, mapMutations } from 'vuex'
 import {EDIT_DIALOG} from './store/order/types'
 import {getStage} from './stage_functions'
 import moment from 'moment'
+import { async } from 'q';
 
 export default {
     name: "order-edit",
@@ -242,7 +243,7 @@ export default {
             statusItems: [
                 'Unclaimed',
                 'Pending',
-                'Contract',
+                'Contact',
                 'Quoted',
                 'Appointment',
                 'Contract'
@@ -259,7 +260,7 @@ export default {
             clientSearching:'order/clientSearching',
             SAssetListResult: 'asset/SAssetListResult',
             orderDetail: 'order/orderDetail',
-            orderRequest: 'order/orderRequest',
+            orderUpdating: 'order/orderUpdating',
             orderUpdatingResult: 'order/orderUpdatingResult',
             orderUpdatingErrorCode: 'order/orderUpdatingErrorCode',
             orderUpdatingError: 'order/orderUpdatingError'
@@ -290,9 +291,10 @@ export default {
             }
             return false
         },
-        //Stage from Order Store Vuex
-        stage() {
-            return this.translateStageToVi(this.orderDetail.stage)
+        appointmentDisable() {
+            if (this.stepInput == 'Appointment' && /Appointment #/.test(this.stageInput)) {
+                return true
+            } return false
         }
     },
     watch: {
@@ -305,7 +307,7 @@ export default {
             this.assetTypeItems = asset
         },
         //Update Order Detail to Input
-        orderDetail() {
+        orderDetail: async function() {
             if (this.orderDetail != null) {
 
                 this.orderID = this.orderDetail.orderID
@@ -316,6 +318,7 @@ export default {
                 this.sourceInput = this.orderDetail.source
 
                 this.stepInput = this.orderDetail.step
+                this.stageInput = await this.translateStageToVi(this.orderDetail.stage)
                 this.agentInput = this.orderDetail.agent
                 this.branchInput = this.orderDetail.branch
                 this.noteInput = this.orderDetail.note
@@ -327,19 +330,14 @@ export default {
                     //this.appointmentDateTimeInput = moment().format("DD/MM/YYYY HH:mm")
                 }
 
-                
                 this.assetID = this.orderDetail.assetID
                 this.assetTypeInput = this.orderDetail.asset
                 this.assetInput = this.orderDetail.assetDescription
             }
         },
-        //Check stageInput when stageItems change
         stageItems() {
-            //Stage not found, empty stageInput
-            if (!this.stageItems.includes(this.stage)){
+            if (!this.statusItems.includes(this.stageInput)) {
                 this.stageInput = ''
-            } else {
-                this.stageInput = this.stage
             }
         }
     },

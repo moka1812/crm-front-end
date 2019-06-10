@@ -60,6 +60,7 @@ const ApiService = {
                     store.dispatch("auth/logout")
                     return 
                 }
+
                 if (error.request.status == 403) {
 
                     try {
@@ -78,6 +79,8 @@ const ApiService = {
                         throw error
                     }
                         
+                } else {
+                    console.log(error)
                 }
                 // If error was not 403 just reject as is
                 throw error

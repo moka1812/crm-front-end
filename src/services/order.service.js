@@ -1,7 +1,7 @@
 import ApiService from './api.service'
 import { ProfileService } from './storage.service'
 import { AssetService, AssetError } from './asset.serivce'
-import { orderApi, CAssetsAPI } from '../config/backend_api'
+import { orderApi, orderFromStaffAPI } from '../config/backend_api'
 import moment from 'moment'
 
 class OrderError extends Error {
@@ -34,6 +34,7 @@ const OrderService = {
             phone: newOrderInfo.phone,
             first_name: newOrderInfo.firstName,
             staff: ProfileService.getID(),
+            support_agent: ProfileService.getID(),
             required_amount: newOrderInfo.expectedAmount,
             proposed_amount: newOrderInfo.validatorAmount,
             source: newOrderInfo.source,
@@ -56,6 +57,7 @@ const OrderService = {
     },
 
     updateOrder: async function(orderInfo) {
+
         let CAssetID = orderInfo.CAssetID
         let CAssetData = {
             asset: orderInfo.assetTypeID,
@@ -77,17 +79,60 @@ const OrderService = {
             stage: orderInfo.stage,
             note: orderInfo.note,
             branch: orderInfo.branch,
-            appointment: orderInfo.appointmentDateTime
+            appointment: orderInfo.appointmentDateTime,
+            support_agent: ProfileService.getID(),
         }
         let url = `${orderApi}${orderID}/`
         try {
-            let result = await ApiService.put(url, orderData)
-            return result
+            let response = await ApiService.put(url, orderData)
+            return response.data
         } catch (error) {
             console.log( error.response.data)
             throw OrderError(error.response.status, error.response.data)
         }
         
+    },
+
+    claimOrder: async function(data) {
+        let orderID = data.orderID
+
+        let orderData = {
+            staff: ProfileService.getID(),
+            support_agent: ProfileService.getID(),
+            phone: data.phone,
+            asset: data.assetID,
+            step: "Pending",
+            stage: "Order Claimed"
+        }
+
+        let url = `${orderApi}${orderID}/`
+        try {
+            let response = await ApiService.put(url, orderData)
+            return response.data
+        } catch (error) {
+            console.log( error.response.data)
+            throw OrderError(error.response.status, error.response.data)
+        }
+    },
+
+    changeStage: async function(data) {
+        let orderID = data.orderID
+
+        let orderData = {
+            support_agent: ProfileService.getID(),
+            phone: data.phone,
+            asset: data.assetID,
+            stage: data.stage
+        }
+
+        let url = `${orderApi}${orderID}/`
+        try {
+            let response = await ApiService.put(url, orderData)
+            return response.data
+        } catch (error) {
+            console.log( error.response.data)
+            throw OrderError(error.response.status, error.response.data)
+        }
     },
 
     getOrderList: async function() {
@@ -117,11 +162,29 @@ const OrderService = {
             throw OrderError(error.response.status, error.response.data.detail)
         }
     },
+    getOrderListFromStaff: async function() {
+        let id = ProfileService.getID()
+
+        let url = orderFromStaffAPI.replace(":id", id)
+
+        try {
+
+            let response = await ApiService.get(url)
+
+            let result = await this.filterRawOrderList(response.data) 
+
+            return result
+
+        } catch (error) {
+
+            throw OrderError(error.response.status, error.response.data)
+        }
+    },
     getOrderDetail: async function (id) {
         let orderUrl = `${orderApi}${id}/`
         
         try {
-            let response = await ApiService.get(orderApi)
+            let response = await ApiService.get(orderUrl)
         } catch (error) {
             throw OrderError(error.response.status, error.response.data.detail)
         }
@@ -148,6 +211,7 @@ const OrderService = {
                     validatorAmount: item.proposed_amount,
                     approvedAmount: item.approved_amount,
                     supporter: item.support_agent,
+                    support_agent_name: item.support_agent_name,
                     createdDate: created,
                     appointment: item.appointment,
                     dateClaim: item.date_claim,

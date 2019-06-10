@@ -15,10 +15,6 @@ export default  {
         return state.clientResult
     },
 
-    orderRequest: (state) => {
-        return state.orderRequest
-    },
-
     orderCreating: (state) => {
         return state.orderCreating
     },

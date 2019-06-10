@@ -1,8 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
+
 import HomePage from "./views/HomePage.vue"
 import Login from "./views/Login.vue";
 import Order from './components/OrderComponents/Order.vue';
+import MyInbox from './components/OrderComponents/MyInboxComponents/MyInbox.vue'
 
 import { TokenService } from './services/storage.service'
 
@@ -26,6 +28,15 @@ let orderPage = {
   }
 }
 
+let myInboxPage = {
+  path: "my_inbox",
+  name: "my_inbox",
+  component: MyInbox,
+  meta: {
+    requiresAuth: true
+  }
+}
+
 let homePage = {
   path: "/",
   name: "homepage",
@@ -34,7 +45,8 @@ let homePage = {
     requiresAuth: true
   },
   children: [
-    orderPage
+    orderPage,
+    myInboxPage
   ]
 }
 
