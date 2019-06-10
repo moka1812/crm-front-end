@@ -268,12 +268,14 @@ export default {
             get () { return this.orderDetailForm },
             set (value) { this.editDialog(value) }
         },
+        //Get stage when step changes
         stageTotal() {
             if (/\S/.test(this.stepInput)) {
                 return getStage(this.stepInput)
             }
             return []  
         },
+        //Send vietnamese stages to stageItems
         stageItems() {
             let array = []
             for (let item of this.stageTotal) {
@@ -281,14 +283,20 @@ export default {
             }
             return array
         },
+        //Disable Contract Button when step is not Contact
         contractDisable(){
             if (this.stepInput == 'Contract') {
                 return true
             }
             return false
         },
+        //Stage from Order Store Vuex
+        stage() {
+            return this.translateStageToVi(this.orderDetail.stage)
+        }
     },
     watch: {
+        //Update assetTypeItem when SAssetList changes
         SAssetListResult() {
             let asset = []
             for (let item of this.SAssetListResult) {
@@ -296,6 +304,7 @@ export default {
             }
             this.assetTypeItems = asset
         },
+        //Update Order Detail to Input
         orderDetail() {
             if (this.orderDetail != null) {
 
@@ -305,6 +314,7 @@ export default {
                 this.expectedAmountInput = this.orderDetail.expectedAmount
                 this.validatorAmountInput = this.orderDetail.validatorAmount
                 this.sourceInput = this.orderDetail.source
+
                 this.stepInput = this.orderDetail.step
                 this.agentInput = this.orderDetail.agent
                 this.branchInput = this.orderDetail.branch
@@ -313,24 +323,36 @@ export default {
                 if (this.orderDetail.appointment !== null) {
                     this.appointmentDateTimeInput = moment(this.orderDetail.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
                 } else {
-                    this.appointmentDateTimeInput = moment().format("DD/MM/YYYY HH:mm")
+                    this.appointmentDateTimeInput = ''
+                    //this.appointmentDateTimeInput = moment().format("DD/MM/YYYY HH:mm")
                 }
-                this.stageInput = this.translateStageToVi(this.orderDetail.stage)
 
+                
                 this.assetID = this.orderDetail.assetID
                 this.assetTypeInput = this.orderDetail.asset
                 this.assetInput = this.orderDetail.assetDescription
+            }
+        },
+        //Check stageInput when stageItems change
+        stageItems() {
+            //Stage not found, empty stageInput
+            if (!this.stageItems.includes(this.stage)){
+                this.stageInput = ''
+            } else {
+                this.stageInput = this.stage
             }
         }
     },
     methods: {
         ...mapMutations({
+            //Turn off Dialog
             editDialog: `order/${EDIT_DIALOG}`
         }),
         ...mapActions({
             updateOrder: 'order/updateOrder',
             getOrderList: 'order/getOrderList',
         }),
+        //Find asset ID from asset description
         findAssetTypeID(assetType) {
             for (let item of this.SAssetListResult) {
                 if (item.description == assetType) {
@@ -376,6 +398,7 @@ export default {
                         title: "Update Order Successfully",
                         text: ''
                     });
+                    //Update Order Table
                     this.getOrderList()
                     this.dialog=false
                 } else {
@@ -396,6 +419,7 @@ export default {
             }
             return null
         },
+        //Get English Stage to Update Order
         translateStageFromViToEng: function(vietnameseStage) {
             for (let item of this.stageTotal) {
                 if (item.vi == vietnameseStage) {
