@@ -143,7 +143,7 @@
                         <v-layout>
                             <v-flex sm6>
                                 <v-select
-                                    v-model="statusInput"
+                                    v-model="stepInput"
                                     :items="statusItems"
                                     item-disabled="Pending"
                                     :rules="[
@@ -177,6 +177,7 @@
         <v-spacer></v-spacer>
         <v-btn class="contactBtn"
             @click="this.contractHandle"
+            v-if="contractDisable"
         >
             Contract
         </v-btn>
@@ -207,7 +208,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations } from 'vuex'
 import {EDIT_DIALOG} from './store/order/types'
-import getStage from './get_stage'
+import {getStage} from './stage_functions'
 import moment from 'moment'
 
 export default {
@@ -237,17 +238,16 @@ export default {
             noteInput: '',
             branchInput: '',
             agentInput: '',
-            statusInput: '',
+            stepInput: '',
             statusItems: [
                 'Unclaimed',
                 'Pending',
                 'Contract',
                 'Quoted',
-                'Waiting',
+                'Appointment',
                 'Contract'
             ],
             stageInput: '',
-            stageTotal: [],
             menu: false,
             appointmentDateTimeInput: '',
             assetID: '',
@@ -268,12 +268,24 @@ export default {
             get () { return this.orderDetailForm },
             set (value) { this.editDialog(value) }
         },
+        stageTotal() {
+            if (/\S/.test(this.stepInput)) {
+                return getStage(this.stepInput)
+            }
+            return []  
+        },
         stageItems() {
             let array = []
             for (let item of this.stageTotal) {
                 array.push(item.vi)
             }
             return array
+        },
+        contractDisable(){
+            if (this.stepInput == 'Contract') {
+                return true
+            }
+            return false
         },
     },
     watch: {
@@ -286,7 +298,6 @@ export default {
         },
         orderDetail() {
             if (this.orderDetail != null) {
-                this.stageTotal = getStage(this.orderDetail.status)
 
                 this.orderID = this.orderDetail.orderID
                 this.nameInput = this.orderDetail.name
@@ -294,7 +305,7 @@ export default {
                 this.expectedAmountInput = this.orderDetail.expectedAmount
                 this.validatorAmountInput = this.orderDetail.validatorAmount
                 this.sourceInput = this.orderDetail.source
-                this.statusInput = this.orderDetail.status
+                this.stepInput = this.orderDetail.step
                 this.agentInput = this.orderDetail.agent
                 this.branchInput = this.orderDetail.branch
                 this.noteInput = this.orderDetail.note
@@ -331,7 +342,7 @@ export default {
 
         },
         cancleHandle: async function() {
-
+            this.dialog = false
         },
         okHandle: async function() {
             let assetTypeID = await this.findAssetTypeID(this.assetTypeInput)
@@ -343,7 +354,7 @@ export default {
                 expectedAmount: this.expectedAmountInput,
                 validatorAmount: this.validatorAmountInput,
                 source: this.sourceInput,
-                status: this.statusInput,
+                step: this.stepInput,
                 stage: this.translateStageFromViToEng(this.stageInput),
                 note: this.noteInput,
                 branch: this.branchInput,

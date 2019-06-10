@@ -18,20 +18,15 @@
 </template>
 
 <script>
-import stages from './stages'
-
-const stageItems = [
-  { title: stages.WINDOW_SHOPPING.vi },
-  { title: stages.DUPLICATE.vi },
-  { title: stages.SPAM.vi },
-  { title: stages.ORDER_CLAIMED.vi },
-]
 
 export default {
-    name: "waiting-button",
+    name: "pending-button",
+    props: {
+      stages: Array,
+    },
     data() {
         return {
-          items: stageItems
+          items: this.stages
         }
     }
 }

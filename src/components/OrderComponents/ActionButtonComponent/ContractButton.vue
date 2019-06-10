@@ -18,21 +18,15 @@
 </template>
 
 <script>
-import stages from './stages'
-
-const stageItems = [
-  { title: stages.NOT_ELIGIBLE.vi },
-  { title: stages.RATE_DISAGREEMENT.vi },
-  { title: stages.TERMS_DISAGREEMENT.vi },
-  { title: stages.FRAUD.vi },
-  { title: stages.ACTIVE_CONTRACT.vi },
-]
 
 export default {
     name: "contract-button",
+    props: {
+      stages: Array,
+    },
     data() {
         return {
-          items: stageItems
+          items: this.stages
         }
     }
 }

@@ -23,7 +23,7 @@ const OrderService = {
         let CAsset;
 
         try {
-            CAsset = AssetService.createCAsset(CAssetData)
+            CAsset = await AssetService.createCAsset(CAssetData)
         } catch (error) {
             if (error instanceof AssetError) {
                 throw OrderError(error.errorCode, error.message)
@@ -50,6 +50,7 @@ const OrderService = {
                 return response.data
             }
         } catch (error) {
+            console.log(error.response.data)
             throw OrderError(error.response.status, error.response.data.detail)
         }
     },
@@ -72,7 +73,7 @@ const OrderService = {
             proposed_amount: orderInfo.validatorAmount,
             asset: orderInfo.CAssetID,
             source: orderInfo.source,
-            step: orderInfo.status,
+            step: orderInfo.step,
             stage: orderInfo.stage,
             note: orderInfo.note,
             branch: orderInfo.branch,
@@ -156,7 +157,7 @@ const OrderService = {
                     asset: item.asset_type,
                     assetDescription: item.asset_description,
                     stage: item.stage,
-                    status: item.step,
+                    step: item.step,
                     source: item.source,
                     note: item.note
                 })

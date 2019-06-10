@@ -18,27 +18,15 @@
 </template>
 
 <script>
-import stages from './stages'
-
-const stageItems = [
-  { title: stages.NOT_ELIGIBLE.vi },
-  { title: stages.NOT_IN_SERVICE_REGION.vi },
-  { title: stages.NO_PICK_UP.vi },
-  { title: stages.WINDOW_SHOPPING.vi },
-  { title: stages.UNABLE_TO_APPRAISE_LIQUIDATED.vi },
-  { title: stages.RATE_DISAGREEMENT.vi },
-  { title: stages.MONEY_FROM_DIFFERENT_CHANNEL.vi },
-  { title: stages.TERMS_DISAGREEMENT.vi },
-  { title: stages.CALL_AGAIN_LATER.vi },
-  { title: stages.WAITING_FOR_MORE_INFO.vi },
-  { title: stages.WRONG_INFO.vi },
-]
 
 export default {
     name: "contact-button",
+    props: {
+      stages: Array,
+    },
     data() {
         return {
-          items: stageItems
+          items: this.stages
         }
     }
 }

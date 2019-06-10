@@ -18,19 +18,15 @@
 </template>
 
 <script>
-import stages from './stages'
-
-const stageItems = [
-  { title: stages.DUPLICATE },
-  { title: stages.SPAM },
-  { title: stages.UNCLAIMED },
-]
 
 export default {
     name: "unclaimed-button",
+    props: {
+      stages: Array,
+    },
     data() {
         return {
-          items: stageItems
+          items: this.stages
         }
     }
 }

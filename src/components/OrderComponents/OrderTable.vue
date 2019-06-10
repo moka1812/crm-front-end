@@ -11,18 +11,18 @@
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
               <td class="text-xs-left" @click="clickOrder(props.item.orderID)">{{ props.item.createdDate }}</td>
               <td class="text-xs-left" @click="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
-              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.staffName }}</td>
+              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.agent }}</td>
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.supporter }}</td>
               
-              <td class="text-xs-center" :style="{color: getColor(props.item.status)}" @click="clickOrder(props.item.orderID)">
-                {{ props.item.status }}
+              <td class="text-xs-center" :style="{color: getColor(props.item.step)}" @click="clickOrder(props.item.orderID)">
+                {{ props.item.step }}
               </td>
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.name }}</td>
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
       
               <td class="text-xs-center">
-                <action-button :id="props.item.orderID" :step="props.item.status"/>
+                <action-button :id="props.item.orderID" :step="props.item.step"/>
               </td>
           </template>
 
@@ -51,7 +51,7 @@ export default {
     return {
       headers: [
         {
-          text: "Mã order", value: "orderID", align: 'left', width: "10px"
+          text: "Mã order", value: "orderID", align: 'left', width: 3
         },
         {
           text: "Ngày tạo", value: "createdDate", align: 'left'
@@ -60,7 +60,7 @@ export default {
           text: "Ngày chỉnh sửa", value: "lastModify", align: 'left'
         },
         {
-          text: "Người tiếp nhận", value: "agent", align: 'center'
+          text: "Người tiếp nhận", value: "agent", align: 'center', width: 1
         },
         {
           text: "Người hỗ trợ", value: "support_agent", align: 'center'
@@ -78,7 +78,7 @@ export default {
           text: "Tài sản", value: "asset", align: 'center'
         },
         {
-          text: "Thao tác", value: "action", align: 'center', width: "10%"
+          text: "Thao tác", value: "action", align: 'center'
         },
       ],
       caseStatus: caseStatus
@@ -157,5 +157,14 @@ export default {
   font-size: 15px;
   padding: 0 3px 0 5px;
   color: #0197F6;
+}
+</style>
+
+<style>
+table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child), 
+table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), 
+table.v-table thead td:first-child, table.v-table thead td:not(:first-child), 
+table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
+  padding: 0 15px;
 }
 </style>
