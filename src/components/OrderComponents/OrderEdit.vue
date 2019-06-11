@@ -424,6 +424,9 @@ export default {
         //Get English Stage to Update Order
         translateStageFromViToEng: function(vietnameseStage) {
             return translateViToEng(vietnameseStage)
+        },
+        getStatus: function(stage){
+            return getStatus(stage)
         }
     }
 }
