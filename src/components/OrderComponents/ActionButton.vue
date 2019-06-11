@@ -93,7 +93,6 @@ export default {
         StageChangingHandle: function(vietnameseStage) {
             let newStage = this.translateStageFromViToEng(vietnameseStage)
             let newStatus = this.getStatus(vietnameseStage)
-            alert(newStatus)
             let payload = {
                 orderID: this.orderID,
                 phone: this.phone,
