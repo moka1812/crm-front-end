@@ -202,7 +202,7 @@ import {EDIT_DIALOG} from './store/order/types'
 import {getStage} from './utils/stage_functions'
 import sourceItems from './utils/source_items'
 import {stepItems} from './utils/step_items'
-import {translateEngToVi, translateViToEng} from './utils/stages'
+import {translateEngToVi, translateViToEng, getStatus} from './utils/stages'
 import moment from 'moment'
 
 export default {
@@ -388,7 +388,7 @@ export default {
                 note: this.noteInput,
                 branch: this.branchInput,
                 appointmentDateTime: appointmentDateTime,
-
+                status: this.getStatus(this.stageInput),
                 CAssetID: this.assetID,
                 assetTypeID: assetTypeID,
                 assetTypeDescription: this.assetInput,

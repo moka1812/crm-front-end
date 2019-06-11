@@ -30,7 +30,7 @@
 import {mapActions, mapGetters} from 'vuex'
 
 import {getStage} from './utils/stage_functions'
-import {translateViToEng} from './utils/stages'
+import {translateViToEng, getStatus} from './utils/stages'
 
 export default {
     name: "action-button",
@@ -92,11 +92,14 @@ export default {
         },
         StageChangingHandle: function(vietnameseStage) {
             let newStage = this.translateStageFromViToEng(vietnameseStage)
+            let newStatus = this.getStatus(vietnameseStage)
+            alert(newStatus)
             let payload = {
                 orderID: this.orderID,
                 phone: this.phone,
                 assetID: this.assetID,
-                stage: newStage
+                stage: newStage,
+                status: newStatus
             }
             this.changeStage(payload).then(() => {
                 if (this.orderUpdatingErrorCode==200) {
@@ -113,7 +116,11 @@ export default {
         //Get English Stage to Update Order
         translateStageFromViToEng: function(vietnameseStage) {
             return translateViToEng(vietnameseStage)
+        },
+        getStatus: function(stage) {
+            return getStatus(stage)
         }
+
     }
 }
 </script>

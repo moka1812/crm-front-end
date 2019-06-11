@@ -34,7 +34,6 @@ const OrderService = {
             phone: newOrderInfo.phone,
             first_name: newOrderInfo.firstName,
             staff: ProfileService.getID(),
-            support_agent: ProfileService.getID(),
             source: newOrderInfo.source,
             asset: CAsset.id,
             branch: newOrderInfo.branchID,
@@ -84,6 +83,7 @@ const OrderService = {
             stage: orderInfo.stage,
             note: orderInfo.note,
             branch: orderInfo.branch,
+            status: orderInfo.status,
             appointment: orderInfo.appointmentDateTime,
             support_agent: ProfileService.getID(),
         }
@@ -114,11 +114,11 @@ const OrderService = {
 
         let orderData = {
             staff: ProfileService.getID(),
-            support_agent: ProfileService.getID(),
             phone: data.phone,
             asset: data.assetID,
             step: "Pending",
-            stage: "Order Claimed"
+            stage: "Order Claimed",
+            status: "In Progress"
         }
 
         let url = `${orderApi}${orderID}/`
@@ -138,7 +138,8 @@ const OrderService = {
             support_agent: ProfileService.getID(),
             phone: data.phone,
             asset: data.assetID,
-            stage: data.stage
+            stage: data.stage,
+            status: data.status
         }
 
         let url = `${orderApi}${orderID}/`
