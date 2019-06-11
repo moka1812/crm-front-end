@@ -27,7 +27,7 @@
                                 //Phone has charater pre '+' (only one or no), from 10-13 digits.
                                 v => /^[+]?[0-9]{10,13}$/.test(v) || 'Phone is not valid'
                             ]"
-                            label="Phone"
+                            label="Phone*"
                             @keyup="this.search"
                             :loading="this.clientSearching"
                             :disabled="this.clientSearching"
@@ -41,7 +41,7 @@
                               v-model="sourceInput"
                               :items="sourceItems"
                               :rules="[v => !!v || 'Yều cầu cần có']"
-                              label="Source"
+                              label="Source*"
                               :disabled="disabled"
                               required
                               >
@@ -73,7 +73,7 @@
                                 v-model="assetTypeInput"
                                 :items="assetTypeItems"
                                 :rules="[v => !!v || 'Yều cầu cần có']"
-                                label="Loại tài sản"
+                                label="Loại tài sản*"
                                 :disabled="disabled"
                                 required
                             >
@@ -83,7 +83,7 @@
                           <v-text-field
                             v-model.lazy="expectedAmountInput"
                             :rules="[
-                                    v => /^$|^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                    v => /^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
                                 ]"
                             label="Giá mong muốn"
                             :disabled="disabled"
@@ -96,7 +96,7 @@
                             <v-text-field
                               v-model.lazy="assetInput"
                               :rules="[v => !!v || 'Yều cầu cần có']"
-                              label="Mô tả tài sản"
+                              label="Mô tả tài sản*"
                               :disabled="disabled"
                               required
                             >
@@ -106,7 +106,7 @@
                             <v-text-field
                               v-model.lazy="validatorAmountInput"
                               :rules="[
-                                      v => /^$|^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                      v => /^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
                                   ]"
                               label="Giá thẩm định"
                               :disabled="disabled"
@@ -156,6 +156,7 @@
 import {mapActions, mapGetters} from 'vuex'
 import { ClientService, ClientError } from '../../services/client.service'
 import { setTimeout, clearTimeout } from 'timers';
+import sourceItems from './utils/source_items'
 
 export default {
   name: "new-order",
@@ -163,14 +164,7 @@ export default {
     return {
       dialog: false,
       valid: false,
-      sourceItems: [
-          'Chat',
-          'Fanpage',
-          'Hotline',
-          'Online',
-          'Walk-in',
-          'Referral'
-      ],
+      sourceItems: sourceItems,
       assetTypeItems: [],
       firstNameInput: '',
       lastNameInput: '',
@@ -223,6 +217,7 @@ export default {
             this.lastNameInput = ''
         }
     },
+    //When finish call API get SAsset, Update assetTypeItems
     SAssetListResult() {
       let asset = []
       for (let item of this.SAssetListResult) {
@@ -230,6 +225,7 @@ export default {
       }
       return this.assetTypeItems = asset
     },
+    //When finish call API search client
     clientSearchErrorCode() {
       if (this.clientSearchErrorCode != 0 && this.clientSearchErrorCode != 200){
           this.$notify({
@@ -248,6 +244,7 @@ export default {
         clientSearch: 'order/searchClient',
         clientReset: 'order/clientReset'
     }),
+    //Get ID Asset Type From Description
     findAssetTypeID(assetType) {
         for (let item of this.SAssetListResult) {
             if (item.description == assetType) {
@@ -262,13 +259,14 @@ export default {
       let data = {
         phone: this.phoneInput,
         firstName: this.firstNameInput,
-        expectedAmount: this.expectedAmountInput,
-        validatorAmount: this.validatorAmountInput,
+        expectedAmount: this.expectedAmountInput == '' ? null : this.expectedAmountInput,
+        validatorAmount: this.validatorAmountInput == '' ? null : this.validatorAmountInput,
         assetTypeID: assetTypeID,
         assetTypeDescription: this.assetInput,
         source: this.sourceInput,
         branchID: this.currentBranchID
       }
+
 
       this.createOrder(data).then(() => {
         //Create New Order Successfully, Close Dialog

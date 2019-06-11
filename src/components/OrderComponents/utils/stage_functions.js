@@ -1,27 +1,21 @@
 import stages from './stages'
-
-const UNCLAIMED = "Unclaimed"
-const PENDING = "Pending"
-const CONTACT = "Contact"
-const QUOTED = "Quoted"
-const APPOINTMENT = "Appointment"
-const CONTRACT = "Contract"
+import steps from './step_items'
 
 const getStage = (step) => {
     switch(step) {
-        case UNCLAIMED:
+        case steps.UNCLAIMED:
             return [
                 stages.NOT_ELIGIBLE,
                 stages.SPAM,
                 stages.UNCLAIMED
             ]
-        case PENDING:
+        case steps.PENDING:
             return [
                 stages.DUPLICATE,
                 stages.SPAM,
                 stages.ORDER_CLAIMED
             ]
-        case CONTACT:
+        case steps.CONTACT:
             return [
                 stages.NOT_ELIGIBLE,
                 stages.NOT_IN_SERVICE_REGION,
@@ -35,7 +29,7 @@ const getStage = (step) => {
                 stages.WAITING_FOR_MORE_INFO,
                 stages.FRAUD
             ]
-        case QUOTED:
+        case steps.QUOTED:
             return [
                 stages.NOT_IN_SERVICE_REGION,
                 stages.NO_PICK_UP,
@@ -48,7 +42,7 @@ const getStage = (step) => {
                 stages.WAITING_FOR_RATE,
                 stages.FRAUD
             ]
-        case APPOINTMENT:
+        case steps.APPOINTMENT:
             return [
                 stages.NO_PICK_UP,
                 stages.NO_SHOW,
@@ -59,7 +53,7 @@ const getStage = (step) => {
                 stages.APPOINTMENT_3,
                 stages.APPOINTMENT_4
             ]
-        case CONTRACT:
+        case steps.CONTRACT:
             return [
                 stages.NOT_ELIGIBLE,
                 stages.RATE_DISAGREEMENT,

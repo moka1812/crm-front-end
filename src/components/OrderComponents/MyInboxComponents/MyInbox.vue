@@ -2,7 +2,7 @@
     <v-container fluid>
         <order-management/>
         <order-edit/>
-        <order-table/>
+        <my-inbox-table/>
     </v-container>
 </template>
 
@@ -10,14 +10,14 @@
 import {mapActions, mapGetters} from 'vuex'
 // @ is an alias to /src
 import OrderManagement from "@/components/OrderComponents/OrderManagement.vue";
-import OrderTable from "@/components/OrderComponents/OrderTable.vue";
+import MyInboxTable from "@/components/OrderComponents/MyInboxComponents/MyInBoxTable.vue";
 import OrderEdit from "@/components/OrderComponents/OrderEdit.vue"
 
 export default {
     name: "MyInbox",
     components: {
         OrderManagement,
-        OrderTable,
+        MyInboxTable,
         OrderEdit
     },
     mounted() {

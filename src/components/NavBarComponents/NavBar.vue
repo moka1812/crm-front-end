@@ -1,12 +1,5 @@
 <template>
       <v-toolbar class="search-panel" app>
-        <form class="my-2 my-lg-0">
-          <div class="form-group has-search">
-              <span class="fa fa-search form-control-feedback"></span>
-              <input type="text" class="form-control"
-                  placeholder="Search case number, contract ID,  customer's info" />
-          </div>
-        </form>
 
         <v-spacer/>
 

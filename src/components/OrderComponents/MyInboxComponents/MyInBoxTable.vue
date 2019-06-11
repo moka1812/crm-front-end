@@ -9,7 +9,6 @@
 
           <template v-slot:items="props">
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
-              <td class="text-xs-left" @click="clickOrder(props.item.orderID)">{{ props.item.createdDate }}</td>
               <td class="text-xs-left" @click="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.agent }}</td>
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.support_agent_name }}</td>
@@ -20,9 +19,21 @@
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.name }}</td>
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
               <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
+              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ translateEngToVi(props.item.stage) }}</td>
       
               <td class="text-xs-center">
-                <action-button :orderID="props.item.orderID" :step="props.item.step" :phone="props.item.phone" :assetID="props.item.assetID"/>
+                <v-container fluid>
+                  <v-layout>
+                    <v-flex sm6>
+                      <action-button :orderID="props.item.orderID" :step="props.item.step" :phone="props.item.phone" :assetID="props.item.assetID"/>
+                    </v-flex>
+                    <v-flex sm6>
+                      <v-btn flat icon>
+                          <v-icon color="#f73d3d">stars</v-icon>
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
               </td>
           </template>
 
@@ -36,12 +47,13 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import caseStatus from './case_status'
+import caseStatus from '../utils/case_status'
+import {translateEngToVi} from '../utils/stages'
 
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 
 export default {
-  name: "order-table",
+  name: "my-inbox-table",
   components: {
     ActionButton
   },
@@ -52,10 +64,7 @@ export default {
           text: "Mã order", value: "orderID", align: 'left', width: 3
         },
         {
-          text: "Ngày tạo", value: "createdDate", align: 'left'
-        },
-        {
-          text: "Ngày chỉnh sửa", value: "lastModify", align: 'left'
+          text: "Cập nhật", value: "lastModify", align: 'left'
         },
         {
           text: "Người tiếp nhận", value: "agent", align: 'center', width: 1
@@ -64,7 +73,7 @@ export default {
           text: "Người hỗ trợ", value: "support_agent", align: 'center'
         },
         {
-          text: "Trạng thái", value: "step", align: 'center'
+          text: "Giai đoạn", value: "step", align: 'center'
         },
         {
           text: "Tên khách hàng", value: "name", align: 'center'
@@ -74,6 +83,9 @@ export default {
         },
         {
           text: "Tài sản", value: "asset", align: 'center'
+        },
+        {
+          text: "Trạng thái", value: "stage", align: 'center'
         },
         {
           text: "Thao tác", value: "action", align: 'center'
@@ -108,6 +120,9 @@ export default {
       if (orderID != null) {
         this.getOrderDetail({orderID})
       }
+    },
+    translateEngToVi: function(englishStage){
+      return translateEngToVi(englishStage)
     }
   }
 }

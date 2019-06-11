@@ -13,7 +13,7 @@ export default {
     },
     QUOTED: {
         name: "Quoted",
-        color: "#f3f711"
+        color: "#FF8C00"
     },
     APPOINTMENT: {
         name: "Appointment",

@@ -35,8 +35,6 @@ const OrderService = {
             first_name: newOrderInfo.firstName,
             staff: ProfileService.getID(),
             support_agent: ProfileService.getID(),
-            required_amount: newOrderInfo.expectedAmount,
-            proposed_amount: newOrderInfo.validatorAmount,
             source: newOrderInfo.source,
             asset: CAsset.id,
             branch: newOrderInfo.branchID,
@@ -45,6 +43,15 @@ const OrderService = {
             step: "Pending",
             stage: "Order Claimed",
         }
+
+        if (newOrderInfo.expectedAmount != null) {
+            data.required_amount = newOrderInfo.expectedAmount
+        }
+
+        if (newOrderInfo.validatorAmount != null) {
+            data.proposed_amount = newOrderInfo.validatorAmount
+        }
+
         try {
             let response = await ApiService.post(orderApi, data)
             if (response.status == 201) {
@@ -71,8 +78,6 @@ const OrderService = {
         let orderData = {
             phone: orderInfo.phone,
             first_name: orderInfo.name,
-            required_amount: orderInfo.expectedAmount,
-            proposed_amount: orderInfo.validatorAmount,
             asset: orderInfo.CAssetID,
             source: orderInfo.source,
             step: orderInfo.step,
@@ -82,12 +87,23 @@ const OrderService = {
             appointment: orderInfo.appointmentDateTime,
             support_agent: ProfileService.getID(),
         }
+
+
+        if (orderInfo.expectedAmount != null) {
+            orderData.required_amount = orderInfo.expectedAmount
+        }
+
+        if (orderInfo.validatorAmount != null) {
+            orderData.proposed_amount = orderInfo.validatorAmount
+        }
+
         let url = `${orderApi}${orderID}/`
         try {
             let response = await ApiService.put(url, orderData)
             return response.data
         } catch (error) {
-            console.log( error.response.data)
+            console.log(error)
+            console.log(error.response.data)
             throw OrderError(error.response.status, error.response.data)
         }
         
@@ -171,7 +187,7 @@ const OrderService = {
 
             let response = await ApiService.get(url)
 
-            let result = await this.filterRawOrderList(response.data) 
+            let result = await this.filterRawOrderList(response.data.data) 
 
             return result
 

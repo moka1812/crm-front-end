@@ -1,4 +1,4 @@
-export default {
+const stages = {
     NOT_ELIGIBLE                    : {eng: "Not eligible", vi: "Không đủ điều kiện yêu cầu"},
     NOT_IN_SERVICE_REGION           : {eng: "Not in service region", vi: "Tỉnh/thành chưa có dịch vụ"},
     NO_PICK_UP                      : {eng: "No Pick-up", vi: "Không liên lạc được KH"},
@@ -23,3 +23,23 @@ export default {
     FRAUD                           : {eng: "Fraud", vi: "Gian lận/lừa đảo"},
     ACTIVE_CONTRACT                 : {eng: "Active Contract", vi: "Hợp đồng"},
 }
+
+const translateEngToVi = (englishStage) => {
+    for (let key in stages) {
+        if (stages[key].eng == englishStage) {
+            return stages[key].vi
+        }
+    }
+}
+
+const translateViToEng = (vietnameseStage) => {
+    for (let key in stages) {
+        if (stages[key].vi == vietnameseStage) {
+            return stages[key].eng
+        }
+    }
+}
+
+export default stages
+
+export {stages, translateEngToVi, translateViToEng}
