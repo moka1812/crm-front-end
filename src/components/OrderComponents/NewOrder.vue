@@ -81,9 +81,9 @@
                         </v-flex>
                         <v-flex sm6>
                           <v-text-field
-                            v-model.lazy="expectedAmountInput"
+                            v-model="expectedAmountInput"
                             :rules="[
-                                    v => /^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                    v => /^$|^-?\d*(\.\d+)$/.test(v) || 'Dữ liệu không hợp lệ'
                                 ]"
                             label="Giá mong muốn"
                             :disabled="disabled"
@@ -104,9 +104,9 @@
                         </v-flex>
                         <v-flex sm6>
                             <v-text-field
-                              v-model.lazy="validatorAmountInput"
+                              v-model="validatorAmountInput"
                               :rules="[
-                                      v => /^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                      v => /^$|^-?\d*(\.\d+)$/.test(v) || 'Dữ liệu không hợp lệ'
                                   ]"
                               label="Giá thẩm định"
                               :disabled="disabled"
@@ -244,6 +244,21 @@ export default {
         clientSearch: 'order/searchClient',
         clientReset: 'order/clientReset'
     }),
+    reset() {
+      //Reset Form
+      this.$refs.form.resetValidation()
+      this.firstNameInput = ''
+      this.lastNameInput = ''
+      this.phoneInput = ''
+      this.assetTypeInput = ''
+      this.assetInput = ''
+      this.sourceInput = ''
+      this.IDCardInput = ''
+      this.expectedAmountInput = ''
+      this.validatorAmountInput = ''
+      this.noteInput = ''
+      this.agentInput = ''
+    },
     //Get ID Asset Type From Description
     findAssetTypeID(assetType) {
         for (let item of this.SAssetListResult) {
@@ -273,8 +288,7 @@ export default {
         if (this.orderCreatingErrorCode == 201) {
           //Turn off Dialog
           this.dialog = false
-          //Reset Form
-          this.$refs.form.reset()
+          this.reset()
           //Notify create Order Successfully
           this.$notify({
             group: 'foo',
@@ -297,7 +311,7 @@ export default {
     },
 
     cancleHandle: function() {
-      this.$refs.form.reset()
+      this.reset()
       this.dialog = false
     },
 
