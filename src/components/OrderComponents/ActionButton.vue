@@ -64,7 +64,6 @@ export default {
                     })
                 }
             }
-
             result.pop(this.stage)
 
             return result

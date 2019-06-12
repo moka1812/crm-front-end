@@ -11,55 +11,55 @@ const getStage = (step) => {
             ]
         case steps.PENDING:
             return [
-                stages.DUPLICATE,
                 stages.SPAM,
+                stages.DUPLICATE,
                 stages.ORDER_CLAIMED
             ]
         case steps.CONTACT:
             return [
-                stages.NOT_ELIGIBLE,
-                stages.NOT_IN_SERVICE_REGION,
-                stages.NO_PICK_UP,
+                stages.WAITING_FOR_MORE_INFO,
+                stages.FRAUD,
+                stages.CALL_AGAIN_LATER,
+                stages.MONEY_FROM_DIFFERENT_CHANNEL,
                 stages.WINDOW_SHOPPING,
                 stages.UNABLE_TO_APPRAISE_LIQUIDATED,
+                stages.NOT_ELIGIBLE,
+                stages.NO_PICK_UP,
                 stages.RATE_DISAGREEMENT,
-                stages.MONEY_FROM_DIFFERENT_CHANNEL,
                 stages.TERMS_DISAGREEMENT,
-                stages.CALL_AGAIN_LATER,
-                stages.WAITING_FOR_MORE_INFO,
-                stages.FRAUD
+                stages.NOT_IN_SERVICE_REGION
             ]
         case steps.QUOTED:
             return [
-                stages.NOT_IN_SERVICE_REGION,
-                stages.NO_PICK_UP,
-                stages.UNABLE_TO_APPRAISE_LIQUIDATED,
-                stages.RATE_DISAGREEMENT,
-                stages.MONEY_FROM_DIFFERENT_CHANNEL,
-                stages.TERMS_DISAGREEMENT,
-                stages.CALL_AGAIN_LATER,
-                stages.WAITING_FOR_MORE_INFO,
                 stages.WAITING_FOR_RATE,
-                stages.FRAUD
+                stages.WAITING_FOR_MORE_INFO,
+                stages.FRAUD,
+                stages.CALL_AGAIN_LATER,
+                stages.MONEY_FROM_DIFFERENT_CHANNEL,
+                stages.UNABLE_TO_APPRAISE_LIQUIDATED,
+                stages.NO_PICK_UP,
+                stages.RATE_DISAGREEMENT,
+                stages.TERMS_DISAGREEMENT,
+                stages.NOT_IN_SERVICE_REGION,
             ]
         case steps.APPOINTMENT:
             return [
-                stages.NO_PICK_UP,
-                stages.NO_SHOW,
-                stages.MONEY_FROM_DIFFERENT_CHANNEL,
                 stages.CALL_AGAIN_LATER,
+                stages.MONEY_FROM_DIFFERENT_CHANNEL,
                 stages.APPOINTMENT_1,
                 stages.APPOINTMENT_2,
                 stages.APPOINTMENT_3,
-                stages.APPOINTMENT_4
+                stages.APPOINTMENT_4,
+                stages.NO_SHOW,
+                stages.NO_PICK_UP,
             ]
         case steps.CONTRACT:
             return [
+                stages.FRAUD,
+                stages.ACTIVE_CONTRACT,
                 stages.NOT_ELIGIBLE,
                 stages.RATE_DISAGREEMENT,
-                stages.TERMS_DISAGREEMENT,
-                stages.FRAUD,
-                stages.ACTIVE_CONTRACT
+                stages.TERMS_DISAGREEMENT
             ]
     }
 }
