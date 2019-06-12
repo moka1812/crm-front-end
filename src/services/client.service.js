@@ -1,5 +1,5 @@
 import ApiService from '../services/api.service'
-import { getClientByPhoneApi } from '../config/backend_api'
+import { getClientByPhoneApi } from '../config/backend-api'
 
 class ClientError extends Error {
     constructor(errorCode, message) {

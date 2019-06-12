@@ -1,38 +1,46 @@
 <template>
   <v-container fluid class="content">
       <v-layout row>
-        <v-flex md7 xs12>
-            <h3>Order Management</h3>
+        <v-flex md8 xs12>
+            <h2>Order Management</h2>
             <ul class="list-inline management">
-                <li class="list-inline-item">Unclaimed: {{unclaimed}}</li>
-                <li class="list-inline-item">Pending: {{pending}}</li>
-                <li class="list-inline-item">Contacted: {{contacted}}</li>
-                <li class="list-inline-item">Quoted: {{quoted}}</li>
-                <li class="list-inline-item">Waiting: {{waiting}}</li>
+                <li class="list-inline-item" :style="`color:${this.caseStatus.UNCLAIMED.color}`">{{this.caseStatus.UNCLAIMED.name}}: {{unclaimed}}</li>
+                <li class="list-inline-item" :style="`color:${this.caseStatus.PENDING.color}`">{{this.caseStatus.PENDING.name}}: {{pending}}</li>
+                <li class="list-inline-item" :style="`color:${this.caseStatus.CONTACT.color}`">{{this.caseStatus.CONTACT.name}}: {{contact}}</li>
+                <li class="list-inline-item" :style="`color:${this.caseStatus.QUOTED.color}`">{{this.caseStatus.QUOTED.name}}: {{quoted}}</li>
+                <li class="list-inline-item" :style="`color:${this.caseStatus.APPOINTMENT.color}`">{{this.caseStatus.APPOINTMENT.name}}: {{appointment}}</li>
             </ul>
         </v-flex>
 
-        <v-flex md5 xs12>
+        <v-flex md4 xs12>
           <v-container fluid>
             <v-layout
               align-center
               justify-end
             >
-              <div class="has-search mr-1">
+              <div class="has-search">
                 <span class="fa fa-search form-control-feedback"></span>
                 <input style="width: 200px" type="text" class="form-control"
                     placeholder="Nhập số điện thoại">
               </div>
 
-              <div class="back-red mr-1">
+              <!-- <div class="back-red mr-1">
                 <i class="far fa-clock"></i>
-              </div>
+              </div> -->
 
-              <div class="back-white mr-1">
+              <v-btn class="margin-left-right" icon color="#dd1e26">
+                <v-icon color="#ffff">access_time</v-icon>
+              </v-btn>
+
+              <v-btn class="margin-left-right" icon color="black" outline>
+                <v-icon color="#dd1e26">folder_open</v-icon>
+              </v-btn>
+
+              <!-- <div class="back-white mr-1">
                 <i class="far fa-folder-open"></i>
-              </div>
+              </div> -->
 
-              <order-filter class="mr-1"/>
+              <order-filter/>
               
               <new-order/>
             </v-layout> 
@@ -71,6 +79,7 @@
 import NewOrder from "@/components/OrderComponents/NewOrder.vue";
 import OrderFilter from "@/components/OrderComponents/OrderFilter.vue";
 
+import caseStatus from './utils/case_status'
 
 export default {
   name: "order-management",
@@ -82,9 +91,10 @@ export default {
     return {
       unclaimed: 3,
       pending: 2,
-      contacted: 1,
+      contact: 1,
       quoted: 3,
-      waiting: 2,
+      appointment: 2,
+      caseStatus: caseStatus
     }
   },
   methods: {
@@ -107,12 +117,13 @@ ul.list-inline li {
 }
 
 ul.management li {
-  font-size: 15px;
+  font-size: 18px;
   color: #dd1e26;
 }
 
 .has-search .form-control {
   padding-left: 2.375rem;
+  padding-right: 0px;
   width: 300px;
 }
 
@@ -149,10 +160,14 @@ ul.management li {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
+.margin-left-right {
+  margin-right: 2px;
+  margin-left: 2px;
+}
 .back-red {
   background-color: #dd1e26;
-  height: 45px;
-  width: 45px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
 }
 
@@ -173,24 +188,5 @@ ul.management li {
   color: #dd1e26; 
   font-size: 25px;
   padding: 10px;
-}
-
-.new-order {
-  width: 140px;
-  border-radius: 25px;
-  padding: 6px;
-  cursor:pointer;
-}
-
-.new-order:hover {
-  background-color: #c91414;
-  box-shadow: 0px 3px 5px 0px #898585;
-}
-
-.new-order span {
-  font-size: 19px;
-  font-weight: 500;
-  color: #fff;
-  padding: inherit;
 }
 </style>

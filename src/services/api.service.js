@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { TokenService } from './storage.service'
 import store from '../store/store'
-import { refreshTokenApi } from '../config/backend_api'
+import { refreshTokenApi } from '../config/backend-api'
 
 const PREFIX_TOKEN = 'Bearer'
 
@@ -25,6 +25,10 @@ const ApiService = {
 
     put(resource, data) {
         return axios.put(resource, data)
+    },
+
+    patch(resource, data) {
+        return axios.patch(resource, data)
     },
 
     delete(resource) {
@@ -66,7 +70,7 @@ const ApiService = {
                     try {
                         //Refresh the access token
                         await store.dispatch("auth/refreshToken")
-
+                        console.log(error.config.data)
                         //Retry the original request
                         return this.customRequest({
                             method: error.config.method,

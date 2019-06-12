@@ -1,5 +1,5 @@
 import ApiService from './api.service'
-import { getBranchAPI } from '../config/backend_api'
+import { getBranchAPI } from '../config/backend-api'
 
 class BranchError extends Error {
     constructor(errorCode, message) {

@@ -5,7 +5,7 @@
         </template>
         <v-card>
             <v-card-title >
-                <span class="title">Order {{orderID}}</span>
+                <span class="title">Order #{{orderID}}</span>
             </v-card-title>
             <v-divider></v-divider>
 
@@ -128,16 +128,16 @@
                         <v-layout>
                             <v-flex sm6>
                                 <v-text-field
-                                    v-model.lazy="branchInput"
-                                    label="Chi nhánh"
+                                    v-model.lazy="agentInput"
+                                    label="Người tiếp nhận"
                                     :disabled="true"
                                     >
                                 </v-text-field>
                             </v-flex>
                             <v-flex sm6>
                                 <v-text-field
-                                    v-model.lazy="agentInput"
-                                    label="Người tiếp nhận"
+                                    v-model.lazy="supporterInput"
+                                    label="Người hỗ trợ"
                                     :disabled="true"
                                     >
                                 </v-text-field>
@@ -145,7 +145,12 @@
                         </v-layout>
                         <v-layout>
                             <v-flex sm6>
-                                
+                                <v-text-field
+                                    v-model.lazy="branchInput"
+                                    label="Chi nhánh"
+                                    :disabled="true"
+                                    >
+                                </v-text-field>
                             </v-flex>
                             <v-flex sm6>
                                 <v-text-field
@@ -213,6 +218,7 @@ export default {
             orderID: '',
             nameInput: '',
             agentInput: '',
+            supporterInput: '',
             phoneInput: '',
             assetInput: '',
             expectedAmountInput: '',
@@ -223,7 +229,6 @@ export default {
             sourceItems: sourceItems,
             noteInput: '',
             branchInput: '',
-            agentInput: '',
             stepInput: '',
             stepItems: stepItems,
             stageInput: '',
@@ -308,7 +313,8 @@ export default {
                 this.stepInput = this.orderDetail.step
                 this.stageInput = this.translateStageFromEngToVi(this.orderDetail.stage)
                 this.agentInput = this.orderDetail.agent
-                this.branchInput = this.orderDetail.branch
+                this.supporterInput = this.orderDetail.support_agent_name
+                this.branchInput = this.orderDetail.branchName
                 this.noteInput = this.orderDetail.note
 
                 if (this.orderDetail.appointment !== null) {
@@ -324,10 +330,12 @@ export default {
         },
         stageItems() {
             let oldStep = this.orderDetail.step
-            //User go back old step
+            //When User go back old step
             if (this.stepInput == oldStep) {
+                //Get old stage
                 this.stageInput = this.translateStageFromEngToVi(this.orderDetail.stage)
-            } else if (!this.stepItems.includes(this.stageInput)) {
+            } else if (!this.stageItems.includes(this.stageInput)) {
+                //When current stage is not in new stage Items
                 this.stageInput = ''
             }
         },
@@ -385,8 +393,8 @@ export default {
                 source: this.sourceInput,
                 step: this.stepInput,
                 stage: this.translateStageFromViToEng(this.stageInput),
+                staff: this.orderDetail.staff,
                 note: this.noteInput,
-                branch: this.branchInput,
                 appointmentDateTime: appointmentDateTime,
                 status: this.getStatus(this.stageInput),
                 CAssetID: this.assetID,

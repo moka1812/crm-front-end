@@ -7,7 +7,7 @@
             <v-btn flat icon v-on="on">
                 <v-icon v-if="orderStep == 'Pending'" color="#70cc3b">check_circle_outline</v-icon>
                 <v-icon v-else-if="orderStep == 'Appointment'" color="#70cc3b">check_circle_outline</v-icon>
-                <v-icon v-else-if="orderStep == 'Contact'" color="#0000FF">call</v-icon>
+                <v-icon v-else-if="orderStep == 'Contact'" color="#0000FF">perm_contact_calendar</v-icon>
                 <v-icon v-else-if="orderStep == 'Quoted'" color="#FF8C00">sync</v-icon>
                 <v-icon v-else-if="orderStep == 'Contract'" color="#00008B">assignment_turned_in</v-icon>
             </v-btn>
@@ -38,6 +38,8 @@ export default {
         orderID: Number,
         step: String,
         phone: String,
+        staff: Number,
+        stage: String,
         assetID: Number
     },
     data() {
@@ -62,6 +64,8 @@ export default {
                     })
                 }
             }
+
+            result.pop(this.stage)
 
             return result
         }
@@ -96,6 +100,7 @@ export default {
             let payload = {
                 orderID: this.orderID,
                 phone: this.phone,
+                staff: this.staff,
                 assetID: this.assetID,
                 stage: newStage,
                 status: newStatus

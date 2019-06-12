@@ -5,7 +5,7 @@
         offset-y
     >
         <template v-slot:activator="{ on }">
-            <v-btn flat v-on="on">{{currentBranch}} BRANCH
+            <v-btn flat v-on="on">{{currentBranch}}
                 <v-icon>arrow_drop_down</v-icon>
           </v-btn>
         </template>
@@ -22,7 +22,7 @@
                             @click="changeBranchHandle(index)"
                         >
                         <v-list-tile-content :style="{'padding-left': '10px'}">
-                            <v-list-tile-title>{{branch.name}} BRANCH</v-list-tile-title>
+                            <v-list-tile-title>{{branch.name}}</v-list-tile-title>
                             <v-list-tile-sub-title>{{branch.address}}</v-list-tile-sub-title>
                         </v-list-tile-content>
                         </v-list-tile>

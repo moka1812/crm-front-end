@@ -310,7 +310,7 @@ export default {
             if (!this.$refs['phone'].hasError) {
                 this.clientSearch({phone: this.phoneInput})
             } else {
-                this.clientReset()
+                
             }
         }, 2000)
     },
@@ -322,6 +322,8 @@ export default {
 .new-order {
   background-color: #dd1e26 !important;
   color: #fff !important;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
 .back-white {

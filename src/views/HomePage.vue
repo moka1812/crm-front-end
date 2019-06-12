@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid full-height">
+  <v-container fluid fill-height>
     <SideBar/>
     <NavBar />
     <v-content>
@@ -7,7 +7,7 @@
         <router-view/>
       </v-container>
     </v-content>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -25,7 +25,5 @@ export default {
 </script>
 
 <style scoped>
-.full-height {
-  height: 100%;
-}
+
 </style>

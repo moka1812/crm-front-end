@@ -1,7 +1,7 @@
 import ApiService from './api.service'
 import { ProfileService } from './storage.service'
 import { AssetService, AssetError } from './asset.serivce'
-import { orderApi, orderFromStaffAPI } from '../config/backend_api'
+import { orderApi, orderFromStaffAPI } from '../config/backend-api'
 import moment from 'moment'
 
 class OrderError extends Error {
@@ -29,7 +29,6 @@ const OrderService = {
                 throw OrderError(error.errorCode, error.message)
             }
         }
-        
         let data = {
             phone: newOrderInfo.phone,
             first_name: newOrderInfo.firstName,
@@ -70,7 +69,7 @@ const OrderService = {
             description: orderInfo.assetTypeDescription
         }
 
-        AssetService.updateCAsset(CAssetID, CAssetData)
+        await AssetService.updateCAsset(CAssetID, CAssetData)
 
         let orderID = orderInfo.orderID
 
@@ -82,12 +81,15 @@ const OrderService = {
             step: orderInfo.step,
             stage: orderInfo.stage,
             note: orderInfo.note,
-            branch: orderInfo.branch,
             status: orderInfo.status,
             appointment: orderInfo.appointmentDateTime,
-            support_agent: ProfileService.getID(),
         }
 
+        let currentUserID = ProfileService.getID()
+
+        if (currentUserID != orderInfo.staff) {
+            orderData.support_agent = currentUserID
+        }
 
         if (orderInfo.expectedAmount != null) {
             orderData.required_amount = orderInfo.expectedAmount
@@ -123,7 +125,7 @@ const OrderService = {
 
         let url = `${orderApi}${orderID}/`
         try {
-            let response = await ApiService.put(url, orderData)
+            let response = await ApiService.patch(url, orderData)
             return response.data
         } catch (error) {
             console.log( error.response.data)
@@ -135,11 +137,16 @@ const OrderService = {
         let orderID = data.orderID
 
         let orderData = {
-            support_agent: ProfileService.getID(),
             phone: data.phone,
             asset: data.assetID,
             stage: data.stage,
             status: data.status
+        }
+
+        let currentUserID = ProfileService.getID()
+
+        if (currentUserID != data.staff) {
+            orderData.support_agent = currentUserID
         }
 
         let url = `${orderApi}${orderID}/`
@@ -214,7 +221,7 @@ const OrderService = {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"    
                 let created = new moment(item.created).format("DD-MM-YYYY HH:MM")
                 let lastModify = new moment(item.last_modify).format("DD-MM-YYYY HH:MM")
-    
+
                 data.push({
                     orderID: item.id,
                     phone: item.phone,
@@ -223,7 +230,7 @@ const OrderService = {
                     staff: item.staff,
                     agent: item.staff_name,
                     expectedAmount: item.required_amount,
-                    branch: item.branch,
+                    branchName: item.branch_name,
                     marketAmount: item.market_amount,
                     validatorAmount: item.proposed_amount,
                     approvedAmount: item.approved_amount,

@@ -16,22 +16,17 @@
                         <div class="title">
                             <h1>CAMDO<strong>NHANH</strong></h1>
                         </div>
-                        <h3>LOGIN</h3>
+                        <h3>Đăng Nhập</h3>
                         <form @submit.prevent="loginHandle">
                           <input id="username" type="text" placeholder="username" v-model="username"/>
                           <input id="password" type="password" placeholder="password" v-model="password"/>
                         
                           <br/>
+                          <br/>
                           <button type="submit" :disabled="authenticating" class="button">
                               Login
                           </button>
                         </form>
-                        <hr/>
-
-                        <button :disabled="true" class="loginBtn loginBtn--google">
-                            Sign in with Google
-                        </button>
-                        <br/>
                         <br/>
                         <div class="copy-right">
                             <p><i>Copyright © 2018-2019 ICADO Co.Ltd <br/> All rights reserved.</i></p>

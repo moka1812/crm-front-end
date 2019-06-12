@@ -62,12 +62,16 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   //Components require auth
   if (to.matched.some(record => record.meta.requiresAuth)) {
+    console.log(to)
     if (TokenService.getToken() == null) {
       //Come back Login Component 
       next({
         name: 'login',
-        params: { nextUrl: to.fullPath }
+        params: { nextUrl: '/orders' }
       })
+    } else if (to.name == 'homepage') {
+      //From HomePage to Order
+      next({name: 'orders'})
     } else {
       //Continue
       next()
@@ -79,7 +83,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
     //Having Token, Don't come back Login Component
-    next({name: 'homepage'})
+    next()
   //Anything else
   } else {
     next()

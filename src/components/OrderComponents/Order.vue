@@ -25,8 +25,14 @@ export default {
   },
   methods: {
     ...mapActions({
-      getSAssetList: 'asset/getSAssetList'
+      getSAssetList: 'asset/getSAssetList',
+      clientReset: 'order/clientReset'
     })
+  },
+  beforeRouteLeave (to, from, next) {
+    //Empty Client Searching Result
+    this.clientReset()
+    next()
   }
 }
 </script>

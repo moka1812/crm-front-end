@@ -2,17 +2,15 @@
   <v-navigation-drawer
     class="side-bar"
     v-model="drawer"
-    :mini-variant.sync="mini"
     hide-overlay
+    :width="190"
     stateless
     app
   >
     <v-toolbar flat class="transparent header">
       <v-list class="pa-0">
         <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="../../assets/camdo.png">
-          </v-list-tile-avatar>
+          <img src="../../assets/camdo.png">
 
           <v-list-tile-content
             :style="{
@@ -22,15 +20,6 @@
             <span class="font-white">camdo<strong>nhanh</strong></span>
 
           </v-list-tile-content>
-
-          <v-list-tile-action>
-            <v-btn
-              icon
-              @click.stop="mini = !mini"
-            >
-              <v-icon color="white">chevron_left</v-icon>
-            </v-btn>
-          </v-list-tile-action>
         </v-list-tile>
       </v-list>
     </v-toolbar>
@@ -44,7 +33,6 @@
         class="group"
         :key="sidebarLink.name"  
         no-action="no-action"
-        :value="!mini"
       >
         <v-list-tile slot="activator" ripple="ripple">
           <v-list-tile-action>
@@ -60,6 +48,7 @@
           v-for="subItem in sidebarLink.groups" 
           :key="subItem.name"
           @click="redirectHandle(subItem.link)"
+          class="listitem"
         >
           <v-list-tile-action>
             <v-icon dark class="icon">{{subItem.icon}}</v-icon>
@@ -108,7 +97,6 @@ export default {
   data() {
     return {
       drawer: true,
-      mini: true,
       sidebarLinks: sidebarLinks
     }
   },
@@ -128,7 +116,12 @@ export default {
 
 .font-white {
   color: #fff;
-  font-size: 24px
+  font-size: 17px;
+  padding-left: 5px
+}
+
+.chevron-left {
+  margin-left: 1px;
 }
 
 .side-bar {
@@ -136,7 +129,7 @@ export default {
 }
 
 .content {
-  font-size: 20px;
+  font-size: 13px;
   color: #fff;
 }
 
@@ -156,5 +149,9 @@ export default {
 /* Set white color for expand icon*/
 .group .theme--light.v-icon {
   color: white !important;
+}
+
+.listitem > .v-list__tile {
+  padding-left: 20px
 }
 </style>

@@ -8,29 +8,33 @@
         >
 
           <template v-slot:items="props">
-              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
-              <td class="text-xs-left" @click="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
-              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.agent }}</td>
-              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.support_agent_name }}</td>
+              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
+              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
+              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.agent }}</td>
+              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.support_agent_name }}</td>
               
-              <td class="text-xs-center" :style="{color: getColor(props.item.step)}" @click="clickOrder(props.item.orderID)">
+              <td class="text-xs-center content" :style="{color: getColor(props.item.step)}" @click="clickOrder(props.item.orderID)">
                 {{ props.item.step }}
               </td>
-              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.name }}</td>
-              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
-              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
-              <td class="text-xs-center" @click="clickOrder(props.item.orderID)">{{ translateEngToVi(props.item.stage) }}</td>
+              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.name }}</td>
+              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
+              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
+              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ translateEngToVi(props.item.stage) }}</td>
       
               <td class="text-xs-center">
                 <v-container fluid>
                   <v-layout>
                     <v-flex sm6>
-                      <action-button :orderID="props.item.orderID" :step="props.item.step" :phone="props.item.phone" :assetID="props.item.assetID"/>
+                      <action-button 
+                        :orderID="props.item.orderID" 
+                        :step="props.item.step" 
+                        :phone="props.item.phone" 
+                        :assetID="props.item.assetID"
+                        :stage="translateEngToVi(props.item.stage)"
+                      />
                     </v-flex>
                     <v-flex sm6>
-                      <v-btn flat icon>
-                          <v-icon color="#f73d3d">stars</v-icon>
-                      </v-btn>
+                      <call-button/>
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -51,44 +55,46 @@ import caseStatus from '../utils/case_status'
 import {translateEngToVi} from '../utils/stages'
 
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
+import CallButton from "@/components/OrderComponents/CallButton.vue"
 
 export default {
   name: "my-inbox-table",
   components: {
-    ActionButton
+    ActionButton,
+    CallButton
   },
   data() {
     return {
       headers: [
         {
-          text: "Mã order", value: "orderID", align: 'left', width: 3
+          text: "Mã order", value: "orderID", align: 'left', sortable: false, class: "header", width: 3
         },
         {
-          text: "Cập nhật", value: "lastModify", align: 'left'
+          text: "Cập nhật", value: "lastModify", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Người tiếp nhận", value: "agent", align: 'center', width: 1
+          text: "Người tiếp nhận", value: "agent", align: 'center', sortable: false, class: "header", width: 1
         },
         {
-          text: "Người hỗ trợ", value: "support_agent", align: 'center'
+          text: "Người hỗ trợ", value: "support_agent", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Giai đoạn", value: "step", align: 'center'
+          text: "Giai đoạn", value: "step", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Tên khách hàng", value: "name", align: 'center'
+          text: "Tên khách hàng", value: "name", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Phone", value: "phone", align: 'center'
+          text: "Phone", value: "phone", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Tài sản", value: "asset", align: 'center'
+          text: "Tài sản", value: "asset", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Trạng thái", value: "stage", align: 'center'
+          text: "Trạng thái", value: "stage", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Thao tác", value: "action", align: 'center'
+          text: "Thao tác", value: "action", align: 'center', sortable: false, class: "header"
         },
       ],
       caseStatus: caseStatus
@@ -171,6 +177,9 @@ export default {
   padding: 0 3px 0 5px;
   color: #0197F6;
 }
+.content {
+  font-size: 17px;
+}
 </style>
 
 <style>
@@ -178,6 +187,10 @@ table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child),
 table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), 
 table.v-table thead td:first-child, table.v-table thead td:not(:first-child), 
 table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
-  padding: 0 15px;
+  padding: 0 10px;
+}
+.header {
+  font-weight: bold !important;
+  font-size: 15px !important;
 }
 </style>

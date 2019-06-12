@@ -1,5 +1,5 @@
 import ApiService from './api.service'
-import { SAssetListAPI, CAssetsAPI } from '../config/backend_api'
+import { SAssetListAPI, CAssetsAPI } from '../config/backend-api'
 
 class AssetError extends Error {
     constructor(errorCode, message) {
@@ -35,6 +35,7 @@ const AssetService = {
             let CAsset = response.data
             return CAsset 
         } catch (error) {
+            console.log(error.response.data)
             throw AssetError(error.response.status, error.response.data.detail)
         }
     }

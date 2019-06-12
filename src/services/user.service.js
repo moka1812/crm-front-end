@@ -1,6 +1,6 @@
 import { TokenService, ProfileService } from './storage.service';
 import ApiService from '../services/api.service'
-import { loginApi, refreshTokenApi } from '../config/backend_api'
+import { loginApi, refreshTokenApi } from '../config/backend-api'
 
 class AuthenticationError extends Error {
     constructor(errorCode, message) {

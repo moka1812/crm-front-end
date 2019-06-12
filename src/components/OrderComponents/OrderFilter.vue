@@ -221,6 +221,8 @@ export default {
 .filter {
   background-color: #fff !important;
   color: #dd1e26 !important;
+  margin-right: 2px;
+  margin-left: 2px;
 }
 
 #row-date {
