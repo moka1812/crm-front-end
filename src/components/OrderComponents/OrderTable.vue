@@ -9,6 +9,7 @@
         >
 
           <template v-slot:items="props">
+            <template v-if="props.item.step != 'Unclaimed'">
               <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
               <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
               <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.agent }}</td>
@@ -21,7 +22,22 @@
               <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
               <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
               <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ translateEngToVi(props.item.stage) }}</td>
-      
+            </template>
+
+            <template v-else>
+              <td class="text-xs-center content">{{ props.item.orderID }}</td>
+              <td class="text-xs-center content">{{ props.item.lastModify }}</td>
+              <td class="text-xs-center content">{{ props.item.agent }}</td>
+              <td class="text-xs-center content">{{ props.item.support_agent_name }}</td>
+              
+              <td class="text-xs-center content" :style="{color: getColor(props.item.step)}">
+                {{ props.item.step }}
+              </td>
+              <td class="text-xs-center content">{{ props.item.name }}</td>
+              <td class="text-xs-center content">{{ props.item.phone }}</td>
+              <td class="text-xs-center content">{{ props.item.asset }}</td>
+              <td class="text-xs-center content">{{ translateEngToVi(props.item.stage) }}</td>
+            </template>
               <td class="text-xs-center">
                 <v-container fluid>
                   <v-layout>

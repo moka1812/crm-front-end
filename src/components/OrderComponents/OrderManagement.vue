@@ -32,7 +32,7 @@
                 <v-icon color="#ffff">access_time</v-icon>
               </v-btn>
 
-              <v-btn class="margin-left-right" icon color="black" outline>
+              <v-btn class="margin-left-right" icon color="#8e8e8e" outline>
                 <v-icon color="#dd1e26">folder_open</v-icon>
               </v-btn>
 

@@ -230,7 +230,13 @@ export default {
             noteInput: '',
             branchInput: '',
             stepInput: '',
-            stepItems: stepItems,
+            stepItems: [
+                "Pending",
+                "Contact",
+                "Quoted",
+                "Appointment",
+                "Contract"
+            ],
             stageInput: '',
             menu: false,
             appointmentDateTimeInput: '',
