@@ -273,6 +273,8 @@ export default {
         if (this.orderCreatingErrorCode == 201) {
           //Turn off Dialog
           this.dialog = false
+          //Reset Form
+          this.$refs.form.reset()
           //Notify create Order Successfully
           this.$notify({
             group: 'foo',
