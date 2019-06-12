@@ -70,12 +70,16 @@ const ApiService = {
                     try {
                         //Refresh the access token
                         await store.dispatch("auth/refreshToken")
-                        console.log(error.config.data)
+                        
+                        let data = ''
+                        if (error.config.data) {
+                            data = JSON.parse(error.config.data)
+                        }
                         //Retry the original request
                         return this.customRequest({
                             method: error.config.method,
                             url: error.config.url,
-                            data: error.config.data,
+                            data: data,
                         })
                     
                     } catch (error) {
@@ -83,9 +87,7 @@ const ApiService = {
                         throw error
                     }
                         
-                } else {
-                    console.log(error)
-                }
+                } 
                 // If error was not 403 just reject as is
                 throw error
             }
