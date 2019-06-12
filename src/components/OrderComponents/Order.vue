@@ -40,3 +40,9 @@ export default {
 <style scoped>
 
 </style>
+
+<style>
+.v-select-list .v-list__tile {
+  padding-left: 20px !important;
+}
+</style>

@@ -24,6 +24,9 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style>
+/* Padding item in v-select */
+.v-select-list > .v-list__tile__content {
+  padding-left: 20px;
+}
 </style>

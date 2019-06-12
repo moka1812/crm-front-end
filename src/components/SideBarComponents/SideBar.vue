@@ -25,14 +25,14 @@
     </v-toolbar>
 
     <v-list class="pt-0" dense>
-      <template v-for="sidebarLink in sidebarLinks" >
-
+      <template v-for="sidebarLink in sidebarLinks">
       <!-- Group with subitems -->
       <v-list-group 
         v-if="sidebarLink.groups"
         class="group"
         :key="sidebarLink.name"  
         no-action="no-action"
+        
       >
         <v-list-tile slot="activator" ripple="ripple">
           <v-list-tile-action>
@@ -75,15 +75,17 @@
       </v-list-tile>
 
       </template>
-
       <v-list-tile-content 
         :style="{
           'align-items':'center'
         }"
         class="content"
+        d-flex
       >
         Copyright by <br>Icado Co.,Ltd
       </v-list-tile-content>
+
+        
     </v-list>
   
   </v-navigation-drawer>

@@ -394,4 +394,5 @@ export default {
 .v-dialog:not(.v-dialog--fullscreen) {
     max-height: 100%;
 }
+
 </style>
