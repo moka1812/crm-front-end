@@ -2,7 +2,7 @@
   <v-container fluid class="content">
       <v-layout row>
         <v-flex md8 xs12>
-            <h2>Order Management</h2>
+            <h2>{{this.name}}</h2>
             <ul class="list-inline management">
                 <li class="list-inline-item" :style="`color:${this.caseStatus.UNCLAIMED.color}`">{{this.caseStatus.UNCLAIMED.name}}: {{unclaimed}}</li>
                 <li class="list-inline-item" :style="`color:${this.caseStatus.PENDING.color}`">{{this.caseStatus.PENDING.name}}: {{pending}}</li>
@@ -87,6 +87,9 @@ export default {
     NewOrder,
     OrderFilter
   },
+  props: {
+    type: String,
+  },
   data() {
     return {
       unclaimed: 3,
@@ -95,6 +98,16 @@ export default {
       quoted: 3,
       appointment: 2,
       caseStatus: caseStatus
+    }
+  },
+  computed: {
+    name() {
+      switch(this.type) {
+        case 'Order':
+          return 'Order Management'
+        case 'MyInbox':
+          return 'My Inbox'
+      }
     }
   },
   methods: {
@@ -161,32 +174,7 @@ ul.management li {
 }
 
 .margin-left-right {
-  margin-right: 2px;
-  margin-left: 2px;
-}
-.back-red {
-  background-color: #dd1e26;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-}
-
-.back-red i {
-  color: #fff; 
-  font-size: 25px;
-  padding: 10px;
-}
-
-.back-white {
-  background-color: #fff;
-  height: 45px;
-  width: 45px;
-  border-radius: 50%;
-}
-
-.back-white i {
-  color: #dd1e26; 
-  font-size: 25px;
-  padding: 10px;
+  margin-right: 4px;
+  margin-left: 4px;
 }
 </style>

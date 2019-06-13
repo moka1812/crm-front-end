@@ -185,7 +185,7 @@
         <v-btn
             class="OkBtn"
             @click="this.okHandle"
-            :disabled="!valid"
+            :disabled="okDiable"
             v-if="!orderUpdating"
         >
         OK
@@ -293,6 +293,55 @@ export default {
                 ]
             }
             return []
+        },
+        okDiable() {
+            if (this.valid && this.orderDetail != null) {
+                if (this.nameInput != this.orderDetail.name) {
+                    return false
+                }
+                if (this.phoneInput != this.orderDetail.phone) {
+                    return false
+                } 
+                if (this.assetTypeInput != this.orderDetail.asset) {
+                    return false
+                }
+                if (this.expectedAmountInput != this.orderDetail.expectedAmount) {
+                    if (!(this.expectedAmountInput == '' && this.orderDetail.expectedAmount == null)) {
+                        return false
+                    }
+                }
+                if (this.assetInput != this.orderDetail.assetDescription) {
+                    return false
+                }
+                if (this.validatorAmountInput != this.orderDetail.validatorAmount) {
+                    if (!(this.validatorAmountInput == '' && this.orderDetail.validatorAmount == null)) {
+                        return false
+                    } 
+                }
+                if (this.sourceInput != this.orderDetail.source) {
+                    return false
+                }
+                if (this.noteInput != this.orderDetail.note) {
+                    return false
+                }
+                if (this.stepInput != this.orderDetail.step) {
+                    return false
+                }
+                if (this.stageInput != this.translateStageFromEngToVi(this.orderDetail.stage)) {
+                    return false
+                }
+                //Check null vs null
+                if (this.appointmentDateTimeInput != this.orderDetail.appointment) {
+                    if (this.appointmentDateTimeInput != moment(this.orderDetail.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")) {
+                        return false
+                    }
+                }
+                
+                console.log(5)
+                //Not Yet Edit
+                return true
+            }
+            return true
         }
     },
     watch: {

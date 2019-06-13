@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <order-management/>
+        <order-management type="MyInbox"/>
         <order-edit/>
         <my-inbox-table/>
     </v-container>

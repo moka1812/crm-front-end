@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <order-management/>
+        <order-management type="Order"/>
         <order-edit/>
         <order-table/>
     </v-container>
