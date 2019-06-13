@@ -1,8 +1,8 @@
 <template>
     <v-container fluid>
         <order-management type="MyInbox"/>
-        <order-edit/>
         <my-inbox-table/>
+        <order-edit/>
     </v-container>
 </template>
 

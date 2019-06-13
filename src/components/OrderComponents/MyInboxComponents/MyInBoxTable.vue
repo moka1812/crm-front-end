@@ -1,5 +1,5 @@
 <template>
-  <table-lib/>
+  <table-lib @refresh="getOrderListFromStaff()"/>
 </template>
 
 <script>
@@ -12,13 +12,23 @@ export default {
   components: {
     TableLib
   },
+  data() {
+    return {
+      shecdule: ''
+    }
+  },
   mounted() {
     this.getOrderListFromStaff()
+    this.shecdule = setInterval(this.planOrderListFromStaff, 5000);
   },
   methods: {
     ...mapActions({
         getOrderListFromStaff: 'order/getOrderListFromStaff',
+        planOrderListFromStaff: 'order/planOrderListFromStaff'
     }),
+  },
+  beforeDestroy() {
+    clearInterval(this.shecdule);
   }
 }
 </script>

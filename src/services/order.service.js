@@ -1,7 +1,7 @@
 import ApiService from './api.service'
 import { ProfileService } from './storage.service'
 import { AssetService, AssetError } from './asset.serivce'
-import { orderApi, orderFromStaffAPI } from '../config/backend-api'
+import { orderApi, orderFromStaffAPI, getOrderApi } from '../config/backend-api'
 import moment from 'moment'
 
 class OrderError extends Error {
@@ -162,7 +162,7 @@ const OrderService = {
     getOrderList: async function() {
         try {
 
-            let response = await ApiService.get(orderApi)
+            let response = await ApiService.get(getOrderApi)
 
             let unclaimedPromise = new Promise((resolve, reject) => {
                 let data = this.filterRawOrderList(response.data["unclaimed"])

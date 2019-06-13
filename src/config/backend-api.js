@@ -13,4 +13,6 @@ export const getClientByPhoneApi = `${baseURL}/client/get-client-by-phone/`
 
 export const orderApi = `${baseURL}/orders/`
 
+export const getOrderApi = `${baseURL}/orders/custom_list/`
+
 export const orderFromStaffAPI = `${baseURL}/staffs/:id/orders/`

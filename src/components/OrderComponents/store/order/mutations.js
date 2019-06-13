@@ -18,6 +18,10 @@ import {
     ORDER_LIST_SUCCESS,
     ORDER_LIST_ERROR,
 
+    ORDER_LIST_SHECDULE_REQUEST,
+    ORDER_LIST__SHECDULE_SUCCESS,
+    ORDER_LIST_SHECDULE_ERROR,
+
     ORDER_DETAIL_REQUEST,
     ORDER_DETAIL_SUCCESS,
     EDIT_DIALOG,
@@ -105,6 +109,20 @@ export default {
         Vue.set(state, 'orderListErrorCode', errorCode)
     },
 
+    //Order List Getting Function
+    [ORDER_LIST_SHECDULE_REQUEST] (state) {
+        Vue.set(state, 'orderListError', '')
+        Vue.set(state, 'orderListErrorCode', 0)
+    },
+    [ORDER_LIST__SHECDULE_SUCCESS] (state, {result}) {
+        Vue.set(state, 'orderListResult', result)
+        Vue.set(state, 'orderListError', '')
+        Vue.set(state, 'orderListErrorCode', 200)
+    },
+    [ORDER_LIST_SHECDULE_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'orderListError', errorMessage)
+        Vue.set(state, 'orderListErrorCode', errorCode)
+    },
     //Get Order Detail
     [ORDER_DETAIL_REQUEST] (state) {
         Vue.set(state, 'orderDetailForm', false)

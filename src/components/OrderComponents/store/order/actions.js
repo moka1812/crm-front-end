@@ -16,6 +16,10 @@ import {
     ORDER_LIST_SUCCESS,
     ORDER_LIST_ERROR,
 
+    ORDER_LIST_SHECDULE_REQUEST,
+    ORDER_LIST__SHECDULE_SUCCESS,
+    ORDER_LIST_SHECDULE_ERROR,
+
     ORDER_DETAIL_REQUEST,
     ORDER_DETAIL_SUCCESS,
     ORDER_DETAIL_ERROR
@@ -74,6 +78,20 @@ export default {
         }
     },
 
+    async planOrderList({commit}) {
+        commit(ORDER_LIST_SHECDULE_REQUEST)
+        try {
+            let result = await OrderService.getOrderList()
+            commit(ORDER_LIST__SHECDULE_SUCCESS, {result})
+        } catch (error) {
+            if (error instanceof OrderError) {
+                commit(ORDER_LIST_SHECDULE_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(ORDER_LIST_SHECDULE_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
     async getOrderListFromStaff({commit}) {
         commit(ORDER_LIST_REQUEST)
         try {
@@ -84,6 +102,20 @@ export default {
                 commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
             } else {
                 commit(ORDER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async planOrderListFromStaff({commit}) {
+        commit(ORDER_LIST_SHECDULE_REQUEST)
+        try {
+            let result = await OrderService.getOrderListFromStaff()
+            commit(ORDER_LIST__SHECDULE_SUCCESS, {result})
+        } catch (error) {
+            if (error instanceof OrderError) {
+                commit(ORDER_LIST_SHECDULE_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(ORDER_LIST_SHECDULE_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
     },
@@ -132,7 +164,6 @@ export default {
 
     async changeStage({commit}, payload) {
         commit(ORDER_UPDATING_REQUEST)
-        console.log(payload)
         try {
             let result = await OrderService.changeStage(payload)
             commit(ORDER_UPDATING_SUCCESS, {result})

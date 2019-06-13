@@ -1,70 +1,76 @@
 <template>
-    <div class="table-content">
-        <v-data-table
-          :headers="headers"
-          :items="orderListResult"
-          :loading="orderListRequest"
-          :rows-per-page-items=[20]
-          class="elevation-1"
-        >
+  <div>
+    <v-toolbar flat color="#fafafa">
+      <v-spacer></v-spacer>
+      <v-btn color="primary" @click="refresh()">
+        Refresh
+      </v-btn>
+    </v-toolbar>
+    <v-data-table
+      :headers="headers"
+      :items="orderListResult"
+      :loading="orderListRequest"
+      :rows-per-page-items=[20]
+      class="elevation-1"
+    >
 
-          <template v-slot:items="props">
-            <template v-if="props.item.step != 'Unclaimed'">
-              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
-              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
-              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.agent }}</td>
-              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.support_agent_name }}</td>
-              
-              <td class="text-xs-center content" :style="{color: getColor(props.item.step)}" @click="clickOrder(props.item.orderID)">
-                {{ props.item.step }}
-              </td>
-              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.name }}</td>
-              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
-              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
-              <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ translateEngToVi(props.item.stage) }}</td>
-            </template>
-
-            <template v-else>
-              <td class="text-xs-center content">{{ props.item.orderID }}</td>
-              <td class="text-xs-center content">{{ props.item.lastModify }}</td>
-              <td class="text-xs-center content">{{ props.item.agent }}</td>
-              <td class="text-xs-center content">{{ props.item.support_agent_name }}</td>
-              
-              <td class="text-xs-center content" :style="{color: getColor(props.item.step)}">
-                {{ props.item.step }}
-              </td>
-              <td class="text-xs-center content">{{ props.item.name }}</td>
-              <td class="text-xs-center content">{{ props.item.phone }}</td>
-              <td class="text-xs-center content">{{ props.item.asset }}</td>
-              <td class="text-xs-center content">{{ translateEngToVi(props.item.stage) }}</td>
-            </template>
-              <td class="text-xs-center">
-                <v-container fluid>
-                  <v-layout>
-                    <v-flex sm6>
-                      <action-button 
-                        :orderID="props.item.orderID" 
-                        :step="props.item.step" 
-                        :phone="props.item.phone" 
-                        :assetID="props.item.assetID"
-                        :staff="props.item.staff"
-                        :stage="translateEngToVi(props.item.stage)"
-                      />
-                    </v-flex>
-                    <v-flex sm6>
-                       <call-button/>
-                    </v-flex>
-                  </v-layout>
-                </v-container>
-              </td>
+        <template v-slot:items="props">
+          <template v-if="props.item.step != 'Unclaimed'">
+            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
+            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
+            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.agent }}</td>
+            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.support_agent_name }}</td>
+            
+            <td class="text-xs-center content" :style="{color: getColor(props.item.step)}" @click="clickOrder(props.item.orderID)">
+              {{ props.item.step }}
+            </td>
+            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.name }}</td>
+            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
+            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
+            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ translateEngToVi(props.item.stage) }}</td>
           </template>
 
-          <template v-slot:no-data>
-            <!-- Nothing -->
+          <template v-else>
+            <td class="text-xs-center content">{{ props.item.orderID }}</td>
+            <td class="text-xs-center content">{{ props.item.lastModify }}</td>
+            <td class="text-xs-center content">{{ props.item.agent }}</td>
+            <td class="text-xs-center content">{{ props.item.support_agent_name }}</td>
+            
+            <td class="text-xs-center content" :style="{color: getColor(props.item.step)}">
+              {{ props.item.step }}
+            </td>
+            <td class="text-xs-center content">{{ props.item.name }}</td>
+            <td class="text-xs-center content">{{ props.item.phone }}</td>
+            <td class="text-xs-center content">{{ props.item.asset }}</td>
+            <td class="text-xs-center content">{{ translateEngToVi(props.item.stage) }}</td>
           </template>
+            <td class="text-xs-center">
+              <v-container fluid>
+                <v-layout>
+                  <v-flex sm6>
+                    <action-button 
+                      :orderID="props.item.orderID" 
+                      :step="props.item.step" 
+                      :phone="props.item.phone" 
+                      :assetID="props.item.assetID"
+                      :staff="props.item.staff"
+                      :stage="translateEngToVi(props.item.stage)"
+                    />
+                  </v-flex>
+                  <v-flex sm6>
+                      <call-button/>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </td>
+        </template>
 
-        </v-data-table>
-    </div>
+        <template v-slot:no-data>
+          <!-- Nothing -->
+        </template>
+
+    </v-data-table>
+  </div>
 </template>
 
 <script>
@@ -143,6 +149,9 @@ export default {
     },
     translateEngToVi: function(englishStage){
       return translateEngToVi(englishStage)
+    },
+    refresh: function() {
+      this.$emit('refresh')
     }
   }
 }

@@ -1,19 +1,19 @@
 const changeDigitToText = (rawMoney) => {
     //Example 1.3 to 1300000
     let money = parseFloat(rawMoney) * 1000000
-    console.log('-------')
+
     let billionDigit = Math.floor(money / 1000000000)
     
     money %= 1000000000
-    console.log(money)
+
     let millionDigit = Math.floor(money / 1000000)
 
     money %= 1000000
-    console.log(money)
+
     let hundredDigit = Math.floor(money / 100000)
 
     money %= 100000
-    console.log(money)
+
     let thousandDigit = Math.floor(money / 1000)
 
     let result = ''
