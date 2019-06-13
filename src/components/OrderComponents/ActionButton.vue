@@ -6,7 +6,7 @@
         <template v-slot:activator="{ on }">
             <v-btn flat icon v-on="on">
                 <v-icon v-if="orderStep == 'Pending'" color="#70cc3b">check_circle_outline</v-icon>
-                <v-icon v-else-if="orderStep == 'Appointment'" color="#70cc3b">check_circle_outline</v-icon>
+                <v-icon v-else-if="orderStep == 'Appointment'" color="#CD853F">meeting_room</v-icon>
                 <v-icon v-else-if="orderStep == 'Contact'" color="#0000FF">perm_contact_calendar</v-icon>
                 <v-icon v-else-if="orderStep == 'Quoted'" color="#FF8C00">sync</v-icon>
                 <v-icon v-else-if="orderStep == 'Contract'" color="#00008B">assignment_turned_in</v-icon>
@@ -18,7 +18,7 @@
             :key="index"
             @click="StageChangingHandle(item.title)"
             >
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                <v-list-tile-title class="ma-2">{{ item.title }}</v-list-tile-title>
             </v-list-tile>
         </v-list>
     </v-menu>
@@ -44,14 +44,19 @@ export default {
     },
     data() {
         return {
-            orderStep: this.step,
-            stageTotal: getStage(this.step)
+            
         }
     },
     computed: {
         ...mapGetters({
             orderUpdatingErrorCode: 'order/orderUpdatingErrorCode'
         }),
+        orderStep() {
+            return this.step
+        },
+        stageTotal() {
+            return getStage(this.step)
+        },
         //Get Vietnamese Stages
         stages() {
 
@@ -59,12 +64,13 @@ export default {
             
             if (this.stageTotal != undefined) {
                 for (let stage of this.stageTotal) {
-                    result.push({
-                        title: stage.vi
-                    })
+                    if (stage.vi != this.stage) {
+                        result.push({
+                            title: stage.vi
+                        })
+                    }
                 }
             }
-            result.pop(this.stage)
 
             return result
         }
@@ -73,7 +79,6 @@ export default {
         ...mapActions({
             claimOrder: 'order/claimOrder',
             changeStage: 'order/changeStage',
-            getOrderList: 'order/getOrderList'
         }),
         unclaimedButtonHandle: function() {
             let payload = {
@@ -83,7 +88,7 @@ export default {
             }
             this.claimOrder(payload).then(() => {
                 if (this.orderUpdatingErrorCode==200) {
-                    this.getOrderList()
+                    this.$emit('refresh')
                     this.$notify({
                         group: 'foo',
                         type: 'success',
@@ -106,7 +111,7 @@ export default {
             }
             this.changeStage(payload).then(() => {
                 if (this.orderUpdatingErrorCode==200) {
-                    this.getOrderList()
+                    this.$emit('refresh')
                     this.$notify({
                         group: 'foo',
                         type: 'success',

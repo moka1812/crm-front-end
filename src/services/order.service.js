@@ -148,7 +148,7 @@ const OrderService = {
         if (currentUserID != data.staff) {
             orderData.support_agent = currentUserID
         }
-
+        console.log(orderData)
         let url = `${orderApi}${orderID}/`
         try {
             let response = await ApiService.put(url, orderData)
