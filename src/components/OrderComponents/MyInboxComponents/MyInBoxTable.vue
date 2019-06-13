@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 import TableLib from "@/components/OrderComponents/TableLib.vue";
 
@@ -21,11 +21,23 @@ export default {
     this.getOrderListFromStaff()
     this.shecdule = setInterval(this.planOrderListFromStaff, 5000);
   },
+  computed: {
+    ...mapGetters({
+       orderFindingErrorCode: 'order/orderFindingErrorCode'
+    })
+  },
   methods: {
     ...mapActions({
         getOrderListFromStaff: 'order/getOrderListFromStaff',
         planOrderListFromStaff: 'order/planOrderListFromStaff'
     }),
+  },
+  watch: {
+    orderFindingErrorCode() {
+      if (this.orderFindingErrorCode == 200) {
+        clearInterval(this.shecdule);
+      }
+    }
   },
   beforeDestroy() {
     clearInterval(this.shecdule);

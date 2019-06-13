@@ -67,6 +67,14 @@ export default  {
         return state.orderListError
     },
 
+    orderFindingErrorCode: (state) => {
+        return state.orderFindingErrorCode
+    },
+
+    orderFindingError: (state) => {
+        return state.orderFindingError
+    },
+
     orderDetailForm: (state) => {
         return state.orderDetailForm
     },

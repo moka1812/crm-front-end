@@ -131,6 +131,13 @@
         </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
+        <v-card-text 
+          :style="{
+            'color': 'red'
+          }"
+        >
+            * Bắt buộc phải điền
+        </v-card-text>
         <v-spacer></v-spacer>
         <v-btn class="cancelBtn"
         @click="this.cancleHandle"

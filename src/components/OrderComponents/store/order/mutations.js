@@ -19,6 +19,10 @@ import {
     ORDER_COUNT,
     ORDER_LIST_ERROR,
 
+    ORDER_FINDING_REQUEST,
+    ORDER_FINDING_SUCCESS,
+    ORDER_FINDING_ERROR,
+
     ORDER_LIST_SHECDULE_REQUEST,
     ORDER_LIST_SHECDULE_SUCCESS,
     ORDER_LIST_SHECDULE_ERROR,
@@ -111,6 +115,31 @@ export default {
         Vue.set(state, 'orderListRequest', false)
         Vue.set(state, 'orderListError', errorMessage)
         Vue.set(state, 'orderListErrorCode', errorCode)
+    },
+
+    //Order Finding Function
+    [ORDER_FINDING_REQUEST] (state) {
+        Vue.set(state, 'orderListRequest', true)
+        Vue.set(state, 'orderListResult', [])
+        Vue.set(state, 'orderListError', '')
+        Vue.set(state, 'orderListErrorCode', 0)
+        Vue.set(state, 'orderFindingError', '')
+        Vue.set(state, 'orderFindingErrorCode', 0)
+    },
+    [ORDER_FINDING_SUCCESS] (state, {result}) {
+        Vue.set(state, 'orderListRequest', false)
+        Vue.set(state, 'orderListResult', result)
+        Vue.set(state, 'orderListError', '')
+        Vue.set(state, 'orderListErrorCode', 200)
+        Vue.set(state, 'orderFindingError', '')
+        Vue.set(state, 'orderFindingErrorCode', 200)
+    },
+    [ORDER_FINDING_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'orderListRequest', false)
+        Vue.set(state, 'orderListError', errorMessage)
+        Vue.set(state, 'orderListErrorCode', errorCode)
+        Vue.set(state, 'orderFindingError', errorMessage)
+        Vue.set(state, 'orderFindingErrorCode', errorCode)
     },
 
     //Order List Getting Function

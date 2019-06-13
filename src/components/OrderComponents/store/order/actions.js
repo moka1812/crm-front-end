@@ -17,6 +17,10 @@ import {
     ORDER_COUNT,
     ORDER_LIST_ERROR,
 
+    ORDER_FINDING_REQUEST,
+    ORDER_FINDING_SUCCESS,
+    ORDER_FINDING_ERROR,
+
     ORDER_LIST_SHECDULE_REQUEST,
     ORDER_LIST_SHECDULE_SUCCESS,
     ORDER_LIST_SHECDULE_ERROR,
@@ -76,6 +80,21 @@ export default {
                 commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
             } else {
                 commit(ORDER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async findOrderByPhone({commit}, payload) {
+        commit(ORDER_FINDING_REQUEST)
+        try {
+            let result = await OrderService.findOrderByPhone(payload.phone)
+            commit(ORDER_FINDING_SUCCESS, {result})
+            commit(ORDER_COUNT, {count: null})
+        } catch (error) {
+            if (error instanceof OrderError) {
+                commit(ORDER_FINDING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(ORDER_FINDING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
     },

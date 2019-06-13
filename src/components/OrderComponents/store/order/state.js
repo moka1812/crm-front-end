@@ -26,6 +26,10 @@ export default  {
     //Order Count
     orderCountResult: null,
 
+    //Find order by phone
+    orderFindingErrorCode: 0,
+    orderFindingError: '',
+
     //Order Detail
     orderDetailForm: false,
     orderDetail: null,

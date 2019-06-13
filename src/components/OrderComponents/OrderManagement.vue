@@ -20,8 +20,14 @@
             >
               <div class="has-search">
                 <span class="fa fa-search form-control-feedback"></span>
-                <input style="width: 200px" type="text" class="form-control"
-                    placeholder="Nhập số điện thoại">
+                <input 
+                  style="width: 200px" 
+                  type="text" 
+                  class="form-control"
+                  placeholder="Nhập số điện thoại"
+                  v-model="phoneInput"
+                  @keyup.enter="submit"
+                />
               </div>
 
               <v-btn class="margin-left-right" icon color="#dd1e26">
@@ -61,7 +67,8 @@ export default {
   },
   data() {
     return {
-      caseStatus: caseStatus
+      caseStatus: caseStatus,
+      phoneInput: ''
     }
   },
   computed: {
@@ -77,26 +84,47 @@ export default {
       orderCountResult: 'order/orderCountResult'
     }),
     unclaimed() {
-      if (this.orderCountResult.hasOwnProperty('unclaimed')) {
-        return this.orderCountResult['unclaimed']
+      try {
+        if (this.orderCountResult.hasOwnProperty('unclaimed')) {
+          return this.orderCountResult['unclaimed']
+        }
+      } catch (error) {
+        
       }
       return null
     },
     pending() {
-      return this.orderCountResult['pending']
+      if (this.orderCountResult != null) {
+        return this.orderCountResult['pending']
+      }
+      return null
     },
     contact() {
-      return this.orderCountResult['contact']
+      if (this.orderCountResult != null) {
+        return this.orderCountResult['contact']
+      }
+      return null
     },
     quoted() {
-      return this.orderCountResult['quoted']
+      if (this.orderCountResult != null) {
+        return this.orderCountResult['quoted']
+      }
+      return null
     },
     appointment() {
-      return this.orderCountResult['appointment']
+      if (this.orderCountResult != null) {
+        return this.orderCountResult['appointment']
+      }
+      return null
     }
   },
   methods: {
-
+    ...mapActions({
+      findOrderByPhone: 'order/findOrderByPhone'
+    }),
+    submit: function() {
+      this.findOrderByPhone({phone: this.phoneInput})
+    }
   }
 };
 </script>
@@ -128,8 +156,8 @@ ul.management li {
 }
 
 .has-search .form-control-feedback {
-  position: absolute;
-  z-index: 2;
+  position: absolute ;
+  z-index: 1;
   display: block;
   width: 2.375rem;
   height: 2.375rem;

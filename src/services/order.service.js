@@ -69,7 +69,7 @@ const OrderService = {
             description: orderInfo.assetTypeDescription
         }
 
-        await AssetService.updateCAsset(CAssetID, CAssetData)
+        AssetService.updateCAsset(CAssetID, CAssetData)
 
         let orderID = orderInfo.orderID
 
@@ -209,6 +209,19 @@ const OrderService = {
         
         try {
             let response = await ApiService.get(orderUrl)
+            return response.data
+        } catch (error) {
+            throw OrderError(error.response.status, error.response.data)
+        }
+    },
+
+    findOrderByPhone: async function(phone) {
+        let orderUrl = `${orderApi}?phone=${phone}`
+
+        try {
+            let response = await ApiService.get(orderUrl)
+            let data = this.filterRawOrderList(response.data)
+            return data
         } catch (error) {
             throw OrderError(error.response.status, error.response.data.detail)
         }

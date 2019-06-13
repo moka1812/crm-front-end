@@ -172,6 +172,13 @@
             </v-card-text>
             <v-divider></v-divider>
       <v-card-actions>
+        <v-card-text 
+          :style="{
+            'color': 'red'
+          }"
+        >
+            * Bắt buộc phải điền
+        </v-card-text>
         <v-spacer></v-spacer>
         <v-btn class="contactBtn"
             @click="this.contractHandle"
@@ -286,6 +293,8 @@ export default {
         //Enable user input apponitment date
         appointmentDisable() {
             if (this.stepInput == 'Appointment' && /Khách hẹn lên #/.test(this.stageInput)) {
+                return false
+            } else if(this.stepInput == 'Contact' && this.stageInput=='Gọi lại cho khách hàng') {
                 return false
             } return true
         },
