@@ -52,9 +52,10 @@
                                 <v-text-field
                                     v-model.lazy="expectedAmountInput"
                                     :rules="[
-                                            v => /^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Giá mong muốn"
+                                    :hint="this.expectedAmountHint"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -73,9 +74,10 @@
                                 <v-text-field
                                     v-model.lazy="validatorAmountInput"
                                     :rules="[
-                                        v => /^-?\d*(\.\d+)?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                     ]"
                                     label="Giá thẩm định"
+                                    :hint="this.validatorAmountHint"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -207,6 +209,7 @@ import {EDIT_DIALOG} from './store/order/types'
 import {getStage} from './utils/stage_functions'
 import sourceItems from './utils/source_items'
 import {stepItems} from './utils/step_items'
+import changeDigitToText from './utils/money'
 import {translateEngToVi, translateViToEng, getStatus} from './utils/stages'
 import moment from 'moment'
 
@@ -294,6 +297,12 @@ export default {
             }
             return []
         },
+        expectedAmountHint() {
+            return changeDigitToText(this.expectedAmountInput)
+        },
+        validatorAmountHint() {
+            return changeDigitToText(this.validatorAmountInput)
+        },
         okDiable() {
             if (this.valid && this.orderDetail != null) {
                 if (this.nameInput != this.orderDetail.name) {
@@ -336,8 +345,6 @@ export default {
                         return false
                     }
                 }
-                
-                console.log(5)
                 //Not Yet Edit
                 return true
             }

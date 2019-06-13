@@ -83,10 +83,11 @@
                           <v-text-field
                             v-model="expectedAmountInput"
                             :rules="[
-                                    v => /^$|^-?\d*(\.\d+)$/.test(v) || 'Dữ liệu không hợp lệ'
+                                    v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                 ]"
                             label="Giá mong muốn"
                             :disabled="disabled"
+                            :hint="this.expectedAmountHint"
                           >
                           </v-text-field>
                         </v-flex>
@@ -106,10 +107,11 @@
                             <v-text-field
                               v-model="validatorAmountInput"
                               :rules="[
-                                      v => /^$|^-?\d*(\.\d+)$/.test(v) || 'Dữ liệu không hợp lệ'
+                                      v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                   ]"
                               label="Giá thẩm định"
                               :disabled="disabled"
+                              :hint="this.validatorAmountHint"
                             >
                             </v-text-field>
                         </v-flex>
@@ -157,6 +159,7 @@ import {mapActions, mapGetters} from 'vuex'
 import { ClientService, ClientError } from '../../services/client.service'
 import { setTimeout, clearTimeout } from 'timers';
 import sourceItems from './utils/source_items'
+import changeDigitToText from './utils/money'
 
 export default {
   name: "new-order",
@@ -204,7 +207,13 @@ export default {
         
         }
         return true
-    }
+    },
+    expectedAmountHint() {
+      return changeDigitToText(this.expectedAmountInput)
+    },
+    validatorAmountHint() {
+      return changeDigitToText(this.validatorAmountInput)
+    },
   },
   watch: {
     //When clientResult changes
