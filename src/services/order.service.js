@@ -179,7 +179,7 @@ const OrderService = {
                 inprogressPromise
             ])
 
-            return unclaimed.concat(inprogress)
+            return [unclaimed.concat(inprogress), response.data['count']]
 
         } catch (error) {
 
@@ -197,7 +197,7 @@ const OrderService = {
 
             let result = await this.filterRawOrderList(response.data.data) 
 
-            return result
+            return [result, response.data['count']]
 
         } catch (error) {
 

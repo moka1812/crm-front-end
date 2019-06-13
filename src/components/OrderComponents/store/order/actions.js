@@ -14,10 +14,11 @@ import {
 
     ORDER_LIST_REQUEST,
     ORDER_LIST_SUCCESS,
+    ORDER_COUNT,
     ORDER_LIST_ERROR,
 
     ORDER_LIST_SHECDULE_REQUEST,
-    ORDER_LIST__SHECDULE_SUCCESS,
+    ORDER_LIST_SHECDULE_SUCCESS,
     ORDER_LIST_SHECDULE_ERROR,
 
     ORDER_DETAIL_REQUEST,
@@ -67,8 +68,9 @@ export default {
     async getOrderList({commit}) {
         commit(ORDER_LIST_REQUEST)
         try {
-            let result = await OrderService.getOrderList()
+            let [result, count] = await OrderService.getOrderList()
             commit(ORDER_LIST_SUCCESS, {result})
+            commit(ORDER_COUNT, {count})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
@@ -81,8 +83,9 @@ export default {
     async planOrderList({commit}) {
         commit(ORDER_LIST_SHECDULE_REQUEST)
         try {
-            let result = await OrderService.getOrderList()
-            commit(ORDER_LIST__SHECDULE_SUCCESS, {result})
+            let [result, count] = await OrderService.getOrderList()
+            commit(ORDER_LIST_SHECDULE_SUCCESS, {result})
+            commit(ORDER_COUNT, {count})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_LIST_SHECDULE_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
@@ -95,8 +98,9 @@ export default {
     async getOrderListFromStaff({commit}) {
         commit(ORDER_LIST_REQUEST)
         try {
-            let result = await OrderService.getOrderListFromStaff()
+            let [result, count] = await OrderService.getOrderListFromStaff()
             commit(ORDER_LIST_SUCCESS, {result})
+            commit(ORDER_COUNT, {count})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
@@ -109,8 +113,9 @@ export default {
     async planOrderListFromStaff({commit}) {
         commit(ORDER_LIST_SHECDULE_REQUEST)
         try {
-            let result = await OrderService.getOrderListFromStaff()
-            commit(ORDER_LIST__SHECDULE_SUCCESS, {result})
+            let [result, count] = await OrderService.getOrderListFromStaff()
+            commit(ORDER_LIST_SHECDULE_SUCCESS, {result})
+            commit(ORDER_COUNT, {count})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_LIST_SHECDULE_ERROR, {errorCode: error.errorCode, errorMessage: error.message})

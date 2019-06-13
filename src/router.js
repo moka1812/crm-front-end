@@ -62,7 +62,6 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   //Components require auth
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    console.log(to)
     if (TokenService.getToken() == null) {
       //Come back Login Component 
       next({

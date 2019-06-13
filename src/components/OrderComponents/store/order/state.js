@@ -23,6 +23,9 @@ export default  {
     orderListErrorCode: 0,
     orderListError: '',
 
+    //Order Count
+    orderCountResult: null,
+
     //Order Detail
     orderDetailForm: false,
     orderDetail: null,

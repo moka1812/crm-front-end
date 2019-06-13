@@ -4,11 +4,11 @@
         <v-flex md8 xs12>
             <h2>{{this.name}}</h2>
             <ul class="list-inline management">
-                <li class="list-inline-item" :style="`color:${this.caseStatus.UNCLAIMED.color}`">{{this.caseStatus.UNCLAIMED.name}}: {{unclaimed}}</li>
-                <li class="list-inline-item" :style="`color:${this.caseStatus.PENDING.color}`">{{this.caseStatus.PENDING.name}}: {{pending}}</li>
-                <li class="list-inline-item" :style="`color:${this.caseStatus.CONTACT.color}`">{{this.caseStatus.CONTACT.name}}: {{contact}}</li>
-                <li class="list-inline-item" :style="`color:${this.caseStatus.QUOTED.color}`">{{this.caseStatus.QUOTED.name}}: {{quoted}}</li>
-                <li class="list-inline-item" :style="`color:${this.caseStatus.APPOINTMENT.color}`">{{this.caseStatus.APPOINTMENT.name}}: {{appointment}}</li>
+                <li v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.caseStatus.UNCLAIMED.color}`">{{this.caseStatus.UNCLAIMED.name}}: {{this.unclaimed}}</li>
+                <li class="list-inline-item" :style="`color:${this.caseStatus.PENDING.color}`">{{this.caseStatus.PENDING.name}}: {{this.pending}}</li>
+                <li class="list-inline-item" :style="`color:${this.caseStatus.CONTACT.color}`">{{this.caseStatus.CONTACT.name}}: {{this.contact}}</li>
+                <li class="list-inline-item" :style="`color:${this.caseStatus.QUOTED.color}`">{{this.caseStatus.QUOTED.name}}: {{this.quoted}}</li>
+                <li class="list-inline-item" :style="`color:${this.caseStatus.APPOINTMENT.color}`">{{this.caseStatus.APPOINTMENT.name}}: {{this.appointment}}</li>
             </ul>
         </v-flex>
 
@@ -24,10 +24,6 @@
                     placeholder="Nhập số điện thoại">
               </div>
 
-              <!-- <div class="back-red mr-1">
-                <i class="far fa-clock"></i>
-              </div> -->
-
               <v-btn class="margin-left-right" icon color="#dd1e26">
                 <v-icon color="#ffff">access_time</v-icon>
               </v-btn>
@@ -36,46 +32,19 @@
                 <v-icon color="#dd1e26">folder_open</v-icon>
               </v-btn>
 
-              <!-- <div class="back-white mr-1">
-                <i class="far fa-folder-open"></i>
-              </div> -->
-
               <order-filter/>
               
               <new-order/>
             </v-layout> 
           </v-container>
-            <!-- <ul class="list-inline right">
-                <li>
-                    <div class="has-search">
-                        <span class="fa fa-search form-control-feedback"></span>
-                        <input style="width: 165px" type="text" class="form-control"
-                            placeholder="Input Case ID">
-                    </div>
-                </li>
-                <li>
-                    <div class="back-red">
-                        <i class="far fa-clock"></i>
-                    </div>
-                </li>
-                <li>
-                    <div class="back-white">
-                        <i class="far fa-folder-open"></i>
-                    </div>
-                </li>
-                <li>
-                    <order-filter/>
-                </li>
-                <li>
-                    <new-order/>
-                </li>
-            </ul> -->
         </v-flex>
       </v-layout>
   </v-container>
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex'
+
 import NewOrder from "@/components/OrderComponents/NewOrder.vue";
 import OrderFilter from "@/components/OrderComponents/OrderFilter.vue";
 
@@ -92,11 +61,6 @@ export default {
   },
   data() {
     return {
-      unclaimed: 3,
-      pending: 2,
-      contact: 1,
-      quoted: 3,
-      appointment: 2,
       caseStatus: caseStatus
     }
   },
@@ -108,12 +72,31 @@ export default {
         case 'MyInbox':
           return 'My Inbox'
       }
+    },
+    ...mapGetters({
+      orderCountResult: 'order/orderCountResult'
+    }),
+    unclaimed() {
+      if (this.orderCountResult.hasOwnProperty('unclaimed')) {
+        return this.orderCountResult['unclaimed']
+      }
+      return null
+    },
+    pending() {
+      return this.orderCountResult['pending']
+    },
+    contact() {
+      return this.orderCountResult['contact']
+    },
+    quoted() {
+      return this.orderCountResult['quoted']
+    },
+    appointment() {
+      return this.orderCountResult['appointment']
     }
   },
   methods: {
-    new_order: function (event) {
-      this.$router.push({ name: 'new_order'})
-    }
+
   }
 };
 </script>

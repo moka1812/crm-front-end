@@ -16,10 +16,11 @@ import {
 
     ORDER_LIST_REQUEST,
     ORDER_LIST_SUCCESS,
+    ORDER_COUNT,
     ORDER_LIST_ERROR,
 
     ORDER_LIST_SHECDULE_REQUEST,
-    ORDER_LIST__SHECDULE_SUCCESS,
+    ORDER_LIST_SHECDULE_SUCCESS,
     ORDER_LIST_SHECDULE_ERROR,
 
     ORDER_DETAIL_REQUEST,
@@ -103,6 +104,9 @@ export default {
         Vue.set(state, 'orderListError', '')
         Vue.set(state, 'orderListErrorCode', 200)
     },
+    [ORDER_COUNT] (state, {count}) {
+        Vue.set(state, 'orderCountResult', count)
+    },
     [ORDER_LIST_ERROR] (state, {errorCode, errorMessage}) {
         Vue.set(state, 'orderListRequest', false)
         Vue.set(state, 'orderListError', errorMessage)
@@ -114,7 +118,7 @@ export default {
         Vue.set(state, 'orderListError', '')
         Vue.set(state, 'orderListErrorCode', 0)
     },
-    [ORDER_LIST__SHECDULE_SUCCESS] (state, {result}) {
+    [ORDER_LIST_SHECDULE_SUCCESS] (state, {result}) {
         Vue.set(state, 'orderListResult', result)
         Vue.set(state, 'orderListError', '')
         Vue.set(state, 'orderListErrorCode', 200)

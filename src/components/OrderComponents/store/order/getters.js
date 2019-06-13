@@ -55,6 +55,10 @@ export default  {
         return state.orderListResult
     },
 
+    orderCountResult: (state) => {
+        return state.orderCountResult
+    },
+
     orderListErrorCode: (state) => {
         return state.orderListErrorCode
     },
