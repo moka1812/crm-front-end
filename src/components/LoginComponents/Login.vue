@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       username: null,
-      password: null
+      password: null,
     }
   },
   methods: {
@@ -64,6 +64,7 @@ export default {
       loginHandle: function() {
         this.login({username: this.username, password: this.password}).then(isSuccess => {
              if(isSuccess) {
+               this.dialog = true
                if(this.$route.params.nextUrl != null){
                  this.$router.push(this.$route.params.nextUrl)
                }

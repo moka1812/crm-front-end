@@ -1,4 +1,4 @@
-import { TokenService, ProfileService } from './storage.service';
+import { TokenService, ProfileService, CurrentBranchService } from './storage.service';
 import ApiService from '../services/api.service'
 import { loginApi, refreshTokenApi } from '../config/backend-api'
 
@@ -77,6 +77,8 @@ const UserService = {
         ProfileService.removeProfile()
         ApiService.removeHeader()
         ApiService.unmount403Interceptor()
+        CurrentBranchService.removeCurrentBranch()
+        CurrentBranchService.removeCurrentBranchID()
     },
 }
 

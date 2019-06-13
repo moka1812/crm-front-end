@@ -1,14 +1,18 @@
 import {
     CHANGE_BRANCH,
+    REMOVE_BRANCH,
     BRANCH_LIST_REQUEST,
     BRANCH_LIST_SUCCESS,
     BRANCH_LIST_ERROR
 } from './types'
 
 import{ BranchService, BranchError } from '../../../../services/branch.serivce'
+import { CurrentBranchService } from '../../../../services/storage.service'
 
 export default {
     async changeBranch ({ commit }, payload) {
+        CurrentBranchService.saveCurrentBranch(payload.branch)
+        CurrentBranchService.saveCurrentBranchID(payload.id)
         await commit(CHANGE_BRANCH, payload)
     },
     async getBranchList({commit}) {
@@ -23,5 +27,8 @@ export default {
                 commit(CLIENT_SEARCHING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
-    }
+    },
+    async removeBranch({commit}) {
+        commit(REMOVE_BRANCH)
+    } 
 }

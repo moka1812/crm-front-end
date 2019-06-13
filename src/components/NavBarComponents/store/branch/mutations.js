@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import {
     CHANGE_BRANCH,
+    REMOVE_BRANCH,
     BRANCH_LIST_REQUEST,
     BRANCH_LIST_SUCCESS,
     BRANCH_LIST_ERROR
@@ -11,6 +12,10 @@ export default {
     [CHANGE_BRANCH] (state, {branch, id}) {
         Vue.set(state, 'currentBranch', branch)
         Vue.set(state, 'currentBranchID', id)
+    },
+    [REMOVE_BRANCH] (state) {
+        Vue.set(state, 'currentBranch', null)
+        Vue.set(state, 'currentBranchID', null)
     },
     [BRANCH_LIST_REQUEST] (state) {
         Vue.set(state, 'branchListRequest', true)

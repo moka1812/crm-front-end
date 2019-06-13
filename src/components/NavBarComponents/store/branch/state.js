@@ -1,9 +1,9 @@
-import { ProfileService } from '../../../../services/storage.service';
+import { CurrentBranchService } from '../../../../services/storage.service';
 
 export default  {
     //Current Branch
-    currentBranch: ProfileService.getBranch(),
-    currentBranchID: ProfileService.getBranchID(),
+    currentBranch: CurrentBranchService.getCurrentBranch(),
+    currentBranchID: CurrentBranchService.getCurrentBranchID(),
     //For Branch API
     branchListRequest: false,
     branchListResult: [],
