@@ -7,7 +7,7 @@
         <template v-slot:activator="{ on }">
             <v-btn flat v-on="on">{{currentBranch}}
                 <v-icon>arrow_drop_down</v-icon>
-          </v-btn>
+            </v-btn>
         </template>
 
         <v-card>

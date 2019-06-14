@@ -2,7 +2,8 @@ export default [
   {
     name: 'DASHBOARD',
     icon: 'assessment',
-    link: '/dashboard',
+    link: ''
+    //link: '/dashboard',
   },
   {
     name: 'ORDERS',
@@ -23,12 +24,14 @@ export default [
   {
     name: 'CONTRACTS',
     icon: 'work',
-    link: '/contracts',
+    link: ''
+    //link: '/contracts',
   },
   {
     name: 'CUSTOMERS',
     icon: 'person',
-    link: '/customers',
+    link: ''
+    //link: '/customers',
   },
   // {
   //   name: 'CHAT ROOM',

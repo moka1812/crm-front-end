@@ -1,10 +1,11 @@
 <template>
   <div>
-    <v-toolbar flat color="#fafafa">
+    <v-toolbar id="refresh" flat color="#fafafa">
       <v-spacer></v-spacer>
-      <v-btn color="primary" @click="refresh()">
+      <v-btn color="primary" @click="reload()">
         Refresh
       </v-btn>
+      
     </v-toolbar>
     <v-data-table
       :headers="headers"
@@ -153,6 +154,9 @@ export default {
     },
     refresh: function() {
       this.$emit('refresh')
+    },
+    reload: function() {
+      this.$emit('reload')
     }
   }
 }
@@ -217,5 +221,8 @@ table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
 .header {
   font-weight: bold !important;
   font-size: 16px !important;
+}
+#refresh .v-toolbar__content {
+  padding-right: 0px;
 }
 </style>

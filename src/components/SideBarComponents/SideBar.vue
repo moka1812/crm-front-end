@@ -32,7 +32,7 @@
         class="group"
         :key="sidebarLink.name"  
         no-action="no-action"
-        
+  
       >
         <v-list-tile slot="activator" ripple="ripple">
           <v-list-tile-action>
@@ -43,12 +43,14 @@
             <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-
+        <!-- link sub Group -->
         <v-list-tile 
           v-for="subItem in sidebarLink.groups" 
           :key="subItem.name"
-          @click="redirectHandle(subItem.link)"
+          :to="subItem.link"
+          :exact="subItem.exacct"
           class="listitem"
+          active-class="highlight"
         >
           <v-list-tile-action>
             <v-icon dark class="icon">{{subItem.icon}}</v-icon>
@@ -63,7 +65,8 @@
       <v-list-tile
         v-else
         :key="sidebarLink.name"
-        @click="redirectHandle(sidebarLink.link)"
+        @click=""
+        class="tile"
       >
         <v-list-tile-action>
           <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
@@ -75,6 +78,7 @@
       </v-list-tile>
 
       </template>
+
       <v-list-tile-content 
         :style="{
           'align-items':'center'
@@ -93,7 +97,6 @@
 
 <script>
 import sidebarLinks from '@/config/sidebarLinks'
-
 export default {
   name: "SideBar",
   data() {
@@ -102,11 +105,6 @@ export default {
       sidebarLinks: sidebarLinks
     }
   },
-  methods: {
-    redirectHandle: function(link) {
-      this.$router.push(link);
-    }
-  }
 };
 </script>
 
@@ -138,11 +136,16 @@ export default {
 .icon {
   padding-left: 4px
 }
+
 </style>
 
 <style>
 .v-list__tile {
   padding: 25px 0px 25px;
+}
+/* Not underline when hover */
+a .v-list__tile {
+  text-decoration: none;
 }
 /* Custom expend icon css */
 .v-list__group__header__append-icon {
@@ -155,5 +158,11 @@ export default {
 
 .listitem > .v-list__tile {
   padding-left: 20px
+}
+
+.highlight {
+  background-color: #c11313;
+  color: white;
+  pointer-events: none;
 }
 </style>

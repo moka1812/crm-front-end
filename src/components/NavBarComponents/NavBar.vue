@@ -8,14 +8,12 @@
           <v-btn icon>
             <v-icon>chat_bubble</v-icon>
           </v-btn>
-          <v-btn icon>
-            <v-icon>notifications</v-icon>
-          </v-btn>
-          <v-menu offset-y>
+          <notification-menu/>
+          <v-menu offset-y >
             <template v-slot:activator="{ on }">
               <v-btn flat v-on="on">
                 {{name}}
-                <v-avatar>
+                <v-avatar :style="{'padding-left': '10px'}">
                   <img src="../../assets/camdo.png" alt="avatar">
                 </v-avatar>
               </v-btn>
@@ -45,12 +43,14 @@
 
 <script>
 import BranchMenu from '@/components/NavBarComponents/BranchMenu.vue';
+import NotificationMenu from '@/components/NavBarComponents/NotificationMenu.vue';
 import {mapGetters} from 'vuex'
 
 export default {
   name: "navbar",
   components: {
-    BranchMenu
+    BranchMenu,
+    NotificationMenu
   },
   data() {
     return {

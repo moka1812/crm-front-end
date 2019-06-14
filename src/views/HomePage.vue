@@ -3,7 +3,7 @@
     <SideBar/>
     <NavBar />
     <v-content>
-      <v-container fluid fill-height>
+      <v-container ma-0 pa-0 fill-height>
         <router-view/>
       </v-container>
     </v-content>

@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container pa-0 ma-0>
         <order-management type="MyInbox"/>
         <my-inbox-table/>
         <order-edit/>
