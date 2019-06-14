@@ -16,3 +16,7 @@ export const orderApi = `${baseURL}/orders/`
 export const getOrderApi = `${baseURL}/orders/custom_list/`
 
 export const orderFromStaffAPI = `${baseURL}/staffs/:id/orders/`
+
+export const newNotificationAPI = `${baseURL}/staffs/:id/new_notification/`
+
+export const notificationAPI = `${baseURL}/staffs/:id/notification/`

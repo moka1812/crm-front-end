@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid class="content">
+  <div class="content">
       <v-layout row>
-        <v-flex md8 xs12>
+        <v-flex md7 xs12>
             <h2>{{this.name}}</h2>
             <ul class="list-inline management">
                 <li v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.caseStatus.UNCLAIMED.color}`">{{this.caseStatus.UNCLAIMED.name}}: {{this.unclaimed}}</li>
@@ -12,7 +12,7 @@
             </ul>
         </v-flex>
 
-        <v-flex md4 xs12>
+        <v-flex md5 xs12>
           <v-container fluid>
             <v-layout
               align-center
@@ -45,7 +45,7 @@
           </v-container>
         </v-flex>
       </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>

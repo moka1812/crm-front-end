@@ -144,8 +144,8 @@ export default {
   padding: 25px 0px 25px;
 }
 /* Not underline when hover */
-a .v-list__tile {
-  text-decoration: none;
+a {
+  text-decoration: none !important;
 }
 /* Custom expend icon css */
 .v-list__group__header__append-icon {

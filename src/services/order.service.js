@@ -16,7 +16,7 @@ class OrderError extends Error {
 const OrderService = {
 
     createOrder : async function(newOrderInfo) {
-        let CAssetData = {
+        const CAssetData = {
             asset: newOrderInfo.assetTypeID,
             description: newOrderInfo.assetTypeDescription
         }
@@ -29,7 +29,7 @@ const OrderService = {
                 throw OrderError(error.errorCode, error.message)
             }
         }
-        let data = {
+        const data = {
             phone: newOrderInfo.phone,
             first_name: newOrderInfo.firstName,
             staff: ProfileService.getID(),
@@ -51,7 +51,7 @@ const OrderService = {
         }
 
         try {
-            let response = await ApiService.post(orderApi, data)
+            const response = await ApiService.post(orderApi, data)
             if (response.status == 201) {
                 return response.data
             }
@@ -148,7 +148,7 @@ const OrderService = {
         if (currentUserID != data.staff) {
             orderData.support_agent = currentUserID
         }
-        console.log(orderData)
+
         let url = `${orderApi}${orderID}/`
         try {
             let response = await ApiService.put(url, orderData)
@@ -205,11 +205,12 @@ const OrderService = {
         }
     },
     getOrderDetail: async function (id) {
-        let orderUrl = `${orderApi}${id}/`
+        const orderUrl = `${orderApi}${id}/`
         
         try {
-            let response = await ApiService.get(orderUrl)
-            return response.data
+            const response = await ApiService.get(orderUrl)
+            let result = await this.filterRawOrderList([response.data]) 
+            return result[0]
         } catch (error) {
             throw OrderError(error.response.status, error.response.data)
         }
@@ -219,8 +220,8 @@ const OrderService = {
         let orderUrl = `${orderApi}?phone=${phone}`
 
         try {
-            let response = await ApiService.get(orderUrl)
-            let data = this.filterRawOrderList(response.data)
+            const response = await ApiService.get(orderUrl)
+            const data = this.filterRawOrderList(response.data)
             return data
         } catch (error) {
             throw OrderError(error.response.status, error.response.data.detail)

@@ -1,5 +1,5 @@
 <template>
-      <v-toolbar class="search-panel" app>
+      <v-toolbar class="search-panel" app fixed>
 
         <v-spacer/>
 

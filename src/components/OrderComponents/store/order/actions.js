@@ -161,6 +161,21 @@ export default {
         commit(ORDER_DETAIL_ERROR, {errorCode: 404, errorMessage: "Not found"})
     },
 
+    async getOrderDetailFromNotification({commit}, payload) {
+        commit(ORDER_DETAIL_REQUEST)
+        try {
+            let order = await OrderService.getOrderDetail(payload.id)
+            commit(ORDER_DETAIL_SUCCESS, {result: order})
+        } catch (error) {
+            if (error instanceof OrderError) {
+                commit(ORDER_DETAIL_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(ORDER_DETAIL_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+        
+    },
+
     async updateOrder({commit}, payload) {
         commit(ORDER_UPDATING_REQUEST)
         try {
