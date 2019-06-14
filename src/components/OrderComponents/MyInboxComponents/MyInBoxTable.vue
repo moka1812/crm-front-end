@@ -36,6 +36,9 @@ export default {
     orderFindingErrorCode() {
       if (this.orderFindingErrorCode == 200) {
         clearInterval(this.shecdule);
+      } else if (this.orderFindingErrorCode == 1) {
+        this.getOrderListFromStaff()
+        this.shecdule = setInterval(this.planOrderListFromStaff, 5000);
       }
     }
   },

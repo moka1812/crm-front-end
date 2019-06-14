@@ -85,16 +85,21 @@ export default {
     },
 
     async findOrderByPhone({commit}, payload) {
-        commit(ORDER_FINDING_REQUEST)
-        try {
-            let result = await OrderService.findOrderByPhone(payload.phone)
-            commit(ORDER_FINDING_SUCCESS, {result})
-            commit(ORDER_COUNT, {count: null})
-        } catch (error) {
-            if (error instanceof OrderError) {
-                commit(ORDER_FINDING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
-            } else {
-                commit(ORDER_FINDING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+        if (/^\s*$/.test(payload.phone)) {
+            //Refresh Order
+            commit(ORDER_FINDING_ERROR, {errorCode: 1, errorMessage: ''})
+        } else {
+            commit(ORDER_FINDING_REQUEST)
+            try {
+                let result = await OrderService.findOrderByPhone(payload.phone)
+                commit(ORDER_FINDING_SUCCESS, {result})
+                commit(ORDER_COUNT, {count: null})
+            } catch (error) {
+                if (error instanceof OrderError) {
+                    commit(ORDER_FINDING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+                } else {
+                    commit(ORDER_FINDING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+                }
             }
         }
     },

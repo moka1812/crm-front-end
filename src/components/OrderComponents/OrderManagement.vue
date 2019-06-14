@@ -141,7 +141,7 @@ ul.list-inline li {
 }
 
 ul.management li {
-  font-size: 18px;
+  font-size: 16px;
   color: #dd1e26;
 }
 
