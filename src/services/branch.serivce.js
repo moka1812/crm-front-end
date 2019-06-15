@@ -13,8 +13,8 @@ class BranchError extends Error {
 const BranchService = {
     getAllBranch: async function () {
         try {
-            let response = await ApiService.get(getBranchAPI)
-            let result = await this.filterRawBranchList(response.data)
+            const response = await ApiService.get(getBranchAPI)
+            const result = await this.filterRawBranchList(response.data)
             return result
         } catch (error) {
             throw new BranchError(error.response.status, error.response.data)

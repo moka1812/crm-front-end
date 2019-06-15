@@ -13,7 +13,7 @@ class AssetError extends Error {
 const AssetService = {
     getSAssetList: async function() {
         try {
-            let response = await ApiService.get(SAssetListAPI)
+            const response = await ApiService.get(SAssetListAPI)
             return response.data
         } catch (error) {
             throw AssetError(error.response.status, error.response.data)
@@ -21,21 +21,20 @@ const AssetService = {
     },
     createCAsset: async function(data) {
         try {
-            let response = await ApiService.post(CAssetsAPI, data)
-            let CAsset = response.data
+            const response = await ApiService.post(CAssetsAPI, data)
+            const CAsset = response.data
             return CAsset 
         } catch (error) {
             throw AssetError(error.response.status, error.response.data.detail)
         }
     },
     updateCAsset: async function(id, data){
-        let url = `${CAssetsAPI}${id}/`
+        const url = `${CAssetsAPI}${id}/`
         try {
-            let response = await ApiService.put(url, data)
-            let CAsset = response.data
+            const response = await ApiService.put(url, data)
+            const CAsset = response.data
             return CAsset 
         } catch (error) {
-            console.log(error.response.data)
             throw AssetError(error.response.status, error.response.data.detail)
         }
     }

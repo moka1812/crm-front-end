@@ -1,98 +1,91 @@
 <template>
-  <v-navigation-drawer
-    class="side-bar"
-    v-model="drawer"
-    hide-overlay
-    :width="190"
-    stateless
-    app
-  >
-    <v-toolbar flat class="transparent header">
-      <v-list class="pa-0">
-        <v-list-tile avatar>
-          <img src="../../assets/camdo.png">
+    <v-navigation-drawer 
+      class="side-bar"
+      hide-overlay
+      :width="190"
+      stateless
+      app
+        permanent
+    >
+      <v-layout justify-space-between column fill-height>
+        <v-list class="pt-0">
+          <v-list-tile>
+            <img src="../../assets/camdo.png">
 
-          <v-list-tile-content
-            :style="{
-              'align-items':'center'
-            }"
+            <v-list-tile-content
+              :style="{
+                'align-items':'center'
+              }"
+            >
+              <span class="font-white">camdo<strong>nhanh</strong></span>
+
+            </v-list-tile-content>
+          </v-list-tile>
+        <template v-for="sidebarLink in sidebarLinks">
+          <!-- Group with subitems -->
+          <v-list-group 
+            v-if="sidebarLink.groups"
+            class="group"
+            :key="sidebarLink.name"  
+            no-action="no-action"
           >
-            <span class="font-white">camdo<strong>nhanh</strong></span>
+            <v-list-tile slot="activator" ripple="ripple">
+              <v-list-tile-action>
+                <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
+              </v-list-tile-action>
 
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
+              <v-list-tile-content>
+                <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
 
-    <v-list class="pt-0" dense>
-      <template v-for="sidebarLink in sidebarLinks">
-      <!-- Group with subitems -->
-      <v-list-group 
-        v-if="sidebarLink.groups"
-        class="group"
-        :key="sidebarLink.name"  
-        no-action="no-action"
-  
-      >
-        <v-list-tile slot="activator" ripple="ripple">
-          <v-list-tile-action>
-            <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
-          </v-list-tile-action>
+            <!-- link sub Group -->
+            <v-list-tile 
+              v-for="subItem in sidebarLink.groups" 
+              :key="subItem.name"
+              :to="subItem.link"
+              :exact="subItem.exacct"
+              class="listitem"
+              active-class="highlight"
+            >
+              <v-list-tile-action>
+                <v-icon dark class="icon">{{subItem.icon}}</v-icon>
+              </v-list-tile-action>
 
-          <v-list-tile-content>
-            <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <!-- link sub Group -->
-        <v-list-tile 
-          v-for="subItem in sidebarLink.groups" 
-          :key="subItem.name"
-          :to="subItem.link"
-          :exact="subItem.exacct"
-          class="listitem"
-          active-class="highlight"
-        >
-          <v-list-tile-action>
-            <v-icon dark class="icon">{{subItem.icon}}</v-icon>
-          </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="content">{{ subItem.name }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list-group>
 
-          <v-list-tile-content>
-            <v-list-tile-title class="content">{{ subItem.name }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list-group>
+          <v-list-tile
+            v-else
+            :key="sidebarLink.name"
+            @click=""
+            class="tile"
+          >
+            <v-list-tile-action>
+              <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
+            </v-list-tile-action>
 
-      <v-list-tile
-        v-else
-        :key="sidebarLink.name"
-        @click=""
-        class="tile"
-      >
-        <v-list-tile-action>
-          <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
-        </v-list-tile-action>
-
-        <v-list-tile-content>
-          <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-
-      </template>
-
-      <v-list-tile-content 
-        :style="{
-          'align-items':'center'
-        }"
-        class="content"
-        d-flex
-      >
-        Copyright by <br>Icado Co.,Ltd
-      </v-list-tile-content>
-
-        
-    </v-list>
-  
-  </v-navigation-drawer>
+            <v-list-tile-content>
+              <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+        </v-list>
+         
+        <v-footer class="pa-3" color="#dd1e26" height="auto">
+          <v-flex
+            text-xs-center
+            white--text
+            xs12
+          >
+            Copyright by <br>Icado Co.,Ltd
+          </v-flex>
+        </v-footer>
+    </v-layout>
+    </v-navigation-drawer>
 </template>
 
 <script>
@@ -132,7 +125,11 @@ export default {
   font-size: 13px;
   color: #fff;
 }
-
+#footer {
+  font-size: 13px;
+  color: #fff;
+  text-align: center;
+}
 .icon {
   padding-left: 4px
 }

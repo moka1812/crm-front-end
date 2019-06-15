@@ -205,10 +205,6 @@ export default {
   padding: 0 3px 0 5px;
   color: #0197F6;
 }
-
-.content {
-  font-size: 17px;
-}
 </style>
 
 <style>
@@ -217,6 +213,9 @@ table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child),
 table.v-table thead td:first-child, table.v-table thead td:not(:first-child), 
 table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
   padding: 0 5px;
+}
+td.content {
+  font-size: 17px !important;
 }
 .header {
   font-weight: bold !important;

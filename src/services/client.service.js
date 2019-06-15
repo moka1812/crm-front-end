@@ -14,9 +14,9 @@ const ClientService = {
     getClientByPhone: async function (phone) {
 
         try {
-            let url = `${getClientByPhoneApi}?phone=${phone}`
+            const url = `${getClientByPhoneApi}?phone=${phone}`
 
-            let response = await ApiService.get(url)
+            const response = await ApiService.get(url)
 
             if (response.status == 200) { //Response Success
                 return {

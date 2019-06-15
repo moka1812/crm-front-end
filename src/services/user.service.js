@@ -14,7 +14,7 @@ class AuthenticationError extends Error {
 const UserService = {
     login: async function(username, password) {
         
-        let requestData = {
+        const requestData = {
             method: 'post',
             url: loginApi,
             data: {
@@ -24,12 +24,12 @@ const UserService = {
         }
         
         try {
-            let response = await ApiService.customRequest(requestData)
+            const response = await ApiService.customRequest(requestData)
 
             TokenService.saveToken(response.data.access)
             TokenService.saveRefreshToken(response.data.refresh)
 
-            let profile = {
+            const profile = {
                 name: response.data.name,
                 id: response.data.id,
                 branch: response.data.branch,
@@ -52,9 +52,9 @@ const UserService = {
     },
 
     refreshToken: async function() {
-        let refreshToken = TokenService.getRefreshToken()
+        const refreshToken = TokenService.getRefreshToken()
 
-        let requestData = {
+        const requestData = {
             method: 'post',
             url: refreshTokenApi,
             data: {
@@ -63,7 +63,7 @@ const UserService = {
         }
 
         try {
-            let response = await ApiService.customRequest(requestData)
+            const response = await ApiService.customRequest(requestData)
             TokenService.saveToken(response.data.access)
             ApiService.setHeader()
             return response.data.access

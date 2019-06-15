@@ -353,8 +353,8 @@ export default {
 .new-order {
   background-color: #dd1e26 !important;
   color: #fff !important;
-  margin-right: 2px;
-  margin-left: 2px;
+  margin-right: 4px;
+  margin-left: 4px;
 }
 
 .back-white {

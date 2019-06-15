@@ -1,3 +1,3 @@
-export const SAsset_LIST_REQUEST = 'SAsset_LIST_REQUEST'
-export const SAsset_LIST_SUCCESS = 'SAsset_LIST_SUCCESS'
-export const SAsset_LIST_ERROR = 'SAsset_LIST_ERROR'
+export const SASSET_LIST_REQUEST = 'SASSET_LIST_REQUEST'
+export const SASSET_LIST_SUCCESS = 'SASSET_LIST_SUCCESS'
+export const SASSET_LIST_ERROR = 'SASSET_LIST_ERROR'
