@@ -118,12 +118,13 @@
                     </v-layout>
                     <v-layout>
                         <v-flex sm6>
-                            <v-text-field
+                            <v-textarea
                                 v-model.lazy="noteInput"
                                 label="Note"
+                                rows="1"
                                 :disabled="disabled"
                                 >
-                            </v-text-field>
+                            </v-textarea>
                         </v-flex>
                     </v-layout>
                 </v-container>

@@ -187,15 +187,15 @@ const OrderService = {
         }
     },
     getOrderListFromStaff: async function() {
-        let id = ProfileService.getID()
+        const id = ProfileService.getID()
 
-        let url = orderFromStaffAPI.replace(":id", id)
+        const url = orderFromStaffAPI.replace(":id", id)
 
         try {
 
-            let response = await ApiService.get(url)
+            const response = await ApiService.get(url)
 
-            let result = await this.filterRawOrderList(response.data.data) 
+            const result = await this.filterRawOrderList(response.data.data) 
 
             return [result, response.data['count']]
 
@@ -209,7 +209,7 @@ const OrderService = {
         
         try {
             const response = await ApiService.get(orderUrl)
-            let result = await this.filterRawOrderList([response.data]) 
+            const result = await this.filterRawOrderList([response.data]) 
             return result[0]
         } catch (error) {
             throw OrderError(error.response.status, error.response.data)
@@ -217,7 +217,7 @@ const OrderService = {
     },
 
     findOrderByPhone: async function(phone) {
-        let orderUrl = `${orderApi}?phone=${phone}`
+        const orderUrl = `${orderApi}?phone=${phone}`
 
         try {
             const response = await ApiService.get(orderUrl)
@@ -232,9 +232,9 @@ const OrderService = {
         let data = []
         try {
             for (let item of rawData) {
-                //Example created: "2019-05-31T14:16:03.932314+07:00"    
-                let created = new moment(item.created).format("DD-MM-YYYY HH:MM")
-                let lastModify = new moment(item.last_modify).format("DD-MM-YYYY HH:MM")
+                //Example created: "2019-05-31T14:16:03.932314+07:00"   
+                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                const lastModify = new moment(item.last_modify.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
 
                 data.push({
                     orderID: item.id,

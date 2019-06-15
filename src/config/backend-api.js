@@ -1,4 +1,4 @@
-const baseURL = "http://127.0.0.1:8000/api"
+const baseURL = process.env.VUE_APP_BASE_URL
 
 export const loginApi = `${baseURL}/auth/token/`
 export const refreshTokenApi = `${baseURL}/auth/token/refresh/`

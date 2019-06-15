@@ -2,6 +2,7 @@
   <div class="content">
       <v-layout row>
         <v-flex md7 xs12>
+          <div id="left">
             <h2>{{this.name}}</h2>
             <ul class="list-inline management">
                 <li v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.caseStatus.UNCLAIMED.color}`">{{this.caseStatus.UNCLAIMED.name}}: {{this.unclaimed}}</li>
@@ -10,10 +11,11 @@
                 <li class="list-inline-item" :style="`color:${this.caseStatus.QUOTED.color}`">{{this.caseStatus.QUOTED.name}}: {{this.quoted}}</li>
                 <li class="list-inline-item" :style="`color:${this.caseStatus.APPOINTMENT.color}`">{{this.caseStatus.APPOINTMENT.name}}: {{this.appointment}}</li>
             </ul>
+          </div>
         </v-flex>
 
         <v-flex md5 xs12>
-          <v-container fluid>
+          <v-container fluid id="right">
             <v-layout
               align-center
               justify-end
@@ -130,6 +132,13 @@ export default {
 </script>
 
 <style scoped>
+#left {
+  padding-left: 16px;
+}
+#right{
+  padding-right: 10px;
+}
+
 .content {
   padding-bottom: 0px;
   padding-top: 0px;
