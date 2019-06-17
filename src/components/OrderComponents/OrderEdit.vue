@@ -62,13 +62,15 @@
                         </v-layout>
                         <v-layout>
                             <v-flex sm6>
-                                <v-text-field
-                                v-model.lazy="assetInput"
-                                :rules="[v => !!v || 'Yều cầu cần có']"
-                                label="Mô tả tài sản*"
-                                required
+                                <v-textarea
+                                    v-model.lazy="assetInput"
+                                    label="Mô tả tài sản*"
+                                    rows="1"
+                                    auto-grow
+                                    :rules="[v => !!v || 'Yều cầu cần có']"
+                                    required
                                 >
-                                </v-text-field>
+                                </v-textarea>
                             </v-flex>
                             <v-flex sm6>
                                 <v-text-field
@@ -120,12 +122,11 @@
                                 </v-select>
                             </v-flex>
                             <v-flex sm6>
-                               <v-textarea
-                                v-model.lazy="noteInput"
-                                label="Note"
-                                rows="1"
-                                auto-grow
-                                :disabled="disabled"
+                                <v-textarea
+                                    v-model.lazy="noteInput"
+                                    label="Note"
+                                    rows="1"
+                                    auto-grow
                                 >
                                 </v-textarea>
                             </v-flex>

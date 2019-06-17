@@ -94,14 +94,16 @@
                     </v-layout>
                     <v-layout>
                         <v-flex sm6>
-                            <v-text-field
-                              v-model.lazy="assetInput"
-                              :rules="[v => !!v || 'Yều cầu cần có']"
-                              label="Mô tả tài sản*"
-                              :disabled="disabled"
-                              required
+                            <v-textarea
+                                v-model.lazy="assetInput"
+                                label="Mô tả tài sản*"
+                                rows="1"
+                                auto-grow
+                                :rules="[v => !!v || 'Yều cầu cần có']"
+                                :disabled="disabled"
+                                required
                             >
-                            </v-text-field>
+                            </v-textarea>
                         </v-flex>
                         <v-flex sm6>
                             <v-text-field
