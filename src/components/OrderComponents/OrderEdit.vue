@@ -85,25 +85,6 @@
                         <v-layout>
                             <v-flex sm6>
                                 <v-select
-                                    v-model="sourceInput"
-                                    :items="sourceItems"
-                                    :rules="[v => !!v || 'Yều cầu cần có']"
-                                    label="Source*"
-                                    required
-                                >
-                                </v-select>
-                            </v-flex>
-                            <v-flex sm6>
-                               <v-text-field
-                                    v-model.lazy="noteInput"
-                                    label="Note"
-                                >
-                                </v-text-field>
-                            </v-flex>
-                        </v-layout>
-                        <v-layout>
-                            <v-flex sm6>
-                                <v-select
                                     v-model="stepInput"
                                     :items="stepItems"
                                     item-disabled="Pending"
@@ -125,6 +106,28 @@
                                     required
                                 >
                                 </v-select>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex sm6>
+                                <v-select
+                                    v-model="sourceInput"
+                                    :items="sourceItems"
+                                    :rules="[v => !!v || 'Yều cầu cần có']"
+                                    label="Source*"
+                                    required
+                                >
+                                </v-select>
+                            </v-flex>
+                            <v-flex sm6>
+                               <v-textarea
+                                v-model.lazy="noteInput"
+                                label="Note"
+                                rows="1"
+                                auto-grow
+                                :disabled="disabled"
+                                >
+                                </v-textarea>
                             </v-flex>
                         </v-layout>
                         <v-layout>
@@ -161,7 +164,7 @@
                                     label="Lịch hẹn giờ*"
                                     :disabled="this.appointmentDisable"
                                     :rules="this.appointmentRules"
-                                    hint="Ví dụ: 01/01/2019 10:20"
+                                    hint="Ví dụ: 01/01/2019 01:02"
                                     :persistent-hint="true"
                                 >
                                 </v-text-field>
@@ -301,7 +304,7 @@ export default {
         appointmentRules() {
             if (this.appointmentDisable == false) {
                 return [
-                    v => /^\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}$/.test(v) || 'Không hợp lệ'
+                    v => /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[13578]|1[02]))|((0[1-9]|[1-2][0-9]|30)\/(0[469]|11))|((0[1-9]|1[0-9]|2[0-8])\/(02))\/\d{4}\s([01]\d|2[0-3]):([0-5]\d)$/.test(v) || 'Ví dụ: 01/01/2019 01:02'
                 ]
             }
             return []

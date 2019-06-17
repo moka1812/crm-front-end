@@ -122,6 +122,7 @@
                                 v-model.lazy="noteInput"
                                 label="Note"
                                 rows="1"
+                                auto-grow
                                 :disabled="disabled"
                                 >
                             </v-textarea>
