@@ -1,5 +1,5 @@
 <template>
-    <v-container pa-0 ma-0>
+    <v-container fluid pa-0 ma-0>
         <order-management type="Order"/>
         <order-table/>
         <order-edit/>
