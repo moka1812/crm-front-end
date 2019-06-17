@@ -12,11 +12,7 @@
           <v-list-tile>
             <img src="../../assets/camdo.png">
 
-            <v-list-tile-content
-              :style="{
-                'align-items':'center'
-              }"
-            >
+            <v-list-tile-content>
               <span class="font-white">camdo<strong>nhanh</strong></span>
 
             </v-list-tile-content>
@@ -109,8 +105,8 @@ export default {
 
 .font-white {
   color: #fff;
-  font-size: 17px;
-  padding-left: 5px
+  font-size: 20px;
+  padding-left: 5px;
 }
 
 .chevron-left {

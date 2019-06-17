@@ -2,7 +2,6 @@ const TOKEN_KEY = 'access_token'
 const REFRESH_TOKEN_KEY = 'refresh_token'
 const PROFILE = 'profile'
 const CURRENT_BRANCH = 'current_branch'
-const CURRENT_BRANCH_ID = 'current_branch_id'
 
 /**
  * Manage the how Access Tokens are being stored and retreived from storage.
@@ -104,24 +103,36 @@ const ProfileService = {
 
 const CurrentBranchService = {
     getCurrentBranch() {
-        return localStorage.getItem(CURRENT_BRANCH);
+        return JSON.parse(localStorage.getItem(CURRENT_BRANCH));
     },
 
     saveCurrentBranch(currentBranch) {
-        localStorage.setItem(CURRENT_BRANCH, currentBranch)
+        localStorage.setItem(CURRENT_BRANCH, JSON.stringify(currentBranch))
     },
     removeCurrentBranch() {
         localStorage.removeItem(CURRENT_BRANCH);
     },
+
     getCurrentBranchID() {
-        return localStorage.getItem(CURRENT_BRANCH_ID);
+        let currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+        return currentBranch ? currentBranch.id : null
     },
 
     saveCurrentBranchID(currentBranchID) {
-        localStorage.setItem(CURRENT_BRANCH_ID, currentBranchID)
+        let currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+        currentBranch.id = currentBranchID
+        localStorage.setItem(CURRENT_BRANCH, JSON.stringify(currentBranch))
     },
-    removeCurrentBranchID() {
-        localStorage.removeItem(CURRENT_BRANCH_ID);
+
+    getCurrentBranchName() {
+        let currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+        return currentBranch ? currentBranch.name : null
+    },
+
+    saveCurrentBranchName(currentBranchName) {
+        let currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+        currentBranch.name = currentBranchName
+        localStorage.setItem(CURRENT_BRANCH, JSON.stringify(currentBranch))
     },
 }
 

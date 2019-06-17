@@ -58,7 +58,7 @@ export default {
         }),
         changeBranchHandle: function(index) {
             let branch = this.branches[index]
-            this.changeBranch({branch:branch.name, id:branch.id})
+            this.changeBranch({name:branch.name, id:branch.id})
         }
     }
 }

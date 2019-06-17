@@ -77,6 +77,11 @@ export default {
             this.getOrderDetailFromNotification({id: order})
         }
     },
+    watch: {
+        notificationResult(newNotificationResult, oldNotificationResult) {
+            
+        }
+    },
     beforeDestroy() {
         clearInterval(this.schedule)
     }

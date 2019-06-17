@@ -2,7 +2,7 @@ import { CurrentBranchService } from '../../../../services/storage.service';
 
 export default  {
     //Current Branch
-    currentBranch: CurrentBranchService.getCurrentBranch(),
+    currentBranch: CurrentBranchService.getCurrentBranchName(),
     currentBranchID: CurrentBranchService.getCurrentBranchID(),
     //For Branch API
     branchListRequest: false,

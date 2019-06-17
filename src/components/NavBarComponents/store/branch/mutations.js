@@ -9,8 +9,8 @@ import {
 } from './types'
 
 export default {
-    [CHANGE_BRANCH] (state, {branch, id}) {
-        Vue.set(state, 'currentBranch', branch)
+    [CHANGE_BRANCH] (state, {name, id}) {
+        Vue.set(state, 'currentBranch', name)
         Vue.set(state, 'currentBranchID', id)
     },
     [REMOVE_BRANCH] (state) {

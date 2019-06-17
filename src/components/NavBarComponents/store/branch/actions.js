@@ -11,8 +11,7 @@ import { CurrentBranchService } from '../../../../services/storage.service'
 
 export default {
     async changeBranch ({ commit }, payload) {
-        CurrentBranchService.saveCurrentBranch(payload.branch)
-        CurrentBranchService.saveCurrentBranchID(payload.id)
+        CurrentBranchService.saveCurrentBranch(payload)
         await commit(CHANGE_BRANCH, payload)
     },
     async getBranchList({commit}) {

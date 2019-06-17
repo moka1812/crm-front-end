@@ -116,6 +116,7 @@
                                     v-model="sourceInput"
                                     :items="sourceItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
+                                    :disabled="this.sourceDisable"
                                     label="Source*"
                                     required
                                 >
@@ -240,7 +241,7 @@ export default {
             assetTypeItems: [],
             validatorAmountInput: '',
             sourceInput: '',
-            sourceItems: sourceItems,
+            sourceItems: [],
             noteInput: '',
             branchInput: '',
             stepInput: '',
@@ -289,7 +290,7 @@ export default {
         },
         //Disable Contract Button when step is not Contact
         contractDisable(){
-            if (this.stepInput == 'Contract') {
+            if (this.stageInput == "Hợp đồng") {
                 return true
             }
             return false
@@ -302,6 +303,14 @@ export default {
                 return false
             } return true
         },
+        //Disable when soure != null
+        sourceDisable() {
+            if (this.sourceInput != null) {
+                return true
+            }
+            return false
+        },
+        //Enable Rule when appointment enable
         appointmentRules() {
             if (this.appointmentDisable == false) {
                 return [
@@ -318,6 +327,11 @@ export default {
         },
         okDiable() {
             if (this.valid && this.orderDetail != null) {
+                //Change to Contract Button
+                if (this.stageInput == "Hợp đồng") {
+                    return true
+                }
+
                 if (this.nameInput != this.orderDetail.name) {
                     return false
                 }
@@ -383,7 +397,14 @@ export default {
                 //Change null to ''
                 this.expectedAmountInput = this.orderDetail.expectedAmount == null ? '' : this.orderDetail.expectedAmount 
                 this.validatorAmountInput = this.orderDetail.validatorAmount == null ? '' : this.orderDetail.validatorAmount 
+                
                 this.sourceInput = this.orderDetail.source
+                if (sourceItems.includes(this.sourceInput)) {
+                    this.sourceItems = sourceItems
+                } else {
+                    //Special case, Example: facebook
+                    this.sourceItems = [this.sourceInput]
+                }
 
                 this.stepInput = this.orderDetail.step
                 this.stageInput = this.translateStageFromEngToVi(this.orderDetail.stage)
@@ -422,7 +443,7 @@ export default {
                     this.appointmentDateTimeInput = moment(this.orderDetail.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
                 }
             }
-        }
+        },
     },
     methods: {
         ...mapMutations({

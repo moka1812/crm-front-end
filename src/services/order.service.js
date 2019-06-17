@@ -1,5 +1,5 @@
 import ApiService from './api.service'
-import { ProfileService } from './storage.service'
+import { ProfileService, CurrentBranchService } from './storage.service'
 import { AssetService, AssetError } from './asset.serivce'
 import { orderApi, orderFromStaffAPI, getOrderApi } from '../config/backend-api'
 import moment from 'moment'
@@ -35,7 +35,7 @@ const OrderService = {
             staff: ProfileService.getID(),
             source: newOrderInfo.source,
             asset: CAsset.id,
-            branch: newOrderInfo.branchID,
+            branch: CurrentBranchService.getCurrentBranchID(),
             date_claim: moment().format("YYYY-MM-DD HH:mm"),
             status: "In Progress",
             step: "Pending",
@@ -112,20 +112,21 @@ const OrderService = {
     },
 
     claimOrder: async function(data) {
-        let orderID = data.orderID
+        const orderID = data.orderID
 
-        let orderData = {
+        const orderData = {
             staff: ProfileService.getID(),
             phone: data.phone,
+            branch: CurrentBranchService.getCurrentBranchID(),
             asset: data.assetID,
             step: "Pending",
             stage: "Order Claimed",
-            status: "In Progress"
+            status: "In Progress",
         }
 
-        let url = `${orderApi}${orderID}/`
+        const url = `${orderApi}${orderID}/`
         try {
-            let response = await ApiService.patch(url, orderData)
+            const response = await ApiService.patch(url, orderData)
             return response.data
         } catch (error) {
             console.log( error.response.data)

@@ -82,13 +82,13 @@ export default {
     changeBranchHandle: function() {
       for (let branch of this.branchListResult) {
         if (branch.name == this.name) {
-          this.changeBranch({branch:branch.name, id:branch.id})
+          this.changeBranch({name:branch.name, id:branch.id})
         }
       }
     }
   },
   beforeDestroy(){
-    //Remove Current Branch
+    //Remove Current Branch in store
     this.removeBranch()
   }
 };

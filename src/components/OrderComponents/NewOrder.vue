@@ -200,7 +200,6 @@ export default {
       orderCreating: 'order/orderCreating',
       orderCreatingErrorCode: 'order/orderCreatingErrorCode',
       orderCreatingError: 'order/orderCreatingError',
-      currentBranchID: 'branch/currentBranchID',
       clientSearching:'order/clientSearching',
       clientSearchErrorCode:'order/clientSearchErrorCode',
       clientSearchError:'order/clientSearchError',
@@ -299,7 +298,6 @@ export default {
         assetTypeID: assetTypeID,
         assetTypeDescription: this.assetInput,
         source: this.sourceInput,
-        branchID: this.currentBranchID
       }
 
 

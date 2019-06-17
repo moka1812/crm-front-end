@@ -78,7 +78,6 @@ const UserService = {
         ApiService.removeHeader()
         ApiService.unmount403Interceptor()
         CurrentBranchService.removeCurrentBranch()
-        CurrentBranchService.removeCurrentBranchID()
     },
 }
 
