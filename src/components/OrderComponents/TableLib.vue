@@ -131,7 +131,8 @@ export default {
        orderListRequest: 'order/orderListRequest',
        orderListResult: 'order/orderListResult',
        orderListErrorCode: 'order/orderListErrorCode',
-       orderListError: 'order/orderListError'
+       orderListError: 'order/orderListError',
+       orderUpdatingErrorCode: 'order/orderUpdatingErrorCode',
      })
   },
   methods: {
@@ -157,6 +158,14 @@ export default {
     },
     reload: function() {
       this.$emit('reload')
+    }
+  },
+  watch: {
+    orderUpdatingErrorCode() {
+      //Update Successfully
+      if (this.orderUpdatingErrorCode == 200) {
+        this.reload()
+      }
     }
   }
 }

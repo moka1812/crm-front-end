@@ -72,36 +72,14 @@ export default {
                    this.$router.push('/')
                }
              } else {
-               this.$notify({
-                 group: 'foo',
-                 type: 'error',
-                 title: "Error: "+this.authenticationErrorCode,
-                 text: this.authenticationError
-               });
+                this.$notify({
+                  group: 'foo',
+                  type: 'error',
+                  title: "Error: "+this.authenticationErrorCode,
+                  text: this.authenticationError
+                });
              }
            })
-
-        // this.$gAuth.signIn().then(GoogleUser => {
-        //   let google_token = GoogleUser['Zi']['access_token']
-        //   console.log(google_token)
-        //   this.login({google_token}).then(isSuccess => {
-        //     if(isSuccess) {
-        //       if(this.$route.params.nextUrl != null){
-        //         this.$router.push(this.$route.params.nextUrl)
-        //       }
-        //       else{
-        //           this.$router.push('/')
-        //       }
-        //     } else {
-        //       this.$notify({
-        //         group: 'foo',
-        //         type: 'error',
-        //         title: "Error: "+this.authenticationErrorCode,
-        //         text: this.authenticationError
-        //       });
-        //     }
-        //   })
-        // })
       }
   }
 };

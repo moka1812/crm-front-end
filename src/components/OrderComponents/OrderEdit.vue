@@ -452,7 +452,6 @@ export default {
         }),
         ...mapActions({
             updateOrder: 'order/updateOrder',
-            getOrderList: 'order/getOrderList',
         }),
         //Find asset ID from asset description
         findAssetTypeID(assetType) {
@@ -509,8 +508,6 @@ export default {
                         title: "Update Order Successfully",
                         text: ''
                     });
-                    //Update Order Table
-                    this.getOrderList()
                     this.dialog=false
                 } else {
                     this.$notify({

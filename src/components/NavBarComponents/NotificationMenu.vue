@@ -78,8 +78,23 @@ export default {
         }
     },
     watch: {
-        notificationResult(newNotificationResult, oldNotificationResult) {
+        newNotificationResult(newNotificationResult, oldNotificationResult) {
+            let oldNotificationResultID =  oldNotificationResult.map((item) => item.id)
+ 
+            let newNotificationResultFilter = newNotificationResult.filter((item) => {
+                return !oldNotificationResultID.includes(item.id)
+            })
             
+            newNotificationResultFilter.forEach((element) => {
+                this.$notify({
+                  group: 'new-notification',
+                  type: 'error',
+                  title: `Order ${element.order}`,
+                  id: element.order,
+                  text: element.message,
+                  speed: 2000
+                });
+            })
         }
     },
     beforeDestroy() {
