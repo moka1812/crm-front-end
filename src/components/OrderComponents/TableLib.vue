@@ -17,18 +17,18 @@
 
         <template v-slot:items="props">
           <template v-if="props.item.step != 'Unclaimed'">
-            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
-            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
-            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.agent }}</td>
-            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.support_agent_name }}</td>
+            <td class="text-xs-center content" @dblclick="clickOrder(props.item.orderID)">{{ props.item.orderID }}</td>
+            <td class="text-xs-center content" @dblclick="clickOrder(props.item.orderID)">{{ props.item.lastModify }}</td>
+            <td class="text-xs-center content" @dblclick="clickOrder(props.item.orderID)">{{ props.item.agent }}</td>
+            <td class="text-xs-center content" @dblclick="clickOrder(props.item.orderID)">{{ props.item.support_agent_name }}</td>
             
-            <td class="text-xs-center content" :style="{color: getColor(props.item.step)}" @click="clickOrder(props.item.orderID)">
+            <td class="text-xs-center content" :style="{color: getColor(props.item.step)}" @dblclick="clickOrder(props.item.orderID)">
               {{ props.item.step }}
             </td>
-            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.name }}</td>
-            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
-            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
-            <td class="text-xs-center content" @click="clickOrder(props.item.orderID)">{{ translateEngToVi(props.item.stage) }}</td>
+            <td class="text-xs-center content" @dblclick="clickOrder(props.item.orderID)">{{ props.item.name }}</td>
+            <td class="text-xs-center content" @dblclick="clickOrder(props.item.orderID)">{{ props.item.phone }}</td>
+            <td class="text-xs-center content" @dblclick="clickOrder(props.item.orderID)">{{ props.item.asset }}</td>
+            <td class="text-xs-center content" @dblclick="clickOrder(props.item.orderID)">{{ translateEngToVi(props.item.stage) }}</td>
           </template>
 
           <template v-else>

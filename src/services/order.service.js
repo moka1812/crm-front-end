@@ -210,7 +210,7 @@ const OrderService = {
         
         try {
             const response = await ApiService.get(orderUrl)
-            const result = await this.filterRawOrderList([response.data]) 
+            const result = await this.filterRawOrderList([response.data])
             return result[0]
         } catch (error) {
             throw OrderError(error.response.status, error.response.data)

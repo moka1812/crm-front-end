@@ -14,6 +14,7 @@ import {
 
     ORDER_LIST_REQUEST,
     ORDER_LIST_SUCCESS,
+    ORDER_LIST_RESET,
     ORDER_COUNT,
     ORDER_LIST_ERROR,
 
@@ -51,7 +52,7 @@ export default {
         }
     },
 
-    async clientReset({commit}) {
+    async resetClient({commit}) {
         commit(CLIENT_SEARCHING_RESET)
     },
 
@@ -82,6 +83,10 @@ export default {
                 commit(ORDER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
+    },
+
+    async resetOrderList({commit}) {
+        commit(ORDER_LIST_RESET)
     },
 
     async findOrderByPhone({commit}, payload) {

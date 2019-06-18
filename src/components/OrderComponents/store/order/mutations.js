@@ -16,6 +16,7 @@ import {
 
     ORDER_LIST_REQUEST,
     ORDER_LIST_SUCCESS,
+    ORDER_LIST_RESET,
     ORDER_COUNT,
     ORDER_LIST_ERROR,
 
@@ -107,6 +108,12 @@ export default {
         Vue.set(state, 'orderListResult', result)
         Vue.set(state, 'orderListError', '')
         Vue.set(state, 'orderListErrorCode', 200)
+    },
+    [ORDER_LIST_RESET] (state) {
+        Vue.set(state, 'orderListRequest', false)
+        Vue.set(state, 'orderListResult', [])
+        Vue.set(state, 'orderListError', '')
+        Vue.set(state, 'orderListErrorCode', 0)
     },
     [ORDER_COUNT] (state, {count}) {
         Vue.set(state, 'orderCountResult', count)

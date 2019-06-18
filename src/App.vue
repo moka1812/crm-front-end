@@ -3,17 +3,17 @@
     <v-app>
       <router-view />
       <notifications id="foo" group="foo" position="top right" animation-type="velocity"/>
-      <notifications id="new-notification" group="new-notification" position="bottom right" animation-type="velocity">
+      <notifications id="new-notification" group="new-notification" position="bottom right" animation-type="velocity" width="200px">
         <template slot="body" slot-scope="props">
-          <div @click="NewNotificationHandle(props.item.id, props.close)">
+          <div @click="NewNotificationHandle(props.item.title, props.close)">
                <div
                   :class="['vue-notification-template', 'vue-notification', props.item.type]"
                 >
                 <div
                   v-if="props.item.title"
                   class="notification-title"
-                  v-html="props.item.title"
                 >
+                  Order #{{props.item.title}}
                 </div>
                 <div
                   class="notification-content"
@@ -41,8 +41,8 @@ export default {
       getOrderDetailFromNotification: 'order/getOrderDetailFromNotification'
     }),
     NewNotificationHandle: async function(id, close) {
-      await close()
-      this.getOrderDetailFromNotification({id: id})
+      await this.getOrderDetailFromNotification({id: id})
+      close()
     }
   }
 }

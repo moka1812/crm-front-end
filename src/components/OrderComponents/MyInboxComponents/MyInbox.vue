@@ -26,13 +26,17 @@ export default {
     methods: {
         ...mapActions({
             getSAssetList: 'asset/getSAssetList',
-            clientReset: 'order/clientReset'
+            resetClient: 'order/resetClient',
+            resetOrderList: 'order/resetOrderList'
         })
     },
     beforeRouteLeave (to, from, next) {
-        //Empty Client Searching Result
-        this.clientReset()
+        //Empty Client Searching Result, If Route Order Then Error
+        this.resetClient()
         next()
+    },
+    beforeDestroy() {
+        this.resetOrderList()
     }
 }
 </script>

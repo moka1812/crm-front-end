@@ -89,8 +89,7 @@ export default {
                 this.$notify({
                   group: 'new-notification',
                   type: 'error',
-                  title: `Order ${element.order}`,
-                  id: element.order,
+                  title: element.order,
                   text: element.message,
                   speed: 2000
                 });
