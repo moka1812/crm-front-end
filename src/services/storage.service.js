@@ -56,46 +56,46 @@ const ProfileService = {
     },
 
     setName(name) {
-        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        const profile = JSON.parse(localStorage.getItem(PROFILE))
         profile.name = name
         localStorage.setItem(PROFILE, JSON.stringify(profile))
     },
 
     getName() {
-        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        const profile = JSON.parse(localStorage.getItem(PROFILE))
         return profile ? profile.name : null
     },
 
     setID(id) {
-        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        const profile = JSON.parse(localStorage.getItem(PROFILE))
         profile.id = id
         localStorage.setItem(PROFILE, JSON.stringify(profile))
     },
 
     getID() {
-        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        const profile = JSON.parse(localStorage.getItem(PROFILE))
         return profile ? parseInt(profile.id) : null
     },
 
     setBranch(branch) {
-        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        const profile = JSON.parse(localStorage.getItem(PROFILE))
         profile.branch = branch
         localStorage.setItem(PROFILE, JSON.stringify(profile))
     },
 
     getBranch() {
-        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        const profile = JSON.parse(localStorage.getItem(PROFILE))
         return profile ? profile.branch : null
     },
 
     setBranchID(branchID) {
-        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        const profile = JSON.parse(localStorage.getItem(PROFILE))
         profile.branchID = branchID
         localStorage.setItem(PROFILE, JSON.stringify(profile))
     },
 
     getBranchID() {
-        let profile = JSON.parse(localStorage.getItem(PROFILE))
+        const profile = JSON.parse(localStorage.getItem(PROFILE))
         return profile ? parseInt(profile.branchID) : null
     },
 
@@ -114,23 +114,23 @@ const CurrentBranchService = {
     },
 
     getCurrentBranchID() {
-        let currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+        const currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
         return currentBranch ? currentBranch.id : null
     },
 
     saveCurrentBranchID(currentBranchID) {
-        let currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+        const currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
         currentBranch.id = currentBranchID
         localStorage.setItem(CURRENT_BRANCH, JSON.stringify(currentBranch))
     },
 
     getCurrentBranchName() {
-        let currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+        const currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
         return currentBranch ? currentBranch.name : null
     },
 
     saveCurrentBranchName(currentBranchName) {
-        let currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+        const currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
         currentBranch.name = currentBranchName
         localStorage.setItem(CURRENT_BRANCH, JSON.stringify(currentBranch))
     },

@@ -63,17 +63,17 @@ const OrderService = {
 
     updateOrder: async function(orderInfo) {
 
-        let CAssetID = orderInfo.CAssetID
-        let CAssetData = {
+        const CAssetID = orderInfo.CAssetID
+        const CAssetData = {
             asset: orderInfo.assetTypeID,
             description: orderInfo.assetTypeDescription
         }
 
         AssetService.updateCAsset(CAssetID, CAssetData)
 
-        let orderID = orderInfo.orderID
+        const orderID = orderInfo.orderID
 
-        let orderData = {
+        const orderData = {
             phone: orderInfo.phone,
             first_name: orderInfo.name,
             asset: orderInfo.CAssetID,
@@ -85,7 +85,7 @@ const OrderService = {
             appointment: orderInfo.appointmentDateTime,
         }
 
-        let currentUserID = ProfileService.getID()
+        const currentUserID = ProfileService.getID()
 
         if (currentUserID != orderInfo.staff) {
             orderData.support_agent = currentUserID
@@ -99,9 +99,9 @@ const OrderService = {
             orderData.proposed_amount = orderInfo.validatorAmount
         }
 
-        let url = `${orderApi}${orderID}/`
+        const url = `${orderApi}${orderID}/`
         try {
-            let response = await ApiService.put(url, orderData)
+            const response = await ApiService.put(url, orderData)
             return response.data
         } catch (error) {
             console.log(error)
@@ -135,24 +135,24 @@ const OrderService = {
     },
 
     changeStage: async function(data) {
-        let orderID = data.orderID
+        const orderID = data.orderID
 
-        let orderData = {
+        const orderData = {
             phone: data.phone,
             asset: data.assetID,
             stage: data.stage,
             status: data.status
         }
 
-        let currentUserID = ProfileService.getID()
+        const currentUserID = ProfileService.getID()
 
         if (currentUserID != data.staff) {
             orderData.support_agent = currentUserID
         }
 
-        let url = `${orderApi}${orderID}/`
+        const url = `${orderApi}${orderID}/`
         try {
-            let response = await ApiService.put(url, orderData)
+            const response = await ApiService.put(url, orderData)
             return response.data
         } catch (error) {
             console.log( error.response.data)
@@ -163,24 +163,27 @@ const OrderService = {
     getOrderList: async function() {
         try {
 
-            let response = await ApiService.get(getOrderApi)
+            const response = await ApiService.get(getOrderApi)
 
-            let unclaimedPromise = new Promise((resolve, reject) => {
-                let data = this.filterRawOrderList(response.data["unclaimed"])
+            const unclaimedPromise = new Promise((resolve, reject) => {
+                const data = this.filterRawOrderList(response.data["unclaimed"])
                 resolve(data)
             })
 
-            let inprogressPromise = new Promise((resolve, reject) => {
-                let data = this.filterRawOrderList(response.data["inprogress"])
+            const inprogressPromise = new Promise((resolve, reject) => {
+                const data = this.filterRawOrderList(response.data["inprogress"])
                 resolve(data)
             })
 
-            let [unclaimed, inprogress] = await Promise.all([
+            const [unclaimed, inprogress] = await Promise.all([
                 unclaimedPromise,
                 inprogressPromise
             ])
-
-            return [unclaimed.concat(inprogress), response.data['count']]
+            
+            return {
+                orders: [...unclaimed, ...inprogress],
+                count: response.data['count']
+            }
 
         } catch (error) {
 
@@ -196,9 +199,12 @@ const OrderService = {
 
             const response = await ApiService.get(url)
 
-            const result = await this.filterRawOrderList(response.data.data) 
+            const result = await this.filterRawOrderList(response.data.data)
 
-            return [result, response.data['count']]
+            return {
+                orders: result,
+                count: response.data['count']
+            }
 
         } catch (error) {
 
@@ -210,8 +216,8 @@ const OrderService = {
         
         try {
             const response = await ApiService.get(orderUrl)
-            const result = await this.filterRawOrderList([response.data])
-            return result[0]
+            const [result] = await this.filterRawOrderList([response.data])
+            return result
         } catch (error) {
             throw OrderError(error.response.status, error.response.data)
         }
@@ -230,7 +236,7 @@ const OrderService = {
     },
 
     filterRawOrderList: function(rawData) {
-        let data = []
+        const data = []
         try {
             for (let item of rawData) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   

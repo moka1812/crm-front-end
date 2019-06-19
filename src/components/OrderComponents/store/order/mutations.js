@@ -103,9 +103,9 @@ export default {
         Vue.set(state, 'orderListError', '')
         Vue.set(state, 'orderListErrorCode', 0)
     },
-    [ORDER_LIST_SUCCESS] (state, {result}) {
+    [ORDER_LIST_SUCCESS] (state, {orders}) {
         Vue.set(state, 'orderListRequest', false)
-        Vue.set(state, 'orderListResult', result)
+        Vue.set(state, 'orderListResult', orders)
         Vue.set(state, 'orderListError', '')
         Vue.set(state, 'orderListErrorCode', 200)
     },
@@ -154,8 +154,8 @@ export default {
         Vue.set(state, 'orderListError', '')
         Vue.set(state, 'orderListErrorCode', 0)
     },
-    [ORDER_LIST_SHECDULE_SUCCESS] (state, {result}) {
-        Vue.set(state, 'orderListResult', result)
+    [ORDER_LIST_SHECDULE_SUCCESS] (state, {orders}) {
+        Vue.set(state, 'orderListResult', orders)
         Vue.set(state, 'orderListError', '')
         Vue.set(state, 'orderListErrorCode', 200)
     },
@@ -170,9 +170,9 @@ export default {
         Vue.set(state, 'orderDetailErrorCode', 0)
         Vue.set(state, 'orderDetailError', '')
     },
-    [ORDER_DETAIL_SUCCESS] (state, {result}) {
+    [ORDER_DETAIL_SUCCESS] (state, {order}) {
         Vue.set(state, 'orderDetailForm', true)
-        Vue.set(state, 'orderDetail', result)
+        Vue.set(state, 'orderDetail', order)
         Vue.set(state, 'orderDetailErrorCode', 200)
         Vue.set(state, 'orderDetailError', '')
     },

@@ -22,7 +22,7 @@ const BranchService = {
     },
 
     filterRawBranchList: function(rawData) {
-        let data = []
+        const data = []
         try {
             for (let item of rawData) {
                 data.push({

@@ -40,7 +40,7 @@ export default {
         commit(CLIENT_SEARCHING_REQUEST)
         try {
 
-            let result = await ClientService.getClientByPhone(payload.phone)
+            const result = await ClientService.getClientByPhone(payload.phone)
             commit(CLIENT_SEARCHING_SUCCESS, {result})
             
         } catch (error) {
@@ -59,28 +59,13 @@ export default {
     async createOrder({commit}, payload) {
         commit(ORDER_CREATING_REQUEST)
         try {
-            let result = await OrderService.createOrder(payload)
+            const result = await OrderService.createOrder(payload)
             commit(ORDER_CREATING_SUCCESS, {result})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_CREATING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
             } else {
                 commit(ORDER_CREATING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
-            }
-        }
-    },
-
-    async getOrderList({commit}) {
-        commit(ORDER_LIST_REQUEST)
-        try {
-            let [result, count] = await OrderService.getOrderList()
-            commit(ORDER_LIST_SUCCESS, {result})
-            commit(ORDER_COUNT, {count})
-        } catch (error) {
-            if (error instanceof OrderError) {
-                commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
-            } else {
-                commit(ORDER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
     },
@@ -96,7 +81,7 @@ export default {
         } else {
             commit(ORDER_FINDING_REQUEST)
             try {
-                let result = await OrderService.findOrderByPhone(payload.phone)
+                const result = await OrderService.findOrderByPhone(payload.phone)
                 commit(ORDER_FINDING_SUCCESS, {result})
                 commit(ORDER_COUNT, {count: null})
             } catch (error) {
@@ -109,11 +94,26 @@ export default {
         }
     },
 
+    async getOrderList({commit}) {
+        commit(ORDER_LIST_REQUEST)
+        try {
+            const {orders, count} = await OrderService.getOrderList()
+            commit(ORDER_LIST_SUCCESS, {orders})
+            commit(ORDER_COUNT, {count})
+        } catch (error) {
+            if (error instanceof OrderError) {
+                commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(ORDER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
     async planOrderList({commit}) {
         commit(ORDER_LIST_SHECDULE_REQUEST)
         try {
-            let [result, count] = await OrderService.getOrderList()
-            commit(ORDER_LIST_SHECDULE_SUCCESS, {result})
+            const {orders, count} = await OrderService.getOrderList()
+            commit(ORDER_LIST_SHECDULE_SUCCESS, {orders})
             commit(ORDER_COUNT, {count})
         } catch (error) {
             if (error instanceof OrderError) {
@@ -127,8 +127,8 @@ export default {
     async getOrderListFromStaff({commit}) {
         commit(ORDER_LIST_REQUEST)
         try {
-            let [result, count] = await OrderService.getOrderListFromStaff()
-            commit(ORDER_LIST_SUCCESS, {result})
+            const {orders, count} = await OrderService.getOrderListFromStaff()
+            commit(ORDER_LIST_SUCCESS, {orders})
             commit(ORDER_COUNT, {count})
         } catch (error) {
             if (error instanceof OrderError) {
@@ -142,8 +142,8 @@ export default {
     async planOrderListFromStaff({commit}) {
         commit(ORDER_LIST_SHECDULE_REQUEST)
         try {
-            let [result, count] = await OrderService.getOrderListFromStaff()
-            commit(ORDER_LIST_SHECDULE_SUCCESS, {result})
+            const {orders, count} = await OrderService.getOrderListFromStaff()
+            commit(ORDER_LIST_SHECDULE_SUCCESS, {orders})
             commit(ORDER_COUNT, {count})
         } catch (error) {
             if (error instanceof OrderError) {
@@ -156,10 +156,10 @@ export default {
 
     async getOrderDetail({commit, getters}, payload) {
         commit(ORDER_DETAIL_REQUEST)
-        let orderListResult = getters.orderListResult
+        const orderListResult = getters.orderListResult
         for (let order of orderListResult) {
             if (order.orderID == payload.orderID) {
-                commit(ORDER_DETAIL_SUCCESS, {result: order})
+                commit(ORDER_DETAIL_SUCCESS, {order})
                 return true
             }
         }
@@ -169,8 +169,8 @@ export default {
     async getOrderDetailFromNotification({commit}, payload) {
         commit(ORDER_DETAIL_REQUEST)
         try {
-            let order = await OrderService.getOrderDetail(payload.id)
-            commit(ORDER_DETAIL_SUCCESS, {result: order})
+            const order = await OrderService.getOrderDetail(payload.id)
+            commit(ORDER_DETAIL_SUCCESS, {order})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_DETAIL_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
@@ -184,7 +184,7 @@ export default {
     async updateOrder({commit}, payload) {
         commit(ORDER_UPDATING_REQUEST)
         try {
-            let result = await OrderService.updateOrder(payload)
+            const result = await OrderService.updateOrder(payload)
             commit(ORDER_UPDATING_SUCCESS, {result})
         } catch (error) {
             if (error instanceof OrderError) {
@@ -199,7 +199,7 @@ export default {
     async claimOrder({commit}, payload) {
         commit(ORDER_UPDATING_REQUEST)
         try {
-            let result = await OrderService.claimOrder(payload)
+            const result = await OrderService.claimOrder(payload)
             commit(ORDER_UPDATING_SUCCESS, {result})
         } catch (error) {
             if (error instanceof OrderError) {
@@ -214,7 +214,7 @@ export default {
     async changeStage({commit}, payload) {
         commit(ORDER_UPDATING_REQUEST)
         try {
-            let result = await OrderService.changeStage(payload)
+            const result = await OrderService.changeStage(payload)
             commit(ORDER_UPDATING_SUCCESS, {result})
         } catch (error) {
             if (error instanceof OrderError) {
