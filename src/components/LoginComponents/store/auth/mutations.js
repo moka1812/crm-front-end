@@ -15,11 +15,13 @@ export default {
         Vue.set(state, 'authenticationError', '')
         Vue.set(state, 'authenticationErrorCode', 0)
     },
-    [LOGIN_SUCCESS] (state, tokenAndProfile) {
-        Vue.set(state, 'accessToken', tokenAndProfile.token)
+    [LOGIN_SUCCESS] (state, {token, profile}) {
+        Vue.set(state, 'accessToken', token)
         Vue.set(state, 'authenticating', false)
-        Vue.set(state, 'name', tokenAndProfile.profile.name)
-        Vue.set(state, 'branch', tokenAndProfile.profile.branch)
+        Vue.set(state, 'name', profile.name)
+        Vue.set(state, 'branch', profile.branch)
+        Vue.set(state, 'authenticationError', '')
+        Vue.set(state, 'authenticationErrorCode', 200)
     },
     [LOGIN_ERROR] (state, {errorCode, errorMessage}) {
         Vue.set(state, 'authenticating', false)

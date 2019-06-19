@@ -37,7 +37,7 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-#foo.vue-notification {
+#foo .vue-notification {
   font-size: 20px;
 }
 

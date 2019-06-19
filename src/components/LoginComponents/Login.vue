@@ -62,25 +62,29 @@ export default {
         login: 'auth/login'
       }),
       loginHandle: function() {
-        this.login({username: this.username, password: this.password}).then(isSuccess => {
-             if(isSuccess) {
-               this.dialog = true
-               if(this.$route.params.nextUrl != null){
-                 this.$router.push(this.$route.params.nextUrl)
-               }
-               else{
-                   this.$router.push('/')
-               }
-             } else {
-                this.$notify({
-                  group: 'foo',
-                  type: 'error',
-                  title: "Error: "+this.authenticationErrorCode,
-                  text: this.authenticationError
-                });
-             }
-           })
+        this.login({username: this.username, password: this.password})
       }
+  },
+  watch: {
+    authenticationErrorCode() {
+      //Login Successfully
+      if (this.authenticationErrorCode == 200) {
+        this.dialog = true
+        if(this.$route.params.nextUrl != null){
+          this.$router.push(this.$route.params.nextUrl)
+        }
+        else{
+          this.$router.push('/')
+        }
+      } else if (this.authenticationErrorCode != 0) {
+        this.$notify({
+          group: 'foo',
+          type: 'error',
+          title: "Error: "+this.authenticationErrorCode,
+          text: this.authenticationError
+        });
+      }
+    }
   }
 };
 </script>

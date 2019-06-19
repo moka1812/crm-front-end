@@ -15,7 +15,6 @@ export default {
         try {
             let tokenAndProfile = await UserService.login(payload.username, payload.password)
             commit(LOGIN_SUCCESS, tokenAndProfile)
-            return true
         } catch (error) {
             if (error instanceof AuthenticationError) {
                 commit(LOGIN_ERROR, {errorCode: error.errorCode, errorMessage: error.message})

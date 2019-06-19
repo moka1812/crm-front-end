@@ -57,6 +57,7 @@ import NewOrder from "@/components/OrderComponents/NewOrder.vue";
 import OrderFilter from "@/components/OrderComponents/OrderFilter.vue";
 
 import caseStatus from './utils/case_status'
+const has = Object.prototype.hasOwnProperty;
 
 export default {
   name: "order-management",
@@ -87,7 +88,7 @@ export default {
     }),
     unclaimed() {
       try {
-        if (this.orderCountResult.hasOwnProperty('unclaimed')) {
+        if (has.call(this.orderCountResult,'unclaimed')) {
           return this.orderCountResult['unclaimed']
         }
       } catch (error) {
