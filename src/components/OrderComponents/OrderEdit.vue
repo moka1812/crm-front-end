@@ -116,7 +116,7 @@
                                     v-model="sourceInput"
                                     :items="sourceItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
-                                    :disabled="this.sourceDisable"
+                                    :readonly="this.sourceReadonly"
                                     label="Source*"
                                     required
                                 >
@@ -137,7 +137,7 @@
                                 <v-text-field
                                     v-model.lazy="agentInput"
                                     label="Người tiếp nhận"
-                                    :disabled="true"
+                                    :readonly="true"
                                     >
                                 </v-text-field>
                             </v-flex>
@@ -145,7 +145,7 @@
                                 <v-text-field
                                     v-model.lazy="supporterInput"
                                     label="Người hỗ trợ"
-                                    :disabled="true"
+                                    :readonly="true"
                                     >
                                 </v-text-field>
                             </v-flex>
@@ -155,7 +155,7 @@
                                 <v-text-field
                                     v-model.lazy="branchInput"
                                     label="Chi nhánh"
-                                    :disabled="true"
+                                    :readonly="true"
                                     >
                                 </v-text-field>
                             </v-flex>
@@ -166,7 +166,7 @@
                                     label="Lịch hẹn giờ*"
                                     :disabled="this.appointmentDisable"
                                     :rules="this.appointmentRules"
-                                    hint="Ví dụ: 01/01/2019 01:02"
+                                    :hint="this.appointmentDateTimeHint"
                                     :persistent-hint="true"
                                 >
                                 </v-text-field>
@@ -189,7 +189,7 @@
             @click="this.contractHandle"
             v-if="contractDisable"
         >
-            Contract
+            Hợp Đồng
         </v-btn>
         <v-btn class="cancelBtn"
             @click="this.cancleHandle"
@@ -304,7 +304,7 @@ export default {
             } return true
         },
         //Disable when soure != null
-        sourceDisable() {
+        sourceReadonly() {
             if (this.sourceInput != null) {
                 return true
             }
@@ -314,10 +314,15 @@ export default {
         appointmentRules() {
             if (this.appointmentDisable == false) {
                 return [
-                    v => /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[13578]|1[02]))|((0[1-9]|[1-2][0-9]|30)\/(0[469]|11))|((0[1-9]|1[0-9]|2[0-8])\/(02))\/\d{4}\s([01]\d|2[0-3]):([0-5]\d)$/.test(v) || 'Ví dụ: 01/01/2019 01:02'
+                    v => /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[13578]|1[02]))|((0[1-9]|[1-2][0-9]|30)\/((0[469]|11))|((0[1-9]|1[0-9]|2[0-8])\/(02)))\/\d{4}\s([01]\d|2[0-3]):([0-5]\d)$/.test(v) || this.appointmentDateTimeHint
                 ]
             }
             return []
+        },
+        //Hint for current time
+        appointmentDateTimeHint() {
+            let date = moment().format("DD/MM/YYYY HH:mm")
+            return `Ví dụ: ${date}`
         },
         expectedAmountHint() {
             return changeDigitToText(this.expectedAmountInput)
@@ -441,7 +446,7 @@ export default {
                 //Check appointment exist in orderDetail
                 if (this.orderDetail.appointment !== null) {
                     this.appointmentDateTimeInput = moment(this.orderDetail.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
-                }
+                } 
             }
         },
     },
