@@ -152,7 +152,7 @@ const OrderService = {
 
         const url = `${orderApi}${orderID}/`
         try {
-            const response = await ApiService.put(url, orderData)
+            const response = await ApiService.patch(url, orderData)
             return response.data
         } catch (error) {
             console.log( error.response.data)

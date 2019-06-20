@@ -305,10 +305,10 @@ export default {
         },
         //Disable when soure != null
         sourceReadonly() {
-            if (this.sourceInput != null) {
-                return true
-            }
-            return false
+            if (/^\s*$/.test(this.sourceInput) | this.sourceInput == null) {
+                return false
+            }   
+            return true
         },
         //Enable Rule when appointment enable
         appointmentRules() {
@@ -404,7 +404,8 @@ export default {
                 this.validatorAmountInput = this.orderDetail.validatorAmount == null ? '' : this.orderDetail.validatorAmount 
                 
                 this.sourceInput = this.orderDetail.source
-                if (sourceItems.includes(this.sourceInput)) {
+                //sourceInput existing in sourceItem or null
+                if (sourceItems.includes(this.sourceInput) || /^\s*$/.test(this.sourceInput) || this.sourceInput == null) {
                     this.sourceItems = sourceItems
                 } else {
                     //Special case, Example: facebook

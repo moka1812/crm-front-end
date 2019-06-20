@@ -1,10 +1,10 @@
 <template>
-    <v-btn flat icon v-if="orderStep == 'Unclaimed'" @click="this.unclaimedButtonHandle">
+    <v-btn flat icon v-if="orderStep == 'Unclaimed'" @click="this.unclaimedButtonHandle" class="ma-0">
         <v-icon color="#70cc3b">reply</v-icon>
     </v-btn>
     <v-menu v-else top>
         <template v-slot:activator="{ on }">
-            <v-btn flat icon v-on="on">
+            <v-btn flat icon v-on="on" class="ma-0">
                 <v-icon v-if="orderStep == 'Pending'" color="#70cc3b">check_circle_outline</v-icon>
                 <v-icon v-else-if="orderStep == 'Appointment'" color="#CD853F">meeting_room</v-icon>
                 <v-icon v-else-if="orderStep == 'Contact'" color="#0000FF">perm_contact_calendar</v-icon>
@@ -88,7 +88,6 @@ export default {
             }
             this.claimOrder(payload).then(() => {
                 if (this.orderUpdatingErrorCode==200) {
-                    this.$emit('refresh')
                     this.$notify({
                         group: 'foo',
                         type: 'success',
@@ -111,7 +110,6 @@ export default {
             }
             this.changeStage(payload).then(() => {
                 if (this.orderUpdatingErrorCode==200) {
-                    this.$emit('refresh')
                     this.$notify({
                         group: 'foo',
                         type: 'success',

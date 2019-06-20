@@ -17,7 +17,7 @@ export default {
     async getBranchList({commit}) {
         commit(BRANCH_LIST_REQUEST)
         try {
-            let result = await BranchService.getAllBranch()
+            const result = await BranchService.getAllBranch()
             commit(BRANCH_LIST_SUCCESS, {result})
         } catch (error) {
             if (error instanceof BranchError) {
