@@ -49,7 +49,7 @@
               :style="{color: getColor(props.item.step)}"
               @dblclick="clickOrder(props.item.orderID)"
             >
-              {{ props.item.step }}
+              {{ translateStepFromEngToVi(props.item.step) }}
             </td>
 
             <td 
@@ -77,7 +77,7 @@
               class="text-xs-center content" 
               @dblclick="clickOrder(props.item.orderID)"             
             >
-              {{ translateEngToVi(props.item.stage) }}
+              {{ translateStageFromEngToVi(props.item.stage) }}
             </td>
           </template>
 
@@ -110,7 +110,7 @@
               class="text-xs-center content" 
               :style="{color: getColor(props.item.step)}"  
             >
-              {{ props.item.step }}
+              {{ translateStepFromEngToVi(props.item.step) }}
             </td>
 
             <td 
@@ -134,7 +134,7 @@
             <td 
               class="text-xs-center content"
             >
-              {{ translateEngToVi(props.item.stage) }}
+              {{ translateStageFromEngToVi(props.item.stage) }}
             </td>
           </template>
             <td class="text-xs-center">
@@ -147,7 +147,7 @@
                       :phone="props.item.phone" 
                       :assetID="props.item.assetID"
                       :staff="props.item.staff"
-                      :stage="translateEngToVi(props.item.stage)"
+                      :stage="translateStageFromEngToVi(props.item.stage)"
                     />
                   </v-flex>
                   <v-flex sm4>
@@ -180,8 +180,9 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import caseStatus from './utils/case_status'
-import {translateEngToVi} from './utils/stages'
+import steps from './utils/steps'
+import {translateStageFromEngToVi} from './utils/stages'
+import {translateStepFromEngToVi} from './utils/steps'
 
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 import CallButton from "@/components/OrderComponents/CallButton.vue"
@@ -226,7 +227,7 @@ export default {
           text: "Thao tác", value: "action", align: 'center', sortable: false, class: "header"
         },
       ],
-      caseStatus: caseStatus,
+      steps: steps,
     }
   },
   computed: {
@@ -242,9 +243,9 @@ export default {
     ...mapActions({
         getOrderDetail: 'order/getOrderDetail',
     }),
-    getColor: function(status) {
+    getColor: function(step) {
       try {
-        return this.caseStatus[status.toUpperCase()].color
+        return this.steps[step.toUpperCase()].color
       } catch (error) {}
       return null
     },
@@ -253,8 +254,11 @@ export default {
         this.getOrderDetail({orderID})
       }
     },
-    translateEngToVi: function(englishStage){
-      return translateEngToVi(englishStage)
+    translateStageFromEngToVi: function(englishStage) {
+      return translateStageFromEngToVi(englishStage)
+    },
+    translateStepFromEngToVi: function(englishStep) {
+      return translateStepFromEngToVi(englishStep)
     },
     refresh: function() {
       this.$emit('refresh')

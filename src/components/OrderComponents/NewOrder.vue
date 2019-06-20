@@ -238,7 +238,7 @@ export default {
     },
     //When finish call API get SAsset, Update assetTypeItems
     SAssetListResult() {
-      let asset = []
+      const asset = []
       for (let item of this.SAssetListResult) {
           asset.push(item.description)
       }
@@ -288,9 +288,9 @@ export default {
     },
     //Create new order
     okHandle: async function() {
-      let assetTypeID = await this.findAssetTypeID(this.assetTypeInput)
+      const assetTypeID = await this.findAssetTypeID(this.assetTypeInput)
       
-      let data = {
+      const data = {
         phone: this.phoneInput,
         firstName: this.firstNameInput,
         expectedAmount: this.expectedAmountInput == '' ? null : this.expectedAmountInput,

@@ -30,7 +30,7 @@
 import {mapActions, mapGetters} from 'vuex'
 
 import {getStage} from './utils/stage_functions'
-import {translateViToEng, getStatus} from './utils/stages'
+import {translateStageFromViToEng, getStatus} from './utils/stages'
 
 export default {
     name: "action-button",
@@ -60,7 +60,7 @@ export default {
         //Get Vietnamese Stages
         stages() {
 
-            let result = []
+            const result = []
             
             if (this.stageTotal != undefined) {
                 for (let stage of this.stageTotal) {
@@ -81,7 +81,7 @@ export default {
             changeStage: 'order/changeStage',
         }),
         unclaimedButtonHandle: function() {
-            let payload = {
+            const payload = {
                 orderID: this.orderID,
                 phone: this.phone,
                 assetID: this.assetID
@@ -98,9 +98,9 @@ export default {
             })
         },
         StageChangingHandle: function(vietnameseStage) {
-            let newStage = this.translateStageFromViToEng(vietnameseStage)
-            let newStatus = this.getStatus(vietnameseStage)
-            let payload = {
+            const newStage = this.translateStageFromViToEng(vietnameseStage)
+            const newStatus = this.getStatus(vietnameseStage)
+            const payload = {
                 orderID: this.orderID,
                 phone: this.phone,
                 staff: this.staff,
@@ -121,7 +121,7 @@ export default {
         },
         //Get English Stage to Update Order
         translateStageFromViToEng: function(vietnameseStage) {
-            return translateViToEng(vietnameseStage)
+            return translateStageFromViToEng(vietnameseStage)
         },
         getStatus: function(stage) {
             return getStatus(stage)

@@ -1,21 +1,22 @@
 import stages from './stages'
-import steps from './step_items'
+import steps from './steps'
 
 const getStage = (step) => {
+    
     switch(step) {
-        case steps.UNCLAIMED:
+        case steps.UNCLAIMED.eng:
             return [
                 stages.NOT_ELIGIBLE,
                 stages.SPAM,
                 stages.UNCLAIMED
             ]
-        case steps.PENDING:
+        case steps.PENDING.eng:
             return [
                 stages.SPAM,
                 stages.DUPLICATE,
                 stages.ORDER_CLAIMED
             ]
-        case steps.CONTACT:
+        case steps.CONTACT.eng:
             return [
                 stages.WAITING_FOR_MORE_INFO,
                 stages.FRAUD,
@@ -29,7 +30,7 @@ const getStage = (step) => {
                 stages.TERMS_DISAGREEMENT,
                 stages.NOT_IN_SERVICE_REGION
             ]
-        case steps.QUOTED:
+        case steps.QUOTED.eng:
             return [
                 stages.WAITING_FOR_RATE,
                 stages.WAITING_FOR_MORE_INFO,
@@ -42,7 +43,7 @@ const getStage = (step) => {
                 stages.TERMS_DISAGREEMENT,
                 stages.NOT_IN_SERVICE_REGION,
             ]
-        case steps.APPOINTMENT:
+        case steps.APPOINTMENT.eng:
             return [
                 stages.CALL_AGAIN_LATER,
                 stages.MONEY_FROM_DIFFERENT_CHANNEL,
@@ -53,7 +54,7 @@ const getStage = (step) => {
                 stages.NO_SHOW,
                 stages.NO_PICK_UP,
             ]
-        case steps.CONTRACT:
+        case steps.CONTRACT.eng:
             return [
                 stages.FRAUD,
                 stages.ACTIVE_CONTRACT,

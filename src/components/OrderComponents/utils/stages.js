@@ -24,7 +24,7 @@ const stages = {
     ACTIVE_CONTRACT                 : {eng: "Active Contract", vi: "Hợp đồng", status: "Success"},
 }
 
-const translateEngToVi = (englishStage) => {
+const translateStageFromEngToVi = (englishStage) => {
     for (let key in stages) {
         if (stages[key].eng == englishStage) {
             return stages[key].vi
@@ -32,7 +32,7 @@ const translateEngToVi = (englishStage) => {
     }
 }
 
-const translateViToEng = (vietnameseStage) => {
+const translateStageFromViToEng = (vietnameseStage) => {
     for (let key in stages) {
         if (stages[key].vi == vietnameseStage) {
             return stages[key].eng
@@ -52,4 +52,4 @@ const getStatus = (inputStage) => {
 
 export default stages
 
-export {stages, translateEngToVi, translateViToEng, getStatus}
+export {stages, translateStageFromEngToVi, translateStageFromViToEng, getStatus}

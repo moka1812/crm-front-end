@@ -220,9 +220,9 @@ import {mapActions, mapGetters, mapMutations } from 'vuex'
 import {EDIT_DIALOG} from './store/order/types'
 import {getStage} from './utils/stage_functions'
 import sourceItems from './utils/source_items'
-import {stepItems} from './utils/step_items'
 import changeDigitToText from './utils/money'
-import {translateEngToVi, translateViToEng, getStatus} from './utils/stages'
+import {translateStageFromEngToVi, translateStageFromViToEng, getStatus} from './utils/stages'
+import {steps, translateStepFromEngToVi, translateStepFromViToEng} from './utils/steps'
 import moment from 'moment'
 
 export default {
@@ -245,13 +245,6 @@ export default {
             noteInput: '',
             branchInput: '',
             stepInput: '',
-            stepItems: [
-                "Pending",
-                "Contact",
-                "Quoted",
-                "Appointment",
-                "Contract"
-            ],
             stageInput: '',
             menu: false,
             appointmentDateTimeInput: '',
@@ -276,17 +269,24 @@ export default {
         //Get stage when step changes
         stageTotal() {
             if (/\S/.test(this.stepInput)) {
-                return getStage(this.stepInput)
+                //Get English Step
+                const engStep = this.translateStepFromViToEng(this.stepInput)
+                return getStage(engStep)
             }
             return []  
         },
         //Send vietnamese stages to stageItems
         stageItems() {
-            let array = []
-            for (let item of this.stageTotal) {
-                array.push(item.vi)
-            }
-            return array
+            return this.stageTotal.map((element) => element.vi)
+        },
+        //Send vietnamese steps to stepItems, except "Chưa nhận"/Unclaimed
+        stepItems() {
+            return Object.keys(steps).filter(key => {
+                if (steps[key].vi !== "Chưa nhận") {
+                    return true
+                } 
+                return false
+            }).map(key => steps[key].vi)
         },
         //Disable Contract Button when step is not Contact
         contractDisable(){
@@ -297,9 +297,9 @@ export default {
         },
         //Enable user input apponitment date
         appointmentDisable() {
-            if (this.stepInput == 'Appointment' && /Khách hẹn lên #/.test(this.stageInput)) {
+            if (this.stepInput == 'Hẹn khách' && /Khách hẹn lên #/.test(this.stageInput)) {
                 return false
-            } else if(this.stepInput == 'Contact' && this.stageInput=='Gọi lại cho khách hàng') {
+            } else if(this.stepInput == 'Liên hệ' && this.stageInput=='Gọi lại cho khách hàng') {
                 return false
             } return true
         },
@@ -321,7 +321,7 @@ export default {
         },
         //Hint for current time
         appointmentDateTimeHint() {
-            let date = moment().format("DD/MM/YYYY HH:mm")
+            const date = moment().format("DD/MM/YYYY HH:mm")
             return `Ví dụ: ${date}`
         },
         expectedAmountHint() {
@@ -365,7 +365,7 @@ export default {
                 if (this.noteInput != this.orderDetail.note) {
                     return false
                 }
-                if (this.stepInput != this.orderDetail.step) {
+                if (this.stepInput != this.translateStepFromEngToVi(this.orderDetail.step)) {
                     return false
                 }
                 if (this.stageInput != this.translateStageFromEngToVi(this.orderDetail.stage)) {
@@ -386,7 +386,7 @@ export default {
     watch: {
         //Update assetTypeItem when SAssetList changes
         SAssetListResult() {
-            let asset = []
+            const asset = []
             for (let item of this.SAssetListResult) {
                 asset.push(item.description)
             }
@@ -412,7 +412,7 @@ export default {
                     this.sourceItems = [this.sourceInput]
                 }
 
-                this.stepInput = this.orderDetail.step
+                this.stepInput = this.translateStepFromEngToVi(this.orderDetail.step)
                 this.stageInput = this.translateStageFromEngToVi(this.orderDetail.stage)
                 this.agentInput = this.orderDetail.agent
                 this.supporterInput = this.orderDetail.support_agent_name
@@ -431,7 +431,7 @@ export default {
             }
         },
         stageItems() {
-            let oldStep = this.orderDetail.step
+            const oldStep = this.translateStepFromEngToVi(this.orderDetail.step)
             //When User go back old step
             if (this.stepInput == oldStep) {
                 //Get old stage
@@ -474,7 +474,7 @@ export default {
             this.dialog = false
         },
         okHandle: async function() {
-            let assetTypeID = await this.findAssetTypeID(this.assetTypeInput)
+            const assetTypeID = await this.findAssetTypeID(this.assetTypeInput)
 
             let appointmentDateTime
             //When appointmentDateTimeInput enable
@@ -485,14 +485,14 @@ export default {
                 appointmentDateTime = null
             }
 
-            let data = {
+            const data = {
                 orderID: this.orderID,
                 phone: this.phoneInput,
                 name: this.nameInput,
                 expectedAmount: this.expectedAmountInput == '' ? null : this.expectedAmountInput,
                 validatorAmount: this.validatorAmountInput == '' ? null : this.validatorAmountInput,
                 source: this.sourceInput,
-                step: this.stepInput,
+                step: this.translateStepFromViToEng(this.stepInput),
                 stage: this.translateStageFromViToEng(this.stageInput),
                 staff: this.orderDetail.staff,
                 note: this.noteInput,
@@ -526,11 +526,16 @@ export default {
             })
         },
         translateStageFromEngToVi: function(englishStage) {
-            return translateEngToVi(englishStage)
+            return translateStageFromEngToVi(englishStage)
         },
-        //Get English Stage to Update Order
         translateStageFromViToEng: function(vietnameseStage) {
-            return translateViToEng(vietnameseStage)
+            return translateStageFromViToEng(vietnameseStage)
+        },
+        translateStepFromEngToVi: function(englishStep) {
+            return translateStepFromEngToVi(englishStep)
+        },
+        translateStepFromViToEng: function(vietnameseStep) {
+            return translateStepFromViToEng(vietnameseStep)
         },
         getStatus: function(stage){
             return getStatus(stage)

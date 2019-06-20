@@ -5,11 +5,11 @@
           <div id="left">
             <h2>{{this.name}}</h2>
             <ul class="list-inline management">
-                <li v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.caseStatus.UNCLAIMED.color}`">{{this.caseStatus.UNCLAIMED.name}}: {{this.unclaimed}}</li>
-                <li class="list-inline-item" :style="`color:${this.caseStatus.PENDING.color}`">{{this.caseStatus.PENDING.name}}: {{this.pending}}</li>
-                <li class="list-inline-item" :style="`color:${this.caseStatus.CONTACT.color}`">{{this.caseStatus.CONTACT.name}}: {{this.contact}}</li>
-                <li class="list-inline-item" :style="`color:${this.caseStatus.QUOTED.color}`">{{this.caseStatus.QUOTED.name}}: {{this.quoted}}</li>
-                <li class="list-inline-item" :style="`color:${this.caseStatus.APPOINTMENT.color}`">{{this.caseStatus.APPOINTMENT.name}}: {{this.appointment}}</li>
+                <li v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.steps.UNCLAIMED.color}`">{{this.steps.UNCLAIMED.vi}}: {{this.unclaimed}}</li>
+                <li class="list-inline-item" :style="`color:${this.steps.PENDING.color}`">{{this.steps.PENDING.vi}}: {{this.pending}}</li>
+                <li class="list-inline-item" :style="`color:${this.steps.CONTACT.color}`">{{this.steps.CONTACT.vi}}: {{this.contact}}</li>
+                <li class="list-inline-item" :style="`color:${this.steps.QUOTED.color}`">{{this.steps.QUOTED.vi}}: {{this.quoted}}</li>
+                <li class="list-inline-item" :style="`color:${this.steps.APPOINTMENT.color}`">{{this.steps.APPOINTMENT.vi}}: {{this.appointment}}</li>
             </ul>
           </div>
         </v-flex>
@@ -56,7 +56,7 @@ import {mapActions, mapGetters} from 'vuex'
 import NewOrder from "@/components/OrderComponents/NewOrder.vue";
 import OrderFilter from "@/components/OrderComponents/OrderFilter.vue";
 
-import caseStatus from './utils/case_status'
+import steps from './utils/steps'
 
 export default {
   name: "order-management",
@@ -69,7 +69,7 @@ export default {
   },
   data() {
     return {
-      caseStatus: caseStatus,
+      steps: steps,
       phoneInput: ''
     }
   },
