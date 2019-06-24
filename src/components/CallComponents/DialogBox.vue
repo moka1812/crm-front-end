@@ -1,43 +1,35 @@
 <template>
-    <v-dialog v-model="this.dialog" max-width="400px">
-        <template v-slot:activator="{ on }">
+    <v-card>
+        <v-card-text class="justify-center"> <center>Đang gọi tới {{receiver}}</center> </v-card-text>
 
-        </template>
-        <v-card>
-            <v-card-title >
-                <span class="title">Hộp thoại</span>
-            </v-card-title>
-            <v-divider></v-divider>
-
-            <v-card-text class="justify-center"> Đang gọi tới {{receiver}} </v-card-text>
-
-            <v-divider></v-divider>
-            <v-card-actions class="justify-center">
-                <v-btn fab dark small  color="pink" @click="this.endHandle">
-                    <v-icon dark color="white">call_end</v-icon>
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+        <v-card-actions class="justify-center">
+            <v-btn fab dark small  color="#dd1e26">
+                <v-icon dark color="white">call_end</v-icon>
+            </v-btn>
+        </v-card-actions>
+    </v-card>
 </template>
 
 <script>
+
 export default {
     name: "dialog-box",
     data() {
         return {
-            dialog: true,
-            receiver: ''
-        }
-    },
-    methods: {
-        endHandle() {
-            this.dialog = false
+            receiver: this.$route.query.phone
         }
     }
 }
 </script>
 
-<style scoped>
-
+<style>
+#d1{
+    border: 1px solid black !important;
+}
+.dialog-drag .dialog-header {
+    background-color: #dd1e26 !important;
+}
+.title {
+    font-family: "Avenir", Helvetica, Arial, sans-serif !important;
+}
 </style>

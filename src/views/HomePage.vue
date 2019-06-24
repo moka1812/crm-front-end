@@ -8,7 +8,6 @@
       </v-container>
     </v-content>
     <branch-dialog/>
-    <dialog-box/>
   </v-container>
 </template>
 
@@ -16,7 +15,6 @@
 // @ is an alias to /src
 import SideBar from "@/components/SideBarComponents/SideBar.vue"
 import NavBar from "@/components/NavBarComponents/NavBar.vue"
-import DialogBox from "@/components/CallComponents/DialogBox.vue"
 import BranchDialog from "@/components/BranchDialogComponents/BranchDialog.vue"
 
 export default {
@@ -24,7 +22,6 @@ export default {
   components: {
     SideBar,
     NavBar,
-    DialogBox,
     BranchDialog
   },
 };

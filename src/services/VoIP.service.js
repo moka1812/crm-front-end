@@ -1,7 +1,7 @@
 import JsSIP from "jssip"
 
 
-const socket = new JsSIP.WebSocketInterface('wss://171.244.49.162');
+const socket = new JsSIP.WebSocketInterface('wss://voipicado.tk:7443');
 
 const VOIPService = {
     socket: socket,

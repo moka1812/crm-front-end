@@ -5,12 +5,13 @@ import HomePage from "./views/HomePage.vue"
 import Login from "./views/Login.vue";
 import Order from './components/OrderComponents/Order.vue';
 import MyInbox from './components/OrderComponents/MyInboxComponents/MyInbox.vue'
+import DialogBox from "./components/CallComponents/DialogBox.vue"
 
 import { TokenService } from './services/storage.service'
 
 Vue.use(Router);
 
-let loginPage = {
+const loginPage = {
   path: "/login",
   name: "login",
   component: Login,
@@ -19,7 +20,16 @@ let loginPage = {
   }
 }
 
-let orderPage = {
+const dialogPage = {
+  path: "/dialog",
+  name: "dialog",
+  component: DialogBox,
+  meta: {
+    requiresAuth: true
+  }
+}
+
+const orderPage = {
   path: "orders",
   name: "orders",
   component: Order,
@@ -28,7 +38,7 @@ let orderPage = {
   }
 }
 
-let myInboxPage = {
+const myInboxPage = {
   path: "my_inbox",
   name: "my_inbox",
   component: MyInbox,
@@ -37,7 +47,7 @@ let myInboxPage = {
   }
 }
 
-let homePage = {
+const homePage = {
   path: "/",
   name: "homepage",
   component: HomePage,
@@ -55,7 +65,8 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     homePage,
-    loginPage
+    loginPage,
+    dialogPage
   ]
 });
 
