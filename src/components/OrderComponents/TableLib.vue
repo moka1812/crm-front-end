@@ -132,13 +132,13 @@
             </td>
 
             <td 
-              class="text-xs-center content"
+              class="text-xs-center content ma-0"
             >
               {{ translateStageFromEngToVi(props.item.stage) }}
             </td>
           </template>
             <td class="text-xs-center">
-              <v-container fluid pa-4>
+              <v-container fluid pa-3>
                 <v-layout>
                   <v-flex sm4>
                     <action-button 

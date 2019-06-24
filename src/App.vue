@@ -9,7 +9,7 @@
 </template>
 <script>
 
-import OrderNotification from "@/components/OrderComponents/OrderNotificationComponents/OrderNotification.vue"
+import OrderNotification from "@/components/OrderNotificationComponents/OrderNotification.vue"
 
 export default {
   components: {

@@ -10,6 +10,9 @@
                   class="notification-title"
                 >
                   Order #{{props.item.title}}
+                  <p id="off" @click.stop="props.close">
+                    x
+                  </p>
                 </div>
                 <div
                   class="notification-content"
@@ -40,5 +43,8 @@ export default {
 </script>
 
 <style scoped>
-
+#off {
+  float: right;
+  cursor:pointer;
+}
 </style>
