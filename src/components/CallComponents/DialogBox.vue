@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
     name: "dialog-box",
@@ -18,7 +19,26 @@ export default {
         return {
             receiver: this.$route.query.phone
         }
-    }
+    },
+    beforeCreate() {
+        window.addEventListener('beforeunload', (event) => {
+        // Cancel the event as stated by the standard.
+        event.preventDefault();
+        // Chrome requires returnValue to be set.
+        event.returnValue = '1231312';
+        });
+    },
+    mounted() {
+      this.call({phone: '0972957262'})
+    },
+    methods: {
+        ...mapActions({
+            call: 'call/call'
+        }),
+        handler: function handler(event) {
+            alert(12312312)
+        }
+    },
 }
 </script>
 

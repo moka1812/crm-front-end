@@ -2,6 +2,8 @@ const TOKEN_KEY = 'access_token'
 const REFRESH_TOKEN_KEY = 'refresh_token'
 const PROFILE = 'profile'
 const CURRENT_BRANCH = 'current_branch'
+const VOIP_ACCOUNT = 'voip_account'
+const VOIP_PASSWORD = 'voip_password'
 
 /**
  * Manage the how Access Tokens are being stored and retreived from storage.
@@ -40,6 +42,32 @@ const TokenService = {
         //localStorage.removeItem(REFRESH_TOKEN_KEY)
     }
 
+}
+
+const VOIPUserService = {
+    saveUsername(username) {
+        window.$cookies.set(VOIP_ACCOUNT, username)
+    },
+
+    getUsername() {
+        return window.$cookies.get(VOIP_ACCOUNT)
+    },
+
+    removeUsername() {
+        window.$cookies.remove(VOIP_ACCOUNT);
+    },
+
+    savePassword(password) {
+        window.$cookies.set(VOIP_PASSWORD, password)
+    },
+
+    getPassword() {
+        return window.$cookies.get(VOIP_PASSWORD)
+    },
+
+    removePassword() {
+        window.$cookies.remove(VOIP_PASSWORD);
+    },
 }
 
 const ProfileService = {
@@ -136,4 +164,6 @@ const CurrentBranchService = {
     },
 }
 
-export { TokenService, ProfileService, CurrentBranchService }
+VOIPUserService.saveUsername(1002)
+VOIPUserService.savePassword('.Z!T$^x*^A')
+export { TokenService, ProfileService, CurrentBranchService, VOIPUserService }

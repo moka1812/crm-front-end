@@ -6,6 +6,7 @@ import { moduleNotification} from '../components/NavBarComponents/store/notifica
 import { moduleOrder } from '../components/OrderComponents/store/order/index';
 import { moduleAuth } from '../components/LoginComponents/store/auth/index';
 import { moduleAsset } from '../components/OrderComponents/store/asset/index'
+import { moduleCall } from '../components/CallComponents/store/call/index'
 
 
 Vue.use(Vuex);
@@ -18,5 +19,6 @@ export default new Vuex.Store({
     order: moduleOrder,
     asset: moduleAsset,
     notification: moduleNotification,
+    call: moduleCall,
   }
 });

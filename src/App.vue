@@ -14,7 +14,7 @@ import OrderNotification from "@/components/OrderNotificationComponents/OrderNot
 export default {
   components: {
     OrderNotification
-  }
+  },
 }
 </script>
 <style>
