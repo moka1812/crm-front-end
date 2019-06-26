@@ -1,7 +1,12 @@
 <template>
     <div>
-        <center>Đang gọi tới {{receiver}}</center>
-        <center>{{minutes}}:{{seconds}}</center>
+        <center>Đang gọi tới {{this.customerNumberPhone}}</center>
+        
+        <center v-if="[0, 200].includes(this.callErrorCode)">{{minutes}}:{{seconds}}</center>
+        <center v-else>
+            {{this.callError}}
+        </center>
+
         <center>
             <v-btn fab dark small  color="#dd1e26" @click="this.terminate">
                 <v-icon dark color="white">call_end</v-icon>
@@ -18,7 +23,6 @@ export default {
     name: "dialog-box",
     data() {
         return {
-            receiver: this.$route.query.phone,
             timer: null,
             totalTime: 0,
         }
@@ -37,6 +41,7 @@ export default {
     computed: {
         ...mapGetters({
             calling: 'call/calling',
+            customerNumberPhone: 'call/customerNumberPhone',
             callErrorCode: 'call/callErrorCode',
             callError: 'call/callError'
         }),
@@ -67,7 +72,7 @@ export default {
         },
         callErrorCode() {
             //End Call
-            if (this.callErrorCode == 200) {
+            if (this.callErrorCode != 0) {
                 clearInterval(this.timer)
             }
         }

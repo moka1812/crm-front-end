@@ -9,7 +9,8 @@
             :height="100"
             id="window"
         >
-            <dialog-box v-if="callBox" />
+            <incoming-box v-if="incomingRequest"/>
+            <dialog-box v-else-if="callBox" />
         </hsc-window>
     </hsc-window-style-metal>
 </template>
@@ -17,10 +18,12 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import DialogBox from "@/components/CallComponents/DialogBox.vue"
+import IncomingBox from "@/components/CallComponents/IncomingBox.vue"
 
 export default {
     components: {
-        DialogBox
+        DialogBox,
+        IncomingBox
     },
     data() {
         return {
@@ -31,15 +34,17 @@ export default {
         ...mapGetters({
             windowOpen: 'call/windowOpen',
             callBox: 'call/callBox',
-            closeWindow: 'call/closeWindow'
+            incomingRequest: 'call/incomingRequest',
         }),
         isOpen: {
             get() {return this.windowOpen},
-            set(value) {closeWindow()}
+            set(value) {this.terminate()}
         }
     },
     methods: {
-
+        ...mapActions({
+            terminate: 'call/terminate',
+        })
     }
 }
 </script>

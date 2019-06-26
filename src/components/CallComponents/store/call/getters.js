@@ -1,4 +1,8 @@
 export default  {
+    session: (state) => {
+        return state.session
+    },
+    
     windowOpen: (state) => {
         return state.windowOpen
     },
@@ -26,4 +30,12 @@ export default  {
     callError: (state) => {
         return state.callError
     },
+
+    customerNumberPhone: (state) => {
+        return state.customerNumberPhone
+    },
+
+    incomingRequest: (state) => {
+        return state.incomingRequest
+    }
 }

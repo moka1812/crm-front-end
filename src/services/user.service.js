@@ -43,6 +43,8 @@ const UserService = {
             
             VOIPUserService.saveUsername(username)
             VOIPUserService.savePassword(password)
+
+            console.log(123)
             VOIPService.setTelephone({user: username, password: password})
 
             ApiService.setHeader()

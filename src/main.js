@@ -14,12 +14,23 @@ import router from "./router";
 import store from "./store/store";
 
 import ApiService from './services/api.service'
-import { TokenService } from './services/storage.service'
+import { TokenService, VOIPUserService } from './services/storage.service'
+import VOIPService from './services/VoIP.service'
 
 //Set Token when open website and token exist
 if (TokenService.getToken()) {
   ApiService.setHeader()
   ApiService.mount403Interceptor();
+}
+
+//If user and password VOIP exist in cookie, connect to VOIP Backend
+if (VOIPUserService.isExist() && VOIPService.getTelephone() == null) {
+
+  const username = VOIPUserService.getUsername()
+  const password =  VOIPUserService.getPassword()
+ 
+  VOIPService.setTelephone({user: username, password: password})
+
 }
 
 Vue.config.productionTip = false;
