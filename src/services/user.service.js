@@ -1,5 +1,6 @@
-import { TokenService, ProfileService, CurrentBranchService } from './storage.service';
+import { TokenService, ProfileService, CurrentBranchService, VOIPUserService } from './storage.service';
 import ApiService from '../services/api.service'
+import VOIPService from '../services/VoIP.service'
 import { loginApi, refreshTokenApi } from '../config/backend-api'
 
 class AuthenticationError extends Error {
@@ -33,9 +34,16 @@ const UserService = {
                 name: response.data.name,
                 id: response.data.id,
                 branch: response.data.branch,
-                branchID: response.data.branch_id,
+                branchID: response.data.branch_id
             }
             ProfileService.saveProfile(profile)
+
+            const username = response.data.sip_username
+            const password =  response.data.sip_passwd
+            
+            VOIPUserService.saveUsername(username)
+            VOIPUserService.savePassword(password)
+            VOIPService.setTelephone({user: username, password: password})
 
             ApiService.setHeader()
             ApiService.mount403Interceptor()
@@ -78,6 +86,8 @@ const UserService = {
         ApiService.removeHeader()
         ApiService.unmount403Interceptor()
         CurrentBranchService.removeCurrentBranch()
+        VOIPUserService.removeUsername()
+        VOIPUserService.removePassword()
     },
 }
 

@@ -1,6 +1,10 @@
 import Vue from 'vue'
 
 import {
+    OPEN_CALL_BOX,
+    OPEN_NUMBER_BOX,
+    CLOSE_CALL_BOX,
+    CLOSE_NUMBER_BOX,
     CALLING,
     CALL_RING,
     CALL_FAIL,
@@ -29,13 +33,30 @@ const getErrorCode = (cause) => {
 }
 
 export default {
-    [CALLING] (state) {
-        Vue.set(state, 'calling', true)
-        Vue.set(state, 'callError', '')
-        Vue.set(state, 'callErrorCode', 0)
+    [OPEN_CALL_BOX] (state) {
+        Vue.set(state, 'windowOpen', true)
+        Vue.set(state, 'callBox', true)
+    },
+    [OPEN_NUMBER_BOX] (state) {
+        Vue.set(state, 'windowOpen', true)
+        Vue.set(state, 'numberBox', true)
+    },
+    [CLOSE_CALL_BOX] (state) {
+        Vue.set(state, 'windowOpen', false)
+        Vue.set(state, 'callBox', false)
+    },
+    [CLOSE_NUMBER_BOX] (state) {
+        Vue.set(state, 'windowOpen', false)
+        Vue.set(state, 'numberBox', false)
     },
     [CALL_RING] (state) {
         Vue.set(state, 'ring', true)
+    },
+    [CALLING] (state) {
+        Vue.set(state, 'calling', true)
+        Vue.set(state, 'ring', false)
+        Vue.set(state, 'callError', '')
+        Vue.set(state, 'callErrorCode', 0)
     },
     [CALL_FAIL] (state, {cause}) {
         Vue.set(state, 'calling', false)

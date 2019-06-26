@@ -52,12 +52,12 @@ export default {
         }
     },
     mounted(){
-        this.schedule = setInterval(this.getNewNotification, 1000)
+        //this.schedule = setInterval(this.getNewNotification, 1000)
     },
     computed: {
         ...mapGetters({
             newNotificationResult: 'notification/newNotificationResult',
-            notificationResult: 'notification/notificationResult'
+            notificationResult: 'notification/notificationResult',
         }),
         count() {
             return this.newNotificationResult.length
@@ -70,11 +70,15 @@ export default {
         ...mapActions({
             getNewNotification: 'notification/getNewNotification',
             getNotification: 'notification/getNotification',
+            readNotification: 'notification/readNotification',
             getOrderDetailFromNotification: 'order/getOrderDetailFromNotification'
         }),
         click(index) {
-            let order = this.notificationResult[index].order
-            this.getOrderDetailFromNotification({id: order})
+            const orderID = this.notificationResult[index].order
+            this.getOrderDetailFromNotification({id: orderID})
+            const NotificationID = this.notificationResult[index].id
+            console.log(NotificationID)
+            this.readNotification({id: NotificationID})
         }
     },
     watch: {

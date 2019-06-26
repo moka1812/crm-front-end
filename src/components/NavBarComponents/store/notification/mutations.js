@@ -7,7 +7,11 @@ import {
 
     NOTIFICATION_REQUEST,
     NOTIFICATION_SUCCESS,
-    NOTIFICATION_ERROR
+    NOTIFICATION_ERROR,
+
+    NOTIFICATION_UPDATING_REQUEST,
+    NOTIFICATION_UPDATING_SUCCESS,
+    NOTIFICATION_UPDATING_ERROR,
 } from './types'
 
 export default {
@@ -38,4 +42,22 @@ export default {
         Vue.set(state, 'notificationErrorCode', errorCode)
         Vue.set(state, 'notificationError', errorMessage)
     },
+
+    [NOTIFICATION_UPDATING_REQUEST] (state) {
+        Vue.set(state, 'notificationUpdatingRequest', true)
+        Vue.set(state, 'notificationUpdatingResult', null)
+        Vue.set(state, 'notificationUpdatingErrorCode', 0)
+        Vue.set(state, 'notificationUpdatingError', '')
+    },
+    [NOTIFICATION_UPDATING_SUCCESS] (state, {result}) {
+        Vue.set(state, 'notificationUpdatingRequest', false)
+        Vue.set(state, 'notificationUpdatingResult', result)
+        Vue.set(state, 'notificationUpdatingErrorCode', 200)
+        Vue.set(state, 'notificationUpdatingError', '')
+    },
+    [NOTIFICATION_UPDATING_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'notificationUpdatingRequest', false)
+        Vue.set(state, 'notificationUpdatingErrorCode', errorCode)
+        Vue.set(state, 'notificationUpdatingError', errorMessage)
+    }
 }

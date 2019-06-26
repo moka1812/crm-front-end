@@ -45,6 +45,10 @@ const TokenService = {
 }
 
 const VOIPUserService = {
+    isExist() {
+        return window.$cookies.isKey(VOIP_ACCOUNT) && window.$cookies.isKey(VOIP_PASSWORD)
+    },
+
     saveUsername(username) {
         window.$cookies.set(VOIP_ACCOUNT, username)
     },
@@ -164,6 +168,4 @@ const CurrentBranchService = {
     },
 }
 
-VOIPUserService.saveUsername(1002)
-VOIPUserService.savePassword('.Z!T$^x*^A')
 export { TokenService, ProfileService, CurrentBranchService, VOIPUserService }

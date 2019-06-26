@@ -17,4 +17,16 @@ export default  {
     notificationError: (state) => {
         return state.notificationError
     },
+    notificationUpdatingRequest: (state) => {
+        return state.notificationUpdatingRequest
+    },
+    notificationUpdatingResult: (state) => {
+        return state.notificationUpdatingResult
+    },
+    notificationUpdatingErrorCode: (state) => {
+        return state.notificationUpdatingErrorCode
+    },
+    notificationUpdatingError: (state) => {
+        return state.notificationUpdatingError
+    },
 }

@@ -4,16 +4,19 @@
       <router-view />
       <notifications id="foo" group="foo" position="top right" animation-type="velocity"/>
       <order-notification/>
+      <window/>
     </v-app>
   </div>
 </template>
 <script>
 
 import OrderNotification from "@/components/OrderNotificationComponents/OrderNotification.vue"
+import Window from "@/components/CallComponents/Window.vue"
 
 export default {
   components: {
-    OrderNotification
+    OrderNotification,
+    Window
   },
 }
 </script>

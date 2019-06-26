@@ -19,4 +19,4 @@ export const orderFromStaffAPI = `${baseURL}/staffs/:id/orders/`
 
 export const newNotificationAPI = `${baseURL}/staffs/:id/new_notification/`
 
-export const notificationAPI = `${baseURL}/staffs/:id/notification/`
+export const notificationAPI = `${baseURL}/notifications/`

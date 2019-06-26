@@ -1,3 +1,7 @@
+export const OPEN_CALL_BOX = 'OPEN_CALL_BOX'
+export const OPEN_NUMBER_BOX = 'OPEN_NUMBER_BOX'
+export const CLOSE_CALL_BOX = 'CLOSE_CALL_BOX'
+export const CLOSE_NUMBER_BOX = 'CLOSE_NUMBER_BOX'
 export const CALLING = 'CALLING'
 export const CALL_RING = 'CALL_RING'
 export const CALL_FAIL = 'CALL_FAIL'

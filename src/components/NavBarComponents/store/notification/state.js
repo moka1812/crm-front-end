@@ -7,4 +7,9 @@ export default  {
     notificationResult: [],
     notificationErrorCode: 0,
     notificationError: '',
+
+    notificationUpdatingRequest: false,
+    notificationUpdatingResult: null,
+    notificationUpdatingErrorCode: 0,
+    notificationUpdatingError: '',
 }
