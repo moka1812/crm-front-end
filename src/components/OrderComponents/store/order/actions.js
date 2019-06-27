@@ -4,6 +4,8 @@ import {
     CLIENT_SEARCHING_ERROR,
     CLIENT_SEARCHING_RESET,
 
+    TURN_OFF_DIALOG,
+
     ORDER_CREATING_REQUEST,
     ORDER_CREATING_SUCCESS,
     ORDER_CREATING_ERROR,
@@ -68,6 +70,10 @@ export default {
                 commit(ORDER_CREATING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
+    },
+
+    async turnOffDialog({commit}) {
+        commit(TURN_OFF_DIALOG)
     },
 
     async resetOrderList({commit}) {

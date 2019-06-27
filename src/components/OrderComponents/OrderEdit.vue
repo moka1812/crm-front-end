@@ -216,8 +216,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations } from 'vuex'
-import {EDIT_DIALOG} from './store/order/types'
+import {mapActions, mapGetters } from 'vuex'
 import {getStage} from './utils/stage_functions'
 import sourceItems from './utils/source_items'
 import changeDigitToText from './utils/money'
@@ -230,25 +229,13 @@ export default {
     data() {
         return {
             valid: false,
-            orderID: '',
-            nameInput: '',
-            agentInput: '',
-            supporterInput: '',
-            phoneInput: '',
-            assetInput: '',
-            expectedAmountInput: '',
-            assetTypeInput: '',
+            detail: null,
             assetTypeItems: [],
-            validatorAmountInput: '',
-            sourceInput: '',
             sourceItems: [],
-            noteInput: '',
-            branchInput: '',
+            menu: false,
             stepInput: '',
             stageInput: '',
-            menu: false,
             appointmentDateTimeInput: '',
-            assetID: '',
         }
     },
     computed: {
@@ -264,7 +251,112 @@ export default {
         }),
         dialog: {
             get () { return this.orderDetailForm },
-            set (value) { this.editDialog(value) }
+            set (value) { if (!value) {this.turnOffDialog()} }
+        },
+        orderID() {
+            if (this.detail != null) {
+                return this.detail.orderID
+            } return null
+        },
+        nameInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.name
+                } return null
+            },
+            set (value) {
+                this.detail.name = value
+            }
+        },
+        phoneInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.phone
+                }
+            },
+            set (value) {
+                this.detail.phone = value
+            }
+        },
+        expectedAmountInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.expectedAmount == null ? '' : this.detail.expectedAmount 
+                } return null
+            },
+            set (value) {
+                this.detail.expectedAmount = value
+            }
+        },
+        validatorAmountInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.validatorAmount == null ? '' : this.detail.validatorAmount  
+                } return null
+            },
+            set (value) {
+                this.detail.validatorAmount = value
+            }
+        },
+        sourceInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.source
+                } return null
+            },
+            set (value) {
+                this.detail.source = value
+            }
+        },
+        agentInput() {
+            if (this.detail != null) {
+                return this.detail.agent
+            } return null
+        },
+        supporterInput() {
+            if (this.detail != null) {
+                return this.detail.support_agent_name
+            } return null
+        },
+        branchInput() {
+            if (this.detail != null) {
+                return this.detail.branchName
+            } return null
+        },
+        noteInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.note
+                } return null
+            },
+            set (value) {
+                this.detail.note = value
+            }
+        },
+        assetID() {
+            if (this.detail != null) {
+                return this.detail.assetID
+            } return null
+        },
+        assetTypeInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.asset
+                } return null
+            },
+            set (value) {
+                this.detail.asset = value
+            }
+        },
+        assetInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.assetDescription
+                } return null
+            },
+            set (value) {
+                this.detail.assetDescription = value
+            }
         },
         //Get stage when step changes
         stageTotal() {
@@ -395,15 +487,8 @@ export default {
         //Update Order Detail to Input
         orderDetail: async function() {
             if (this.orderDetail != null) {
-
-                this.orderID = this.orderDetail.orderID
-                this.nameInput = this.orderDetail.name
-                this.phoneInput = this.orderDetail.phone
-                //Change null to ''
-                this.expectedAmountInput = this.orderDetail.expectedAmount == null ? '' : this.orderDetail.expectedAmount 
-                this.validatorAmountInput = this.orderDetail.validatorAmount == null ? '' : this.orderDetail.validatorAmount 
+                this.detail = {...this.orderDetail}
                 
-                this.sourceInput = this.orderDetail.source
                 //sourceInput existing in sourceItem or null
                 if (sourceItems.includes(this.sourceInput) || /^\s*$/.test(this.sourceInput) || this.sourceInput == null) {
                     this.sourceItems = sourceItems
@@ -414,20 +499,12 @@ export default {
 
                 this.stepInput = this.translateStepFromEngToVi(this.orderDetail.step)
                 this.stageInput = this.translateStageFromEngToVi(this.orderDetail.stage)
-                this.agentInput = this.orderDetail.agent
-                this.supporterInput = this.orderDetail.support_agent_name
-                this.branchInput = this.orderDetail.branchName
-                this.noteInput = this.orderDetail.note
 
                 if (this.orderDetail.appointment !== null) {
                     this.appointmentDateTimeInput = moment(this.orderDetail.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
                 } else {
                     this.appointmentDateTimeInput = null
                 }
-
-                this.assetID = this.orderDetail.assetID
-                this.assetTypeInput = this.orderDetail.asset
-                this.assetInput = this.orderDetail.assetDescription
             }
         },
         stageItems() {
@@ -452,12 +529,9 @@ export default {
         },
     },
     methods: {
-        ...mapMutations({
-            //Turn off Dialog
-            editDialog: `order/${EDIT_DIALOG}`
-        }),
         ...mapActions({
             updateOrder: 'order/updateOrder',
+            turnOffDialog: 'order/turnOffDialog'
         }),
         //Find asset ID from asset description
         findAssetTypeID(assetType) {

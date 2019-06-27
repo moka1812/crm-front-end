@@ -30,7 +30,7 @@ import {
 
     ORDER_DETAIL_REQUEST,
     ORDER_DETAIL_SUCCESS,
-    EDIT_DIALOG,
+    TURN_OFF_DIALOG,
     ORDER_DETAIL_ERROR
 } from './types'
 
@@ -176,7 +176,7 @@ export default {
         Vue.set(state, 'orderDetailErrorCode', 200)
         Vue.set(state, 'orderDetailError', '')
     },
-    [EDIT_DIALOG] (state) {
+    [TURN_OFF_DIALOG] (state) {
         Vue.set(state, 'orderDetailForm', false)
     },
     [ORDER_DETAIL_ERROR] (state, {errorCode, errorMessage}) {
