@@ -3,12 +3,11 @@ import JsSIP from 'jssip'
 import store from '../store/store'
 
 const ws_uri = 'wss://voipicado.tk:7443'
-const socket = new JsSIP.WebSocketInterface(ws_uri);
 
 //JsSIP.debug.enable('JsSIP:*');
 
 const VOIPService = {
-    socket: socket,
+    socket: new JsSIP.WebSocketInterface(ws_uri),
     telephone: null,
     configuration: null,
     
@@ -36,12 +35,12 @@ const VOIPService = {
                 text: "Failed"
               });
         });
+
         this.telephone.on('newRTCSession', function(data) { 
             const session = data.session;
             const request = data.request;
             
             if (request.constructor.name == "IncomingRequest") {
-                console.log(123)
                 store.dispatch('call/incomingRequest',{newSession: session})
             }
             
@@ -51,6 +50,10 @@ const VOIPService = {
 
     getTelephone() {
         return this.telephone
+    },
+
+    disconnect() {
+        this.telephone.stop()
     }
 }
 

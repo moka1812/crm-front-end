@@ -35,7 +35,8 @@ export default  {
         return state.customerNumberPhone
     },
 
-    incomingRequest: (state) => {
-        return state.incomingRequest
-    }
+    requestType: (state) => {
+        return state.requestType
+    },
+
 }

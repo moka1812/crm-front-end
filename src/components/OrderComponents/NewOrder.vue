@@ -144,23 +144,19 @@
         </v-card-text>
         <v-spacer></v-spacer>
         <v-btn class="cancelBtn"
-        @click="this.cancleHandle"
+          @click="this.cancleHandle"
+          :disabled="orderCreating"
         >
         Cancel
         </v-btn>
         <v-btn
-        class="OkBtn"
-        @click="this.okHandle"
-        :disabled="!valid"
-        v-if="!orderCreating"
+          class="OkBtn"
+          @click="this.okHandle"
+          :disabled="!valid"
+          :loading="orderCreating"
         >
         OK
         </v-btn>
-        <v-progress-circular
-        indeterminate
-        color="red"
-        v-else
-        ></v-progress-circular>
       </v-card-actions>
     </v-card>
   </v-dialog>

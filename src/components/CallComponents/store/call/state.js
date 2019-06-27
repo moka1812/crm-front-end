@@ -8,4 +8,5 @@ export default  {
     callErrorCode: 0,
     callError: '',
     customerNumberPhone: '',
+    requestType: '',
 }

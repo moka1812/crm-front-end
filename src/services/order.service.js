@@ -256,7 +256,7 @@ const OrderService = {
                     validatorAmount: item.proposed_amount,
                     approvedAmount: item.approved_amount,
                     supporter: item.support_agent,
-                    support_agent_name: item.support_agent_name,
+                    supportAgentName: item.support_agent_name,
                     createdDate: created,
                     appointment: item.appointment,
                     dateClaim: item.date_claim,

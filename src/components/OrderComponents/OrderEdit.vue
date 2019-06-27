@@ -315,7 +315,7 @@ export default {
         },
         supporterInput() {
             if (this.detail != null) {
-                return this.detail.support_agent_name
+                return this.detail.supportAgentName
             } return null
         },
         branchInput() {

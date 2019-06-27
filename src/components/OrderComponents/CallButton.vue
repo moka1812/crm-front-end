@@ -12,18 +12,12 @@ export default {
     props: {
         phone: String
     },
-    data() {
-        return {
-            //window: null,
-        }
-    },
     methods: {
         ...mapActions({
-            openCallBox: 'call/openCallBox'
+            call: 'call/call',
         }),
         openDialog() {
-            //this.window = window.open(`/dialog?phone=${this.phone}`, "myWindow", "width=400, height=130");
-            this.openCallBox()
+            this.call({phone: '0972957262'})
         }
     },
 }

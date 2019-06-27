@@ -1,17 +1,33 @@
 <template>
-    <div>
-        <center>Đang gọi tới {{this.customerNumberPhone}}</center>
-        
-        <center v-if="[0, 200].includes(this.callErrorCode)">{{minutes}}:{{seconds}}</center>
-        <center v-else>
-            {{this.callError}}
-        </center>
+    <div class="center">
 
-        <center>
-            <v-btn fab dark small  color="#dd1e26" @click="this.terminate">
-                <v-icon dark color="white">call_end</v-icon>
-            </v-btn>
-        </center>
+        <v-avatar
+          :tile="false"
+          :size="100"
+          color="grey lighten-4"
+          class="ma-3"
+        >
+          <img src="https://vuetifyjs.com/apple-touch-icon-180x180.png" alt="avatar">
+        </v-avatar>
+
+        <br/>
+        
+        <h3>Lê Bảo Châu</h3>
+        ({{this.customerNumberPhone}})
+
+        <p v-if="this.ring==true"> Đang gọi </p>
+        <p v-else-if="this.callErrorCode==0">{{minutes}}:{{seconds}}</p>
+        <p v-else>
+            {{this.callError}}
+        </p>
+
+        <v-btn fab dark small  color="#dd1e26" @click="this.terminate">
+            <v-icon dark color="white">call_end</v-icon>
+        </v-btn>
+
+        <br class="margin"/>
+
+        <p class="client">Thông tin khách hàng</p>
     </div>
 </template>
 
@@ -27,21 +43,11 @@ export default {
             totalTime: 0,
         }
     },
-    beforeCreate() {
-        window.addEventListener('beforeunload', (event) => {
-            // Cancel the event as stated by the standard.
-            event.preventDefault();
-            // Chrome requires returnValue to be set.
-            event.returnValue = '1231312';
-        });
-    },
-    mounted() {
-      this.call({phone: '0972957262'})
-    },
     computed: {
         ...mapGetters({
-            calling: 'call/calling',
             customerNumberPhone: 'call/customerNumberPhone',
+            calling: 'call/calling',
+            ring: 'call/ring',
             callErrorCode: 'call/callErrorCode',
             callError: 'call/callError'
         }),
@@ -56,7 +62,6 @@ export default {
     },
     methods: {
         ...mapActions({
-            call: 'call/call',
             terminate: 'call/terminate'
         }),
         padTime: function(time) {
@@ -81,13 +86,16 @@ export default {
 </script>
 
 <style>
-#d1{
-    border: 1px solid black !important;
+.center {
+    text-align: center;
 }
-.dialog-drag .dialog-header {
-    background-color: #dd1e26 !important;
+.margin {
+    margin-top: 15px;
 }
-.title {
-    font-family: "Avenir", Helvetica, Arial, sans-serif !important;
+.client {
+    margin-top: 15px;
+    cursor: pointer;
+    color: blue;
+    font-size: 16px;
 }
 </style>

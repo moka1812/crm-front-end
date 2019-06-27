@@ -1,16 +1,15 @@
 <template>
     <hsc-window-style-metal>
         <hsc-window 
-            title="Dialog"
+            :title="title"
             :isOpen.sync="isOpen"
             :closeButton="true"
             positionHint="center"
             :width="300"
-            :height="100"
+            :height="350"
             id="window"
         >
-            <incoming-box v-if="incomingRequest"/>
-            <dialog-box v-else-if="callBox" />
+            <dialog-box v-if="callBox" />
         </hsc-window>
     </hsc-window-style-metal>
 </template>
@@ -34,16 +33,23 @@ export default {
         ...mapGetters({
             windowOpen: 'call/windowOpen',
             callBox: 'call/callBox',
-            incomingRequest: 'call/incomingRequest',
+            requestType: 'call/requestType',
         }),
+        title() {
+            if (this.requestType == 'outcoming') {
+                return "Cuộc gọi đi"
+            } else if (this.requestType == 'incoming') {
+                return "Cuộc gọi về"
+            } return 'Hộp số'
+        },
         isOpen: {
             get() {return this.windowOpen},
-            set(value) {this.terminate()}
+            set(value) {this.closeWindow()}
         }
     },
     methods: {
         ...mapActions({
-            terminate: 'call/terminate',
+            closeWindow: 'call/closeWindow',
         })
     }
 }
@@ -52,5 +58,7 @@ export default {
 <style scoped>
 #window {
     background: linear-gradient(white, white) !important;
+    position: fixed;
+    z-index: 2 !important;
 }
 </style>

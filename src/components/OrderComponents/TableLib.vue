@@ -103,7 +103,7 @@
             <td 
               class="text-xs-center content"              
             >
-              {{ props.item.support_agent_name }}
+              {{ props.item.supportAgentName }}
             </td>
             
             <td 

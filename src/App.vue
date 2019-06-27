@@ -2,9 +2,9 @@
   <div id="app">
     <v-app>
       <router-view />
+      <window/>
       <notifications id="foo" group="foo" position="top right" animation-type="velocity"/>
       <order-notification/>
-      <window/>
     </v-app>
   </div>
 </template>

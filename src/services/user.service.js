@@ -44,7 +44,6 @@ const UserService = {
             VOIPUserService.saveUsername(username)
             VOIPUserService.savePassword(password)
 
-            console.log(123)
             VOIPService.setTelephone({user: username, password: password})
 
             ApiService.setHeader()
@@ -88,6 +87,7 @@ const UserService = {
         ApiService.removeHeader()
         ApiService.unmount403Interceptor()
         CurrentBranchService.removeCurrentBranch()
+        VOIPService.disconnect()
         VOIPUserService.removeUsername()
         VOIPUserService.removePassword()
     },
