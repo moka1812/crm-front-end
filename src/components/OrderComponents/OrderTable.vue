@@ -19,7 +19,7 @@ export default {
   },
   mounted() {
     this.getOrderList()
-    //this.shecdule = setInterval(this.planOrderList, 5000);
+    this.shecdule = setInterval(this.planOrderList, 5000);
   },
   computed: {
     ...mapGetters({

@@ -138,7 +138,6 @@ export default {
     const session = getters.session
     if (session != null) {
 
-
       const options = {
         'extraHeaders': [ 'X-Foo: foo', 'X-Bar: bar' ],
         'mediaConstraints' : { 'audio': true, 'video': false },
@@ -152,6 +151,7 @@ export default {
         }
       };
       session.answer(options)
+      
     }
   },
 

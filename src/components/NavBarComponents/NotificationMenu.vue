@@ -52,7 +52,7 @@ export default {
         }
     },
     mounted(){
-        //this.schedule = setInterval(this.getNewNotification, 1000)
+        this.schedule = setInterval(this.getNewNotification, 1000)
     },
     computed: {
         ...mapGetters({

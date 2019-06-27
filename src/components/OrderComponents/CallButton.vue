@@ -17,7 +17,8 @@ export default {
             call: 'call/call',
         }),
         openDialog() {
-            this.call({phone: '0972957262'})
+            //this.call({phone: '0972957262'})
+            this.call({phone: this.phone})
         }
     },
 }
