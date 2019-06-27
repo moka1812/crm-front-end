@@ -109,6 +109,9 @@ export default {
     session.on('failed', (e) => {
       commit(INCOMING_END, {cause: e.cause})
       commit(SESSION, {session:null})
+      setTimeout(() => {
+        dispatch("closeCallBox")
+      }, 5000)
     })
 
     session.on('confirmed', (e) => {
@@ -123,6 +126,9 @@ export default {
     session.on('ended', (e) => {
       commit(INCOMING_END, {cause: e.cause})
       commit(SESSION, {session:null})
+      setTimeout(() => {
+        dispatch("closeCallBox")
+      }, 5000)
     })
 
     commit(SESSION, {session})
@@ -131,7 +137,21 @@ export default {
   async imcomingAccept({getters}) {
     const session = getters.session
     if (session != null) {
-      session.answer()
+
+
+      const options = {
+        'extraHeaders': [ 'X-Foo: foo', 'X-Bar: bar' ],
+        'mediaConstraints' : { 'audio': true, 'video': false },
+        'sessionTimersExpires': '180',
+        'pcConfig': {
+            'iceServers': [
+              { 'urls': ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }
+            ],
+            iceTransportPolicy: "all",
+            rtcpMuxPolicy: "negotiate"
+        }
+      };
+      session.answer(options)
     }
   },
 
