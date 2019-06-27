@@ -4,7 +4,7 @@ import Vue from "vue";
 import "./plugins/vuetify";
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import "./plugins/vue-notification"
-import "./plugins/google-auth"
+import "./plugins/vue-snotify"
 import "./plugins/vue-cookies"
 import "./plugins/vue-worker"
 import "./plugins/vue-window"

@@ -41,7 +41,7 @@ const VOIPService = {
             const request = data.request;
             
             if (request.constructor.name == "IncomingRequest") {
-                store.dispatch('call/incomingRequest',{newSession: session})
+                store.dispatch('call/incomingRequest',{session})
             }
             
         });

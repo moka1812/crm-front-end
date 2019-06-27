@@ -8,6 +8,8 @@
       </v-container>
     </v-content>
     <branch-dialog/>
+    <incoming-box/>
+    <vue-snotify/>
   </v-container>
 </template>
 
@@ -16,13 +18,15 @@
 import SideBar from "@/components/SideBarComponents/SideBar.vue"
 import NavBar from "@/components/NavBarComponents/NavBar.vue"
 import BranchDialog from "@/components/BranchDialogComponents/BranchDialog.vue"
+import IncomingBox from "@/components/CallComponents/IncomingBox.vue"
 
 export default {
   name: "homepage",
   components: {
     SideBar,
     NavBar,
-    BranchDialog
+    BranchDialog,
+    IncomingBox,
   },
 };
 </script>

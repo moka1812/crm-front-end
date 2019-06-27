@@ -34,6 +34,25 @@ export default {
     commit(RESET_DETAIL)
   },
 
+  async terminate({getters}) {
+    const session = getters.session
+    //Session is exist
+    if (session != null) {
+      session.terminate()
+    }
+  },
+
+  async closeWindow({commit, getters}) {
+    const session = getters.session
+    //Session is exist
+    if (session != null) {
+      session.terminate()
+    }
+    commit(CLOSE_CALL_BOX)
+    commit(CLOSE_WINDOW)
+    commit(RESET_DETAIL)
+  },
+
   //For outcoming call
   async call({commit, dispatch}, payload) {
     await dispatch("openCallBox")
@@ -82,11 +101,8 @@ export default {
 
 
 
-
-
   // For incoming call
-  async incomingRequest({commit}, {newSession}) {
-    const session = newSession
+  async incomingRequest({commit, dispatch}, {session}) {
 
     commit(INCOMING_REQUEST, {customer: session._remote_identity._display_name})
 
@@ -96,6 +112,7 @@ export default {
     })
 
     session.on('confirmed', (e) => {
+      dispatch("openCallBox")
       commit(INCOMING_RESPONSE)
       const audio = document.createElement('audio')
       audio.volume = 1
@@ -113,25 +130,10 @@ export default {
 
   async imcomingAccept({getters}) {
     const session = getters.session
-    session.answer()
-  },
-
-  async terminate({getters}) {
-    const session = getters.session
-    //Session is exist
     if (session != null) {
-      session.terminate()
+      session.answer()
     }
   },
 
-  async closeWindow({commit, getters}) {
-    const session = getters.session
-    //Session is exist
-    if (session != null) {
-      session.terminate()
-    }
-    commit(CLOSE_CALL_BOX)
-    commit(CLOSE_WINDOW)
-    commit(RESET_DETAIL)
-  },
+  
 }

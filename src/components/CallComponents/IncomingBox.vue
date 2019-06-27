@@ -1,29 +1,16 @@
-<template>
-    <div>
-        <center>Khách hàng {{customerNumberPhone}}</center>
-        <v-layout row>
-            <v-flex justify-center sm6>
-                <v-btn fab dark small  color="#008000" @click="this.imcomingAccept">
-                    <v-icon dark color="white">phone_callback</v-icon>
-                </v-btn>
-            </v-flex>
-            <v-flex justify-center sm6>
-                <v-btn fab dark small  color="#dd1e26" @click="this.terminate">
-                    <v-icon dark color="white">call_end</v-icon>
-                </v-btn>
-            </v-flex>
-        </v-layout>
-    </div>
-</template>
-
 <script>
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
     name: "incoming-box",
+    render() {
+        return null
+    },
     computed: {
         ...mapGetters({
             customerNumberPhone: 'call/customerNumberPhone',
+            ring: 'call/ring',
+            requestType: 'call/requestType',
         }),
     },
     methods: {
@@ -31,6 +18,39 @@ export default {
             imcomingAccept: 'call/imcomingAccept',
             terminate: 'call/terminate'
         })
+    },
+    watch: {
+        ring() {
+            if (this.ring==true && this.requestType=="incoming") {
+                this.$snotify.confirm(
+                    `
+                    Lê Bảo Châu
+                    (${this.customerNumberPhone})
+                    `, 
+                    'Cuộc gọi đến', {
+                        showProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        buttons: [
+                            {
+                                text: 'Chấp nhận', 
+                                action: (toast) => {
+                                    this.imcomingAccept()
+                                    this.$snotify.remove(toast.id)
+                                }
+                            },
+                            {
+                                text: 'Từ chối', 
+                                action: (toast) => {
+                                    this.terminate()
+                                    this.$snotify.remove(toast.id)
+                                }
+                            },
+                        ]
+                    }
+                );
+            }
+        }
     }
 }
 </script>
