@@ -28,6 +28,12 @@ export default {
     commit(OPEN_CALL_BOX)
   },
 
+  async closeCallBox({commit}) {
+    commit(CLOSE_CALL_BOX)
+    commit(CLOSE_WINDOW)
+    commit(RESET_DETAIL)
+  },
+
   //For outcoming call
   async call({commit, dispatch}, payload) {
     await dispatch("openCallBox")
@@ -36,6 +42,9 @@ export default {
       'failed': (e) => {
         commit(OUTCOMING_END, {cause: e.cause})
         commit(SESSION, {session:null})
+        setTimeout(() => {
+          dispatch("closeCallBox")
+        }, 5000)
       },
       'confirmed': (e) => {
         commit(OUTCOMING_RESPONSE)
@@ -47,6 +56,9 @@ export default {
       'ended': (e) => {
         commit(OUTCOMING_END, {cause: e.cause})
         commit(SESSION, {session:null})
+        setTimeout(() => {
+          dispatch("closeCallBox")
+        }, 5000)
       },
     };
 
@@ -76,7 +88,6 @@ export default {
   async incomingRequest({commit}, {newSession}) {
     const session = newSession
 
-    commit(OPEN_WINDOW)
     commit(INCOMING_REQUEST, {customer: session._remote_identity._display_name})
 
     session.on('failed', (e) => {
