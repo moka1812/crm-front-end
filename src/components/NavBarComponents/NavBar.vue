@@ -5,6 +5,7 @@
 
         <v-toolbar-items class="hidden-sm-and-down">
           <branch-menu/>
+          <dial-pad-menu/>
           <v-btn icon>
             <v-icon>chat_bubble</v-icon>
           </v-btn>
@@ -42,6 +43,7 @@
 </template>
 
 <script>
+import DialPadMenu from '@/components/NavBarComponents/DialPadMenu.vue';
 import BranchMenu from '@/components/NavBarComponents/BranchMenu.vue';
 import NotificationMenu from '@/components/NavBarComponents/NotificationMenu.vue';
 import {mapGetters} from 'vuex'
@@ -49,6 +51,7 @@ import {mapGetters} from 'vuex'
 export default {
   name: "navbar",
   components: {
+    DialPadMenu,
     BranchMenu,
     NotificationMenu
   },

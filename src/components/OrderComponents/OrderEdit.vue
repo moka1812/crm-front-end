@@ -176,41 +176,39 @@
                 </v-form>
             </v-card-text>
             <v-divider></v-divider>
-      <v-card-actions>
-        <v-card-text 
-          :style="{
-            'color': 'red'
-          }"
-        >
-            * Bắt buộc phải điền
-        </v-card-text>
-        <v-spacer></v-spacer>
-        <v-btn class="contactBtn"
-            @click="this.contractHandle"
-            v-if="contractDisable"
-        >
-            Hợp Đồng
-        </v-btn>
-        <v-btn class="cancelBtn"
-            @click="this.cancleHandle"
-        >
-            Cancel
-        </v-btn>
-        <v-btn
-            class="OkBtn"
-            @click="this.okHandle"
-            :disabled="okDiable"
-            v-if="!orderUpdating"
-        >
-        OK
-        </v-btn>
-        <v-progress-circular
-            indeterminate
-            color="red"
-            v-else
-        >
-        </v-progress-circular>
-      </v-card-actions>
+            <v-card-actions>
+                <v-card-text 
+                :style="{
+                    'color': 'red'
+                }"
+                >
+                    * Bắt buộc phải điền
+                </v-card-text>
+                <v-spacer></v-spacer>
+                <v-btn class="contactBtn"
+                    @click="this.contractHandle"
+                    v-if="contractDisable"
+                    color="#43425d"
+                >
+                    Hợp Đồng
+                </v-btn>
+                <v-btn class="cancelBtn"
+                    @click="this.cancleHandle"
+                    :disabled="orderUpdating"
+                    color="#fff"
+                >
+                    Cancel
+                </v-btn>
+                <v-btn
+                    class="OkBtn"
+                    @click="this.okHandle"
+                    :disabled="okDiable"
+                    :loading="orderUpdating"
+                    color="#dd1e26"
+                >
+                OK
+                </v-btn>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -391,7 +389,7 @@ export default {
         appointmentDisable() {
             if (this.stepInput == 'Hẹn khách' && /Khách hẹn lên #/.test(this.stageInput)) {
                 return false
-            } else if(this.stepInput == 'Liên hệ' && this.stageInput=='Gọi lại cho khách hàng') {
+            } else if (this.stageInput=='Gọi lại cho khách hàng') {
                 return false
             } return true
         },
@@ -621,17 +619,14 @@ export default {
 
 <style scoped>
 .contactBtn {
-  background-color: #43425d !important;
   color: #fff !important;
 }
 
 .cancelBtn {
-  background-color: #fff !important;
   color: #dd1e26 !important;
 }
 
 .OkBtn {
-  background-color: #dd1e26 !important;
   color: #fff !important;
 }
 </style>

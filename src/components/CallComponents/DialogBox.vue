@@ -1,6 +1,5 @@
 <template>
     <div class="center">
-
         <v-avatar
           :tile="false"
           :size="100"
@@ -16,7 +15,7 @@
         ({{this.customerNumberPhone}})
 
         <p v-if="this.ring==true"> Đang gọi </p>
-        <p v-else-if="this.callErrorCode==0">{{minutes}}:{{seconds}}</p>
+        <p v-else-if="this.callErrorCode==1">{{minutes}}:{{seconds}}</p>
         <p v-else>
             {{this.callError}}
         </p>
@@ -70,6 +69,7 @@ export default {
     },
     watch: {
         calling() {
+            console.log(this.calling)
             //Begin calling
             if (this.calling == true) {
                 this.timer = setInterval(() => {this.totalTime ++ }, 1000)
@@ -77,7 +77,7 @@ export default {
         },
         callErrorCode() {
             //End Call
-            if (this.callErrorCode != 0) {
+            if (this.callErrorCode != 1) {
                 clearInterval(this.timer)
             }
         }

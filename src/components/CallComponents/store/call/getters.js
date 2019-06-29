@@ -11,8 +11,8 @@ export default  {
         return state.callBox
     },
 
-    numberBox: (state) => {
-        return state.numberBox
+    dialPad: (state) => {
+        return state.dialPad
     },
 
     calling: (state) => {

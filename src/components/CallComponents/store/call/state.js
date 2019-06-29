@@ -1,8 +1,9 @@
 export default  {
     windowOpen: false,
-    session: null,
     callBox: false,
-    numberBox: false,
+    dialPad: false,
+    
+    session: null,
     calling: false,
     ring: false,
     callErrorCode: 0,

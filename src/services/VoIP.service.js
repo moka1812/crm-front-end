@@ -2,7 +2,8 @@ import vue from '../main'
 import JsSIP from 'jssip'
 import store from '../store/store'
 
-const ws_uri = 'wss://voipicado.tk:7443'
+const ws_uri = process.env.VUE_APP_WS_URI
+const ws_user = process.env.VUE_APP_WS_USER
 
 //JsSIP.debug.enable('JsSIP:*');
 
@@ -15,7 +16,7 @@ const VOIPService = {
 
         this.configuration = {
             sockets  : [ this.socket ],
-            uri      : `sip:${user}@2019.icado.vn`,
+            uri      : ws_user.replace("user", user),
             password : password,
         }
         this.telephone =  new JsSIP.UA(this.configuration);

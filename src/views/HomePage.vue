@@ -31,9 +31,14 @@ export default {
 };
 </script>
 
+
 <style>
 /* Padding item in v-select */
 .v-select-list > .v-list__tile__content {
   padding-left: 20px;
+}
+
+.snotifyToast{
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 4pt 8pt;
 }
 </style>

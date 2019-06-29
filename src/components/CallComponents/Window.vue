@@ -6,22 +6,25 @@
             :closeButton="true"
             positionHint="center"
             :width="300"
-            :height="350"
+            :height="400"
             id="window"
         >
             <dialog-box v-if="callBox" />
+            <dialog-pad v-else-if="dialPad"/>
         </hsc-window>
     </hsc-window-style-metal>
 </template>
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import DialogPad from "@/components/CallComponents/DialogPad.vue"
 import DialogBox from "@/components/CallComponents/DialogBox.vue"
 import IncomingBox from "@/components/CallComponents/IncomingBox.vue"
 
 export default {
     components: {
         DialogBox,
+        DialogPad,
         IncomingBox
     },
     data() {
@@ -33,6 +36,7 @@ export default {
         ...mapGetters({
             windowOpen: 'call/windowOpen',
             callBox: 'call/callBox',
+            dialPad: 'call/dialPad',
             requestType: 'call/requestType',
         }),
         title() {
@@ -45,7 +49,7 @@ export default {
         isOpen: {
             get() {return this.windowOpen},
             set(value) {this.closeWindow()}
-        }
+        },
     },
     methods: {
         ...mapActions({

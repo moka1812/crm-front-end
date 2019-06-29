@@ -1,11 +1,13 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
-
 export default {
     name: "incoming-box",
-    render() {
-        return null
+    data() {
+        return {
+            toast: null
+        }
     },
+    render() {return null},
     computed: {
         ...mapGetters({
             customerNumberPhone: 'call/customerNumberPhone',
@@ -21,19 +23,22 @@ export default {
     },
     watch: {
         ring() {
-            if (this.ring==true && this.requestType=="incoming") {
-                this.$snotify.confirm(
+            if (this.ring === true && this.requestType === "incoming") {
+                this.toast = this.$snotify.simple(
                     `
                     Lê Bảo Châu
                     (${this.customerNumberPhone})
                     `, 
-                    'Cuộc gọi đến', {
+                    'Cuộc gọi đến', 
+                    {
                         showProgressBar: false,
-                        closeOnClick: true,
+                        timeout: null,
+                        closeOnClick: false,
                         pauseOnHover: true,
                         buttons: [
                             {
                                 text: 'Chấp nhận', 
+                                className: 'acceptButton',
                                 action: (toast) => {
                                     this.imcomingAccept()
                                     this.$snotify.remove(toast.id)
@@ -41,6 +46,7 @@ export default {
                             },
                             {
                                 text: 'Từ chối', 
+                                className: 'denyButton',
                                 action: (toast) => {
                                     this.terminate()
                                     this.$snotify.remove(toast.id)
@@ -49,8 +55,20 @@ export default {
                         ]
                     }
                 );
+            //Case client terminated
+            } else if (this.ring === false) {
+                this.$snotify.remove(this.toast.id)
             }
         }
     }
 }
 </script>
+
+<style>
+.acceptButton {
+    background-color: green !important
+}
+.denyButton {
+    background-color: #dd1e26 !important
+}
+</style>

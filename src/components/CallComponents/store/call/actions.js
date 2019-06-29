@@ -3,13 +3,13 @@ import VOIPService from "../../../../services/VoIP.service"
 import {
   SESSION,
 
-  OPEN_CALL_BOX,
-  OPEN_NUMBER_BOX,
   OPEN_WINDOW,
+  OPEN_CALL_BOX,
+  OPEN_DIAL_PAD,
 
   CLOSE_WINDOW,
   CLOSE_CALL_BOX,
-  CLOSE_NUMBER_BOX,
+  CLOSE_DIAL_PAD,
 
   OUTCOMING_RESPONSE,
   OUTCOMING_REQUEST,
@@ -22,16 +22,27 @@ import {
   RESET_DETAIL,
 } from './types'
 
+const ws_user = process.env.VUE_APP_WS_USER
+
 export default {
-  async openCallBox({commit}) {
+  async openDialPad({commit}) {
     commit(OPEN_WINDOW)
+    commit(OPEN_DIAL_PAD)
+  },
+
+  async changeDialPadToCallBox({commit}) {
+    commit(CLOSE_DIAL_PAD)
     commit(OPEN_CALL_BOX)
   },
 
-  async closeCallBox({commit}) {
-    commit(CLOSE_CALL_BOX)
+  async closeDialPad({commit}) {
+    commit(CLOSE_DIAL_PAD)
     commit(CLOSE_WINDOW)
-    commit(RESET_DETAIL)
+  },
+
+  async openCallBox({commit}) {
+    commit(OPEN_WINDOW)
+    commit(OPEN_CALL_BOX)
   },
 
   async terminate({getters}) {
@@ -48,6 +59,7 @@ export default {
     if (session != null) {
       session.terminate()
     }
+    commit(CLOSE_DIAL_PAD)
     commit(CLOSE_CALL_BOX)
     commit(CLOSE_WINDOW)
     commit(RESET_DETAIL)
@@ -61,9 +73,9 @@ export default {
       'failed': (e) => {
         commit(OUTCOMING_END, {cause: e.cause})
         commit(SESSION, {session:null})
-        setTimeout(() => {
-          dispatch("closeCallBox")
-        }, 5000)
+        // setTimeout(() => {
+        //   dispatch("closeCallBox")
+        // }, 5000)
       },
       'confirmed': (e) => {
         commit(OUTCOMING_RESPONSE)
@@ -88,13 +100,12 @@ export default {
       'sessionTimersExpires': '180',
       'pcConfig': {
           'iceServers': [
-            { 'urls': ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] },
-            { 'urls': 'turn:example.com', 'username': 'foo', 'credential': ' 1234' }
+            { 'urls': ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }
           ]
       }
     };
     const phone = VOIPService.getTelephone()
-    const session = phone.call(`sip:${payload.phone}@2019.icado.vn`, options);
+    const session = phone.call(ws_user.replace("user", payload.phone), options);
     commit(SESSION, {session})
     commit(OUTCOMING_REQUEST, {customer : payload.phone})
   },
@@ -115,7 +126,6 @@ export default {
     })
 
     session.on('confirmed', (e) => {
-      dispatch("openCallBox")
       commit(INCOMING_RESPONSE)
       const audio = document.createElement('audio')
       audio.volume = 1
@@ -134,9 +144,11 @@ export default {
     commit(SESSION, {session})
   },
 
-  async imcomingAccept({getters}) {
+  async imcomingAccept({getters, dispatch}) {
     const session = getters.session
+
     if (session != null) {
+      await dispatch("openCallBox")
 
       const options = {
         'extraHeaders': [ 'X-Foo: foo', 'X-Bar: bar' ],
@@ -150,8 +162,8 @@ export default {
             rtcpMuxPolicy: "negotiate"
         }
       };
+
       session.answer(options)
-      
     }
   },
 

@@ -9,7 +9,7 @@
     >
         <template v-slot:activator="{ on }">
 
-          <v-btn round v-on="on" class="filter">
+          <v-btn round v-on="on" class="filter" color="#dd1e26">
             <i class="fas fa-filter"></i>
             Filter
           </v-btn>
@@ -249,7 +249,6 @@ hr {
 }
 
 .filterBtn {
-  background-color: #dd1e26 !important;
   color: #fff !important;
 }
 

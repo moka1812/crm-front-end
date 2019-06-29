@@ -1,6 +1,6 @@
 <template>
-    <v-btn flat icon class="ma-0" @click="openDialog">
-        <v-icon color="#FF0000">call</v-icon>
+    <v-btn flat icon class="ma-0" @click="openDialog" :disabled="disable">
+        <v-icon color="#dd1e26">phone_forwarded</v-icon>
     </v-btn>
 </template>
 
@@ -12,13 +12,24 @@ export default {
     props: {
         phone: String
     },
+    computed: {
+        ...mapGetters({
+            calling: 'call/calling',
+            ring: 'call/ring'
+        }),
+        disable() {
+            if (this.calling || this.ring) {
+                return true
+            } return false
+        }
+    },
     methods: {
         ...mapActions({
             call: 'call/call',
         }),
         openDialog() {
-            //this.call({phone: '0972957262'})
-            this.call({phone: this.phone})
+            this.call({phone: '0972957262'})
+            //this.call({phone: this.phone})
         }
     },
 }

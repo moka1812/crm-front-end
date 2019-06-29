@@ -3,13 +3,13 @@ import Vue from 'vue'
 import {
     SESSION,
 
-    OPEN_CALL_BOX,
-    OPEN_NUMBER_BOX,
     OPEN_WINDOW,
+    OPEN_CALL_BOX,
+    OPEN_DIAL_PAD,
 
     CLOSE_WINDOW,
     CLOSE_CALL_BOX,
-    CLOSE_NUMBER_BOX,
+    CLOSE_DIAL_PAD,
 
     OUTCOMING_RESPONSE,
     OUTCOMING_REQUEST,
@@ -28,24 +28,34 @@ export default {
     [SESSION] (state, {session}) {
         Vue.set(state, 'session', session)
     },
+
+    [OPEN_WINDOW] (state) {
+        Vue.set(state, 'windowOpen', true)
+    },
     [OPEN_CALL_BOX] (state) {
         Vue.set(state, 'callBox', true)
     },
-    [OPEN_NUMBER_BOX] (state) {
-        Vue.set(state, 'windowOpen', true)
+    [OPEN_DIAL_PAD] (state) {
+        Vue.set(state, 'dialPad', true)
     },
-    [OPEN_WINDOW] (state) {
-        Vue.set(state, 'windowOpen', true)
+
+    [CLOSE_WINDOW] (state) {
+        Vue.set(state, 'windowOpen', false)
     },
     [CLOSE_CALL_BOX] (state) {
         Vue.set(state, 'callBox', false)
     },
-    [CLOSE_NUMBER_BOX] (state) {
-        Vue.set(state, 'numberBox', false)
+    [CLOSE_DIAL_PAD] (state) {
+        Vue.set(state, 'dialPad', false)
     },
-    [CLOSE_WINDOW] (state) {
-        Vue.set(state, 'windowOpen', false)
-    },
+
+    /*
+        callError
+            0: Not call, Call Ring
+            1: Calling
+            2: Error from SIP 
+            3: Error from RTCSession 
+    */
 
     //FOR OUTCOMING CALLING
     [OUTCOMING_REQUEST] (state, {customer}) {
@@ -57,7 +67,7 @@ export default {
         Vue.set(state, 'calling', true)
         Vue.set(state, 'ring', false)
         Vue.set(state, 'callError', '')
-        Vue.set(state, 'callErrorCode', 0)
+        Vue.set(state, 'callErrorCode', 1)
     },
     [OUTCOMING_END] (state, {cause}) {
         Vue.set(state, 'calling', false)
@@ -77,7 +87,7 @@ export default {
         Vue.set(state, 'calling', true)
         Vue.set(state, 'ring', false)
         Vue.set(state, 'callError', '')
-        Vue.set(state, 'callErrorCode', 0)
+        Vue.set(state, 'callErrorCode', 1)
     },
     [INCOMING_END] (state, {cause}) {
         Vue.set(state, 'calling', false)

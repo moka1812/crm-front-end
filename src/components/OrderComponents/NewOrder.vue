@@ -146,6 +146,7 @@
         <v-btn class="cancelBtn"
           @click="this.cancleHandle"
           :disabled="orderCreating"
+          color="#fff"
         >
         Cancel
         </v-btn>
@@ -154,6 +155,7 @@
           @click="this.okHandle"
           :disabled="!valid"
           :loading="orderCreating"
+          color="#dd1e26"
         >
         OK
         </v-btn>
@@ -387,12 +389,10 @@ export default {
 }
 
 .cancelBtn {
-  background-color: #fff !important;
   color: #dd1e26 !important;
 }
 
 .OkBtn {
-  background-color: #dd1e26 !important;
   color: #fff !important;
 }
 .top-content {
