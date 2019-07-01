@@ -46,6 +46,7 @@ const VOIPService = {
             }
             
         });
+
         this.telephone.start()
     },
 
@@ -54,7 +55,6 @@ const VOIPService = {
     },
 
     disconnect() {
-        this.telephone.unregister();
         this.telephone.stop()
     }
 }

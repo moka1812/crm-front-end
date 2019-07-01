@@ -26,10 +26,7 @@ export default {
             if (this.requestType === "incoming") {
                 if (this.ring === true) {
                     this.toast = this.$snotify.simple(
-                        `
-                        Lê Bảo Châu
-                        (${this.customerNumberPhone})
-                        `, 
+                        `Lê Bảo Châu (${this.customerNumberPhone})`, 
                         'Cuộc gọi đến', 
                         {
                             showProgressBar: false,
