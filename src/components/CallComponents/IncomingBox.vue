@@ -23,41 +23,43 @@ export default {
     },
     watch: {
         ring() {
-            if (this.ring === true && this.requestType === "incoming") {
-                this.toast = this.$snotify.simple(
-                    `
-                    Lê Bảo Châu
-                    (${this.customerNumberPhone})
-                    `, 
-                    'Cuộc gọi đến', 
-                    {
-                        showProgressBar: false,
-                        timeout: null,
-                        closeOnClick: false,
-                        pauseOnHover: true,
-                        buttons: [
-                            {
-                                text: 'Chấp nhận', 
-                                className: 'acceptButton',
-                                action: (toast) => {
-                                    this.imcomingAccept()
-                                    this.$snotify.remove(toast.id)
-                                }
-                            },
-                            {
-                                text: 'Từ chối', 
-                                className: 'denyButton',
-                                action: (toast) => {
-                                    this.terminate()
-                                    this.$snotify.remove(toast.id)
-                                }
-                            },
-                        ]
-                    }
-                );
-            //Case client terminated
-            } else if (this.ring === false) {
-                this.$snotify.remove(this.toast.id)
+            if (this.requestType === "incoming") {
+                if (this.ring === true) {
+                    this.toast = this.$snotify.simple(
+                        `
+                        Lê Bảo Châu
+                        (${this.customerNumberPhone})
+                        `, 
+                        'Cuộc gọi đến', 
+                        {
+                            showProgressBar: false,
+                            timeout: null,
+                            closeOnClick: false,
+                            pauseOnHover: true,
+                            buttons: [
+                                {
+                                    text: 'Chấp nhận', 
+                                    className: 'acceptButton',
+                                    action: (toast) => {
+                                        this.imcomingAccept()
+                                        this.$snotify.remove(toast.id)
+                                    }
+                                },
+                                {
+                                    text: 'Từ chối', 
+                                    className: 'denyButton',
+                                    action: (toast) => {
+                                        this.terminate()
+                                        this.$snotify.remove(toast.id)
+                                    }
+                                },
+                            ]
+                        }
+                    );
+                //Case client terminated
+                } else if (this.toast !== null) {
+                    this.$snotify.remove(this.toast.id)
+                }
             }
         }
     }

@@ -30,11 +30,6 @@ export default {
     commit(OPEN_DIAL_PAD)
   },
 
-  async changeDialPadToCallBox({commit}) {
-    commit(CLOSE_DIAL_PAD)
-    commit(OPEN_CALL_BOX)
-  },
-
   async closeDialPad({commit}) {
     commit(CLOSE_DIAL_PAD)
     commit(CLOSE_WINDOW)
@@ -43,6 +38,11 @@ export default {
   async openCallBox({commit}) {
     commit(OPEN_WINDOW)
     commit(OPEN_CALL_BOX)
+  },
+
+  async closeCallBox({commit}) {
+    commit(CLOSE_CALL_BOX)
+    commit(CLOSE_WINDOW)
   },
 
   async terminate({getters}) {
@@ -55,7 +55,7 @@ export default {
 
   async closeWindow({commit, getters}) {
     const session = getters.session
-    //Session is exist
+    //Session is still exist
     if (session != null) {
       session.terminate()
     }
@@ -67,15 +67,17 @@ export default {
 
   //For outcoming call
   async call({commit, dispatch}, payload) {
+
+    //Open CallBox show phone ring
     await dispatch("openCallBox")
 
     const eventHandlers = {
       'failed': (e) => {
         commit(OUTCOMING_END, {cause: e.cause})
         commit(SESSION, {session:null})
-        // setTimeout(() => {
-        //   dispatch("closeCallBox")
-        // }, 5000)
+        setTimeout(() => {
+          dispatch("closeCallBox")
+        }, 5000)
       },
       'confirmed': (e) => {
         commit(OUTCOMING_RESPONSE)
@@ -94,13 +96,13 @@ export default {
     };
 
     const options = {
-      'eventHandlers' : eventHandlers,
-      'extraHeaders': [ 'X-Foo: foo', 'X-Bar: bar' ],
-      'mediaConstraints' : { 'audio': true, 'video': false },
-      'sessionTimersExpires': '180',
-      'pcConfig': {
-          'iceServers': [
-            { 'urls': ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }
+      eventHandlers : eventHandlers,
+      extraHeaders: [ 'X-Foo: foo', 'X-Bar: bar' ],
+      mediaConstraints : { audio: true, video: false },
+      sessionTimersExpires: '180',
+      pcConfig: {
+          iceServers: [
+            { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }
           ]
       }
     };
@@ -151,15 +153,15 @@ export default {
       await dispatch("openCallBox")
 
       const options = {
-        'extraHeaders': [ 'X-Foo: foo', 'X-Bar: bar' ],
-        'mediaConstraints' : { 'audio': true, 'video': false },
-        'sessionTimersExpires': '180',
-        'pcConfig': {
-            'iceServers': [
-              { 'urls': ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }
+        extraHeaders: [ 'X-Foo: foo', 'X-Bar: bar' ],
+        mediaConstraints : { audio: true, video: false },
+        sessionTimersExpires: '180',
+        pcConfig: {
+            iceServers: [
+              { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }
             ],
-            iceTransportPolicy: "all",
-            rtcpMuxPolicy: "negotiate"
+            iceTransportPolicy: 'all',
+            rtcpMuxPolicy: 'negotiate'
         }
       };
 
