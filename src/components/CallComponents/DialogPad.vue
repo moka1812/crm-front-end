@@ -18,18 +18,17 @@
         <v-layout>
             <v-flex sm4></v-flex>
             <v-flex sm4>
-                <v-btn fab dark icon color="green" @click="openDialog">
-                <v-icon>call</v-icon>
+                <v-btn fab icon color="green" @click="openDialog" :disabled="disable">
+                    <v-icon color="#fff">call</v-icon>
                 </v-btn>
             </v-flex>
             <v-flex sm4></v-flex>
-        </v-layout>
         </v-layout>
     </v-container>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
     name: "dialog-pad",
@@ -42,6 +41,17 @@ export default {
                 [null,'0', null]
             ],
             numbers: '',
+        }
+    },
+    computed: {
+        ...mapGetters({
+            calling: 'call/calling',
+            ring: 'call/ring'
+        }),
+        disable() {
+            if (this.calling || this.ring) {
+                return true
+            } return false
         }
     },
     methods: {
