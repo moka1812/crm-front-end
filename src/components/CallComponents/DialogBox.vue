@@ -14,7 +14,7 @@
         <h3>Lê Bảo Châu</h3>
         ({{this.customerNumberPhone}})
 
-        <p v-if="this.ring==true"> Đang gọi </p>
+        <p v-if="this.ring==true"> Đang gọi <img src="../../assets/ring-animation.svg" alt="Loading"> </p>
         <p v-else-if="this.callErrorCode==1">{{minutes}}:{{seconds}}</p>
         <p v-else>
             {{this.callError}}
