@@ -1,3 +1,9 @@
+<template>
+    <audio ref="player" muted="muted">
+        <source src="../../audio/iphone.mp3" type="audio/mpeg">
+    </audio>
+</template>
+
 <script>
 import {mapActions, mapGetters} from 'vuex'
 export default {
@@ -7,7 +13,6 @@ export default {
             toast: null
         }
     },
-    render() {return null},
     computed: {
         ...mapGetters({
             customerNumberPhone: 'call/customerNumberPhone',
@@ -23,40 +28,50 @@ export default {
     },
     watch: {
         ring() {
-            if (this.requestType === "incoming") {
-                if (this.ring === true) {
-                    this.toast = this.$snotify.simple(
-                        `Lê Bảo Châu (${this.customerNumberPhone})`, 
-                        'Cuộc gọi đến', 
-                        {
-                            showProgressBar: false,
-                            timeout: null,
-                            closeOnClick: false,
-                            pauseOnHover: true,
-                            buttons: [
-                                {
-                                    text: 'Chấp nhận', 
-                                    className: 'acceptButton',
-                                    action: (toast) => {
-                                        this.imcomingAccept()
-                                        this.$snotify.remove(toast.id)
-                                    }
-                                },
-                                {
-                                    text: 'Từ chối', 
-                                    className: 'denyButton',
-                                    action: (toast) => {
-                                        this.terminate()
-                                        this.$snotify.remove(toast.id)
-                                    }
-                                },
-                            ]
-                        }
-                    );
-                //Case client terminated
-                } else if (this.toast !== null) {
-                    this.$snotify.remove(this.toast.id)
+            if (this.ring === true && this.requestType === "incoming") {
+                const playPromise = this.$refs.player.play()
+                if (playPromise !== undefined) {
+                    playPromise.then(function() {
+                        // Automatic playback started!
+                    }).catch(function(error) {
+                        // Automatic playback failed.
+                        // Show a UI element to let the user manually start playback.
+                        console.log(error.message)
+                    });
                 }
+
+                this.toast = this.$snotify.simple(
+                    `Lê Bảo Châu (${this.customerNumberPhone})`, 
+                    'Cuộc gọi đến', 
+                    {
+                        showProgressBar: false,
+                        timeout: null,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        buttons: [
+                            {
+                                text: 'Chấp nhận', 
+                                className: 'acceptButton',
+                                action: (toast) => {
+                                    this.imcomingAccept()
+                                    this.$snotify.remove(toast.id)
+                                }
+                            },
+                            {
+                                text: 'Từ chối', 
+                                className: 'denyButton',
+                                action: (toast) => {
+                                    this.terminate()
+                                    this.$snotify.remove(toast.id)
+                                }
+                            },
+                        ]
+                    }
+                );
+            //Case client terminated
+            } else if (this.toast !== null) {
+                this.$snotify.remove(this.toast.id)
+                this.$refs.player.load()
             }
         }
     }

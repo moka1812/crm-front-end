@@ -27,6 +27,10 @@
         <br class="margin"/>
 
         <p class="client">Thông tin khách hàng</p>
+
+        <audio ref="player" autoplay>
+            <source src="../../audio/waiting.mp3" type="audio/mpeg">
+        </audio>
     </div>
 </template>
 
@@ -69,10 +73,10 @@ export default {
     },
     watch: {
         calling() {
-            console.log(this.calling)
             //Begin calling
             if (this.calling == true) {
                 this.timer = setInterval(() => {this.totalTime ++ }, 1000)
+                this.$refs.player.pause()
             }
         },
         callErrorCode() {
