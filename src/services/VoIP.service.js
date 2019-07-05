@@ -42,7 +42,9 @@ const VOIPService = {
             const request = data.request;
             
             if (request.constructor.name == "IncomingRequest") {
-                store.dispatch('call/incomingRequest',{session})
+                if (!store.getters['call/ring'] && !store.getters['call/calling']) {
+                    store.dispatch('call/incomingRequest',{session})
+                }
             }
             
         });
