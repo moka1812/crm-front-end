@@ -58,10 +58,11 @@ export default {
     */
 
     //FOR OUTCOMING CALLING
-    [OUTCOMING_REQUEST] (state, {customer}) {
+    [OUTCOMING_REQUEST] (state, {customerPhone, customerName}) {
         Vue.set(state, 'requestType', 'outcoming')
         Vue.set(state, 'ring', true)
-        Vue.set(state, 'customerNumberPhone', customer)
+        Vue.set(state, 'customerPhone', customerPhone)
+        Vue.set(state, 'customerName', customerName)
     },
     [OUTCOMING_RESPONSE] (state) {
         Vue.set(state, 'calling', true)
@@ -78,10 +79,11 @@ export default {
     },
 
     //FOR INCOMING CALLING
-    [INCOMING_REQUEST] (state, {customer}) {
+    [INCOMING_REQUEST] (state, {customerPhone, customerName}) {
         Vue.set(state, 'requestType', 'incoming')
         Vue.set(state, 'ring', true)
-        Vue.set(state, 'customerNumberPhone', customer)
+        Vue.set(state, 'customerPhone', customerPhone)
+        Vue.set(state, 'customerName', customerName)
     },
     [INCOMING_RESPONSE] (state) {
         Vue.set(state, 'calling', true)
@@ -101,6 +103,7 @@ export default {
         Vue.set(state, 'callError', '')
         Vue.set(state, 'callErrorCode', 0)
         Vue.set(state, 'requestType', '')
-        Vue.set(state, 'customerNumberPhone', '')
+        Vue.set(state, 'customerPhone', '')
+        Vue.set(state, 'customerName', '')
     }
 }

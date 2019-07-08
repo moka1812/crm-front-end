@@ -10,7 +10,8 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
     name: "call-button",
     props: {
-        phone: String
+        phone: String,
+        name: String
     },
     computed: {
         ...mapGetters({
@@ -28,8 +29,8 @@ export default {
             call: 'call/call',
         }),
         openDialog() {
-            //this.call({phone: '0972957262'})
-            this.call({phone: this.phone})
+            //this.call({phone: '0972957262', name: this.name})
+            this.call({phone: this.phone, name: this.name})
         }
     },
 }

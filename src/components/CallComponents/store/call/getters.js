@@ -31,8 +31,12 @@ export default  {
         return state.callError
     },
 
-    customerNumberPhone: (state) => {
-        return state.customerNumberPhone
+    customerPhone: (state) => {
+        return state.customerPhone
+    },
+
+    customerName: (state) => {
+        return state.customerName
     },
 
     requestType: (state) => {

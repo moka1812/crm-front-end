@@ -8,6 +8,7 @@ export default  {
     ring: false,
     callErrorCode: 0,
     callError: '',
-    customerNumberPhone: '',
+    customerPhone: '',
+    customerName: '',
     requestType: '',
 }

@@ -11,8 +11,8 @@
 
         <br/>
         
-        <h3>Lê Bảo Châu</h3>
-        ({{this.customerNumberPhone}})
+        <h3>{{this.customerName}}</h3>
+        ({{this.customerPhone}})
 
         <p v-if="this.ring==true"> Đang gọi <img src="../../assets/ring-animation.svg" alt="Loading"> </p>
         <p v-else-if="this.callErrorCode==1">{{minutes}}:{{seconds}}</p>
@@ -48,7 +48,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            customerNumberPhone: 'call/customerNumberPhone',
+            customerPhone: 'call/customerPhone',
+            customerName: 'call/customerName',
             calling: 'call/calling',
             ring: 'call/ring',
             callErrorCode: 'call/callErrorCode',
@@ -76,10 +77,13 @@ export default {
             //Begin calling
             if (this.calling == true) {
                 this.timer = setInterval(() => {this.totalTime ++ }, 1000)
-                this.$refs.player.pause()
             }
         },
         callErrorCode() {
+            //Not Ring
+            if (this.callErrorCode != 0) {
+                this.$refs.player.pause()
+            }
             //End Call
             if (this.callErrorCode != 1) {
                 clearInterval(this.timer)

@@ -42,6 +42,7 @@ const VOIPService = {
             const request = data.request;
             
             if (request.constructor.name == "IncomingRequest") {
+                //Show Notification if web don't have any call
                 if (!store.getters['call/ring'] && !store.getters['call/calling']) {
                     store.dispatch('call/incomingRequest',{session})
                 }

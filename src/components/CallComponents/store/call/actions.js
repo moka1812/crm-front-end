@@ -1,4 +1,5 @@
 import VOIPService from "../../../../services/VoIP.service"
+import OrderService from "../../../../services/order.service"
 
 import {
   SESSION,
@@ -109,7 +110,7 @@ export default {
     const phone = VOIPService.getTelephone()
     const session = phone.call(ws_user.replace("user", payload.phone), options);
     commit(SESSION, {session})
-    commit(OUTCOMING_REQUEST, {customer : payload.phone})
+    commit(OUTCOMING_REQUEST, {customerPhone : payload.phone, customerName: payload.name})
   },
 
 
@@ -117,7 +118,17 @@ export default {
   // For incoming call
   async incomingRequest({commit, dispatch}, {session}) {
 
-    commit(INCOMING_REQUEST, {customer: session._remote_identity._display_name})
+    const phone = session._remote_identity._display_name
+
+    const orderList = await OrderService.findOrderByPhone(phone)
+
+    if (orderList.length === 0) {
+      commit(INCOMING_REQUEST, {customerPhone: phone, customerName: 'Khách lạ'})
+    } else {
+      commit(INCOMING_REQUEST, {customerPhone: phone, customerName: orderList[orderList.length-1].name})
+    }
+
+    
 
     session.on('failed', (e) => {
       commit(INCOMING_END, {cause: e.cause})

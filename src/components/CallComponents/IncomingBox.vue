@@ -15,7 +15,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            customerNumberPhone: 'call/customerNumberPhone',
+            customerPhone: 'call/customerPhone',
+            customerName: 'call/customerName',
             ring: 'call/ring',
             requestType: 'call/requestType',
         }),
@@ -39,9 +40,8 @@ export default {
                         console.log(error.message)
                     });
                 }
-
                 this.toast = this.$snotify.simple(
-                    `Lê Bảo Châu (${this.customerNumberPhone})`, 
+                    `${this.customerName} (${this.customerPhone})`, 
                     'Cuộc gọi đến', 
                     {
                         showProgressBar: false,
