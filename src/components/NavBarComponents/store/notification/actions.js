@@ -42,10 +42,10 @@ export default {
         }
     },
 
-    async readNotification({commit}, payload) {
+    async readNotification({commit}, {id}) {
         commit(NOTIFICATION_UPDATING_REQUEST)
         try {
-            const result = await NotificationService.readNotification(payload.id)
+            const result = await NotificationService.readNotification(id)
             commit(NOTIFICATION_UPDATING_SUCCESS, {result})
         } catch (error) {
             if (error instanceof NotificationError) {

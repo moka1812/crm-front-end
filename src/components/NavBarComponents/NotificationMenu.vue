@@ -31,7 +31,7 @@
                             <v-list-tile-sub-title>{{notification.message}}</v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                    <hr class="no-margin" v-if="index + 1 < newNotificationResult.length" :key="`divider-${index}`"/>
+                    <hr class="no-margin" :key="`divider-${index}`"/>
                 </template>
             </v-list>
             <v-list-tile-title><center><font color="red">See all</font></center></v-list-tile-title>
@@ -77,7 +77,6 @@ export default {
             const orderID = this.notificationResult[index].order
             this.getOrderDetailFromNotification({id: orderID})
             const NotificationID = this.notificationResult[index].id
-            console.log(NotificationID)
             this.readNotification({id: NotificationID})
         }
     },
@@ -94,7 +93,11 @@ export default {
                   group: 'new-notification',
                   type: 'error',
                   title: element.order,
-                  text: element.message,
+                  text: {
+                    message: element.message,
+                    id: element.id
+                  },
+                  id: 100,
                   speed: 2000
                 });
             })

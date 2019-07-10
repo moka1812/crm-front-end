@@ -1,6 +1,6 @@
 import ApiService from '../services/api.service'
 import { ProfileService } from './storage.service'
-import { newNotificationAPI, notificationAPI } from '../config/backend-api'
+import { newNotificationFromUserIDAPI, notificationFromUserIDAPI, notificationAPI } from '../config/backend-api'
 
 class NotificationError extends Error {
     constructor(errorCode, message) {
@@ -16,7 +16,7 @@ const NotificationService = {
 
         const id = ProfileService.getID()
 
-        const url = newNotificationAPI.replace(":id", id)
+        const url = newNotificationFromUserIDAPI.replace(":id", id)
 
         try {
 
@@ -34,7 +34,7 @@ const NotificationService = {
 
         const id = ProfileService.getID()
 
-        const url = newNotificationAPI.replace(":id", id)
+        const url = notificationFromUserIDAPI.replace(":id", id)
 
         try {
 
@@ -58,7 +58,7 @@ const NotificationService = {
         try {
 
             const response = await ApiService.patch(url, data)
-            return response.data.data
+            return response.data
 
         } catch (error) {
 

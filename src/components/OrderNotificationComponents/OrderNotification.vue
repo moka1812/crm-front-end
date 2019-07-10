@@ -1,7 +1,7 @@
 <template>
     <notifications id="new-notification" group="new-notification" position="bottom right" animation-type="velocity" width="200px">
         <template slot="body" slot-scope="props">
-          <div @click="NewNotificationHandle(props.item.title, props.close)">
+          <div @click="NewNotificationHandle(props.item.title, props.item.text.id, props.close)">
                <div
                   :class="['vue-notification-template', 'vue-notification', props.item.type]"
                 >
@@ -16,7 +16,7 @@
                 </div>
                 <div
                   class="notification-content"
-                  v-html="props.item.text"
+                  v-html="props.item.text.message"
                 >
                 </div>
                </div>
@@ -32,10 +32,12 @@ export default {
     name: "new-notification",
     methods: {
     ...mapActions({
-      getOrderDetailFromNotification: 'order/getOrderDetailFromNotification'
+      getOrderDetailFromNotification: 'order/getOrderDetailFromNotification',
+      readNotification: 'notification/readNotification',
     }),
-    NewNotificationHandle: async function(id, close) {
-      this.getOrderDetailFromNotification({id: id})
+    NewNotificationHandle: async function(orderID, NotificationID, close) {
+      this.getOrderDetailFromNotification({id: orderID})
+      this.readNotification({id: NotificationID})
       close()
     }
   }

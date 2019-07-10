@@ -17,6 +17,8 @@ export const getOrderApi = `${baseURL}/orders/custom_list/`
 
 export const orderFromStaffAPI = `${baseURL}/staffs/:id/orders/`
 
-export const newNotificationAPI = `${baseURL}/staffs/:id/new_notification/`
+export const newNotificationFromUserIDAPI = `${baseURL}/staffs/:id/new_notification/`
+
+export const notificationFromUserIDAPI = `${baseURL}/staffs/:id/notification/`
 
 export const notificationAPI = `${baseURL}/notifications/`
