@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "./store/store"
 
 import HomePage from "./views/HomePage.vue"
 import Login from "./views/Login.vue";
@@ -74,6 +75,8 @@ router.beforeEach((to, from, next) => {
   //Components require auth
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (TokenService.getToken() == null) {
+      //Token expired, remove all value
+      store.dispatch('auth/logout')
       //Come back Login Component 
       next({
         name: 'login',
