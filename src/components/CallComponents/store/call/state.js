@@ -6,8 +6,9 @@ export default  {
     session: null,
     calling: false,
     ring: false,
-    callErrorCode: 0,
-    callError: '',
+    step: 'rest',
+    error: '',
+    
     customerPhone: '',
     customerName: '',
     requestType: '',

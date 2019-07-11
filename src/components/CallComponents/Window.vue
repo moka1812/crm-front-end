@@ -27,11 +27,6 @@ export default {
         DialogPad,
         IncomingBox
     },
-    data() {
-        return {
-        
-        }
-    },
     computed: {
         ...mapGetters({
             windowOpen: 'call/windowOpen',

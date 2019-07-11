@@ -23,12 +23,12 @@ export default  {
         return state.ring
     },
 
-    callErrorCode: (state) => {
-        return state.callErrorCode
+    step: (state) => {
+        return state.step
     },
 
-    callError: (state) => {
-        return state.callError
+    error: (state) => {
+        return state.error
     },
 
     customerPhone: (state) => {

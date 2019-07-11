@@ -15,9 +15,9 @@
         ({{this.customerPhone}})
 
         <p v-if="this.ring==true"> Đang gọi <img src="../../assets/ring-animation.svg" alt="Loading"> </p>
-        <p v-else-if="this.callErrorCode==1">{{minutes}}:{{seconds}}</p>
+        <p v-else-if="this.step=='confirmed'">{{minutes}}:{{seconds}}</p>
         <p v-else>
-            {{this.callError}}
+            {{this.error}}
         </p>
 
         <v-btn fab dark small  color="#dd1e26" @click="this.terminate">
@@ -52,8 +52,8 @@ export default {
             customerName: 'call/customerName',
             calling: 'call/calling',
             ring: 'call/ring',
-            callErrorCode: 'call/callErrorCode',
-            callError: 'call/callError'
+            step: 'call/step',
+            error: 'call/error'
         }),
         minutes() {
             const minutes = Math.floor(this.totalTime / 60);
@@ -79,13 +79,13 @@ export default {
                 this.timer = setInterval(() => {this.totalTime ++ }, 1000)
             }
         },
-        callErrorCode() {
+        step() {
             //Not Ring
-            if (this.callErrorCode != 0) {
+            if (this.step !== 'connecting' && this.step !== 'progress') {
                 this.$refs.player.pause()
             }
             //End Call
-            if (this.callErrorCode != 1) {
+            if (this.step === 'ended' || this.step === 'failed') {
                 clearInterval(this.timer)
             }
         }

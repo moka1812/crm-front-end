@@ -12,15 +12,18 @@ import {
   CLOSE_CALL_BOX,
   CLOSE_DIAL_PAD,
 
-  OUTCOMING_RESPONSE,
   OUTCOMING_REQUEST,
+  OUTCOMING_CONNECTED,
+  OUTCOMING_RESPONSE,
   OUTCOMING_END,
+  OUTCOMING_FAIL,
 
   INCOMING_REQUEST,
   INCOMING_RESPONSE,
   INCOMING_END,
 
   RESET_DETAIL,
+  INCOMING_FAIL,
 } from './types'
 
 const ws_user = process.env.VUE_APP_WS_USER
@@ -73,12 +76,8 @@ export default {
     await dispatch("openCallBox")
 
     const eventHandlers = {
-      'failed': (e) => {
-        commit(OUTCOMING_END, {cause: e.cause})
-        commit(SESSION, {session:null})
-        setTimeout(() => {
-          dispatch("closeCallBox")
-        }, 5000)
+      'progress': (e) => {
+        commit(OUTCOMING_CONNECTED)
       },
       'confirmed': (e) => {
         commit(OUTCOMING_RESPONSE)
@@ -89,6 +88,13 @@ export default {
       },
       'ended': (e) => {
         commit(OUTCOMING_END, {cause: e.cause})
+        commit(SESSION, {session:null})
+        setTimeout(() => {
+          dispatch("closeCallBox")
+        }, 5000)
+      },
+      'failed': (e) => {
+        commit(OUTCOMING_FAIL, {cause: e.cause})
         commit(SESSION, {session:null})
         setTimeout(() => {
           dispatch("closeCallBox")
@@ -128,16 +134,6 @@ export default {
       commit(INCOMING_REQUEST, {customerPhone: phone, customerName: orderList[orderList.length-1].name})
     }
 
-    
-
-    session.on('failed', (e) => {
-      commit(INCOMING_END, {cause: e.cause})
-      commit(SESSION, {session:null})
-      setTimeout(() => {
-        dispatch("closeCallBox")
-      }, 5000)
-    })
-
     session.on('confirmed', (e) => {
       commit(INCOMING_RESPONSE)
       const audio = document.createElement('audio')
@@ -148,6 +144,14 @@ export default {
 
     session.on('ended', (e) => {
       commit(INCOMING_END, {cause: e.cause})
+      commit(SESSION, {session:null})
+      setTimeout(() => {
+        dispatch("closeCallBox")
+      }, 5000)
+    })
+
+    session.on('failed', (e) => {
+      commit(INCOMING_FAIL, {cause: e.cause})
       commit(SESSION, {session:null})
       setTimeout(() => {
         dispatch("closeCallBox")
