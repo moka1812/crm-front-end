@@ -151,7 +151,7 @@
                     />
                   </v-flex>
                   <v-flex sm4>
-                      <call-button :phone="props.item.phone" :name="props.item.name"/>
+                      <call-button :phone="props.item.phone" :name="props.item.name" :orderID="props.item.orderID"/>
                   </v-flex>
                   <v-flex sm4>
                       <v-btn class="ma-0" icon @click="props.expanded = !props.expanded">

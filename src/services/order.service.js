@@ -104,8 +104,6 @@ const OrderService = {
             const response = await ApiService.put(url, orderData)
             return response.data
         } catch (error) {
-            console.log(error)
-            console.log(error.response.data)
             throw OrderError(error.response.status, error.response.data)
         }
         

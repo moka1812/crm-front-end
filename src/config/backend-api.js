@@ -1,6 +1,7 @@
 const baseURL = process.env.VUE_APP_BASE_URL
 
 export const loginApi = `${baseURL}/auth/token/`
+
 export const refreshTokenApi = `${baseURL}/auth/token/refresh/`
 
 export const getBranchAPI = `${baseURL}/branches/`
@@ -22,3 +23,5 @@ export const newNotificationFromUserIDAPI = `${baseURL}/staffs/:id/new_notificat
 export const notificationFromUserIDAPI = `${baseURL}/staffs/:id/notification/`
 
 export const notificationAPI = `${baseURL}/notifications/`
+
+export const callAPI = `${baseURL}/calls/`

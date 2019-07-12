@@ -17,7 +17,7 @@
         <p v-if="this.ring==true"> Đang gọi <img src="../../assets/ring-animation.svg" alt="Loading"> </p>
         <p v-else-if="this.step=='confirmed'">{{minutes}}:{{seconds}}</p>
         <p v-else>
-            {{this.error}}
+            {{this.vietnameseError}}
         </p>
 
         <v-btn fab dark small  color="#dd1e26" @click="this.terminate">
@@ -35,15 +35,19 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { setInterval, clearInterval } from 'timers';
+import {getVietnameseError} from "./utils/call_errors"
+import moment from 'moment'
 
 export default {
     name: "dialog-box",
     data() {
         return {
-            timer: null,
-            totalTime: 0,
+            ringTimer: null,
+            talkTimer: null,
+            ringTime: 0,
+            talkTime: 0,
         }
     },
     computed: {
@@ -56,17 +60,21 @@ export default {
             error: 'call/error'
         }),
         minutes() {
-            const minutes = Math.floor(this.totalTime / 60);
+            const minutes = Math.floor(this.talkTime / 60);
             return this.padTime(minutes);
         },
         seconds() {
-            const seconds = this.totalTime - (this.minutes * 60);
+            const seconds = this.talkTime - (this.minutes * 60);
             return this.padTime(seconds);
+        },
+        vietnameseError() {
+            return getVietnameseError(this.error)
         }
     },
     methods: {
         ...mapActions({
-            terminate: 'call/terminate'
+            terminate: 'call/terminate',
+            updateCall: 'call/updateCall',
         }),
         padTime: function(time) {
             return (time < 10 ? '0' : '') + time;
@@ -75,18 +83,44 @@ export default {
     watch: {
         calling() {
             //Begin calling
-            if (this.calling == true) {
-                this.timer = setInterval(() => {this.totalTime ++ }, 1000)
+            if (this.calling === true) {
+                this.talkTimer = setInterval(() => {this.talkTime++}, 1000)
+            }
+        },
+        ring() {
+            if (this.ring === false) {
+                this.$refs.player.pause()
             }
         },
         step() {
-            //Not Ring
-            if (this.step !== 'connecting' && this.step !== 'progress') {
-                this.$refs.player.pause()
-            }
-            //End Call
-            if (this.step === 'ended' || this.step === 'failed') {
-                clearInterval(this.timer)
+            switch(this.step) {
+                case 'progress':
+                    this.ringTimer = setInterval(() => {this.ringTime++}, 1000)
+                    this.updateCall({callStatus: 'Ring'})
+                    break
+                case 'confirmed':
+                    clearInterval(this.ringTimer)
+                    this.updateCall({
+                        callStatus: 'In call', 
+                        ringTime: this.ringTime,
+                    })
+                    break
+                case 'ended':
+                    clearInterval(this.talkTimer)
+                    this.updateCall({
+                        callStatus: this.error, 
+                        talkTime: this.talkTime, 
+                        endTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    })
+                    break
+                case 'failed':
+                    clearInterval(this.ringTimer)
+                    this.updateCall({
+                        callStatus: this.error, 
+                        ringTime: this.ringTime,
+                        endTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    })
+                    break
             }
         }
     }

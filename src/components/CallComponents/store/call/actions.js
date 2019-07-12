@@ -1,5 +1,7 @@
 import VOIPService from "../../../../services/VoIP.service"
 import OrderService from "../../../../services/order.service"
+import { CallService, CallError } from "../../../../services/call.service"
+import moment from 'moment'
 
 import {
   SESSION,
@@ -12,6 +14,8 @@ import {
   CLOSE_CALL_BOX,
   CLOSE_DIAL_PAD,
 
+  UPDATE_CALL_ID,
+
   OUTCOMING_REQUEST,
   OUTCOMING_CONNECTED,
   OUTCOMING_RESPONSE,
@@ -21,12 +25,14 @@ import {
   INCOMING_REQUEST,
   INCOMING_RESPONSE,
   INCOMING_END,
+  INCOMING_FAIL,
 
   RESET_DETAIL,
-  INCOMING_FAIL,
+  BY_EMPLOYEE,
 } from './types'
 
-const ws_user = process.env.VUE_APP_WS_USER
+const wsUser = process.env.VUE_APP_WS_USER
+var timer = null
 
 export default {
   async openDialPad({commit}) {
@@ -47,12 +53,14 @@ export default {
   async closeCallBox({commit}) {
     commit(CLOSE_CALL_BOX)
     commit(CLOSE_WINDOW)
+    commit(RESET_DETAIL)
   },
 
-  async terminate({getters}) {
+  async terminate({getters, commit}) {
     const session = getters.session
     //Session is exist
     if (session != null) {
+      commit(BY_EMPLOYEE, {byEmployee: true})
       session.terminate()
     }
   },
@@ -61,7 +69,14 @@ export default {
     const session = getters.session
     //Session is still exist
     if (session != null) {
+      commit(BY_EMPLOYEE, {byEmployee: true})
       session.terminate()
+    }
+
+    //Timer exist
+    if (timer !== null) {
+      clearTimeout(timer)
+      timer = null
     }
     commit(CLOSE_DIAL_PAD)
     commit(CLOSE_CALL_BOX)
@@ -76,9 +91,11 @@ export default {
     await dispatch("openCallBox")
 
     const eventHandlers = {
+      //Begin Ring
       'progress': (e) => {
         commit(OUTCOMING_CONNECTED)
       },
+      //Begin call
       'confirmed': (e) => {
         commit(OUTCOMING_RESPONSE)
         const audio = document.createElement('audio')
@@ -86,17 +103,19 @@ export default {
         audio.autoplay = true
         audio.srcObject = session.connection.getLocalStreams()[0]
       },
+      //End call
       'ended': (e) => {
         commit(OUTCOMING_END, {cause: e.cause})
         commit(SESSION, {session:null})
-        setTimeout(() => {
+        timer = setTimeout(() => {
           dispatch("closeCallBox")
         }, 5000)
       },
+      //Fail Before call
       'failed': (e) => {
         commit(OUTCOMING_FAIL, {cause: e.cause})
         commit(SESSION, {session:null})
-        setTimeout(() => {
+        timer = setTimeout(() => {
           dispatch("closeCallBox")
         }, 5000)
       },
@@ -114,12 +133,27 @@ export default {
       }
     };
     const phone = VOIPService.getTelephone()
-    const session = phone.call(ws_user.replace("user", payload.phone), options);
+    const session = phone.call(wsUser.replace("user", payload.phone), options);
+
+    try {
+      const data = {
+        orderID: payload.orderID,
+        callType: 'Call out',
+        callStatus: 'connecting',
+        startTime: moment().format("YYYY-MM-DD HH:mm:ss")
+      }
+      const {id} = await CallService.createCall(data)
+      commit(UPDATE_CALL_ID, {id})
+    } catch (error) {
+      if (error instanceof CallError) {
+        console.log(`Code ${error.errorCode}: ${error.message}`)
+      }
+      console.log('Code 500: Internal Server Error')
+    }
+
     commit(SESSION, {session})
     commit(OUTCOMING_REQUEST, {customerPhone : payload.phone, customerName: payload.name})
   },
-
-
 
   // For incoming call
   async incomingRequest({commit, dispatch}, {session}) {
@@ -128,12 +162,30 @@ export default {
 
     const orderList = await OrderService.findOrderByPhone(phone)
 
+    try {
+      const data = {
+        orderID: null,
+        callType: 'Call in',
+        callStatus: 'progress',
+        startTime: moment().format("YYYY-MM-DD HH:mm:ss")
+      }
+      const {id} = await CallService.createCall(data)
+      commit(UPDATE_CALL_ID, {id})
+    } catch (error) {
+      if (error instanceof CallError) {
+        console.log(`Code ${error.errorCode}: ${error.message}`)
+      }
+      console.log('Code 500: Internal Server Error')
+    }
+
+    //Check client is new or old
     if (orderList.length === 0) {
       commit(INCOMING_REQUEST, {customerPhone: phone, customerName: 'Khách lạ'})
     } else {
       commit(INCOMING_REQUEST, {customerPhone: phone, customerName: orderList[orderList.length-1].name})
     }
 
+    //Add events handle for incoming call session
     session.on('confirmed', (e) => {
       commit(INCOMING_RESPONSE)
       const audio = document.createElement('audio')
@@ -145,7 +197,7 @@ export default {
     session.on('ended', (e) => {
       commit(INCOMING_END, {cause: e.cause})
       commit(SESSION, {session:null})
-      setTimeout(() => {
+      timer = setTimeout(() => {
         dispatch("closeCallBox")
       }, 5000)
     })
@@ -153,7 +205,7 @@ export default {
     session.on('failed', (e) => {
       commit(INCOMING_FAIL, {cause: e.cause})
       commit(SESSION, {session:null})
-      setTimeout(() => {
+      timer = setTimeout(() => {
         dispatch("closeCallBox")
       }, 5000)
     })
@@ -161,6 +213,7 @@ export default {
     commit(SESSION, {session})
   },
 
+  //Accept imcoming call
   async imcomingAccept({getters, dispatch}) {
     const session = getters.session
 
@@ -184,5 +237,22 @@ export default {
     }
   },
 
-  
+  updateCall({getters}, payload) {
+    
+    const callInfo = {
+      callID: getters.callID,
+      ...payload
+    }
+
+    try {
+      CallService.updateCall(callInfo)
+    } catch (error) {
+      if (error instanceof CallError) {
+        console.log(`Code ${error.errorCode}: ${error.message}`)
+      }
+      console.log('Code 500: Internal Server Error')
+    }
+
+  },
+
 }

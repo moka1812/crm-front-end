@@ -11,6 +11,8 @@ import {
     CLOSE_CALL_BOX,
     CLOSE_DIAL_PAD,
 
+    UPDATE_CALL_ID,
+
     OUTCOMING_REQUEST,
     OUTCOMING_CONNECTED,
     OUTCOMING_RESPONSE,
@@ -20,9 +22,10 @@ import {
     INCOMING_REQUEST,
     INCOMING_RESPONSE,
     INCOMING_END,
+    INCOMING_FAIL,
 
     RESET_DETAIL,
-    INCOMING_FAIL,
+    BY_EMPLOYEE,
 } from './types'
 
 import {getError} from '../../utils/call_errors'
@@ -51,6 +54,9 @@ export default {
     [CLOSE_DIAL_PAD] (state) {
         Vue.set(state, 'dialPad', false)
     },
+    [UPDATE_CALL_ID] (state, {id}) {
+        Vue.set(state, 'callID', id)
+    },
 
 
     //FOR OUTCOMING CALLING
@@ -73,14 +79,14 @@ export default {
     [OUTCOMING_END] (state, {cause}) {
         Vue.set(state, 'calling', false)
         Vue.set(state, 'ring', false)
-        const message = getError(cause);
+        const message = getError(cause, state.byEmployee);
         Vue.set(state, 'error', message)
         Vue.set(state, 'step', 'ended')
     },
     [OUTCOMING_FAIL] (state, {cause}) {
         Vue.set(state, 'calling', false)
         Vue.set(state, 'ring', false)
-        const message = getError(cause);
+        const message = getError(cause, state.byEmployee);
         Vue.set(state, 'error', message)
         Vue.set(state, 'step', 'failed')
     },
@@ -102,14 +108,14 @@ export default {
     [INCOMING_END] (state, {cause}) {
         Vue.set(state, 'calling', false)
         Vue.set(state, 'ring', false)
-        const message = getError(cause);
+        const message = getError(cause, state.byEmployee);
         Vue.set(state, 'error', message)
         Vue.set(state, 'step', 'ended')
     },
     [INCOMING_FAIL] (state, {cause}) {
         Vue.set(state, 'calling', false)
         Vue.set(state, 'ring', false)
-        const message = getError(cause);
+        const message = getError(cause, state.byEmployee);
         Vue.set(state, 'error', message)
         Vue.set(state, 'step', 'failed')
     },
@@ -120,5 +126,9 @@ export default {
         Vue.set(state, 'requestType', '')
         Vue.set(state, 'customerPhone', '')
         Vue.set(state, 'customerName', '')
+        Vue.set(state, 'byEmployee' , false)
+    },
+    [BY_EMPLOYEE] (state, {byEmployee}) {
+        Vue.set(state, 'byEmployee' , byEmployee)
     }
 }

@@ -1,9 +1,22 @@
-const getError = (cause) => {
+const formatError = (cause, byEmployee) => {
+    return byEmployee ? `${cause} by Employee` : `${cause} by Customer`
+}
+const getError = (cause, byEmployee) => {
+    switch (cause) {
+        case "Canceled":
+        case "Terminated":
+            return formatError(cause, byEmployee)
+        default:
+            return cause
+    }
+}
+
+const getVietnameseError = (cause) => {
     switch (cause) {
         case "Busy":
-            return "Máy bận"
+            return "Khách từ chối"
         case "Rejected":
-            return "Từ chối"
+            return "Nhân viên Từ chối"
         case "Redirected":
             return "Đã chuyển hướng"
         case "Unavailable":
@@ -16,10 +29,14 @@ const getError = (cause) => {
             return "SDP không hợp lệ"
         case "Authentication Error":
             return "Chưa kết nối đến tổng đài"
-        case "Canceled":
-            return "Huỷ cuộc gọi"
-        case "Terminated":
-            return "Tắt cuộc gọi"
+        case "Canceled by Employee":
+            return "Nhân viên huỷ cuộc gọi"
+        case "Canceled by Customer":
+            return "Khách hàng huỷ cuộc gọi"
+        case "Terminated by Employee":
+            return "Nhân viên tắt cuộc gọi"
+        case "Terminated by Customer":
+            return "Khách hàng tắt cuộc gọi"
         case "No Answer":
             return "Không có ai trả lời khách"
         // Incoming call contains a Expires header and 
@@ -43,4 +60,4 @@ const getError = (cause) => {
     }
 }
 
-export {getError}
+export {getError, getVietnameseError}

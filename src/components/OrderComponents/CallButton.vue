@@ -11,7 +11,8 @@ export default {
     name: "call-button",
     props: {
         phone: String,
-        name: String
+        name: String,
+        orderID: Number,
     },
     computed: {
         ...mapGetters({
@@ -29,8 +30,8 @@ export default {
             call: 'call/call',
         }),
         openDialog() {
-            //this.call({phone: '0972957262', name: this.name})
-            this.call({phone: this.phone, name: this.name})
+            //this.call({phone: '0972957262', name: this.name, orderID: this.orderID})
+            this.call({phone: this.phone, name: this.name, orderID: this.orderID})
         }
     },
 }
