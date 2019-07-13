@@ -17,58 +17,58 @@
       class="elevation-1"
     >
 
-        <template v-slot:items="props">
-          <tr @dblclick="e => props.item.step != 'Unclaimed' && clickOrder(props.item.orderID)">
-            <td class="text-xs-center content">{{ props.item.orderID }}</td>
-            <td class="text-xs-center content">{{ props.item.lastModify }}</td>
-            <td class="text-xs-center content ">{{ props.item.agent }}</td>
-            <td class="text-xs-center content">{{ props.item.support_agent_name }}</td>
-            <td class="text-xs-center content" :style="{color: getColor(props.item.step)}">
-              {{ translateStepFromEngToVi(props.item.step) }}
-            </td>
-            <td class="text-xs-center content">{{ props.item.name }}</td>
-            <td class="text-xs-center content">{{ props.item.phone }}</td>
-            <td class="text-xs-center content">{{ props.item.asset }}</td>
-            <td class="text-xs-center content">
-              {{ translateStageFromEngToVi(props.item.stage) }}
-            </td>
-            <td class="text-xs-center">
-              <v-container fluid pa-3>
-                <v-layout>
-                  <v-flex sm4>
-                    <action-button 
-                      :orderID="props.item.orderID" 
-                      :step="props.item.step" 
-                      :phone="props.item.phone" 
-                      :assetID="props.item.assetID"
-                      :staff="props.item.staff"
-                      :stage="translateStageFromEngToVi(props.item.stage)"
-                    />
-                  </v-flex>
-                  <v-flex sm4>
-                      <call-button :phone="props.item.phone" :name="props.item.name" :orderID="props.item.orderID"/>
-                  </v-flex>
-                  <v-flex sm4>
-                      <v-btn class="ma-0" icon @dblclick.stop @click="props.expanded = !props.expanded">
-                        <v-icon v-if="props.expanded">keyboard_arrow_up</v-icon>
-                        <v-icon v-else>keyboard_arrow_down</v-icon>
-                      </v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </td>
-          </tr>
-        </template>
+      <template v-slot:items="props">
+        <tr @dblclick="e => props.item.step != 'Unclaimed' && clickOrder(props.item.orderID)">
+          <td class="text-xs-center content">{{ props.item.orderID }}</td>
+          <td class="text-xs-center content">{{ props.item.lastModify }}</td>
+          <td class="text-xs-center content ">{{ props.item.agent }}</td>
+          <td class="text-xs-center content">{{ props.item.support_agent_name }}</td>
+          <td class="text-xs-center content" :style="{color: getColor(props.item.step)}">
+            {{ translateStepFromEngToVi(props.item.step) }}
+          </td>
+          <td class="text-xs-center content">{{ props.item.name }}</td>
+          <td class="text-xs-center content">{{ props.item.phone }}</td>
+          <td class="text-xs-center content">{{ props.item.asset }}</td>
+          <td class="text-xs-center content">
+            {{ translateStageFromEngToVi(props.item.stage) }}
+          </td>
+          <td class="text-xs-center" @dblclick.stop>
+            <v-container fluid pa-3>
+              <v-layout>
+                <v-flex sm4>
+                  <action-button 
+                    :orderID="props.item.orderID" 
+                    :step="props.item.step" 
+                    :phone="props.item.phone" 
+                    :assetID="props.item.assetID"
+                    :staff="props.item.staff"
+                    :stage="translateStageFromEngToVi(props.item.stage)"
+                  />
+                </v-flex>
+                <v-flex sm4>
+                    <call-button :phone="props.item.phone" :name="props.item.name" :orderID="props.item.orderID"/>
+                </v-flex>
+                <v-flex sm4>
+                    <v-btn class="ma-0" icon @click="props.expanded = !props.expanded">
+                      <v-icon v-if="props.expanded">keyboard_arrow_up</v-icon>
+                      <v-icon v-else>keyboard_arrow_down</v-icon>
+                    </v-btn>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </td>
+        </tr>
+      </template>
 
-        <template v-slot:no-data>
-          <!-- Nothing -->
-        </template>
+      <template v-slot:no-data>
+        <!-- Nothing -->
+      </template>
 
-        <template v-slot:expand="props">
-            <div class="expand">
-              {{props.item.note}}
-            </div>
-        </template>
+      <template v-slot:expand="props">
+          <div class="expand">
+            {{props.item.note}}
+          </div>
+      </template>
 
     </v-data-table>
   </div>
