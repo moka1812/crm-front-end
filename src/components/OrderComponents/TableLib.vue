@@ -18,125 +18,20 @@
     >
 
         <template v-slot:items="props">
-          <template v-if="props.item.step != 'Unclaimed'">
-            <td 
-              class="text-xs-center content" 
-              @dblclick="clickOrder(props.item.orderID)"
-            >
-              {{ props.item.orderID }}
-            </td>
-            <td
-              class="text-xs-center content"
-              @dblclick="clickOrder(props.item.orderID)"          
-            >
-              {{ props.item.lastModify }}
-            </td>
-            <td 
-              class="text-xs-center content "
-              @dblclick="clickOrder(props.item.orderID)" 
-            >
-              {{ props.item.agent }}
-            </td>
-            <td
-              class="text-xs-center content"
-              @dblclick="clickOrder(props.item.orderID)"
-            >
-              {{ props.item.support_agent_name }}
-            </td>
-            
-            <td 
-              class="text-xs-center content" 
-              :style="{color: getColor(props.item.step)}"
-              @dblclick="clickOrder(props.item.orderID)"
-            >
+          <tr @dblclick="e => props.item.step != 'Unclaimed' && clickOrder(props.item.orderID)">
+            <td class="text-xs-center content">{{ props.item.orderID }}</td>
+            <td class="text-xs-center content">{{ props.item.lastModify }}</td>
+            <td class="text-xs-center content ">{{ props.item.agent }}</td>
+            <td class="text-xs-center content">{{ props.item.support_agent_name }}</td>
+            <td class="text-xs-center content" :style="{color: getColor(props.item.step)}">
               {{ translateStepFromEngToVi(props.item.step) }}
             </td>
-
-            <td 
-              class="text-xs-center content" 
-              @dblclick="clickOrder(props.item.orderID)"
-            >
-              {{ props.item.name }}
-            </td>
-
-            <td 
-              class="text-xs-center content" 
-              @dblclick="clickOrder(props.item.orderID)"
-            >
-              {{ props.item.phone }}
-            </td>
-
-            <td 
-              class="text-xs-center content" 
-              @dblclick="clickOrder(props.item.orderID)"
-            >
-              {{ props.item.asset }}
-            </td>
-
-            <td 
-              class="text-xs-center content" 
-              @dblclick="clickOrder(props.item.orderID)"             
-            >
+            <td class="text-xs-center content">{{ props.item.name }}</td>
+            <td class="text-xs-center content">{{ props.item.phone }}</td>
+            <td class="text-xs-center content">{{ props.item.asset }}</td>
+            <td class="text-xs-center content">
               {{ translateStageFromEngToVi(props.item.stage) }}
             </td>
-          </template>
-
-          <template v-else>
-            <td 
-              class="text-xs-center content"
-            >
-              {{ props.item.orderID }}
-            </td>
-
-            <td 
-              class="text-xs-center content"              
-            >
-              {{ props.item.lastModify }}
-            </td>
-
-            <td 
-              class="text-xs-center content"              
-            >
-              {{ props.item.agent }}
-            </td>
-
-            <td 
-              class="text-xs-center content"              
-            >
-              {{ props.item.supportAgentName }}
-            </td>
-            
-            <td 
-              class="text-xs-center content" 
-              :style="{color: getColor(props.item.step)}"  
-            >
-              {{ translateStepFromEngToVi(props.item.step) }}
-            </td>
-
-            <td 
-              class="text-xs-center content"
-            >
-              {{ props.item.name }}
-            </td>
-
-            <td 
-              class="text-xs-center content"
-            >
-              {{ props.item.phone }}
-            </td>
-
-            <td 
-              class="text-xs-center content"
-            >
-              {{ props.item.asset }}
-            </td>
-
-            <td 
-              class="text-xs-center content ma-0"
-            >
-              {{ translateStageFromEngToVi(props.item.stage) }}
-            </td>
-          </template>
             <td class="text-xs-center">
               <v-container fluid pa-3>
                 <v-layout>
@@ -154,7 +49,7 @@
                       <call-button :phone="props.item.phone" :name="props.item.name" :orderID="props.item.orderID"/>
                   </v-flex>
                   <v-flex sm4>
-                      <v-btn class="ma-0" icon @click="props.expanded = !props.expanded">
+                      <v-btn class="ma-0" icon @dblclick.stop @click="props.expanded = !props.expanded">
                         <v-icon v-if="props.expanded">keyboard_arrow_up</v-icon>
                         <v-icon v-else>keyboard_arrow_down</v-icon>
                       </v-btn>
@@ -162,6 +57,7 @@
                 </v-layout>
               </v-container>
             </td>
+          </tr>
         </template>
 
         <template v-slot:no-data>
