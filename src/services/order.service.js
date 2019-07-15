@@ -241,6 +241,13 @@ const OrderService = {
                 const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
                 const lastModify = new moment(item.last_modify.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
 
+                let appointment
+                if (this.orderDetail.appointment !== null) {
+                    appointment = new moment(item.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
+                } else {
+                    appointment = null
+                }
+
                 data.push({
                     orderID: item.id,
                     phone: item.phone,
@@ -256,7 +263,7 @@ const OrderService = {
                     supporter: item.support_agent,
                     supportAgentName: item.support_agent_name,
                     createdDate: created,
-                    appointment: item.appointment,
+                    appointment: appointment,
                     dateClaim: item.date_claim,
                     lastModify: lastModify,
                     tagId: item.tag_id,
@@ -276,6 +283,20 @@ const OrderService = {
         }
         
     },
+
+    getOrderAppointments(orderList, callback) {
+        const data = []
+        for (let order of orderList) {
+            data.push({
+                orderID: order.orderID,
+                appointment: order.appointment,
+                isRead: false,
+                isShowed: false,
+                shouldShow: false,
+            })
+        }
+        callback(data)
+    }
 
 }
 

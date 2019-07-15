@@ -80,29 +80,6 @@ export default {
             this.readNotification({id: NotificationID})
         }
     },
-    watch: {
-        newNotificationResult(newNotificationResult, oldNotificationResult) {
-            let oldNotificationResultID =  oldNotificationResult.map((item) => item.id)
- 
-            let newNotificationResultFilter = newNotificationResult.filter((item) => {
-                return !oldNotificationResultID.includes(item.id)
-            })
-            
-            newNotificationResultFilter.forEach((element) => {
-                this.$notify({
-                  group: 'new-notification',
-                  type: 'error',
-                  title: element.order,
-                  text: {
-                    message: element.message,
-                    id: element.id
-                  },
-                  id: 100,
-                  speed: 2000
-                });
-            })
-        }
-    },
     beforeDestroy() {
         clearInterval(this.schedule)
     }

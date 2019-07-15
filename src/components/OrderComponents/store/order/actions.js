@@ -106,6 +106,7 @@ export default {
             const {orders, count} = await OrderService.getOrderList()
             commit(ORDER_LIST_SUCCESS, {orders})
             commit(ORDER_COUNT, {count})
+            this.dispatchAppointment({orders})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
@@ -121,6 +122,7 @@ export default {
             const {orders, count} = await OrderService.getOrderList()
             commit(ORDER_LIST_SHECDULE_SUCCESS, {orders})
             commit(ORDER_COUNT, {count})
+            this.dispatchAppointment({orders})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_LIST_SHECDULE_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
@@ -136,6 +138,7 @@ export default {
             const {orders, count} = await OrderService.getOrderListFromStaff()
             commit(ORDER_LIST_SUCCESS, {orders})
             commit(ORDER_COUNT, {count})
+            this.dispatchAppointment({orders})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
@@ -151,6 +154,7 @@ export default {
             const {orders, count} = await OrderService.getOrderListFromStaff()
             commit(ORDER_LIST_SHECDULE_SUCCESS, {orders})
             commit(ORDER_COUNT, {count})
+            this.dispatchAppointment({orders})
         } catch (error) {
             if (error instanceof OrderError) {
                 commit(ORDER_LIST_SHECDULE_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
@@ -158,6 +162,12 @@ export default {
                 commit(ORDER_LIST_SHECDULE_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
+    },
+
+    dispatchAppointment({dispatch}, {orders}) {
+        OrderService.getOrderAppointments(orders, (orderAppointments) => {
+            dispatch('notification/setAppointment', {orderAppointments}, {root:true})
+        })
     },
 
     async getOrderDetail({commit, getters}, payload) {

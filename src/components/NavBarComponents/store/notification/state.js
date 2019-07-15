@@ -1,5 +1,4 @@
 export default  {
-    //For Branch API
     newNotificationResult: [],
     newNotificationErrorCode: 0,
     newNotificationError: '',
@@ -7,6 +6,8 @@ export default  {
     notificationResult: [],
     notificationErrorCode: 0,
     notificationError: '',
+
+    appointments: [],
 
     notificationUpdatingRequest: false,
     notificationUpdatingResult: null,

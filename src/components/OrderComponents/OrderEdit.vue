@@ -233,7 +233,6 @@ export default {
             menu: false,
             stepInput: '',
             stageInput: '',
-            appointmentDateTimeInput: '',
         }
     },
     computed: {
@@ -354,6 +353,16 @@ export default {
             },
             set (value) {
                 this.detail.assetDescription = value
+            }
+        },
+        appointmentDateTimeInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.appointment
+                } return null
+            },
+            set (value) {
+                this.detail.appointment = value
             }
         },
         //Get stage when step changes
@@ -497,12 +506,6 @@ export default {
 
                 this.stepInput = this.translateStepFromEngToVi(this.orderDetail.step)
                 this.stageInput = this.translateStageFromEngToVi(this.orderDetail.stage)
-
-                if (this.orderDetail.appointment !== null) {
-                    this.appointmentDateTimeInput = moment(this.orderDetail.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
-                } else {
-                    this.appointmentDateTimeInput = null
-                }
             }
         },
         stageItems() {
