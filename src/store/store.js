@@ -20,5 +20,15 @@ export default new Vuex.Store({
     asset: moduleAsset,
     notification: moduleNotification,
     call: moduleCall,
+  },
+  actions: {
+    reset({commit}) {
+      commit('branch/reset')
+      commit('auth/reset')
+      commit('order/reset')
+      commit('asset/reset')
+      commit('notification/reset')
+      commit('call/reset')
+    }
   }
 });

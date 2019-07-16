@@ -12,8 +12,6 @@ import {
     NOTIFICATION_UPDATING_REQUEST,
     NOTIFICATION_UPDATING_SUCCESS,
     NOTIFICATION_UPDATING_ERROR,
-
-    SET_APPOINTMENT
 } from './types'
 
 export default {
@@ -63,7 +61,4 @@ export default {
         Vue.set(state, 'notificationUpdatingError', errorMessage)
     },
 
-    [SET_APPOINTMENT] (state, {appointments}) {
-        Vue.set(state, 'appointments', appointments)
-    }
 }

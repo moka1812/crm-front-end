@@ -25,10 +25,12 @@ export default {
         }
     },
 
-    logout({ commit }) {
+    logout({commit, dispatch}) {
         UserService.logout()
         commit(LOGOUT_SUCCESS)
         router.push('login')
+        //Reset all store
+        dispatch('reset', {}, {root:true})
     },
 
     refreshToken({ commit, state}) {

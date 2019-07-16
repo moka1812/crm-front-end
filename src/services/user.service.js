@@ -1,6 +1,7 @@
 import { TokenService, ProfileService, CurrentBranchService, VOIPUserService } from './storage.service';
 import ApiService from '../services/api.service'
 import VOIPService from '../services/VoIP.service'
+import store from '../store/store'
 import { loginApi, refreshTokenApi } from '../config/backend-api'
 
 class AuthenticationError extends Error {

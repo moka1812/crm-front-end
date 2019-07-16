@@ -242,7 +242,7 @@ const OrderService = {
                 const lastModify = new moment(item.last_modify.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
 
                 let appointment
-                if (this.orderDetail.appointment !== null) {
+                if (item.appointment !== null) {
                     appointment = new moment(item.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
                 } else {
                     appointment = null
@@ -283,20 +283,6 @@ const OrderService = {
         }
         
     },
-
-    getOrderAppointments(orderList, callback) {
-        const data = []
-        for (let order of orderList) {
-            data.push({
-                orderID: order.orderID,
-                appointment: order.appointment,
-                isRead: false,
-                isShowed: false,
-                shouldShow: false,
-            })
-        }
-        callback(data)
-    }
 
 }
 

@@ -4,7 +4,7 @@
         :nudge-width="200"
         nudge-bottom="14"
     >
-        <template v-slot:activator="{ on }">
+        <template v-if="this.count !== 0" v-slot:activator="{ on }">
             <v-btn icon v-on="on" @click="getNotification()">
                 <v-icon>notifications</v-icon>
             </v-btn>
@@ -13,6 +13,11 @@
                     {{count}}
                 </template>
             </v-badge>
+        </template>
+        <template v-else v-slot:activator="{ on }">
+            <v-btn icon v-on="on" @click="getNotification()">
+                <v-icon>notifications</v-icon>
+            </v-btn>
         </template>
         <v-card>
             <v-list>
