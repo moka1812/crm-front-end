@@ -241,11 +241,9 @@ const OrderService = {
                 const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
                 const lastModify = new moment(item.last_modify.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
 
-                let appointment
+                let appointment = null
                 if (item.appointment !== null) {
                     appointment = new moment(item.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
-                } else {
-                    appointment = null
                 }
 
                 data.push({

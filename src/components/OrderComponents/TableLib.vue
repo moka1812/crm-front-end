@@ -65,9 +65,7 @@
       </template>
 
       <template v-slot:expand="props">
-          <div class="expand">
-            {{props.item.note}}
-          </div>
+          <call-table :expand="props.expanded" :orderID="props.item.orderID" />
       </template>
 
     </v-data-table>
@@ -82,12 +80,14 @@ import {translateStepFromEngToVi} from './utils/steps'
 
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 import CallButton from "@/components/OrderComponents/CallButton.vue"
+import CallTable from "@/components/OrderComponents/CallTable.vue"
 
 export default {
   name: "table-lib",
   components: {
     ActionButton,
-    CallButton
+    CallButton,
+    CallTable
   },
   data() {
     return {
@@ -177,12 +177,6 @@ export default {
 <style scoped>
 .table {
   background-color: #fff;
-}
-
-.expand {
-  white-space: pre-line; 
-  padding-left: 30px;
-  font-size: 17px
 }
 
 .back-check {

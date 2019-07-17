@@ -35,6 +35,14 @@ export default  {
         return state.callID
     },
 
+    callUpdating: (state) => {
+        return state.callUpdating
+    },
+
+    orderID: (state) => {
+        return state.orderID
+    },
+
     customerPhone: (state) => {
         return state.customerPhone
     },

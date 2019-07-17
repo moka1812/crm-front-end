@@ -11,7 +11,11 @@ export default function initialState() {
         step: 'rest',
         error: '',
         
+        //For update call table
+        callUpdating: false,
         callID: null,
+
+        orderID: null,
         customerPhone: '',
         customerName: '',
         requestType: '',

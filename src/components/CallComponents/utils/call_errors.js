@@ -13,6 +13,12 @@ const getError = (cause, byEmployee) => {
 
 const getVietnameseError = (cause) => {
     switch (cause) {
+        case "connecting":
+            return "Đang thiết lập cuộc gọi"
+        case "Ring":
+            return "Đang chờ"
+        case "In call":
+            return "Đang trò chuyện"
         case "Busy":
             return "Khách từ chối"
         case "Rejected":

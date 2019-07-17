@@ -14,8 +14,8 @@
         <h3>{{this.customerName}}</h3>
         ({{this.customerPhone}})
 
-        <p v-if="this.ring==true"> Đang gọi <img src="../../assets/ring-animation.svg" alt="Loading"> </p>
-        <p v-else-if="this.step=='confirmed'">{{minutes}}:{{seconds}}</p>
+        <p v-if="this.ring===true"> Đang gọi <img src="../../assets/ring-animation.svg" alt="Loading"> </p>
+        <p v-else-if="this.step.includes('confirmed')">{{minutes}}:{{seconds}}</p>
         <p v-else>
             {{this.vietnameseError}}
         </p>
@@ -98,12 +98,13 @@ export default {
                     this.ringTimer = setInterval(() => {this.ringTime++}, 1000)
                     this.updateCall({callStatus: 'Ring'})
                     break
-                case 'confirmed':
+                case 'client confirmed': //Case only call out
                     clearInterval(this.ringTimer)
                     this.updateCall({
                         callStatus: 'In call', 
                         ringTime: this.ringTime,
                     })
+                    this.ringTime = 0
                     break
                 case 'ended':
                     clearInterval(this.talkTimer)
@@ -112,6 +113,7 @@ export default {
                         talkTime: this.talkTime, 
                         endTime: moment().format("YYYY-MM-DD HH:mm:ss"),
                     })
+                    this.talkTime = 0
                     break
                 case 'failed':
                     clearInterval(this.ringTimer)
@@ -120,6 +122,7 @@ export default {
                         ringTime: this.ringTime,
                         endTime: moment().format("YYYY-MM-DD HH:mm:ss"),
                     })
+                    this.ringTime = 0
                     break
             }
         }

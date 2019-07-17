@@ -12,6 +12,8 @@ import {
     CLOSE_DIAL_PAD,
 
     UPDATE_CALL_ID,
+    CALL_UPDATING_REQUEST,
+    UPDATE_ORDER_ID,
 
     OUTCOMING_REQUEST,
     OUTCOMING_CONNECTED,
@@ -57,6 +59,12 @@ export default {
     [UPDATE_CALL_ID] (state, {id}) {
         Vue.set(state, 'callID', id)
     },
+    [CALL_UPDATING_REQUEST] (state, {requesting}) {
+        Vue.set(state, 'callUpdating', requesting)
+    },
+    [UPDATE_ORDER_ID] (state, {id}) {
+        Vue.set(state, 'orderID', id)
+    },
 
 
     //FOR OUTCOMING CALLING
@@ -74,7 +82,7 @@ export default {
         Vue.set(state, 'calling', true)
         Vue.set(state, 'ring', false)
         Vue.set(state, 'error', '')
-        Vue.set(state, 'step', 'confirmed')
+        Vue.set(state, 'step', 'client confirmed')
     },
     [OUTCOMING_END] (state, {cause}) {
         Vue.set(state, 'calling', false)
@@ -103,7 +111,7 @@ export default {
         Vue.set(state, 'calling', true)
         Vue.set(state, 'ring', false)
         Vue.set(state, 'error', '')
-        Vue.set(state, 'step', 'confirmed')
+        Vue.set(state, 'step', 'user confirmed')
     },
     [INCOMING_END] (state, {cause}) {
         Vue.set(state, 'calling', false)

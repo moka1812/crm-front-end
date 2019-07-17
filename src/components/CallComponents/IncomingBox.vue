@@ -6,11 +6,15 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import moment from 'moment'
+
 export default {
     name: "incoming-box",
     data() {
         return {
-            toast: null
+            toast: null,
+            ringTimer: null,
+            ringTime: 0,
         }
     },
     computed: {
@@ -18,18 +22,24 @@ export default {
             customerPhone: 'call/customerPhone',
             customerName: 'call/customerName',
             ring: 'call/ring',
+            error: 'call/error',
             requestType: 'call/requestType',
         }),
     },
     methods: {
         ...mapActions({
             imcomingAccept: 'call/imcomingAccept',
-            terminate: 'call/terminate'
+            terminate: 'call/terminate',
+            updateCall: 'call/updateCall',
         })
     },
     watch: {
         ring() {
             if (this.ring === true && this.requestType === "incoming") {
+                //Begin count ring time
+                this.ringTimer = setInterval(() => {this.ringTime++}, 1000)
+
+                //Play music
                 const playPromise = this.$refs.player.play()
                 if (playPromise !== undefined) {
                     playPromise.then(function() {
@@ -37,9 +47,9 @@ export default {
                     }).catch(function(error) {
                         // Automatic playback failed.
                         // Show a UI element to let the user manually start playback.
-                        console.log(error.message)
                     });
                 }
+
                 this.toast = this.$snotify.simple(
                     `${this.customerName} (${this.customerPhone})`, 
                     'Cuộc gọi đến', 
@@ -53,7 +63,17 @@ export default {
                                 text: 'Chấp nhận', 
                                 className: 'acceptButton',
                                 action: (toast) => {
-                                    this.imcomingAccept()
+                                    //Stop count ring time
+                                    clearInterval(this.ringTimer)
+
+                                    this.imcomingAccept().then(() => {
+                                        this.updateCall({
+                                            callStatus: 'In call', 
+                                            ringTime: this.ringTime,
+                                        })
+                                        this.ringTime = 0
+                                    })
+
                                     this.$snotify.remove(toast.id)
                                 }
                             },
@@ -61,7 +81,18 @@ export default {
                                 text: 'Từ chối', 
                                 className: 'denyButton',
                                 action: (toast) => {
-                                    this.terminate()
+                                    //Stop count ring time
+                                    clearInterval(this.ringTimer)
+
+                                    this.terminate().then(() => {
+                                        //Update Call Status
+                                        this.updateCall({
+                                            callStatus: this.error, 
+                                            ringTime: this.ringTime,
+                                            endTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                                        })
+                                        this.ringTime = 0
+                                    })
                                     this.$snotify.remove(toast.id)
                                 }
                             },

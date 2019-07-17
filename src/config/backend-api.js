@@ -25,3 +25,5 @@ export const notificationFromUserIDAPI = `${baseURL}/staffs/:id/notification/`
 export const notificationAPI = `${baseURL}/notifications/`
 
 export const callAPI = `${baseURL}/calls/`
+
+export const orderCallAPI = `${baseURL}/orders/:id/calls/`
