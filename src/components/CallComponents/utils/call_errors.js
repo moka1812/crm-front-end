@@ -21,6 +21,14 @@ const getVietnameseError = (cause) => {
             return "Đang chờ"
         case "In call":
             return "Đang trò chuyện"
+        case JsSIP.C.causes.CONNECTION_ERROR:
+            return "Không thể kết nối đến tổng đài"
+        case JsSIP.C.causes.REQUEST_TIMEOUT:
+            return "Yêu cầu quá thời hạn chờ"
+        case JsSIP.C.causes.SIP_FAILURE_CODE:
+            return "Lỗi lạ chưa xác định được"
+        case JsSIP.C.causes.INTERNAL_ERROR:
+            return "Không xác định nguyên nhân"
         case JsSIP.C.causes.BUSY:
             return "Khách từ chối"
         case JsSIP.C.causes.REJECTED:
@@ -38,7 +46,7 @@ const getVietnameseError = (cause) => {
         case JsSIP.C.causes.MISSING_SDP:
             return "Không có SDP"
         case JsSIP.C.causes.AUTHENTICATION_ERROR:
-            return "Chưa kết nối đến tổng đài"
+            return "Chưa xác thực đến tổng đài"
         case `${JsSIP.C.causes.CANCELED} by Employee`:
             return "Nhân viên huỷ cuộc gọi"
         case `${JsSIP.C.causes.CANCELED} by Customer`:
@@ -65,6 +73,8 @@ const getVietnameseError = (cause) => {
             return "Nhân viên không mở microphone"
         case JsSIP.C.causes.BAD_MEDIA_DESCRIPTION:
             return "Nhận âm thanh lỗi"
+        case JsSIP.C.causes.WEBRTC_ERROR:
+            return "Trình duyệt không hỗ trợ"
         case JsSIP.C.causes.RTP_TIMEOUT:
             return "Kết thúc do mất tín hiệu"
     }

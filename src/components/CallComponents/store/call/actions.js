@@ -146,7 +146,8 @@ export default {
             { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }
           ]
       }
-    };
+    }
+
     const phone = VOIPService.getTelephone()
     const session = phone.call(wsUser.replace("user", payload.phone), options);
 
@@ -233,7 +234,6 @@ export default {
 
     session.on('failed', (e) => {
       commit(INCOMING_FAIL, {cause: e.cause})
-      console.log(e.cause)
       commit(SESSION, {session:null})
       timer = setTimeout(() => {
         dispatch("closeCallBox")
@@ -273,7 +273,6 @@ export default {
       if (error instanceof CallError) {
         console.log(`Code ${error.errorCode}: ${error.message}`)
       }
-      console.log(error.message)
       console.log('Code 500: Internal Server Error')
     }
 
