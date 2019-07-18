@@ -22,6 +22,7 @@ export default {
             customerPhone: 'call/customerPhone',
             customerName: 'call/customerName',
             ring: 'call/ring',
+            step: 'call/step',
             error: 'call/error',
             requestType: 'call/requestType',
         }),
@@ -63,17 +64,7 @@ export default {
                                 text: 'Chấp nhận', 
                                 className: 'acceptButton',
                                 action: (toast) => {
-                                    //Stop count ring time
-                                    clearInterval(this.ringTimer)
-
-                                    this.imcomingAccept().then(() => {
-                                        this.updateCall({
-                                            callStatus: 'In call', 
-                                            ringTime: this.ringTime,
-                                        })
-                                        this.ringTime = 0
-                                    })
-
+                                    this.imcomingAccept()
                                     this.$snotify.remove(toast.id)
                                 }
                             },
@@ -81,18 +72,7 @@ export default {
                                 text: 'Từ chối', 
                                 className: 'denyButton',
                                 action: (toast) => {
-                                    //Stop count ring time
-                                    clearInterval(this.ringTimer)
-
-                                    this.terminate().then(() => {
-                                        //Update Call Status
-                                        this.updateCall({
-                                            callStatus: this.error, 
-                                            ringTime: this.ringTime,
-                                            endTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                                        })
-                                        this.ringTime = 0
-                                    })
+                                    this.terminate()
                                     this.$snotify.remove(toast.id)
                                 }
                             },
@@ -103,6 +83,30 @@ export default {
             } else if (this.toast !== null) {
                 this.$snotify.remove(this.toast.id)
                 this.$refs.player.load()
+            }
+        },
+        step() {
+            console.log(this.step)
+            switch(this.step) {
+                case 'user confirmed': //Case only call in
+                    clearInterval(this.ringTimer)
+                    this.updateCall({
+                        callStatus: 'In call', 
+                        ringTime: this.ringTime,
+                    })
+                    this.ringTime = 0
+                    break
+                case 'failed':
+                    clearInterval(this.ringTimer)
+                    //Update Call Status
+                    console.log(123)
+                    this.updateCall({
+                        callStatus: this.error, 
+                        ringTime: this.ringTime,
+                        endTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    })
+                    this.ringTime = 0
+                    break
             }
         }
     }

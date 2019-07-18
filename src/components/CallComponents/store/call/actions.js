@@ -36,6 +36,19 @@ import {
 const wsUser = process.env.VUE_APP_WS_USER
 var timer = null
 
+const incomingOptions = {
+  extraHeaders: [ 'X-Foo: foo', 'X-Bar: bar' ],
+  mediaConstraints : { audio: true, video: false },
+  sessionTimersExpires: '180',
+  pcConfig: {
+      iceServers: [
+        { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }
+      ],
+      iceTransportPolicy: 'all',
+      rtcpMuxPolicy: 'negotiate'
+  }
+};
+
 export default {
   async openDialPad({commit}) {
     commit(OPEN_WINDOW)
@@ -169,11 +182,6 @@ export default {
   // For incoming call
   async incomingRequest({commit, dispatch}, {session}) {
 
-    //Get phone from session
-    const phone = session._remote_identity._display_name
-    //Get client by Phone
-    const orderList = await OrderService.findOrderByPhone(phone)
-
     try {
 
       const data = {
@@ -193,12 +201,18 @@ export default {
       console.log('Code 500: Internal Server Error')
     }
 
-    //Check client is new or old
-    if (orderList.length === 0) {
-      commit(INCOMING_REQUEST, {customerPhone: phone, customerName: 'Khách lạ'})
-    } else {
-      commit(INCOMING_REQUEST, {customerPhone: phone, customerName: orderList[orderList.length-1].name})
-    }
+    //Get phone from session
+    const phone = session._remote_identity._display_name
+    
+    //Get client by Phone
+    OrderService.findOrderByPhone(phone).then((orderList) => {
+      //Check client is new or old
+      if (orderList.length === 0) {
+        commit(INCOMING_REQUEST, {customerPhone: phone, customerName: 'Khách lạ'})
+      } else {
+        commit(INCOMING_REQUEST, {customerPhone: phone, customerName: orderList[orderList.length-1].name})
+      }
+    })
 
     //Add events handle for incoming call session
     session.on('confirmed', (e) => {
@@ -219,6 +233,7 @@ export default {
 
     session.on('failed', (e) => {
       commit(INCOMING_FAIL, {cause: e.cause})
+      console.log(e.cause)
       commit(SESSION, {session:null})
       timer = setTimeout(() => {
         dispatch("closeCallBox")
@@ -234,21 +249,7 @@ export default {
 
     if (session != null) {
       await dispatch("openCallBox")
-
-      const options = {
-        extraHeaders: [ 'X-Foo: foo', 'X-Bar: bar' ],
-        mediaConstraints : { audio: true, video: false },
-        sessionTimersExpires: '180',
-        pcConfig: {
-            iceServers: [
-              { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] }
-            ],
-            iceTransportPolicy: 'all',
-            rtcpMuxPolicy: 'negotiate'
-        }
-      };
-
-      session.answer(options)
+      session.answer(incomingOptions)
     }
   },
 

@@ -34,10 +34,10 @@ export default {
                     text: "Nhân viên", value: "agentName", align: 'center', sortable: false, class: "header"
                 },
                 {
-                    text: "Bắt đầu", value: "startTime", align: 'center', sortable: false, class: "header"
+                    text: "Thời gian", value: "startTime", align: 'center', sortable: false, class: "header"
                 },
                 {
-                    text: "Thời gian nói chuyện", value: "talkTime", align: 'center', sortable: false, class: "header"
+                    text: "Thời lượng cuộc gọi", value: "talkTime", align: 'center', sortable: false, class: "header"
                 },
                 {
                     text: "Trạng thái", value: "callStatus", align: 'center', sortable: false, class: "header"
@@ -70,7 +70,7 @@ export default {
 
 <style scoped>
 .call-table {
-    padding-left: 30px;
+    padding: 0px 30px;
     font-size: 17px
 }
 .header {
