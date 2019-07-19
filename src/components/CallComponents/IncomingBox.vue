@@ -86,7 +86,6 @@ export default {
             }
         },
         step() {
-            console.log(this.step)
             switch(this.step) {
                 case 'user confirmed': //Case only call in
                     clearInterval(this.ringTimer)
@@ -96,10 +95,9 @@ export default {
                     })
                     this.ringTime = 0
                     break
-                case 'failed':
+                case 'incoming failed':
                     clearInterval(this.ringTimer)
                     //Update Call Status
-                    console.log(123)
                     this.updateCall({
                         callStatus: this.error, 
                         ringTime: this.ringTime,

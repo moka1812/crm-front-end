@@ -115,7 +115,7 @@ export default {
                     })
                     this.talkTime = 0
                     break
-                case 'failed':
+                case 'outcoming failed':
                     clearInterval(this.ringTimer)
                     this.updateCall({
                         callStatus: this.error, 

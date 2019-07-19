@@ -96,7 +96,7 @@ export default {
         Vue.set(state, 'ring', false)
         const message = getError(cause, state.byEmployee);
         Vue.set(state, 'error', message)
-        Vue.set(state, 'step', 'failed')
+        Vue.set(state, 'step', 'outcoming failed')
     },
 
     //FOR INCOMING CALLING
@@ -125,7 +125,7 @@ export default {
         Vue.set(state, 'ring', false)
         const message = getError(cause, state.byEmployee);
         Vue.set(state, 'error', message)
-        Vue.set(state, 'step', 'failed')
+        Vue.set(state, 'step', 'incoming failed')
     },
 
     [RESET_DETAIL] (state) {
