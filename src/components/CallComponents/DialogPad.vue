@@ -50,7 +50,7 @@ export default {
             ring: 'call/ring'
         }),
         disable() {
-            if (this.calling || this.ring || !this.enabled) {
+            if (this.calling || this.ring || !this.enabled || !/^[+]?[0-9]{10,13}$/.test(this.numbers)) {
                 return true
             } return false
         }
@@ -68,7 +68,7 @@ export default {
             }
         },
         openDialog() {
-            this.call({phone: this.numbers})
+            this.call({phone: this.numbers, name: null, orderID: null})
         }
     }
 }

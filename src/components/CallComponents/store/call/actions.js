@@ -183,7 +183,21 @@ export default {
     }
 
     commit(SESSION, {session})
-    commit(OUTCOMING_REQUEST, {customerPhone : payload.phone, customerName: payload.name})
+
+    if (payload.name == null) {
+      OrderService.findOrderByPhone(payload.phone).then((orderList) => {
+        console.log(orderList)
+        //Check client is new or old
+        if (orderList.length === 0) {
+          commit(OUTCOMING_REQUEST, {customerPhone: payload.phone, customerName: 'Khách lạ'})
+        } else {
+          commit(OUTCOMING_REQUEST, {customerPhone: payload.phone, customerName: orderList[orderList.length-1].name})
+        }
+      })
+    } else {
+      commit(OUTCOMING_REQUEST, {customerPhone : payload.phone, customerName: payload.name})
+    }
+    
   },
 
   // For incoming call
