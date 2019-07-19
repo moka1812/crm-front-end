@@ -339,8 +339,6 @@ export default {
         this.searchTime = setTimeout(() => {
             if (!this.$refs['phone'].hasError) {
                 this.clientSearch({phone: this.phoneInput})
-            } else {
-                
             }
         }, 2000)
     },

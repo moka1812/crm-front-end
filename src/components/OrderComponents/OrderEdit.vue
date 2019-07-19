@@ -29,11 +29,26 @@
                                         v => /^[+]?[0-9]{10,13}$/.test(v) || 'Phone is not valid'
                                     ]"
                                     label="Phone*"
-                                    :loading="this.clientSearching"
-                                    :disabled="this.clientSearching"
                                     ref="phone"
                                     required
                                 >
+                                    <template v-if="this.enabled" slot="append">
+
+                                        <v-icon 
+                                            v-if="!this.calling && !this.ring" 
+                                            @click="callHandle"
+                                            color="#dd1e26"
+                                        >
+                                            phone_forwarded
+                                        </v-icon>
+                                        <v-icon 
+                                            v-else-if="this.orderCallID === this.orderID"
+                                            @click="terminateHandle" 
+                                            color="#dd1e26"
+                                        >
+                                            call_end
+                                        </v-icon>
+                                    </template>
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
@@ -178,9 +193,9 @@
             <v-divider></v-divider>
             <v-card-actions>
                 <v-card-text 
-                :style="{
-                    'color': 'red'
-                }"
+                    :style="{
+                        'color': 'red'
+                    }"
                 >
                     * Bắt buộc phải điền
                 </v-card-text>
@@ -236,13 +251,16 @@ export default {
     computed: {
         ...mapGetters({
             orderDetailForm: 'order/orderDetailForm',
-            clientSearching:'order/clientSearching',
             SAssetListResult: 'asset/SAssetListResult',
             orderDetail: 'order/orderDetail',
             orderUpdating: 'order/orderUpdating',
             orderUpdatingResult: 'order/orderUpdatingResult',
             orderUpdatingErrorCode: 'order/orderUpdatingErrorCode',
-            orderUpdatingError: 'order/orderUpdatingError'
+            orderUpdatingError: 'order/orderUpdatingError',
+            enabled: 'call/enabled',
+            calling: 'call/calling',
+            ring: 'call/ring',
+            orderCallID: 'call/orderID'
         }),
         dialog: {
             get () { return this.orderDetailForm },
@@ -559,7 +577,9 @@ export default {
     methods: {
         ...mapActions({
             updateOrder: 'order/updateOrder',
-            turnOffDialog: 'order/turnOffDialog'
+            turnOffDialog: 'order/turnOffDialog',
+            call: 'call/call',
+            terminate: 'call/terminate'
         }),
         //Find asset ID from asset description
         findAssetTypeID(assetType) {
@@ -569,7 +589,16 @@ export default {
                 }
             }
         },
-
+        callHandle: function () {
+            this.call({
+                phone: this.orderDetail.phone, 
+                name: this.orderDetail.name, 
+                orderID: this.orderDetail.orderID
+            })
+        },
+        terminateHandle: function() {
+            this.terminate()
+        },
         contractHandle: async function () {
 
         },

@@ -51,7 +51,6 @@ const VOIPService = {
             }
             
         });
-        console.log(123)
         this.telephone.start()
     },
 
