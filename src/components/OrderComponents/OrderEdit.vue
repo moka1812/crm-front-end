@@ -231,8 +231,6 @@ export default {
             assetTypeItems: [],
             sourceItems: [],
             menu: false,
-            stepInput: '',
-            stageInput: '',
         }
     },
     computed: {
@@ -365,18 +363,44 @@ export default {
                 this.detail.appointment = value
             }
         },
-        //Get stage when step changes
-        stageTotal() {
-            if (/\S/.test(this.stepInput)) {
-                //Get English Step
-                const engStep = this.translateStepFromViToEng(this.stepInput)
-                return getStage(engStep)
+        stepInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.step
+                } return null
+            },
+            set (value) {
+                this.detail.step = value
             }
-            return []  
         },
+        stageInput: {
+            get () {
+                if (this.detail != null) {
+                    return this.detail.stage
+                } return null
+            },
+            set (value) {
+                this.detail.stage = value
+            }
+        },
+        //Get stage when step changes
+        // stageTotal() {
+        //     if (/\S/.test(this.stepInput)) {
+        //         //Get English Step
+        //         const engStep = this.translateStepFromViToEng(this.stepInput)
+        //         return getStage(engStep)
+        //     }
+        //     return []  
+        // },
         //Send vietnamese stages to stageItems
         stageItems() {
-            return this.stageTotal.map((element) => element.vi)
+            if (/\S/.test(this.stepInput) && this.stepInput != null) {
+                //Get English Step
+                const engStep = this.translateStepFromViToEng(this.stepInput)
+                const stageTotal = getStage(engStep)
+                return stageTotal.map((element) => element.vi)
+            }
+            return []
         },
         //Send vietnamese steps to stepItems, except "Chưa nhận"/Unclaimed
         stepItems() {
@@ -470,11 +494,8 @@ export default {
                 if (this.stageInput != this.translateStageFromEngToVi(this.orderDetail.stage)) {
                     return false
                 }
-                //Check null vs null
                 if (this.appointmentDateTimeInput != this.orderDetail.appointment) {
-                    if (this.appointmentDateTimeInput != moment(this.orderDetail.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")) {
-                        return false
-                    }
+                    return false
                 }
                 //Not Yet Edit
                 return true
@@ -494,7 +515,11 @@ export default {
         //Update Order Detail to Input
         orderDetail: async function() {
             if (this.orderDetail != null) {
-                this.detail = {...this.orderDetail}
+                this.detail = {
+                    ...this.orderDetail,
+                    step: this.translateStepFromEngToVi(this.orderDetail.step),
+                    stage: this.translateStageFromEngToVi(this.orderDetail.stage),
+                }
                 
                 //sourceInput existing in sourceItem or null
                 if (sourceItems.includes(this.sourceInput) || /^\s*$/.test(this.sourceInput) || this.sourceInput == null) {
@@ -503,29 +528,39 @@ export default {
                     //Special case, Example: facebook
                     this.sourceItems = [this.sourceInput]
                 }
-
-                this.stepInput = this.translateStepFromEngToVi(this.orderDetail.step)
-                this.stageInput = this.translateStageFromEngToVi(this.orderDetail.stage)
             }
         },
-        stageItems() {
+        stepInput() {
             const oldStep = this.translateStepFromEngToVi(this.orderDetail.step)
+    
             //When User go back old step
             if (this.stepInput == oldStep) {
                 //Get old stage
                 this.stageInput = this.translateStageFromEngToVi(this.orderDetail.stage)
-            } else if (!this.stageItems.includes(this.stageInput)) {
+                if (this.orderDetail.appointment !== null) {
+                    //Get old appointment from store
+                    this.appointmentDateTimeInput = this.orderDetail.appointment
+                }
+            } else {
                 //When current stage is not in new stage Items
                 this.stageInput = ''
             }
         },
+        stageInput() {
+            const oldStep = this.translateStepFromEngToVi(this.orderDetail.step)
+            const oldStage = this.translateStageFromEngToVi(this.orderDetail.stage)
+
+            if (this.stepInput === oldStep && this.stageInput === oldStage) {
+                if (this.orderDetail.appointment !== null) {
+                    //Get old appointment from store
+                    this.appointmentDateTimeInput = this.orderDetail.appointment
+                }
+            }
+        },
         appointmentDisable() {
             //When enable input appointment Date Time
-            if (this.appointmentDisable == true) {
-                //Check appointment exist in orderDetail
-                if (this.orderDetail.appointment !== null) {
-                    this.appointmentDateTimeInput = moment(this.orderDetail.appointment, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
-                } 
+            if (this.appointmentDisable) {
+                this.appointmentDateTimeInput = null
             }
         },
     },
