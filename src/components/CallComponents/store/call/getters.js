@@ -1,4 +1,8 @@
 export default  {
+    enabled: (state) => {
+        return state.enabled
+    },
+
     session: (state) => {
         return state.session
     },

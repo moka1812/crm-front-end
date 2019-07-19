@@ -4,20 +4,15 @@
         :nudge-width="200"
         nudge-bottom="14"
     >
-        <template v-if="this.count !== 0" v-slot:activator="{ on }">
+        <template v-slot:activator="{ on }">
             <v-btn icon v-on="on" @click="getNotification()">
                 <v-icon>notifications</v-icon>
             </v-btn>
-            <v-badge overlap color="#FFA500" :style="{'margin-top':'20px', 'margin-right':'10px'}">
+            <v-badge v-show="count != null && count > 0" overlap color="#FFA500" :style="{'margin-top':'20px', 'margin-right':'10px'}">
                 <template v-slot:badge>
                     {{count}}
                 </template>
             </v-badge>
-        </template>
-        <template v-else v-slot:activator="{ on }">
-            <v-btn icon v-on="on" @click="getNotification()">
-                <v-icon>notifications</v-icon>
-            </v-btn>
         </template>
         <v-card>
             <v-list>

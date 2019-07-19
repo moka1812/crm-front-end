@@ -1,5 +1,7 @@
 export default function initialState() {
     return {
+        enabled: false,
+        
         windowOpen: false,
         callBox: false,
         dialPad: false,

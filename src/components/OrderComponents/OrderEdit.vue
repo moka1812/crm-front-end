@@ -383,15 +383,6 @@ export default {
                 this.detail.stage = value
             }
         },
-        //Get stage when step changes
-        // stageTotal() {
-        //     if (/\S/.test(this.stepInput)) {
-        //         //Get English Step
-        //         const engStep = this.translateStepFromViToEng(this.stepInput)
-        //         return getStage(engStep)
-        //     }
-        //     return []  
-        // },
         //Send vietnamese stages to stageItems
         stageItems() {
             if (/\S/.test(this.stepInput) && this.stepInput != null) {
@@ -412,7 +403,7 @@ export default {
             }).map(key => steps[key].vi)
         },
         //Disable Contract Button when step is not Contact
-        contractDisable(){
+        contractDisable() {
             if (this.stageInput == "Hợp đồng") {
                 return true
             }
@@ -532,12 +523,13 @@ export default {
         },
         stepInput() {
             const oldStep = this.translateStepFromEngToVi(this.orderDetail.step)
-    
             //When User go back old step
-            if (this.stepInput == oldStep) {
+            if (this.stepInput === oldStep) {
                 //Get old stage
-                this.stageInput = this.translateStageFromEngToVi(this.orderDetail.stage)
-                if (this.orderDetail.appointment !== null) {
+                const oldStage = this.translateStageFromEngToVi(this.orderDetail.stage)
+                if (this.stageInput !== oldStage) {
+                    this.stageInput = oldStage
+                } else if (this.orderDetail.appointment !== null) {
                     //Get old appointment from store
                     this.appointmentDateTimeInput = this.orderDetail.appointment
                 }

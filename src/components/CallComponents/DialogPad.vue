@@ -45,11 +45,12 @@ export default {
     },
     computed: {
         ...mapGetters({
+            enabled: 'call/enabled',
             calling: 'call/calling',
             ring: 'call/ring'
         }),
         disable() {
-            if (this.calling || this.ring) {
+            if (this.calling || this.ring || !this.enabled) {
                 return true
             } return false
         }

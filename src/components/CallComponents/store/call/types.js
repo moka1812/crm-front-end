@@ -1,3 +1,5 @@
+export const SET_ENABLE = 'SET_ENABLE'
+
 export const SESSION = 'SESSION'
 
 export const OPEN_WINDOW = 'OPEN_WINDOW'

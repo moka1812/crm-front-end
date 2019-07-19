@@ -1,6 +1,8 @@
 import Vue from 'vue'
 
 import {
+    SET_ENABLE,
+
     SESSION,
 
     OPEN_WINDOW,
@@ -33,6 +35,10 @@ import {
 import {getError} from '../../utils/call_errors'
 
 export default {
+    [SET_ENABLE] (state, {enabled}) {
+        Vue.set(state, 'enabled', enabled)
+    },
+
     [SESSION] (state, {session}) {
         Vue.set(state, 'session', session)
     },

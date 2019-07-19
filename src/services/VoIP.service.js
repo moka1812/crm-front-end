@@ -20,24 +20,26 @@ const VOIPService = {
             password : password,
         }
         this.telephone =  new JsSIP.UA(this.configuration);
-        this.telephone.on('registered', function(e){ 
+        this.telephone.on('registered', function(e){
             vue.$notify({
                 group: 'foo',
                 type: 'success',
-                title: "Call Connection",
-                text: "Successful"
-              });
+                title: "Thông báo",
+                text: "Kết nối tổng đài thành công"
+            });
+            store.dispatch('call/setEnableCall', {enabled: true})
         });
-        this.telephone.on('registrationFailed', function(e){ 
+        
+        this.telephone.on('registrationFailed', function(e){
             vue.$notify({
                 group: 'foo',
                 type: 'error',
-                title: "Call Connection",
-                text: "Failed"
-              });
+                title: "Thông báo",
+                text: "Kết nối tổng đài thất bại"
+            });
         });
 
-        this.telephone.on('newRTCSession', function(data) { 
+        this.telephone.on('newRTCSession', function(data) {
             const session = data.session;
             const request = data.request;
             
@@ -49,7 +51,7 @@ const VOIPService = {
             }
             
         });
-
+        console.log(123)
         this.telephone.start()
     },
 

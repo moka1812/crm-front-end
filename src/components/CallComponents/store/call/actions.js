@@ -4,6 +4,8 @@ import { CallService, CallError } from "../../../../services/call.service"
 import moment from 'moment'
 
 import {
+  SET_ENABLE,
+
   SESSION,
 
   OPEN_WINDOW,
@@ -50,6 +52,10 @@ const incomingOptions = {
 };
 
 export default {
+  async setEnableCall({commit}, {enabled}) {
+    commit(SET_ENABLE, {enabled})
+  },
+
   async openDialPad({commit}) {
     commit(OPEN_WINDOW)
     commit(OPEN_DIAL_PAD)
