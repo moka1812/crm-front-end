@@ -229,7 +229,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import {getStage} from './utils/stage_functions'
 import sourceItems from './utils/source_items'
 import changeDigitToText from './utils/money'
@@ -465,45 +465,45 @@ export default {
         okDiable() {
             if (this.valid && this.orderDetail != null) {
                 //Change to Contract Button
-                if (this.stageInput == "Hợp đồng") {
+                if (this.stageInput === "Hợp đồng") {
                     return true
                 }
 
-                if (this.nameInput != this.orderDetail.name) {
+                if (this.nameInput !== this.orderDetail.name) {
                     return false
                 }
-                if (this.phoneInput != this.orderDetail.phone) {
+                if (this.phoneInput !== this.orderDetail.phone) {
                     return false
                 } 
-                if (this.assetTypeInput != this.orderDetail.asset) {
+                if (this.assetTypeInput !== this.orderDetail.asset) {
                     return false
                 }
-                if (this.expectedAmountInput != this.orderDetail.expectedAmount) {
-                    if (!(this.expectedAmountInput == '' && this.orderDetail.expectedAmount == null)) {
+                if (this.expectedAmountInput !== this.orderDetail.expectedAmount) {
+                    if (!(this.expectedAmountInput === '' && this.orderDetail.expectedAmount === null)) {
                         return false
                     }
                 }
-                if (this.assetInput != this.orderDetail.assetDescription) {
+                if (this.assetInput !== this.orderDetail.assetDescription) {
                     return false
                 }
-                if (this.validatorAmountInput != this.orderDetail.validatorAmount) {
-                    if (!(this.validatorAmountInput == '' && this.orderDetail.validatorAmount == null)) {
+                if (this.validatorAmountInput !== this.orderDetail.validatorAmount) {
+                    if (!(this.validatorAmountInput === '' && this.orderDetail.validatorAmount === null)) {
                         return false
                     } 
                 }
-                if (this.sourceInput != this.orderDetail.source) {
+                if (this.sourceInput !== this.orderDetail.source) {
                     return false
                 }
-                if (this.noteInput != this.orderDetail.note) {
+                if (this.noteInput !== this.orderDetail.note) {
                     return false
                 }
-                if (this.stepInput != this.translateStepFromEngToVi(this.orderDetail.step)) {
+                if (this.stepInput !== this.translateStepFromEngToVi(this.orderDetail.step)) {
                     return false
                 }
-                if (this.stageInput != this.translateStageFromEngToVi(this.orderDetail.stage)) {
+                if (this.stageInput !== this.translateStageFromEngToVi(this.orderDetail.stage)) {
                     return false
                 }
-                if (this.appointmentDateTimeInput != this.orderDetail.appointment) {
+                if (this.appointmentDateTimeInput !== this.orderDetail.appointment) {
                     return false
                 }
                 //Not Yet Edit
@@ -522,7 +522,7 @@ export default {
             this.assetTypeItems = asset
         },
         //Update Order Detail to Input
-        orderDetail: async function() {
+        orderDetail: function() {
             if (this.orderDetail != null) {
                 this.detail = {
                     ...this.orderDetail,

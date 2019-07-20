@@ -6,7 +6,6 @@ import HomePage from "./views/HomePage.vue"
 import Login from "./views/Login.vue";
 import Order from './components/OrderComponents/Order.vue';
 import MyInbox from './components/OrderComponents/MyInboxComponents/MyInbox.vue'
-import DialogBox from "./components/CallComponents/DialogBox.vue"
 
 import { TokenService } from './services/storage.service'
 
@@ -18,15 +17,6 @@ const loginPage = {
   component: Login,
   meta: {
     guest: true
-  }
-}
-
-const dialogPage = {
-  path: "/dialog",
-  name: "dialog",
-  component: DialogBox,
-  meta: {
-    requiresAuth: true
   }
 }
 
@@ -67,7 +57,6 @@ const router = new Router({
   routes: [
     homePage,
     loginPage,
-    dialogPage
   ]
 });
 
