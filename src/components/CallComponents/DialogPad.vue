@@ -63,7 +63,7 @@ export default {
             this.numbers += number
         },
         remove() {
-            if (this.numbers != null && this.numbers.length > 0) {
+            if (this.numbers !== null && this.numbers.length > 0) {
                 this.numbers = this.numbers.substring(0, this.numbers.length - 1);
             }
         },

@@ -446,7 +446,7 @@ export default {
         appointmentRules() {
             if (this.appointmentDisable == false) {
                 return [
-                    v => /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[13578]|1[02]))|((0[1-9]|[1-2][0-9]|30)\/((0[469]|11))|((0[1-9]|1[0-9]|2[0-8])\/(02)))\/\d{4}\s([01]\d|2[0-3]):([0-5]\d)$/.test(v) || this.appointmentDateTimeHint
+                    v => moment(v, "DD/MM/YYYY HH:mm", true).isValid() || this.appointmentDateTimeHint
                 ]
             }
             return []
@@ -545,9 +545,10 @@ export default {
             if (this.stepInput === oldStep) {
                 //Get old stage
                 const oldStage = this.translateStageFromEngToVi(this.orderDetail.stage)
+                //Current stage different old stage???
                 if (this.stageInput !== oldStage) {
-                    this.stageInput = oldStage
-                } else if (this.orderDetail.appointment !== null) {
+                    this.stageInput = oldStage //Emit stageInput watcher
+                } else {
                     //Get old appointment from store
                     this.appointmentDateTimeInput = this.orderDetail.appointment
                 }
@@ -561,10 +562,10 @@ export default {
             const oldStage = this.translateStageFromEngToVi(this.orderDetail.stage)
 
             if (this.stepInput === oldStep && this.stageInput === oldStage) {
-                if (this.orderDetail.appointment !== null) {
-                    //Get old appointment from store
-                    this.appointmentDateTimeInput = this.orderDetail.appointment
-                }
+                //Get old appointment from store
+                this.appointmentDateTimeInput = this.orderDetail.appointment
+            } else {
+                this.appointmentDateTimeInput = ''
             }
         },
         appointmentDisable() {
@@ -584,7 +585,7 @@ export default {
         //Find asset ID from asset description
         findAssetTypeID(assetType) {
             for (let item of this.SAssetListResult) {
-                if (item.description == assetType) {
+                if (item.description === assetType) {
                     return item.id
                 }
             }
@@ -605,24 +606,22 @@ export default {
         cancleHandle: async function() {
             this.dialog = false
         },
-        okHandle: async function() {
-            const assetTypeID = await this.findAssetTypeID(this.assetTypeInput)
+        okHandle: function() {
+            const assetTypeID = this.findAssetTypeID(this.assetTypeInput)
 
-            let appointmentDateTime
+            let appointmentDateTime = null
             //When appointmentDateTimeInput enable
             if (this.appointmentDisable == false) {
                 //Format from 01/01/2019 12:12 to 2019/01/01 12:12
                 appointmentDateTime = moment(this.appointmentDateTimeInput, "DD/MM/YYYY HH:mm").format("YYYY-MM-DD HH:mm")
-            } else {
-                appointmentDateTime = null
             }
 
             const data = {
                 orderID: this.orderID,
                 phone: this.phoneInput,
                 name: this.nameInput,
-                expectedAmount: this.expectedAmountInput == '' ? null : this.expectedAmountInput,
-                validatorAmount: this.validatorAmountInput == '' ? null : this.validatorAmountInput,
+                expectedAmount: this.expectedAmountInput === '' ? null : this.expectedAmountInput,
+                validatorAmount: this.validatorAmountInput === '' ? null : this.validatorAmountInput,
                 source: this.sourceInput,
                 step: this.translateStepFromViToEng(this.stepInput),
                 stage: this.translateStageFromViToEng(this.stageInput),
@@ -636,14 +635,14 @@ export default {
             }
 
             this.updateOrder(data).then(() => {
-                if (this.orderUpdatingErrorCode == 200) {
+                if (this.orderUpdatingErrorCode === 200) {
                     //Turn off Dialog
                     this.dialog = false
                     //Notify update Order Successfully
                     this.$notify({
                         group: 'foo',
                         type: 'success',
-                        title: "Update Order Successfully",
+                        title: "Cập nhật thành công",
                         text: ''
                     });
                     this.dialog=false

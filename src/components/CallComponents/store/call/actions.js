@@ -36,7 +36,7 @@ import {
 } from './types'
 
 const wsUser = process.env.VUE_APP_WS_USER
-var timer = null
+let timer = null
 
 const incomingOptions = {
   extraHeaders: [ 'X-Foo: foo', 'X-Bar: bar' ],
@@ -49,7 +49,7 @@ const incomingOptions = {
       iceTransportPolicy: 'all',
       rtcpMuxPolicy: 'negotiate'
   }
-};
+}
 
 export default {
   async setEnableCall({commit}, {enabled}) {
@@ -158,35 +158,28 @@ export default {
     const session = phone.call(wsUser.replace("user", payload.phone), options);
 
     try {
-
       commit(CALL_UPDATING_REQUEST, {requesting: true})
-
       const data = {
         orderID: payload.orderID,
         callType: 'Call out',
         callStatus: 'connecting',
         startTime: moment().format("YYYY-MM-DD HH:mm:ss")
       }
-
       const {id} = await CallService.createCall(data)
-
       commit(UPDATE_CALL_ID, {id})
       commit(CALL_UPDATING_REQUEST, {requesting: false})
-
     } catch (error) {
-
       if (error instanceof CallError) {
         console.log(`Code ${error.errorCode}: ${error.message}`)
       }
       console.log('Code 500: Internal Server Error')
-
     }
 
     commit(SESSION, {session})
 
-    if (payload.name == null) {
+    //Call from Dial Pad
+    if (payload.name === null) {
       OrderService.findOrderByPhone(payload.phone).then((orderList) => {
-        console.log(orderList)
         //Check client is new or old
         if (orderList.length === 0) {
           commit(OUTCOMING_REQUEST, {customerPhone: payload.phone, customerName: 'Khách lạ'})
@@ -283,18 +276,16 @@ export default {
     commit(CALL_UPDATING_REQUEST, {requesting: true})
 
     try {
-
       const {order} = await CallService.updateCall(callInfo)
-      
       commit(UPDATE_ORDER_ID, {id: order})
-      commit(CALL_UPDATING_REQUEST, {requesting: false})
-
     } catch (error) {
       if (error instanceof CallError) {
         console.log(`Code ${error.errorCode}: ${error.message}`)
       }
       console.log('Code 500: Internal Server Error')
     }
+    
+    commit(CALL_UPDATING_REQUEST, {requesting: false})
 
   },
 
