@@ -70,7 +70,7 @@ const CallService = {
 
             const response = await ApiService.get(url)
 
-            const result = await this.filterRawCallList(response.data.data)
+            const result = this.filterRawCallList(response.data.data)
 
             return result
 
@@ -99,6 +99,7 @@ const CallService = {
 
                 data.push({
                     id: item.id,
+                    orderID: item.order,
                     agentName: item.agent_name,
                     startTime: startTime,
                     endTime: endTime,

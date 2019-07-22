@@ -309,7 +309,7 @@ export default {
           this.$notify({
             group: 'foo',
             type: 'success',
-            title: "Create Order Successfully",
+            title: "Tạo Order thành công",
             text: ''
           });
           this.getOrderList()

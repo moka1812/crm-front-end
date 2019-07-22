@@ -229,7 +229,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import {getStage} from './utils/stage_functions'
 import sourceItems from './utils/source_items'
 import changeDigitToText from './utils/money'
@@ -420,14 +420,14 @@ export default {
                 return false
             }).map(key => steps[key].vi)
         },
-        //Disable Contract Button when step is not Contact
+        //Disable Contract Button when step is not Contact/Hợp đồng
         contractDisable() {
             if (this.stageInput == "Hợp đồng") {
                 return true
             }
             return false
         },
-        //Enable user input apponitment date
+        //Enable user input appointment date
         appointmentDisable() {
             if (this.stepInput == 'Hẹn khách' && /Khách hẹn lên #/.test(this.stageInput)) {
                 return false
@@ -435,7 +435,7 @@ export default {
                 return false
             } return true
         },
-        //Disable when soure != null
+        //Disable when source != null
         sourceReadonly() {
             if (/^\s*$/.test(this.sourceInput) | this.sourceInput == null) {
                 return false
@@ -583,14 +583,14 @@ export default {
             terminate: 'call/terminate'
         }),
         //Find asset ID from asset description
-        findAssetTypeID(assetType) {
+        findAssetTypeID: function(assetType) {
             for (let item of this.SAssetListResult) {
                 if (item.description === assetType) {
                     return item.id
                 }
             }
         },
-        callHandle: function () {
+        callHandle: function() {
             this.call({
                 phone: this.orderDetail.phone, 
                 name: this.orderDetail.name, 
@@ -611,7 +611,7 @@ export default {
 
             let appointmentDateTime = null
             //When appointmentDateTimeInput enable
-            if (this.appointmentDisable == false) {
+            if (this.appointmentDisable === false) {
                 //Format from 01/01/2019 12:12 to 2019/01/01 12:12
                 appointmentDateTime = moment(this.appointmentDateTimeInput, "DD/MM/YYYY HH:mm").format("YYYY-MM-DD HH:mm")
             }

@@ -249,6 +249,7 @@ hr {
 }
 
 .filterBtn {
+  background-color: #dd1e26 !important;
   color: #fff !important;
 }
 
