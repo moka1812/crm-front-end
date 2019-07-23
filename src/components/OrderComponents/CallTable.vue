@@ -2,7 +2,7 @@
     <v-data-table
         :headers="headers"
         :items="result"
-        :hide-actions="true"
+        :rows-per-page-items=[10]
         class="call-table"
     >
         <template v-slot:items="props">

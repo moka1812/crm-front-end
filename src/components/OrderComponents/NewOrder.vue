@@ -151,9 +151,10 @@
         Cancel
         </v-btn>
         <v-btn
+          class="TemporarySavingBtn"
           @click="this.temporarySavingHandle"
           :disabled="orderCreating"
-          color="#dd1e26"
+          color="#43425d"
         >
         Tạm lưu
         </v-btn>
@@ -162,7 +163,7 @@
           @click="this.okHandle"
           :disabled="!valid"
           :loading="orderCreating"
-          color="#dd1e26"
+          color="#43425d"
         >
         OK
         </v-btn>
@@ -425,7 +426,9 @@ export default {
 .cancelBtn {
   color: #dd1e26 !important;
 }
-
+.TemporarySavingBtn {
+  color: #fff !important;
+}
 .OkBtn {
   color: #fff !important;
 }

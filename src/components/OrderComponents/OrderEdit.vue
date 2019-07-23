@@ -200,14 +200,16 @@
                     * Bắt buộc phải điền
                 </v-card-text>
                 <v-spacer></v-spacer>
-                <v-btn class="contactBtn"
+                <v-btn
+                    class="contactBtn"
                     @click="this.contractHandle"
                     v-if="contractDisable"
                     color="#43425d"
                 >
                     Hợp Đồng
                 </v-btn>
-                <v-btn class="cancelBtn"
+                <v-btn
+                    class="cancelBtn"
                     @click="this.cancleHandle"
                     :disabled="orderUpdating"
                     color="#fff"
@@ -261,7 +263,7 @@ export default {
             enabled: 'call/enabled',
             calling: 'call/calling',
             ring: 'call/ring',
-            orderCallID: 'call/orderID'
+            orderCallID: 'call/orderID',
         }),
         dialog: {
             get () { return this.orderDetailForm },
@@ -443,7 +445,16 @@ export default {
         appointmentRules() {
             if (this.appointmentDisable == false) {
                 return [
-                    v => moment(v, "DD/MM/YYYY HH:mm", true).isValid() || this.appointmentDateTimeHint
+                    value => {
+                        const date = moment(value, "DD/MM/YYYY HH:mm")
+                        if (date.isValid()) {
+                            const currentDate = moment()
+                            if (date.diff(currentDate) > 0) {
+                                return true
+                            }
+                        }
+                        return this.appointmentDateTimeHint
+                    }
                 ]
             }
             return []
