@@ -65,4 +65,5 @@ const getStage = (step) => {
     }
 }
 
+export default getStage
 export {getStage}

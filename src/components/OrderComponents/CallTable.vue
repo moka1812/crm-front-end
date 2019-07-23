@@ -8,6 +8,7 @@
         <template v-slot:items="props">
             <td class="text-xs-center">{{ props.item.agentName }}</td>
             <td class="text-xs-center">{{ props.item.startTime }}</td>
+            <td class="text-xs-center">{{ props.item.ringTime }}</td>
             <td class="text-xs-center">{{ props.item.talkTime }}</td>
             <td class="text-xs-center">{{ props.item.callStatus }}</td>
         </template>
@@ -37,6 +38,9 @@ export default {
                     text: "Thời gian", value: "startTime", align: 'center', sortable: false, class: "header"
                 },
                 {
+                    text: "Thời gian chờ", value: "ringTime", align: 'center', sortable: false, class: "header"
+                },
+                {
                     text: "Thời lượng cuộc gọi", value: "talkTime", align: 'center', sortable: false, class: "header"
                 },
                 {
@@ -60,7 +64,7 @@ export default {
     watch: {
         //callUpdating change true to false, updated call tablle
         callUpdating() {
-            if (this.callUpdating === false && this.orderID == this.orderStoreID) {
+            if (this.callUpdating === false && this.orderID === this.orderStoreID) {
                 this.updateTable()
             }
         }

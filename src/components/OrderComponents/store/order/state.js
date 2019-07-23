@@ -36,5 +36,8 @@ export default function initialState () {
         orderDetail: null,
         orderDetailErrorCode: 0,
         orderDetailError: '',
+
+        //Temporary Saved Order
+        temporaryOrderDetail: null,
     }
 }

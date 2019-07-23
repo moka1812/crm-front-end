@@ -230,9 +230,10 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import {getStage} from './utils/stage_functions'
+import getStage from './utils/stage_functions'
 import sourceItems from './utils/source_items'
 import changeDigitToText from './utils/money'
+import haveAppointment from './utils/appointment'
 import {translateStageFromEngToVi, translateStageFromViToEng, getStatus} from './utils/stages'
 import {steps, translateStepFromEngToVi, translateStepFromViToEng} from './utils/steps'
 import moment from 'moment'
@@ -429,11 +430,7 @@ export default {
         },
         //Enable user input appointment date
         appointmentDisable() {
-            if (this.stepInput == 'Hẹn khách' && /Khách hẹn lên #/.test(this.stageInput)) {
-                return false
-            } else if (this.stageInput=='Gọi lại cho khách hàng') {
-                return false
-            } return true
+            return !haveAppointment(this.stageInput)
         },
         //Disable when source != null
         sourceReadonly() {

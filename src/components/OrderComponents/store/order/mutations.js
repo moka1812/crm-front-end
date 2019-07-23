@@ -31,7 +31,9 @@ import {
     ORDER_DETAIL_REQUEST,
     ORDER_DETAIL_SUCCESS,
     TURN_OFF_DIALOG,
-    ORDER_DETAIL_ERROR
+    ORDER_DETAIL_ERROR,
+
+    TEMPORARY_ORDER_SAVING_REQUEST,
 } from './types'
 
 export default {
@@ -183,5 +185,9 @@ export default {
         Vue.set(state, 'orderDetail', '')
         Vue.set(state, 'orderDetailErrorCode', errorCode)
         Vue.set(state, 'orderDetailError', errorMessage)
+    },
+
+    [TEMPORARY_ORDER_SAVING_REQUEST] (state, {orderDetail}) {
+        Vue.set(state, 'temporaryOrderDetail', orderDetail)
     },
 }

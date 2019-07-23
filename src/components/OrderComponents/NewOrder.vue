@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="1000px">
+  <v-dialog v-model="dialog" persistent max-width="1000px">
     <template v-slot:activator="{ on }">
       <v-btn round v-on="on" class="new-order">
         <div class="back-white plus">
@@ -151,6 +151,13 @@
         Cancel
         </v-btn>
         <v-btn
+          @click="this.temporarySavingHandle"
+          :disabled="orderCreating"
+          color="#dd1e26"
+        >
+        Tạm lưu
+        </v-btn>
+        <v-btn
           class="OkBtn"
           @click="this.okHandle"
           :disabled="!valid"
@@ -202,6 +209,7 @@ export default {
       clientSearchErrorCode:'order/clientSearchErrorCode',
       clientSearchError:'order/clientSearchError',
       clientResult: 'order/clientResult',
+      temporaryOrderDetail: 'order/temporaryOrderDetail',
       SAssetListResult: 'asset/SAssetListResult',
     }),
     disabled() {
@@ -212,7 +220,6 @@ export default {
                 return true
             } 
             return false
-        
         }
         return true
     },
@@ -226,7 +233,7 @@ export default {
   watch: {
     //When clientResult changes
     clientResult() {
-        if (this.clientResult != null) {
+        if (this.clientResult !== null) {
             this.firstNameInput = this.clientResult.first_name
             this.lastNameInput = this.clientResult.last_name
         } else {
@@ -245,21 +252,36 @@ export default {
     //When finish call API search client
     clientSearchErrorCode() {
       if (this.clientSearchErrorCode != 0 && this.clientSearchErrorCode != 200){
-          this.$notify({
-              group: 'foo',
-              type: 'error',
-              title: "Error: "+this.clientSearchErrorCode,
-              text: this.clientSearchError
-          });
+        this.$notify({
+          group: 'foo',
+          type: 'error',
+          title: "Error: "+this.clientSearchErrorCode,
+          text: this.clientSearchError,
+        });
       }
-    }
+    },
+    dialog() {
+      if (this.temporaryOrderDetail !== null && this.dialog === true) {
+        this.phoneInput = this.temporaryOrderDetail.phone
+        this.firstNameInput = this.temporaryOrderDetail.firstName
+        this.lastNameInput = this.temporaryOrderDetail.lastName
+        this.expectedAmountInput = this.temporaryOrderDetail.expectedAmount
+        this.validatorAmountInput = this.temporaryOrderDetail.validatorAmount
+        this.assetTypeInput = this.temporaryOrderDetail.assetType
+        this.assetInput = this.temporaryOrderDetail.asset
+        this.sourceInput = this.temporaryOrderDetail.source
+        this.clientSearch({phone: this.phoneInput})
+      }
+    },
   },
   methods: {
     ...mapActions({
         createOrder: 'order/createOrder',
         getOrderList: 'order/getOrderList',
         clientSearch: 'order/searchClient',
-        clientReset: 'order/clientReset'
+        clientReset: 'order/clientReset',
+        saveOrderTemporarily: 'order/saveOrderTemporarily',
+        removeTemporaryOrder: 'order/removeTemporaryOrder',
     }),
     reset() {
       //Reset Form
@@ -275,14 +297,29 @@ export default {
       this.validatorAmountInput = ''
       this.noteInput = ''
       this.agentInput = ''
+      this.removeTemporaryOrder()
     },
     //Get ID Asset Type From Description
     findAssetTypeID(assetType) {
-        for (let item of this.SAssetListResult) {
-            if (item.description == assetType) {
-                return item.id
-            }
-        }
+      for (let item of this.SAssetListResult) {
+          if (item.description == assetType) {
+              return item.id
+          }
+      }
+    },
+    temporarySavingHandle: function() {
+      const orderDetail = {
+        phone: this.phoneInput,
+        firstName: this.firstNameInput,
+        lastName: this.lastNameInput,
+        expectedAmount: this.expectedAmountInput,
+        validatorAmount: this.validatorAmountInput,
+        assetType: this.assetTypeInput,
+        asset: this.assetInput,
+        source: this.sourceInput,
+      }
+      this.saveOrderTemporarily({orderDetail})
+      this.dialog = false
     },
     //Create new order
     okHandle: async function() {
@@ -297,7 +334,6 @@ export default {
         assetTypeDescription: this.assetInput,
         source: this.sourceInput,
       }
-
 
       this.createOrder(data).then(() => {
         //Create New Order Successfully, Close Dialog

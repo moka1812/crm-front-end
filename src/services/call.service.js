@@ -70,7 +70,7 @@ const CallService = {
 
             const response = await ApiService.get(url)
 
-            const result = this.filterRawCallList(response.data.data)
+            const result = this.filterRawCallList(response.data.data.reverse())
 
             return result
 
@@ -94,8 +94,7 @@ const CallService = {
                     endTime = new moment(item.end_time.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
                 }
 
-                const minutes = this.padTime(Math.floor(item.talk_time / 60))
-                const seconds = this.padTime(item.talk_time - (minutes * 60))
+                
 
                 data.push({
                     id: item.id,
@@ -105,8 +104,8 @@ const CallService = {
                     endTime: endTime,
                     callType: item.call_type == 'Call out' ? 'Cuộc gọi đi' : 'Cuộc gọi đến',
                     callStatus: getVietnameseError(item.call_status),
-                    ringTime: item.ring_time,
-                    talkTime: `${minutes}:${seconds}`,
+                    ringTime: this.convertTime(item.ring_time),
+                    talkTime: this.convertTime(item.talk_time),
                 })
             }
             return data
@@ -115,6 +114,11 @@ const CallService = {
             console.log(error)
             throw CallError(error.response.status, error.response.data)
         }
+    },
+    convertTime: function(time) {
+        const minutes = this.padTime(Math.floor(time / 60))
+        const seconds = this.padTime(time - (minutes * 60))
+        return `${minutes}:${seconds}`
     },
     padTime: function(time) {
         return (time < 10 ? '0' : '') + time;

@@ -31,6 +31,7 @@ import {mapActions, mapGetters} from 'vuex'
 
 import {getStage} from './utils/stage_functions'
 import {translateStageFromViToEng, getStatus} from './utils/stages'
+import haveAppointment from './utils/appointment'
 
 export default {
     name: "action-button",
@@ -41,11 +42,6 @@ export default {
         staff: Number,
         stage: String,
         assetID: Number
-    },
-    data() {
-        return {
-            
-        }
     },
     computed: {
         ...mapGetters({
@@ -64,7 +60,7 @@ export default {
             
             if (this.stageTotal != undefined) {
                 for (let stage of this.stageTotal) {
-                    if (stage.vi != this.stage) {
+                    if (stage.vi != this.stage && !haveAppointment(stage.vi)) {
                         result.push({
                             title: stage.vi
                         })
@@ -91,7 +87,7 @@ export default {
                     this.$notify({
                         group: 'foo',
                         type: 'success',
-                        title: "Claim Order Successfully",
+                        title: "nhận Order thành công",
                         text: ''
                     });
                 }
@@ -113,7 +109,7 @@ export default {
                     this.$notify({
                         group: 'foo',
                         type: 'success',
-                        title: "Update Successfully",
+                        title: "cập nhật trạng thái thành công",
                         text: ''
                     });
                 }

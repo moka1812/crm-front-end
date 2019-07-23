@@ -1,5 +1,5 @@
 <template>
-  <table-lib @refresh="planOrderListFromStaff()" @reload="getOrderListFromStaff()"/>
+  <table-lib @refresh="planOrderListFromStaff" @reload="getOrderListFromStaff"/>
 </template>
 
 <script>

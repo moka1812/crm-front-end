@@ -30,7 +30,9 @@ import {
 
     ORDER_DETAIL_REQUEST,
     ORDER_DETAIL_SUCCESS,
-    ORDER_DETAIL_ERROR
+    ORDER_DETAIL_ERROR,
+
+    TEMPORARY_ORDER_SAVING_REQUEST,
 } from './types'
 
 import { ClientService, ClientError } from '../../../../services/client.service'
@@ -227,5 +229,13 @@ export default {
                 commit(ORDER_UPDATING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
-    }
+    },
+
+    saveOrderTemporarily({commit}, payload) {
+        commit(TEMPORARY_ORDER_SAVING_REQUEST, {orderDetail: payload.orderDetail})
+    },
+
+    removeTemporaryOrder({commit}) {
+        commit(TEMPORARY_ORDER_SAVING_REQUEST, {orderDetail: null})
+    },
 }

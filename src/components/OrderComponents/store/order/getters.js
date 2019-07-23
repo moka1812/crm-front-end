@@ -89,5 +89,9 @@ export default  {
 
     orderDetailError: (state) => {
         return state.orderDetailError
-    }
+    },
+
+    temporaryOrderDetail: (state) => {
+        return state.temporaryOrderDetail
+    },
 }

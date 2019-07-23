@@ -2,7 +2,7 @@
   <div>
     <v-toolbar id="refresh" flat color="#fafafa">
       <v-spacer></v-spacer>
-      <v-btn color="primary" @click="reload()">
+      <v-btn color="primary" @click="reload">
         Refresh
       </v-btn>
       
