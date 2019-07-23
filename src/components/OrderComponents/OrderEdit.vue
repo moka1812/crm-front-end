@@ -1,8 +1,5 @@
 <template>
     <v-dialog v-model="dialog" max-width="1000px">
-        <template v-slot:activator="{ on }">
-
-        </template>
         <v-card>
             <v-card-title >
                 <span class="title">Order #{{orderID}}</span>
@@ -175,16 +172,13 @@
                                 </v-text-field>
                             </v-flex>
                             <v-flex sm6>
-                                <v-text-field
-                                    v-model.lazy="appointmentDateTimeInput"
-                                    append-icon="event"
+                                <date-time-picker
+                                    v-model="appointmentDateTimeInput"
                                     label="Lịch hẹn giờ*"
-                                    :disabled="this.appointmentDisable"
-                                    :rules="this.appointmentRules"
-                                    :hint="this.appointmentDateTimeHint"
-                                    :persistent-hint="true"
+                                    :disable="appointmentDisable"
+                                    :hint="appointmentDateTimeHint"
                                 >
-                                </v-text-field>
+                                </date-time-picker>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -232,6 +226,7 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import DateTimePicker from "@/components/OrderComponents/DateTimePicker.vue"
 import getStage from './utils/stage_functions'
 import sourceItems from './utils/source_items'
 import changeDigitToText from './utils/money'
@@ -242,13 +237,15 @@ import moment from 'moment'
 
 export default {
     name: "order-edit",
+    components: {
+        DateTimePicker
+    },
     data() {
         return {
             valid: false,
             detail: null,
             assetTypeItems: [],
             sourceItems: [],
-            menu: false,
         }
     },
     computed: {
@@ -425,7 +422,7 @@ export default {
         },
         //Disable Contract Button when step is not Contact/Hợp đồng
         contractDisable() {
-            if (this.stageInput == "Hợp đồng") {
+            if (this.stageInput === "Hợp đồng") {
                 return true
             }
             return false
@@ -440,24 +437,6 @@ export default {
                 return false
             }   
             return true
-        },
-        //Enable Rule when appointment enable
-        appointmentRules() {
-            if (this.appointmentDisable == false) {
-                return [
-                    value => {
-                        const date = moment(value, "DD/MM/YYYY HH:mm")
-                        if (date.isValid()) {
-                            const currentDate = moment()
-                            if (date.diff(currentDate) > 0) {
-                                return true
-                            }
-                        }
-                        return this.appointmentDateTimeHint
-                    }
-                ]
-            }
-            return []
         },
         //Hint for current time
         appointmentDateTimeHint() {
