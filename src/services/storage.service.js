@@ -1,3 +1,5 @@
+import { Base64 } from 'js-base64';
+
 const TOKEN_KEY = 'access_token'
 const REFRESH_TOKEN_KEY = 'refresh_token'
 const PROFILE = 'profile'
@@ -76,11 +78,15 @@ const VOIPUserService = {
 
 const ProfileService = {
     saveProfile(profile) {
-        localStorage.setItem(PROFILE, JSON.stringify(profile))
+        localStorage.setItem(PROFILE, Base64.encode(JSON.stringify(profile)))
     },
 
     getProfile() {
-        return JSON.parse(localStorage.getItem(PROFILE))
+        const encoded = localStorage.getItem(PROFILE)
+        if (encoded !== null) {
+            return JSON.parse(Base64.decode(encoded))
+        }
+        return null
     },
 
     removeProfile() {
@@ -88,47 +94,75 @@ const ProfileService = {
     },
 
     setName(name) {
-        const profile = JSON.parse(localStorage.getItem(PROFILE))
-        profile.name = name
-        localStorage.setItem(PROFILE, JSON.stringify(profile))
+        const encoded = localStorage.getItem(PROFILE)
+        if (encoded !== null) {
+            const profile = JSON.parse(Base64.decode(encoded))
+            profile.name = name
+            localStorage.setItem(PROFILE, Base64.encode(JSON.stringify(profile)))
+        }
     },
 
     getName() {
-        const profile = JSON.parse(localStorage.getItem(PROFILE))
-        return profile ? profile.name : null
+        const encoded = localStorage.getItem(PROFILE)
+        if (encoded !== null) {
+            const profile = JSON.parse(Base64.decode(encoded))
+            return profile ? profile.name : null
+        }
+        return null
     },
 
     setID(id) {
-        const profile = JSON.parse(localStorage.getItem(PROFILE))
-        profile.id = id
-        localStorage.setItem(PROFILE, JSON.stringify(profile))
+        const encoded = localStorage.getItem(PROFILE)
+        if (encoded !== null) {
+            const profile = JSON.parse(Base64.decode(encoded))
+            profile.id = id
+            localStorage.setItem(PROFILE, Base64.encode(JSON.stringify(profile)))
+        }
     },
 
     getID() {
-        const profile = JSON.parse(localStorage.getItem(PROFILE))
-        return profile ? parseInt(profile.id) : null
+        const encoded = localStorage.getItem(PROFILE)
+        if (encoded !== null) {
+            const profile = JSON.parse(Base64.decode(encoded))
+            return profile ? parseInt(profile.id) : null
+        }
+        return null
     },
 
     setBranch(branch) {
-        const profile = JSON.parse(localStorage.getItem(PROFILE))
-        profile.branch = branch
-        localStorage.setItem(PROFILE, JSON.stringify(profile))
+        const encoded = localStorage.getItem(PROFILE)
+        if (encoded !== null) {
+            const profile = JSON.parse(Base64.decode(encoded))
+            profile.branch = branch
+            localStorage.setItem(PROFILE, Base64.encode(JSON.stringify(profile)))
+        }
     },
 
     getBranch() {
-        const profile = JSON.parse(localStorage.getItem(PROFILE))
-        return profile ? profile.branch : null
+        const encoded = localStorage.getItem(PROFILE)
+        if (encoded !== null) {
+            const profile = JSON.parse(Base64.decode(encoded))
+            return profile ? profile.branch : null
+        }
+        return null
     },
 
     setBranchID(branchID) {
-        const profile = JSON.parse(localStorage.getItem(PROFILE))
-        profile.branchID = branchID
-        localStorage.setItem(PROFILE, JSON.stringify(profile))
+        const encoded = localStorage.getItem(PROFILE)
+        if (encoded !== null) {
+            const profile = JSON.parse(Base64.decode(encoded))
+            profile.branchID = branchID
+            localStorage.setItem(PROFILE, Base64.encode(JSON.stringify(profile)))
+        }
     },
 
     getBranchID() {
-        const profile = JSON.parse(localStorage.getItem(PROFILE))
-        return profile ? parseInt(profile.branchID) : null
+        const encoded = localStorage.getItem(PROFILE)
+        if (encoded !== null) {
+            const profile = JSON.parse(Base64.decode(encoded))
+            return profile ? parseInt(profile.branchID) : null
+        }
+        return null
     },
 
 }

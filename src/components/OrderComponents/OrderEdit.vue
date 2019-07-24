@@ -437,7 +437,7 @@ export default {
             if (this.appointmentDisable === false) {
                 return [
                     value => {
-                        if (value.length <= 16) {
+                    if (value !== null && value.length <= 16) {
                             const date = moment(value, "DD/MM/YYYY HH:mm")
                             if (date.isValid()) {
                                 const currentDate = moment()
