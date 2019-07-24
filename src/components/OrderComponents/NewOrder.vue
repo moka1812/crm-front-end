@@ -163,7 +163,7 @@
           @click="this.okHandle"
           :disabled="!valid"
           :loading="orderCreating"
-          color="#43425d"
+          color="#dd1e26"
         >
         OK
         </v-btn>

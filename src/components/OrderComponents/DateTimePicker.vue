@@ -15,12 +15,11 @@
                 append-icon="event"
                 :label="label"
                 :disabled="disable"
-                :rules="appointmentRules"
+                :rules="rules"
                 :hint="hint"
                 :persistent-hint="true"
                 @click:append="menu=true"
             >
-            
             </v-text-field>
         </template>
         <v-window v-model="step">
@@ -44,6 +43,7 @@ export default {
         value: String,
         label: String,
         disable: Boolean,
+        rules: Array,
         hint: String,
     },
     data() {
@@ -58,28 +58,6 @@ export default {
         datetime: {
             get () {return this.value},
             set (value) {this.$emit('input', value)}
-        },
-        //Enable Rule when appointment enable
-        appointmentRules() {
-            if (this.disable === false) {
-                return [
-                    value => {
-                        if (value.length <= 16) {
-                            const date = moment(value, "DD/MM/YYYY HH:mm")
-                            if (date.isValid()) {
-                                const currentDate = moment()
-                                if (date.diff(currentDate) > 0) {
-                                    return true
-                                } else {
-                                    return 'Không được hẹn quá khứ'
-                                }
-                            }
-                        }
-                        return this.hint
-                    }
-                ]
-            }
-            return []
         },
     },
     methods: {

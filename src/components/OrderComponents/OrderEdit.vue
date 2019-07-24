@@ -176,6 +176,7 @@
                                     v-model="appointmentDateTimeInput"
                                     label="Lịch hẹn giờ*"
                                     :disable="appointmentDisable"
+                                    :rules="appointmentRules"
                                     :hint="appointmentDateTimeHint"
                                 >
                                 </date-time-picker>
@@ -430,6 +431,28 @@ export default {
         //Enable user input appointment date
         appointmentDisable() {
             return !haveAppointment(this.stageInput)
+        },
+        //Enable Rule when appointment enable
+        appointmentRules() {
+            if (this.appointmentDisable === false) {
+                return [
+                    value => {
+                        if (value.length <= 16) {
+                            const date = moment(value, "DD/MM/YYYY HH:mm")
+                            if (date.isValid()) {
+                                const currentDate = moment()
+                                if (date.diff(currentDate) > 0) {
+                                    return true
+                                } else {
+                                    return 'Không được hẹn quá khứ'
+                                }
+                            }
+                        }
+                        return this.appointmentDateTimeHint
+                    }
+                ]
+            }
+            return []
         },
         //Disable when source != null
         sourceReadonly() {
