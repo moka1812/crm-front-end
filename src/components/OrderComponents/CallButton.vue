@@ -1,6 +1,11 @@
 <template>
-    <v-btn flat icon class="ma-0" @click="openDialog" :disabled="disable">
-        <v-icon color="#dd1e26">phone_forwarded</v-icon>
+    <v-btn 
+        fab dark small icon class="ma-0" 
+        @click="openDialog" 
+        :disabled="disable"
+        color="rgba(1, 151, 246, 0.24)"
+    >
+      <v-icon color="rgba(1, 151, 246, 1)">call</v-icon>
     </v-btn>
 </template>
 

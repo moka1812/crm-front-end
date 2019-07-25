@@ -33,9 +33,9 @@
             {{ translateStageFromEngToVi(props.item.stage) }}
           </td>
           <td class="text-xs-center" @dblclick.stop>
-            <v-container fluid pa-3>
+            <v-container class="action">
               <v-layout>
-                <v-flex sm4>
+                <v-flex sm4 :style="{'margin-right': '2px'}">
                   <action-button 
                     :orderID="props.item.orderID" 
                     :step="props.item.step" 
@@ -216,6 +216,13 @@ export default {
   font-size: 15px;
   padding: 0 3px 0 5px;
   color: #0197F6;
+}
+
+.action {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 </style>
 

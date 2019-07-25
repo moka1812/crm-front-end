@@ -29,14 +29,15 @@
                                     ref="phone"
                                     required
                                 >
-                                    <template v-if="this.enabled" slot="append">
+                                    <template slot="append">
 
                                         <v-icon 
                                             v-if="!this.calling && !this.ring" 
                                             @click="callHandle"
-                                            color="#dd1e26"
+                                            :disabled="!this.enabled"
+                                            color="rgba(1, 151, 246, 1)"
                                         >
-                                            phone_forwarded
+                                            call
                                         </v-icon>
                                         <v-icon 
                                             v-else-if="this.orderCallID === this.orderID"

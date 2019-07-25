@@ -1,8 +1,7 @@
 <template>
     <v-container fluid pa-0 ma-0>
-        <order-management type="Order"/>
-        <order-table/>
-        <order-edit/>
+      <order-management type="Order"/>
+      <order-table/>
     </v-container>
 </template>
 
@@ -11,14 +10,12 @@ import {mapActions, mapGetters} from 'vuex'
 // @ is an alias to /src
 import OrderManagement from "@/components/OrderComponents/OrderManagement.vue";
 import OrderTable from "@/components/OrderComponents/OrderTable.vue";
-import OrderEdit from "@/components/OrderComponents/OrderEdit.vue"
 
 export default {
   name: "order",
   components: {
     OrderManagement,
     OrderTable,
-    OrderEdit
   },
   mounted() {
     this.getSAssetList()

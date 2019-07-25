@@ -7,6 +7,7 @@
         <router-view/>
       </v-container>
     </v-content>
+    <order-edit/>
     <branch-dialog/>
     <incoming-box/>
     <vue-snotify/>
@@ -15,6 +16,7 @@
 
 <script>
 // @ is an alias to /src
+import OrderEdit from "@/components/OrderComponents/OrderEdit.vue"
 import SideBar from "@/components/SideBarComponents/SideBar.vue"
 import NavBar from "@/components/NavBarComponents/NavBar.vue"
 import BranchDialog from "@/components/BranchDialogComponents/BranchDialog.vue"
@@ -26,6 +28,7 @@ export default {
     SideBar,
     NavBar,
     BranchDialog,
+    OrderEdit,
     IncomingBox,
   },
 };

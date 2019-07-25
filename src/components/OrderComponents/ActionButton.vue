@@ -1,16 +1,55 @@
 <template>
-    <v-btn flat icon v-if="orderStep == 'Unclaimed'" @click="this.unclaimedButtonHandle" class="ma-0">
-        <v-icon color="#70cc3b">reply</v-icon>
+    <v-btn
+        fab dark small icon class="ma-0" 
+        v-if="orderStep == 'Unclaimed'" 
+        @click="this.unclaimedButtonHandle"
+        color="rgba(76, 185, 99, 0.17)"
+    >
+        <v-icon color="rgba(76, 185, 99, 1)">reply</v-icon>
     </v-btn>
     <v-menu v-else top>
         <template v-slot:activator="{ on }">
-            <v-btn flat icon v-on="on" class="ma-0">
-                <v-icon v-if="orderStep == 'Pending'" color="#70cc3b">check_circle_outline</v-icon>
-                <v-icon v-else-if="orderStep == 'Appointment'" color="#CD853F">meeting_room</v-icon>
-                <v-icon v-else-if="orderStep == 'Contact'" color="#0000FF">perm_contact_calendar</v-icon>
-                <v-icon v-else-if="orderStep == 'Quoted'" color="#FF8C00">sync</v-icon>
-                <v-icon v-else-if="orderStep == 'Contract'" color="#00008B">assignment_turned_in</v-icon>
+            <v-btn 
+                fab dark small icon class="ma-0"  
+                v-on="on"
+                v-if="orderStep == 'Pending'"
+                color="rgba(215, 65, 167, 0.17)"
+            >
+                <v-icon  color="rgba(215, 65, 167, 1)">check_circle_outline</v-icon>
             </v-btn>
+            <v-btn 
+                fab dark small icon class="ma-0"  
+                v-on="on"
+                v-else-if="orderStep == 'Appointment'"
+                color="rgba(205, 133, 63, 0.17)"
+            >
+                <v-icon  color="rgba(205, 133, 63, 1)">meeting_room</v-icon>
+            </v-btn>
+            <v-btn 
+                fab dark small icon class="ma-0"  
+                v-on="on"
+                v-else-if="orderStep == 'Contact'"
+                color="rgba(0, 0, 255, 0.17)"
+            >
+                <v-icon  color="rgba(0, 0, 255, 1)">perm_contact_calendar</v-icon>
+            </v-btn>
+            <v-btn 
+                fab dark small icon class="ma-0"  
+                v-on="on"
+                v-else-if="orderStep == 'Quoted'"
+                color="rgba(255, 140, 0, 0.17)"
+            >
+                <v-icon  color="rgba(255, 140, 0, 1)">sync</v-icon>
+            </v-btn>
+            <v-btn 
+                fab dark small icon class="ma-0"  
+                v-on="on"
+                v-else-if="orderStep == 'Contract'"
+                color="rgba(0, 0, 139, 0.17)"
+            >
+                <v-icon  color="rgba(0, 0, 139, 1)">assignment_turned_in</v-icon>
+            </v-btn>
+                
         </template>
         <v-list>
             <v-list-tile
