@@ -1,8 +1,8 @@
 <template>
     <v-btn 
-        fab dark small icon class="ma-0" 
+        fab small icon class="ma-0" 
         @click="openDialog" 
-        :disabled="disable"
+        :disabled="this.disable"
         color="rgba(1, 151, 246, 0.24)"
     >
       <v-icon color="rgba(1, 151, 246, 1)">call</v-icon>

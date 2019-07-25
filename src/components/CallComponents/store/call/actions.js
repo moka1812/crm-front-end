@@ -93,12 +93,6 @@ export default {
       commit(BY_EMPLOYEE, {byEmployee: true})
       await session.terminate()
     }
-
-    //Timer exist
-    if (timer !== null) {
-      clearTimeout(timer)
-      timer = null
-    }
     commit(CLOSE_DIAL_PAD)
     commit(CLOSE_CALL_BOX)
     commit(CLOSE_WINDOW)
@@ -110,6 +104,12 @@ export default {
 
     //Open CallBox show phone ring
     await dispatch("openCallBox")
+
+    //Timer exist
+    if (timer !== null) {
+      clearTimeout(timer)
+      timer = null
+    }
 
     const eventHandlers = {
       //Begin Ring
@@ -258,6 +258,12 @@ export default {
 
   //Accept imcoming call
   async imcomingAccept({getters, dispatch}) {
+    //Timer exist
+    if (timer !== null) {
+      clearTimeout(timer)
+      timer = null
+    }
+    
     const session = getters.session
 
     if (session != null) {
