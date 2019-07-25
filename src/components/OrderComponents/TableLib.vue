@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar id="refresh" flat color="#fafafa">
+    <v-toolbar id="refresh" flat color="#F0F0F7">
       <v-spacer></v-spacer>
       <v-btn color="primary" @click="reload">
         Refresh
@@ -22,7 +22,7 @@
           <td class="text-xs-center content">{{ props.item.orderID }}</td>
           <td class="text-xs-center content">{{ props.item.lastModify }}</td>
           <td class="text-xs-center content ">{{ props.item.agent }}</td>
-          <td class="text-xs-center content">{{ props.item.support_agent_name }}</td>
+          <td class="text-xs-center content">{{ props.item.supportAgentName }}</td>
           <td class="text-xs-center content" :style="{color: getColor(props.item.step)}">
             {{ translateStepFromEngToVi(props.item.step) }}
           </td>

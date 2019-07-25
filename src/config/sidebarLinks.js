@@ -24,8 +24,18 @@ export default [
   {
     name: 'CONTRACTS',
     icon: 'work',
-    link: ''
-    //link: '/contracts',
+    groups: [
+      {
+        name: 'CONTRACTS',
+        icon: 'work',
+        link: '/contracts',
+      },
+      {
+        name: 'INTEREST REMINDER',
+        icon: 'assignment_ind',
+        link: '',
+      },
+    ]
   },
   {
     name: 'CUSTOMERS',

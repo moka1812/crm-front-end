@@ -1,10 +1,11 @@
-import Vue from "vue";
-import Router from "vue-router";
+import Vue from "vue"
+import Router from "vue-router"
 import store from "./store/store"
 
 import HomePage from "./views/HomePage.vue"
-import Login from "./views/Login.vue";
-import Order from './components/OrderComponents/Order.vue';
+import Login from "./views/Login.vue"
+import Order from './components/OrderComponents/Order.vue'
+import Contract from './components/ContractComponents/Contract.vue'
 import MyInbox from './components/OrderComponents/MyInboxComponents/MyInbox.vue'
 
 import { TokenService } from './services/storage.service'
@@ -38,6 +39,15 @@ const myInboxPage = {
   }
 }
 
+const contractPage = {
+  path: "contracts",
+  name: "contracts",
+  component: Contract,
+  meta: {
+    requiresAuth: true
+  }
+}
+
 const homePage = {
   path: "/",
   name: "homepage",
@@ -47,7 +57,8 @@ const homePage = {
   },
   children: [
     orderPage,
-    myInboxPage
+    myInboxPage,
+    contractPage,
   ]
 }
 

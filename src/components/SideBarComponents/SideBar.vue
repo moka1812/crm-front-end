@@ -44,13 +44,8 @@
               class="listitem"
               active-class="highlight"
             >
-              <v-list-tile-action>
-                <v-icon dark class="icon">{{subItem.icon}}</v-icon>
-              </v-list-tile-action>
-
-              <v-list-tile-content>
-                <v-list-tile-title class="content">{{ subItem.name }}</v-list-tile-title>
-              </v-list-tile-content>
+                <v-icon dark class="icon">{{subItem.icon}}</v-icon>    
+                <v-list-tile-title class="content-sub">{{ subItem.name }}</v-list-tile-title>
             </v-list-tile>
           </v-list-group>
 
@@ -119,6 +114,11 @@ export default {
 
 .content {
   font-size: 13px;
+  color: #fff;
+}
+.content-sub {
+  font-size: 12px;
+  padding-left: 5px;
   color: #fff;
 }
 #footer {

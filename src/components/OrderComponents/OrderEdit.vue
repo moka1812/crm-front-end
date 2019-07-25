@@ -245,6 +245,7 @@ export default {
         return {
             valid: false,
             detail: null,
+            appointmentDateTimeHint: `Ví dụ: ${moment().format("DD/MM/YYYY HH:mm")}`,
             assetTypeItems: [],
             sourceItems: [],
         }
@@ -460,11 +461,6 @@ export default {
                 return false
             }   
             return true
-        },
-        //Hint for current time
-        appointmentDateTimeHint() {
-            const date = moment().format("DD/MM/YYYY HH:mm")
-            return `Ví dụ: ${date}`
         },
         expectedAmountHint() {
             return changeDigitToText(this.expectedAmountInput)

@@ -3,13 +3,13 @@
       <v-layout row>
         <v-flex md7 xs12>
           <div id="left">
-            <h2>{{this.name}}</h2>
+            <h2>Contract Management</h2>
             <ul class="list-inline management">
-                <li v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.steps.UNCLAIMED.color}`">{{this.steps.UNCLAIMED.vi}}: {{this.unclaimed}}</li>
-                <li class="list-inline-item" :style="`color:${this.steps.PENDING.color}`">{{this.steps.PENDING.vi}}: {{this.pending}}</li>
-                <li class="list-inline-item" :style="`color:${this.steps.CONTACT.color}`">{{this.steps.CONTACT.vi}}: {{this.contact}}</li>
-                <li class="list-inline-item" :style="`color:${this.steps.QUOTED.color}`">{{this.steps.QUOTED.vi}}: {{this.quoted}}</li>
-                <li class="list-inline-item" :style="`color:${this.steps.APPOINTMENT.color}`">{{this.steps.APPOINTMENT.vi}}: {{this.appointment}}</li>
+                <li class="list-inline-item" :style="`color:${this.status.NEW.color}`">{{this.status.NEW.vi}}: {{this.new}}</li>
+                <li class="list-inline-item" :style="`color:${this.status.RENEWAL.color}`">{{this.status.RENEWAL.vi}}: {{this.renewal}}</li>
+                <li class="list-inline-item" :style="`color:${this.status.RETURN.color}`">{{this.status.RETURN.vi}}: {{this.return}}</li>
+                <li class="list-inline-item" :style="`color:${this.status.CLOSING.color}`">{{this.status.CLOSING.vi}}: {{this.closing}}</li>
+                <li class="list-inline-item" :style="`color:${this.status.LATE.color}`">{{this.status.LATE.vi}}: {{this.late}}</li>
             </ul>
           </div>
         </v-flex>
@@ -40,9 +40,21 @@
                 <v-icon color="#dd1e26">folder_open</v-icon>
               </v-btn>
 
-              <order-filter/>
-              
-              <new-order/>
+              <v-btn class="shadow margin-left-right" icon color="#43425D">
+                <v-icon color="#FFFFFF">print</v-icon>
+              </v-btn>
+            
+              <v-btn round class="reminder">
+                <i class="fas fa-exclamation-triangle" style="margin-right:5px"></i>
+                Reminder
+              </v-btn>
+
+              <v-btn round class="new-contract">
+                <div class="back-white plus">
+                    <i class="fas fa-plus"></i>
+                </div>
+                New contract
+              </v-btn>
             </v-layout> 
           </v-container>
         </v-flex>
@@ -53,81 +65,33 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 
-import NewOrder from "@/components/OrderComponents/NewOrder.vue";
-import OrderFilter from "@/components/OrderComponents/OrderFilter.vue";
-
-import steps from './utils/steps'
+import status from './utils/status'
 
 export default {
-  name: "order-management",
-  components: {
-    NewOrder,
-    OrderFilter
-  },
-  props: {
-    type: String,
-  },
+  name: "contract-management",
   data() {
     return {
-      steps: steps,
-      phoneInput: ''
+      status: status,
+      phoneInput: '',
     }
   },
   computed: {
-    name() {
-      switch(this.type) {
-        case 'Order':
-          return 'Order Management'
-        case 'MyInbox':
-          return 'My Inbox'
-      }
+    new() {
+      return 0
     },
-    ...mapGetters({
-      orderCountResult: 'order/orderCountResult'
-    }),
-    unclaimed() {
-      try {
-        if (Object.prototype.hasOwnProperty.call(this.orderCountResult,'unclaimed')) {
-          return this.orderCountResult['unclaimed']
-        }
-      } catch (error) {
-        
-      }
-      return null
+    renewal() {
+      return 0
     },
-    pending() {
-      if (this.orderCountResult != null) {
-        return this.orderCountResult['pending']
-      }
-      return null
+    return() {
+      return 0
     },
-    contact() {
-      if (this.orderCountResult != null) {
-        return this.orderCountResult['contact']
-      }
-      return null
+    closing() {
+      return 0
     },
-    quoted() {
-      if (this.orderCountResult != null) {
-        return this.orderCountResult['quoted']
-      }
-      return null
-    },
-    appointment() {
-      if (this.orderCountResult != null) {
-        return this.orderCountResult['appointment']
-      }
-      return null
+    late() {
+      return 0
     }
   },
-  methods: {
-    ...mapActions({
-      findOrderByPhone: 'order/findOrderByPhone'
-    }),
-    submit: function() {
-      this.findOrderByPhone({phone: this.phoneInput})
-    }
-  }
 };
 </script>
 
@@ -196,8 +160,50 @@ ul.management li {
 .shadow {
   box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5pt 1pt !important
 }
+
 .margin-left-right {
   margin-right: 4px;
   margin-left: 4px;
+}
+
+.reminder {
+  background-color: #43425D !important;
+  color: #ffffff !important;
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.new-contract {
+  background-color: #dd1e26 !important;
+  color: #fff !important;
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.back-white {
+  background-color: #fff;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+}
+
+.back-white i {
+  color: #dd1e26; 
+  font-size: 25px;
+  padding: 10px;
+}
+
+.plus {
+  background-color: #fff;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.plus i {
+  color: #dd1e26;
+  font-size: 10px;
+  padding: 8px;
 }
 </style>
