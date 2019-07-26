@@ -230,8 +230,8 @@
 import {mapActions, mapGetters} from 'vuex'
 import DateTimePicker from "@/components/OrderComponents/DateTimePicker.vue"
 import getStage from './utils/stage_functions'
-import sourceItems from './utils/source_items'
-import changeDigitToText from './utils/money'
+import sourceItems from '../../mixins/source_items'
+import changeDigitToText from '../../mixins/money'
 import haveAppointment from './utils/appointment'
 import {translateStageFromEngToVi, translateStageFromViToEng, getStatus} from './utils/stages'
 import {steps, translateStepFromEngToVi, translateStepFromViToEng} from './utils/steps'
@@ -439,8 +439,8 @@ export default {
             if (this.appointmentDisable === false) {
                 return [
                     value => {
-                    if (value !== null && value.length <= 16) {
-                            const date = moment(value, "DD/MM/YYYY HH:mm")
+                    if (value !== null) {
+                            const date = moment(value, "DD/MM/YYYY HH:mm", true)
                             if (date.isValid()) {
                                 const currentDate = moment()
                                 if (date.diff(currentDate) > 0) {

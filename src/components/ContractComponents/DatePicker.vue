@@ -11,7 +11,7 @@
     >
         <template v-slot:activator="{ on }">
             <v-text-field
-                v-model.lazy="datetime"
+                v-model.lazy="dateFormatted"
                 append-icon="event"
                 :label="label"
                 :disabled="disable"
@@ -22,14 +22,7 @@
             >
             </v-text-field>
         </template>
-        <v-window v-model="step">
-            <v-window-item :value="1">
-                <v-date-picker v-model="date" no-title @input="step++"></v-date-picker>
-            </v-window-item>
-            <v-window-item :value="2">
-                <v-time-picker v-if="this.menu" v-model="time" format="24hr" no-title @click:minute="turnOff"></v-time-picker>
-            </v-window-item>
-        </v-window>
+        <v-date-picker v-model="date" no-title @input="turnOff"></v-date-picker>
     </v-menu>
 </template>
 
@@ -38,7 +31,7 @@ import moment from 'moment'
 import { setTimeout } from 'timers';
 
 export default {
-    name: "date-time-picker",
+    name: "date-picker",
     props: {
         value: String,
         label: String,
@@ -48,28 +41,43 @@ export default {
         },
         rules: {
             type: Array,
-            default: [],
+            default: function () {
+                return [
+                    value => {
+                        if (value !== null) {
+                            const isValid = moment(value, "DD/MM/YYYY", true).isValid()
+                            if (isValid) return true
+                            return "Dữ liệu không hợp lệ"
+                        }
+                        return "Dữ liệu không hợp lệ"
+                    }
+                ] 
+            },
         },
-        hint: String,
+        hint: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
             menu: false,
-            step: 1,
             date: '',
-            time: '',
         }
     },
     computed: {
-        datetime: {
+        dateFormatted: {
             get () {return this.value},
             set (value) {this.$emit('input', value)}
         },
     },
     methods: {
+        parseDate(date) {
+            if (!date) return null
+            return moment(this.date, "DD/MM/YYYY").format("YYYY-MM-DD")
+        },
         turnOff() {
-            this.datetime = moment(`${this.date} ${this.time}`, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
-            this.step=1
+            this.dateFormatted = moment(this.date, "YYYY-MM-DD").format("DD/MM/YYYY")
             //Bug from Vuetify, when turn off V-Menu then V-Dialog turn off too
             setTimeout(() => this.menu=false) 
         },

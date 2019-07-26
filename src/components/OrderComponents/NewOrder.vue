@@ -23,9 +23,9 @@
                           <v-text-field
                             v-model.lazy="phoneInput"
                             :rules="[
-                                v => !!v || 'Phone is required',
+                                v => !!v || 'Yêu cầu cần có',
                                 //Phone has charater pre '+' (only one or no), from 10-13 digits.
-                                v => /^[+]?[0-9]{10,13}$/.test(v) || 'Phone is not valid'
+                                v => /^[+]?[0-9]{10,13}$/.test(v) || 'Dữ liệu không hợp lệ'
                             ]"
                             label="Phone*"
                             @keyup="this.search"
@@ -175,8 +175,8 @@
 import {mapActions, mapGetters} from 'vuex'
 import { ClientService, ClientError } from '../../services/client.service'
 import { setTimeout, clearTimeout } from 'timers';
-import sourceItems from './utils/source_items'
-import changeDigitToText from './utils/money'
+import sourceItems from '../../mixins/source_items'
+import changeDigitToText from '../../mixins/money'
 
 export default {
   name: "new-order",
@@ -248,7 +248,7 @@ export default {
       for (let item of this.SAssetListResult) {
           asset.push(item.description)
       }
-      return this.assetTypeItems = asset
+      this.assetTypeItems = asset
     },
     //When finish call API search client
     clientSearchErrorCode() {
@@ -415,7 +415,7 @@ export default {
 .plus i {
   color: #dd1e26;
   font-size: 10px;
-  padding: 8px;
+  padding: 8px 7px 8px 5px;
 }
 
 .title {

@@ -5,8 +5,10 @@ import store from "./store/store"
 import HomePage from "./views/HomePage.vue"
 import Login from "./views/Login.vue"
 import Order from './components/OrderComponents/Order.vue'
-import Contract from './components/ContractComponents/Contract.vue'
 import MyInbox from './components/OrderComponents/MyInboxComponents/MyInbox.vue'
+import ContractComponent from './components/ContractComponents/ContractComponent.vue'
+import Contract from './components/ContractComponents/Contract.vue'
+import NewContract from './components/ContractComponents/NewContractComponent.vue'
 
 import { TokenService } from './services/storage.service'
 
@@ -39,13 +41,35 @@ const myInboxPage = {
   }
 }
 
-const contractPage = {
-  path: "contracts",
-  name: "contracts",
+const defaultContractPage = {
+  path: "",
+  name: "contract",
   component: Contract,
   meta: {
     requiresAuth: true
   }
+}
+
+const newContractPage = {
+  path: "new_contract",
+  name: "new_contract",
+  component: NewContract,
+  meta: {
+    requiresAuth: true
+  }
+}
+
+const contractPage = {
+  path: "contracts",
+  name: "contracts",
+  component: ContractComponent,
+  meta: {
+    requiresAuth: true
+  },
+  children: [
+    defaultContractPage,
+    newContractPage,
+  ]
 }
 
 const homePage = {
@@ -59,6 +83,7 @@ const homePage = {
     orderPage,
     myInboxPage,
     contractPage,
+    newContractPage,
   ]
 }
 

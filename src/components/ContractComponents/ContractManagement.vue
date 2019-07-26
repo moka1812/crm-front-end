@@ -49,7 +49,7 @@
                 Reminder
               </v-btn>
 
-              <v-btn round class="new-contract">
+              <v-btn round class="new-contract" :to="{ name: 'new_contract' }">
                 <div class="back-white plus">
                     <i class="fas fa-plus"></i>
                 </div>
@@ -204,6 +204,6 @@ ul.management li {
 .plus i {
   color: #dd1e26;
   font-size: 10px;
-  padding: 8px;
+  padding: 8px 7px 8px 5px;
 }
 </style>
