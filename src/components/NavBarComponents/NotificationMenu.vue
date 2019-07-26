@@ -5,8 +5,8 @@
         nudge-bottom="14"
     >
         <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on" @click="getNotification()">
-                <v-icon>notifications</v-icon>
+            <v-btn flat icon v-on="on" color="#ffffff" @click="getNotification()">
+                <v-icon color="#000000">notifications</v-icon>
             </v-btn>
             <v-badge v-show="count != null && count > 0" overlap color="#FFA500" :style="{'margin-top':'20px', 'margin-right':'10px'}">
                 <template v-slot:badge>

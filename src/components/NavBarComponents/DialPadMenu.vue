@@ -1,6 +1,6 @@
 <template>
-    <v-btn icon @click="this.openDialPad">
-        <v-icon>dialpad</v-icon>
+    <v-btn flat icon color="#ffffff" @click="this.openDialPad">
+        <v-icon color="#000000">dialpad</v-icon>
     </v-btn>
 </template>
 

@@ -64,13 +64,9 @@ export default {
         turnOff() {
             this.datetime = moment(`${this.date} ${this.time}`, "YYYY-MM-DD HH:mm").format("DD/MM/YYYY HH:mm")
             this.step=1
+            //Bug from Vuetify, when turn off V-Menu then V-Dialog turn off too
             setTimeout(() => this.menu=false) 
         },
     },
-    watch: {
-        value() {
-            console.log(this.value)
-        }
-    }
 }
 </script>

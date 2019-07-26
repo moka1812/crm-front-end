@@ -5,8 +5,8 @@
         offset-y
     >
         <template v-slot:activator="{ on }">
-            <v-btn flat v-on="on">{{currentBranch}}
-                <v-icon>arrow_drop_down</v-icon>
+            <v-btn flat v-on="on" color="#ffffff"><font color="black">{{currentBranch}}</font>
+                <v-icon color="#000000">arrow_drop_down</v-icon>
             </v-btn>
         </template>
 
