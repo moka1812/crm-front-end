@@ -1,25 +1,26 @@
 <template>
   <div class="content">
       <v-layout row>
-        <v-flex md7 xs12>
+        <v-flex md5 xs12>
           <div id="left">
             <h2>{{this.name}}</h2>
             <ul class="list-inline management">
-                <li v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.steps.UNCLAIMED.color}`">{{this.steps.UNCLAIMED.vi}}: {{this.unclaimed}}</li>
-                <li class="list-inline-item" :style="`color:${this.steps.PENDING.color}`">{{this.steps.PENDING.vi}}: {{this.pending}}</li>
-                <li class="list-inline-item" :style="`color:${this.steps.CONTACT.color}`">{{this.steps.CONTACT.vi}}: {{this.contact}}</li>
-                <li class="list-inline-item" :style="`color:${this.steps.QUOTED.color}`">{{this.steps.QUOTED.vi}}: {{this.quoted}}</li>
-                <li class="list-inline-item" :style="`color:${this.steps.APPOINTMENT.color}`">{{this.steps.APPOINTMENT.vi}}: {{this.appointment}}</li>
+              <li v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.steps.UNCLAIMED.color}`">{{this.steps.UNCLAIMED.vi}}: {{this.unclaimed}}</li>
+              <li class="list-inline-item" :style="`color:${this.steps.PENDING.color}`">{{this.steps.PENDING.vi}}: {{this.pending}}</li>
+              <li class="list-inline-item" :style="`color:${this.steps.CONTACT.color}`">{{this.steps.CONTACT.vi}}: {{this.contact}}</li>
+              <li class="list-inline-item" :style="`color:${this.steps.QUOTED.color}`">{{this.steps.QUOTED.vi}}: {{this.quoted}}</li>
+              <li class="list-inline-item" :style="`color:${this.steps.APPOINTMENT.color}`">{{this.steps.APPOINTMENT.vi}}: {{this.appointment}}</li>
             </ul>
           </div>
         </v-flex>
 
-        <v-flex md5 xs12>
+        <v-flex md7 xs12>
           <v-container fluid id="right">
             <v-layout
               align-center
               justify-end
             >
+              
               <div class="has-search">
                 <span class="fa fa-search form-control-feedback"></span>
                 <input 

@@ -49,10 +49,10 @@
                     <call-button :phone="props.item.phone" :name="props.item.name" :orderID="props.item.orderID"/>
                 </v-flex>
                 <v-flex sm4>
-                    <v-btn class="ma-0" icon @click="props.expanded = !props.expanded">
+                    <div @click="props.expanded = !props.expanded" class="expand">
                       <v-icon v-if="props.expanded">keyboard_arrow_up</v-icon>
                       <v-icon v-else>keyboard_arrow_down</v-icon>
-                    </v-btn>
+                    </div>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -223,6 +223,11 @@ export default {
   margin-bottom: 0px;
   padding-top: 0px;
   padding-bottom: 0px;
+}
+
+.expand {
+  margin: 5px 0px;
+  cursor: pointer;
 }
 </style>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="content">
       <v-layout row>
-        <v-flex md7 xs12>
+        <v-flex md5 xs12>
           <div id="left">
             <h2>Contract Management</h2>
             <ul class="list-inline management">
@@ -14,7 +14,7 @@
           </div>
         </v-flex>
 
-        <v-flex md5 xs12>
+        <v-flex md7 xs12>
           <v-container fluid id="right">
             <v-layout
               align-center

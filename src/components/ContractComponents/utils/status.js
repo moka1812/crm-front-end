@@ -16,7 +16,7 @@ const status = {
     },
     CLOSING: {
         eng: "Closing",
-        vi: "Kết thúc",
+        vi: "Đóng",
         color: "#FF8C00"
     },
     LATE: {
