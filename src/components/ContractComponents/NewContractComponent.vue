@@ -457,8 +457,8 @@ export default {
     },
     contractTypeItems() {
         const types = []
-        for (key in contractTypeItems) {
-            types.push(contractTypeItems[key].vi)
+        for (let key in contractItems) {
+            types.push(contractItems[key].vi)
         }
         return types
     },

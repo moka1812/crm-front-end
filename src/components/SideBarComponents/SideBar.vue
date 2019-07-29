@@ -8,8 +8,8 @@
       permanent
     >
       <v-layout justify-space-between column fill-height>
-        <v-list class="pt-2">
-          <v-list-tile>
+        <v-list class="pt-0">
+          <v-list-tile class="item">
             <img src="../../assets/camdo.png">
 
             <span class="font-white">camdo<strong>nhanh</strong></span>
@@ -19,16 +19,15 @@
             <!-- Group with subitems -->
             <v-list-group 
               v-if="sidebarLink.groups"
-              class="group"
               :key="sidebarLink.name"  
               no-action="no-action"
+              class="group item"
             >
-              <v-list-tile slot="activator" ripple="ripple" class="item">
+              <v-list-tile slot="activator" ripple="ripple">
                 <v-list-tile-action>
                   <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
                 </v-list-tile-action>
 
-                
                 <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
                 
               </v-list-tile>
@@ -50,8 +49,8 @@
               v-else
               :key="sidebarLink.name"
               :to="sidebarLink.link"
-              class="tile item"
               active-class="highlight"
+              class="item"
             >
               <v-list-tile-action>
                 <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
@@ -107,17 +106,14 @@ export default {
 .side-bar {
   background-color: #dd1e26;
 }
-.item {
-  padding-top: 15px; 
-  padding-bottom: 15px;
-}
+
 .content {
   font-size: 13px;
   color: #fff;
 }
 .content-sub {
   font-size: 12px;
-  padding-left: 5px;
+  padding-left: 20px;
   color: #fff;
 }
 #footer {
@@ -128,7 +124,9 @@ export default {
 .icon {
   padding-left: 4px
 }
-
+.item {
+  margin-bottom: 20px;
+}
 </style>
 
 <style>
