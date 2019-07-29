@@ -8,62 +8,58 @@
       permanent
     >
       <v-layout justify-space-between column fill-height>
-        <v-list class="pt-0">
+        <v-list class="pt-2">
           <v-list-tile>
             <img src="../../assets/camdo.png">
 
-            <v-list-tile-content>
-              <span class="font-white">camdo<strong>nhanh</strong></span>
+            <span class="font-white">camdo<strong>nhanh</strong></span>
 
-            </v-list-tile-content>
           </v-list-tile>
-        <template v-for="sidebarLink in sidebarLinks">
-          <!-- Group with subitems -->
-          <v-list-group 
-            v-if="sidebarLink.groups"
-            class="group"
-            :key="sidebarLink.name"  
-            no-action="no-action"
-          >
-            <v-list-tile slot="activator" ripple="ripple">
+          <template v-for="sidebarLink in sidebarLinks">
+            <!-- Group with subitems -->
+            <v-list-group 
+              v-if="sidebarLink.groups"
+              class="group"
+              :key="sidebarLink.name"  
+              no-action="no-action"
+            >
+              <v-list-tile slot="activator" ripple="ripple" class="item">
+                <v-list-tile-action>
+                  <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
+                </v-list-tile-action>
+
+                
+                <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
+                
+              </v-list-tile>
+
+              <!-- link sub Group -->
+              <v-list-tile 
+                v-for="subItem in sidebarLink.groups" 
+                :key="subItem.name"
+                :to="subItem.link"
+                class="listitem"
+                active-class="highlight"
+              >
+                  <v-icon dark class="icon">{{subItem.icon}}</v-icon>    
+                  <v-list-tile-title class="content-sub">{{ subItem.name }}</v-list-tile-title>
+              </v-list-tile>
+            </v-list-group>
+
+            <v-list-tile
+              v-else
+              :key="sidebarLink.name"
+              :to="sidebarLink.link"
+              class="tile item"
+              active-class="highlight"
+            >
               <v-list-tile-action>
                 <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
               </v-list-tile-action>
 
-              <v-list-tile-content>
-                <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-
-            <!-- link sub Group -->
-            <v-list-tile 
-              v-for="subItem in sidebarLink.groups" 
-              :key="subItem.name"
-              :to="subItem.link"
-              class="listitem"
-              active-class="highlight"
-            >
-                <v-icon dark class="icon">{{subItem.icon}}</v-icon>    
-                <v-list-tile-title class="content-sub">{{ subItem.name }}</v-list-tile-title>
-            </v-list-tile>
-          </v-list-group>
-
-          <v-list-tile
-            v-else
-            :key="sidebarLink.name"
-            :to="sidebarLink.link"
-            class="tile"
-            active-class="highlight"
-          >
-            <v-list-tile-action>
-              <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>
-            </v-list-tile-action>
-
-            <v-list-tile-content>
               <v-list-tile-title class="content">{{ sidebarLink.name }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>
+            </v-list-tile>
+          </template>
         </v-list>
          
         <v-footer class="pa-3" color="#dd1e26" height="auto">
@@ -111,7 +107,10 @@ export default {
 .side-bar {
   background-color: #dd1e26;
 }
-
+.item {
+  padding-top: 15px; 
+  padding-bottom: 15px;
+}
 .content {
   font-size: 13px;
   color: #fff;

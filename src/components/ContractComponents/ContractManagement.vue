@@ -32,14 +32,6 @@
                 />
               </div>
 
-              <v-btn class="shadow margin-left-right" icon color="#dd1e26">
-                <v-icon color="#ffff">access_time</v-icon>
-              </v-btn>
-
-              <v-btn class="shadow margin-left-right" icon color="#ffffff">
-                <v-icon color="#dd1e26">folder_open</v-icon>
-              </v-btn>
-
               <v-btn class="shadow margin-left-right" icon color="#43425D">
                 <v-icon color="#FFFFFF">print</v-icon>
               </v-btn>

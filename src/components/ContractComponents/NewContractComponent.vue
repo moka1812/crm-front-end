@@ -268,7 +268,108 @@
                 <v-form v-model="valid3">
                     <v-container>
                         <v-layout>
-                            
+                            <v-flex sm4>
+
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-select
+                                    v-model="contractTypeInput"
+                                    :items="contractTypeItems"
+                                    :rules="[v => !!v || 'Yều cầu cần có']"
+                                    label="Loại hợp đồng*"
+                                    required
+                                >
+                                </v-select>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="receivedAmountInput"
+                                    :rules="[
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Số tiền nhận được"
+                                    :hint="this.receivedAmountHint"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex sm4>
+                                <v-select
+                                    v-model="packageInput"
+                                    :items="packageItems"
+                                    :rules="[v => !!v || 'Yều cầu cần có']"
+                                    label="Gói"
+                                    required
+                                >
+                                </v-select>
+                            </v-flex>
+                            <v-flex sm4>
+                                <date-picker v-model="expirationDateInput" label="Ngày hết hạn hợp đồng*"/>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="roundingInput"
+                                    :rules="[
+                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Khoản làm tròn"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex sm4>
+                                <date-picker v-model="openingDateInput" label="Ngày mở hợp đồng*"/>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="costInput"
+                                    :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Gốc*"
+                                    required
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="owedInput"
+                                    :rules="[
+                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Còn nợ"
+                                    required
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="pawnPriceInput"
+                                    :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Giá cầm*"
+                                    required
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="appraisalFeeInput"
+                                    :rules="[v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ']"
+                                    label="Phí thẩm định"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+
+                            </v-flex>
                         </v-layout>
                     </v-container>
                 </v-form>
@@ -282,6 +383,7 @@ import {mapActions, mapGetters} from 'vuex'
 import DatePicker from "@/components/ContractComponents/DatePicker.vue"
 import changeDigitToText from '../../mixins/money'
 import sourceItems from '../../mixins/source_items'
+import contractItems from './utils/contract_items'
 
 export default {
   name: "new-contract",
@@ -316,6 +418,18 @@ export default {
       validatorAmount1Input: '',
       validatorAmount2Input: '',
       pawnAmountInput: '',
+      contractTypeInput: '',
+      receivedAmountInput: '',
+      packageInput: '',
+      packageItems: ['1 Tuần', '1 Tháng', '1 Tháng - Ưu đãi', 'Flexi'],
+      expirationDateInput: '',
+      roundingInput : '',
+      openingDateInput: '',
+      costInput: '',
+      owedInput: '',
+      pawnPriceInput: '',
+      serviceFeeInput: '',
+      appraisalFeeInput: '',
     }
   },
   mounted() {
@@ -340,6 +454,16 @@ export default {
     },
     pawnAmountHint() {
         return changeDigitToText(this.pawnAmountInput)
+    },
+    contractTypeItems() {
+        const types = []
+        for (key in contractTypeItems) {
+            types.push(contractTypeItems[key].vi)
+        }
+        return types
+    },
+    receivedAmountHint() {
+        return changeDigitToText(this.receivedAmountInput)
     },
   },
   watch: {
