@@ -32,16 +32,9 @@
                   @keyup.enter="submit"
                 />
               </div>
-
-              <v-btn class="shadow margin-left-right" icon color="#dd1e26">
-                <v-icon color="#ffff">access_time</v-icon>
-              </v-btn>
-
-              <v-btn class="shadow margin-left-right" icon color="#ffffff">
-                <v-icon color="#dd1e26">folder_open</v-icon>
-              </v-btn>
-              
+        
               <new-order/>
+
             </v-layout> 
           </v-container>
         </v-flex>
@@ -149,15 +142,6 @@ ul.list-inline li {
 ul.management li {
   font-size: 16px;
   color: #dd1e26;
-}
-
-.shadow {
-  box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5pt 1pt !important
-}
-
-.margin-left-right {
-  margin-right: 4px;
-  margin-left: 4px;
 }
 
 .has-search .form-control {
