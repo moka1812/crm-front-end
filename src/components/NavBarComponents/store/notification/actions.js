@@ -50,7 +50,8 @@ export default {
                 id: element.id,
                 message: element.message
               },
-              speed: 2000
+              speed: 2000,
+              duration: 604800, //1 week
             });
         })
     },

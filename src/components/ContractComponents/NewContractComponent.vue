@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="pa-0 ma-0">
+    <v-container fluid class="pa-0 ma-2">
         <v-layout row>
             <v-flex md5 class="title">
                 <h2>New Contract - Customer Info</h2>
@@ -15,26 +15,26 @@
                 </v-stepper>
             </v-flex>
         </v-layout>
-        <v-window v-model="step">
-            <v-window-item :value="1">
-                <v-layout>
-                    <v-checkbox
-                        v-model="newCustomer"
-                        label="Khách hàng mới"
-                        color="#dd1e26"
-                        class="customer"
-                    ></v-checkbox>
-                    <v-checkbox
-                        v-model="oldCustomer"
-                        label="Khách hàng cũ"
-                        color="#dd1e26"
-                        class="customer"
-                    ></v-checkbox>
-                </v-layout>
+        <v-layout v-if="step==1">
+            <v-checkbox
+                v-model="newCustomer"
+                label="Khách hàng mới"
+                color="#dd1e26"
+                class="customer"
+            ></v-checkbox>
+            <v-checkbox
+                v-model="oldCustomer"
+                label="Khách hàng cũ"
+                color="#dd1e26"
+                class="customer"
+            ></v-checkbox>
+        </v-layout>
+        <v-window v-model="step" :style="{'background-color': '#ffffff', 'border-style': 'solid'}">
+            <v-window-item :value="1" class="padding">
                 <v-form v-model="valid1">
                     <v-container :style="{'padding-top': '0px'}">
                         <v-layout>
-                            <v-flex sm6>
+                            <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="nameInput"
                                     label="Tên*"
@@ -42,7 +42,8 @@
                                 >
                                 </v-text-field>
                             </v-flex>
-                            <v-flex sm6>
+                            <v-spacer/>
+                            <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="emailInput"
                                     label="Email"
@@ -51,7 +52,7 @@
                             </v-flex>
                         </v-layout>
                         <v-layout>
-                            <v-flex sm6>
+                            <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="phone1Input"
                                     :rules="[
@@ -64,7 +65,8 @@
                                 >
                                 </v-text-field>
                             </v-flex>
-                            <v-flex sm6>
+                            <v-spacer/>
+                            <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="phone2Input"
                                     :rules="[
@@ -77,10 +79,11 @@
                             </v-flex>
                         </v-layout>
                         <v-layout>
-                            <v-flex sm6>
+                            <v-flex sm5>
                                 <date-picker v-model="dobInput" label="DOB*"/>
                             </v-flex>
-                            <v-flex sm6>
+                            <v-spacer/>
+                            <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="NationalIDInput"
                                     label="CMND"
@@ -101,7 +104,7 @@
                         >
                         </v-text-field>
                         <v-layout>
-                            <v-flex sm6>
+                            <v-flex sm5>
                                 <v-select
                                     v-model="districtInput"
                                     :items="districtItems"
@@ -111,7 +114,8 @@
                                 >
                                 </v-select>
                             </v-flex>
-                            <v-flex sm6>
+                            <v-spacer/>
+                            <v-flex sm5>
                                 <v-select
                                     v-model="cityInput"
                                     :items="cityItems"
@@ -123,7 +127,7 @@
                             </v-flex>
                         </v-layout>
                         <v-layout>
-                            <v-flex sm6>
+                            <v-flex sm5>
                                 <v-select
                                     v-model="sourceInput"
                                     :items="sourceItems"
@@ -133,7 +137,8 @@
                                 >
                                 </v-select>
                             </v-flex>
-                            <v-flex sm6>
+                            <v-spacer/>
+                            <v-flex sm5>
                                 <v-textarea
                                     v-model.lazy="noteInput"
                                     label="Note"
@@ -162,11 +167,11 @@
                     </v-container>
                 </v-form>
             </v-window-item>
-            <v-window-item :value="2">
+            <v-window-item :value="2" class="padding">
                 <v-form v-model="valid2">
                     <v-container>
                         <v-layout>
-                            <v-flex sm6>
+                            <v-flex sm5>
                                 <v-textarea
                                     v-model.lazy="assetInput"
                                     label="Mô tả tài sản*"
@@ -177,7 +182,8 @@
                                 >
                                 </v-textarea>
                             </v-flex>
-                            <v-flex sm6>
+                            <v-spacer/>
+                            <v-flex sm5>
                                 <v-text-field
                                     v-model="expectedAmountInput"
                                     :rules="[
@@ -190,7 +196,7 @@
                             </v-flex>
                         </v-layout>
                         <v-layout>
-                            <v-flex sm6>
+                            <v-flex sm5>
                                 <v-select
                                     v-model="assetTypeInput"
                                     :items="assetTypeItems"
@@ -200,6 +206,69 @@
                                 >
                                 </v-select>
                             </v-flex>
+                            <v-spacer/>
+                            <v-flex sm5>
+                                <v-text-field
+                                    v-model="validatorAmount1Input"
+                                    :rules="[
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Giá thẩm định 1"
+                                    :hint="this.validatorAmount1Hint"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex sm5>
+                                <v-text-field
+                                    v-model="validatorAmount2Input"
+                                    :rules="[
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Giá thẩm định 2"
+                                    :hint="this.validatorAmount2Hint"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-spacer/>
+                            <v-flex sm5>
+                                <v-text-field
+                                    v-model="pawnAmountInput"
+                                    :rules="[
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Giá cầm"
+                                    :hint="this.pawnAmountHint"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout
+                            align-center
+                            justify-end
+                        >
+                            <v-btn class="backBtn"
+                                color="#fff"
+                                @click="step--"
+                            >
+                                Back
+                            </v-btn>
+                            <v-btn class="nextBtn"
+                                color="#dd1e26"
+                                @click="step++"
+                            >
+                                Next
+                            </v-btn>
+                        </v-layout>
+                    </v-container>
+                </v-form>
+            </v-window-item>
+            <v-window-item :value="3" class="padding">
+                <v-form v-model="valid3">
+                    <v-container>
+                        <v-layout>
+                            
                         </v-layout>
                     </v-container>
                 </v-form>
@@ -225,6 +294,7 @@ export default {
       newCustomer: true,
       valid1: true,
       valid2: true,
+      valid3: true,
       nameInput: '',
       emailInput: '',
       phone1Input: '',
@@ -243,7 +313,13 @@ export default {
       expectedAmountInput: '',
       assetTypeInput: '',
       assetTypeItems: [],
+      validatorAmount1Input: '',
+      validatorAmount2Input: '',
+      pawnAmountInput: '',
     }
+  },
+  mounted() {
+    this.getSAssetList()
   },
   computed: {
     ...mapGetters({
@@ -256,6 +332,15 @@ export default {
     expectedAmountHint() {
       return changeDigitToText(this.expectedAmountInput)
     },
+    validatorAmount1Hint() {
+        return changeDigitToText(this.validatorAmount1Input)
+    },
+    validatorAmount2Hint() {
+        return changeDigitToText(this.validatorAmount2Input)
+    },
+    pawnAmountHint() {
+        return changeDigitToText(this.pawnAmountInput)
+    },
   },
   watch: {
     //When finish call API get SAsset, Update assetTypeItems
@@ -266,6 +351,11 @@ export default {
       }
       this.assetTypeItems = asset
     },
+  },
+  methods: {
+    ...mapActions({
+        getSAssetList: 'asset/getSAssetList',
+    }),
   }
 }
 </script>
@@ -279,6 +369,10 @@ export default {
 .title {
     padding-top: 20px;
     padding-left: 16px;
+}
+.padding {
+    padding-left: 95px;
+    padding-right: 95px;
 }
 .backBtn {
   color: #dd1e26 !important;

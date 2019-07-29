@@ -1,11 +1,7 @@
 <template>
-    <v-menu offset-y 
-        nudge-left="120"
-        :nudge-width="200"
-        nudge-bottom="14"
-    >
+    <v-menu offset-y :nudge-left="120">
         <template v-slot:activator="{ on }">
-            <v-btn flat icon v-on="on" color="#ffffff" @click="getNotification()">
+            <v-btn flat icon v-on="on" color="#ffffff" @click="getNotification">
                 <v-icon color="#000000">notifications</v-icon>
             </v-btn>
             <v-badge v-show="count != null && count > 0" overlap color="#FFA500" :style="{'margin-top':'20px', 'margin-right':'10px'}">

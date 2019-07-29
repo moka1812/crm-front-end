@@ -60,7 +60,7 @@ const newContractPage = {
 }
 
 const contractPage = {
-  path: "contracts",
+  path: "/contracts",
   name: "contracts",
   component: ContractComponent,
   meta: {
@@ -69,7 +69,7 @@ const contractPage = {
   children: [
     defaultContractPage,
     newContractPage,
-  ]
+  ],
 }
 
 const homePage = {
@@ -83,8 +83,7 @@ const homePage = {
     orderPage,
     myInboxPage,
     contractPage,
-    newContractPage,
-  ]
+  ],
 }
 
 const router = new Router({

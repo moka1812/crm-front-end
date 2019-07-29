@@ -17,13 +17,5 @@ export default {
         ContractManagement,
         ContractTable,
     },
-    mounted() {
-        this.getSAssetList()
-    },
-    methods: {
-        ...mapActions({
-            getSAssetList: 'asset/getSAssetList',
-        })
-    }
 }
 </script>

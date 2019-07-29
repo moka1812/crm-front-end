@@ -5,7 +5,7 @@
       :width="190"
       stateless
       app
-        permanent
+      permanent
     >
       <v-layout justify-space-between column fill-height>
         <v-list class="pt-0">
@@ -40,7 +40,6 @@
               v-for="subItem in sidebarLink.groups" 
               :key="subItem.name"
               :to="subItem.link"
-              :exact="subItem.exacct"
               class="listitem"
               active-class="highlight"
             >
@@ -52,8 +51,9 @@
           <v-list-tile
             v-else
             :key="sidebarLink.name"
-            @click=""
+            :to="sidebarLink.link"
             class="tile"
+            active-class="highlight"
           >
             <v-list-tile-action>
               <v-icon dark class="icon">{{sidebarLink.icon}}</v-icon>

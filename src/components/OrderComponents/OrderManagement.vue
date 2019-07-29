@@ -40,8 +40,6 @@
               <v-btn class="shadow margin-left-right" icon color="#ffffff">
                 <v-icon color="#dd1e26">folder_open</v-icon>
               </v-btn>
-
-              <order-filter/>
               
               <new-order/>
             </v-layout> 
@@ -54,8 +52,7 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 
-import NewOrder from "@/components/OrderComponents/NewOrder.vue";
-import OrderFilter from "@/components/OrderComponents/OrderFilter.vue";
+import NewOrder from "@/components/OrderComponents/NewOrder.vue"
 
 import steps from './utils/steps'
 
@@ -63,7 +60,6 @@ export default {
   name: "order-management",
   components: {
     NewOrder,
-    OrderFilter
   },
   props: {
     type: String,
@@ -155,6 +151,15 @@ ul.management li {
   color: #dd1e26;
 }
 
+.shadow {
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5pt 1pt !important
+}
+
+.margin-left-right {
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
 .has-search .form-control {
   padding-left: 2.375rem;
   padding-right: 0px;
@@ -194,11 +199,4 @@ ul.management li {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.shadow {
-  box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5pt 1pt !important
-}
-.margin-left-right {
-  margin-right: 4px;
-  margin-left: 4px;
-}
 </style>
