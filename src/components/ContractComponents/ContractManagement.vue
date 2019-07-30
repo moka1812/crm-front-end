@@ -4,13 +4,13 @@
         <v-flex md5 xs12>
           <div id="left">
             <h2>Contract Management</h2>
-            <ul class="list-inline management">
-                <li class="list-inline-item" :style="`color:${this.status.NEW.color}`">{{this.status.NEW.vi}}: {{this.new}}</li>
-                <li class="list-inline-item" :style="`color:${this.status.RENEWAL.color}`">{{this.status.RENEWAL.vi}}: {{this.renewal}}</li>
-                <li class="list-inline-item" :style="`color:${this.status.RETURN.color}`">{{this.status.RETURN.vi}}: {{this.return}}</li>
-                <li class="list-inline-item" :style="`color:${this.status.CLOSING.color}`">{{this.status.CLOSING.vi}}: {{this.closing}}</li>
-                <li class="list-inline-item" :style="`color:${this.status.LATE.color}`">{{this.status.LATE.vi}}: {{this.late}}</li>
-            </ul>
+            <v-layout justify-start>
+                <p class="list-inline-item" :style="`color:${this.status.NEW.color}`">{{this.status.NEW.vi}}: {{this.new}}</p>
+                <p class="list-inline-item" :style="`color:${this.status.RENEWAL.color}`">{{this.status.RENEWAL.vi}}: {{this.renewal}}</p>
+                <p class="list-inline-item" :style="`color:${this.status.RETURN.color}`">{{this.status.RETURN.vi}}: {{this.return}}</p>
+                <p class="list-inline-item" :style="`color:${this.status.CLOSING.color}`">{{this.status.CLOSING.vi}}: {{this.closing}}</p>
+                <p class="list-inline-item" :style="`color:${this.status.LATE.color}`">{{this.status.LATE.vi}}: {{this.late}}</p>
+            </v-layout>
           </div>
         </v-flex>
 
@@ -101,11 +101,7 @@ export default {
   padding-right: 0px;
 }
 
-ul.list-inline li {
-  padding: 0 5px;
-}
-
-ul.management li {
+.list-inline-item {
   font-size: 16px;
   color: #dd1e26;
 }

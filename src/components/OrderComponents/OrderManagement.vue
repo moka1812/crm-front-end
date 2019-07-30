@@ -1,20 +1,20 @@
 <template>
   <div class="content">
       <v-layout row>
-        <v-flex md5 xs12>
+        <v-flex md6 xs12>
           <div id="left">
             <h2>{{this.name}}</h2>
-            <ul class="list-inline management">
-              <li v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.steps.UNCLAIMED.color}`">{{this.steps.UNCLAIMED.vi}}: {{this.unclaimed}}</li>
-              <li class="list-inline-item" :style="`color:${this.steps.PENDING.color}`">{{this.steps.PENDING.vi}}: {{this.pending}}</li>
-              <li class="list-inline-item" :style="`color:${this.steps.CONTACT.color}`">{{this.steps.CONTACT.vi}}: {{this.contact}}</li>
-              <li class="list-inline-item" :style="`color:${this.steps.QUOTED.color}`">{{this.steps.QUOTED.vi}}: {{this.quoted}}</li>
-              <li class="list-inline-item" :style="`color:${this.steps.APPOINTMENT.color}`">{{this.steps.APPOINTMENT.vi}}: {{this.appointment}}</li>
-            </ul>
+            <v-layout justify-start>
+              <p v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.steps.UNCLAIMED.color}`">{{this.steps.UNCLAIMED.vi}}: {{this.unclaimed}}</p>
+              <p class="list-inline-item" :style="`color:${this.steps.PENDING.color}`">{{this.steps.PENDING.vi}}: {{this.pending}}</p>
+              <p class="list-inline-item" :style="`color:${this.steps.CONTACT.color}`">{{this.steps.CONTACT.vi}}: {{this.contact}}</p>
+              <p class="list-inline-item" :style="`color:${this.steps.QUOTED.color}`">{{this.steps.QUOTED.vi}}: {{this.quoted}}</p>
+              <p class="list-inline-item" :style="`color:${this.steps.APPOINTMENT.color}`">{{this.steps.APPOINTMENT.vi}}: {{this.appointment}}</p>
+            </v-layout>
           </div>
         </v-flex>
 
-        <v-flex md7 xs12>
+        <v-flex md6 xs12>
           <v-container fluid id="right">
             <v-layout
               align-center
@@ -135,11 +135,7 @@ export default {
   padding-right: 0px;
 }
 
-ul.list-inline li {
-  padding: 0 5px;
-}
-
-ul.management li {
+.list-inline-item {
   font-size: 16px;
   color: #dd1e26;
 }
