@@ -61,7 +61,6 @@ const newContractPage = {
 
 const contractPage = {
   path: "/contracts",
-  name: "contracts",
   component: ContractComponent,
   meta: {
     requiresAuth: true

@@ -20,6 +20,7 @@
                         <v-list-tile
                             :key="index"
                             @click="changeBranchHandle(index)"
+                            class="content"
                         >
                         <v-list-tile-content :style="{'padding-left': '10px'}">
                             <v-list-tile-title>{{branch.name}}</v-list-tile-title>
@@ -72,9 +73,14 @@ export default {
     height: 250px;
     overflow-y: auto;
 }
-
 .no-margin {
     margin-top: 0px;
     margin-bottom: 0px
+}
+</style>
+<style>
+/* Bugs from libs */
+.content .v-list__tile {
+    padding: 0px 10px;
 }
 </style>

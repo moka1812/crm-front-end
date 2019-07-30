@@ -28,7 +28,7 @@ export default {
     logout({commit, dispatch}) {
         UserService.logout()
         commit(LOGOUT_SUCCESS)
-        router.push('login')
+        router.push('/login')
         //Reset all store
         dispatch('reset', {}, {root:true})
     },

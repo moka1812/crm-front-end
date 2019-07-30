@@ -37,8 +37,10 @@ export default {
 
 <style>
 /* Padding item in v-select */
-.v-select-list > .v-list__tile__content {
+.v-select-list .v-list__tile__content {
   padding-left: 20px;
+  /* Dislay: Bugs from Vuetify */
+  display: contents !important; 
 }
 
 .snotifyToast{
