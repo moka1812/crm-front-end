@@ -1,41 +1,40 @@
 <!-- eslint-disable-next-line -->
 <template>
-    <div class="container-fluid full-height" style="padding-left: 0">
-        <div class="row full-height">
-            <div id="left-container" class="col-md-2 left-panel">
-                <div class="icon-rabbit">
-                    <img src="../../assets/rabbit.png" alt="icon">
-                </div>
-            </div>
-            <div id="right-container" class="col-md-10 right-panel">
-                <div class="background-img full-height">
-                    <img class="img" src="../../assets/bitexco.jpg" alt="bgr">
-                </div>
+    <v-container fluid fill-height class="pa-0">
+        <v-layout>
+            <v-flex md2 :style="{'background-color': 'rgb(239, 30, 38)'}">
+              <v-layout align-center justify-center column fill-height>
+                <img src="../../assets/rabbit.png" alt="icon">
+              </v-layout>
+            </v-flex>
+            <v-flex md10 id="landing-page">
+              <v-layout align-center justify-center column fill-height>
                 <div class="signin-form">
-                    <div class="content text-center">
+                    <v-layout align-center justify-center column fill-height>
                         <div class="title">
                             <h1>CAMDO<strong>NHANH</strong></h1>
                         </div>
-                        <h3>Đăng Nhập</h3>
+                        <h1>Đăng Nhập</h1>
                         <form @submit.prevent="loginHandle">
+                          <v-layout align-center column fill-height>
                           <input id="username" type="text" placeholder="username" v-model="username"/>
                           <input id="password" type="password" placeholder="password" v-model="password"/>
-                        
-                          <br/>
-                          <br/>
+                          <br style="margin-bottom:20px;"/>
                           <button type="submit" :disabled="authenticating" class="button">
                               Login
                           </button>
+                          </v-layout>
                         </form>
-                        <br/>
+                        <br style="margin-bottom:20px;"/>
                         <div class="copy-right">
                             <p><i>Copyright © 2018-2019 ICADO Co.Ltd <br/> All rights reserved.</i></p>
                         </div>
-                    </div>
+                    </v-layout>
                 </div>
-            </div>
-        </div>
-    </div>
+              </v-layout>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
@@ -121,58 +120,26 @@ input {
   color: white;
  }
 
-@media only screen and (max-width: 1386px) {
-  #left-container {
-    display: contents;
-  }
-  #right-container {
-    max-width: 100%;
-    flex: 0 0 100%;
-  }
-}
-
-#right-container {
-  padding-left: 0;
-  padding-right: 0
-}
-
-.full-height {
-  height: 100%;
-}
-
-.left-panel {
-  background-color: #F10027;
-  position: relative;
-}
-
-.icon-rabbit {
-  position: absolute;
-  top: 35%;
-  left: 18%;
-}
-
-.background-img img {
-  filter: grayscale(100%) blur(2px);
-  width: 100%;
-  height: 100%;
-}
-
-.right-panel {
+#landing-page {
+  background-image: url('../../assets/bitexco.jpg');
+    /* background-color: #8f2c2c; */
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
 }
 
 .signin-form {
-  position: absolute;
   background-color: white;
   width: 410px;
   height: 370px;
   border-radius: 28px;
   top: 45%;
   left: 50%;
-  transform: translate(-50%, -50%);
 }
 
-.title {
+.title h1 {
   color: #DD1E26;
 }
 
@@ -206,26 +173,7 @@ input {
   box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
 }
 
-/* Google */
-.loginBtn--google {
-  /*font-family: "Roboto", Roboto, arial, sans-serif;*/
-  background: #f32e06;
-}
-.loginBtn--google:before {
-  border-right: #BB3F30 1px solid;
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_google.png") 5px 10px no-repeat;
-  color: #fff;
-}
-.loginBtn--google:hover,
-.loginBtn--google:focus {
-  background: #ca0707;
-}
-
-.content {
-  padding: 35px;
-}
-
-.content h3 {
+h1 {
   color: #43425D;
 }
 
@@ -234,4 +182,3 @@ input {
 }
 
 </style>
-
