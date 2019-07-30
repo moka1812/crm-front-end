@@ -13,7 +13,7 @@
         <v-card>
             <v-list>
                 <v-list-tile-title><center style="font-size: 20px;">Choose branch</center></v-list-tile-title>
-                <hr style="margin-bottom: 0px"/>
+                <v-divider></v-divider>
                 <v-list two-line class="branchList">
                     <template v-for="(branch, index) in branches"
                     >
@@ -27,13 +27,12 @@
                             <v-list-tile-sub-title>{{branch.address}}</v-list-tile-sub-title>
                         </v-list-tile-content>
                         </v-list-tile>
-                        <hr class="no-margin" v-if="index + 1 < branches.length" :key="`divider-${index}`"/>
+                        <v-divider v-if="index + 1 < branches.length" :key="`divider-${index}`"/>
                     </template>
                 </v-list>
-                <hr style="margin-top: 0px"/>
+                <v-divider></v-divider>
                 <v-list-tile-title><center><font color="red">See all</font></center></v-list-tile-title>
             </v-list>
-
         </v-card>
     </v-menu>
 </template>
@@ -66,16 +65,12 @@ export default {
 </script>
 
 <style scoped>
-.branchList {
+.branchList{
     background-color: #e5e5e5; 
     padding-top: 0px;
     padding-bottom: 0px;
     height: 250px;
     overflow-y: auto;
-}
-.no-margin {
-    margin-top: 0px;
-    margin-bottom: 0px
 }
 </style>
 <style>

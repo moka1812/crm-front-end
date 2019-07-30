@@ -2,20 +2,17 @@
   <div class="content">
       <v-layout row>
         <v-flex md6 xs12>
-          <div id="left">
-            <h2>{{this.name}}</h2>
-            <v-layout justify-start>
-              <p v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.steps.UNCLAIMED.color}`">{{this.steps.UNCLAIMED.vi}}: {{this.unclaimed}}</p>
-              <p class="list-inline-item" :style="`color:${this.steps.PENDING.color}`">{{this.steps.PENDING.vi}}: {{this.pending}}</p>
-              <p class="list-inline-item" :style="`color:${this.steps.CONTACT.color}`">{{this.steps.CONTACT.vi}}: {{this.contact}}</p>
-              <p class="list-inline-item" :style="`color:${this.steps.QUOTED.color}`">{{this.steps.QUOTED.vi}}: {{this.quoted}}</p>
-              <p class="list-inline-item" :style="`color:${this.steps.APPOINTMENT.color}`">{{this.steps.APPOINTMENT.vi}}: {{this.appointment}}</p>
-            </v-layout>
-          </div>
+          <h2>{{this.name}}</h2>
+          <v-layout justify-start>
+            <p v-if="this.unclaimed != null" class="list-inline-item" :style="`color:${this.steps.UNCLAIMED.color}`">{{this.steps.UNCLAIMED.vi}}: {{this.unclaimed}}</p>
+            <p class="list-inline-item" :style="`color:${this.steps.PENDING.color}`">{{this.steps.PENDING.vi}}: {{this.pending}}</p>
+            <p class="list-inline-item" :style="`color:${this.steps.CONTACT.color}`">{{this.steps.CONTACT.vi}}: {{this.contact}}</p>
+            <p class="list-inline-item" :style="`color:${this.steps.QUOTED.color}`">{{this.steps.QUOTED.vi}}: {{this.quoted}}</p>
+            <p class="list-inline-item" :style="`color:${this.steps.APPOINTMENT.color}`">{{this.steps.APPOINTMENT.vi}}: {{this.appointment}}</p>
+          </v-layout>
         </v-flex>
 
         <v-flex md6 xs12>
-          <v-container fluid id="right">
             <v-layout
               align-center
               justify-end
@@ -36,7 +33,6 @@
               <new-order/>
 
             </v-layout> 
-          </v-container>
         </v-flex>
       </v-layout>
   </div>
@@ -122,13 +118,6 @@ export default {
 </script>
 
 <style scoped>
-#left {
-  padding-left: 16px;
-}
-#right{
-  padding-right: 10px;
-}
-
 .content {
   padding-bottom: 0px;
   padding-top: 0px;
@@ -137,6 +126,7 @@ export default {
 
 .list-inline-item {
   font-size: 16px;
+  padding-right: 10px;
   color: #dd1e26;
 }
 

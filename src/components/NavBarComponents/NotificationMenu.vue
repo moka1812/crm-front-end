@@ -22,7 +22,7 @@
                         :key="index"
                         @click="click(index)"
                     >
-                        <v-list-tile-content :class="{active : notification.readable == false}" :style="{'padding-left': '10px'}">
+                        <v-list-tile-content :class="{active : notification.readable == false}" class="content">
                             <v-list-tile-title>Order #{{notification.order}}</v-list-tile-title>
                             <v-list-tile-sub-title>{{notification.message}}</v-list-tile-sub-title>
                         </v-list-tile-content>
@@ -93,6 +93,9 @@ export default {
 }
 .active {
     background-color: #e5e5e5; 
+}
+.content {
+    padding: 0px 10px;
 }
 hr {
     border-color: #d1d1d1

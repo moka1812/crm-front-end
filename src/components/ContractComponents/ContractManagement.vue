@@ -2,53 +2,49 @@
   <div class="content">
       <v-layout row>
         <v-flex md5 xs12>
-          <div id="left">
-            <h2>Contract Management</h2>
-            <v-layout justify-start>
-                <p class="list-inline-item" :style="`color:${this.status.NEW.color}`">{{this.status.NEW.vi}}: {{this.new}}</p>
-                <p class="list-inline-item" :style="`color:${this.status.RENEWAL.color}`">{{this.status.RENEWAL.vi}}: {{this.renewal}}</p>
-                <p class="list-inline-item" :style="`color:${this.status.RETURN.color}`">{{this.status.RETURN.vi}}: {{this.return}}</p>
-                <p class="list-inline-item" :style="`color:${this.status.CLOSING.color}`">{{this.status.CLOSING.vi}}: {{this.closing}}</p>
-                <p class="list-inline-item" :style="`color:${this.status.LATE.color}`">{{this.status.LATE.vi}}: {{this.late}}</p>
-            </v-layout>
-          </div>
+          <h2>Contract Management</h2>
+          <v-layout justify-start>
+            <p class="list-inline-item" :style="`color:${this.status.NEW.color}`">{{this.status.NEW.vi}}: {{this.new}}</p>
+            <p class="list-inline-item" :style="`color:${this.status.RENEWAL.color}`">{{this.status.RENEWAL.vi}}: {{this.renewal}}</p>
+            <p class="list-inline-item" :style="`color:${this.status.RETURN.color}`">{{this.status.RETURN.vi}}: {{this.return}}</p>
+            <p class="list-inline-item" :style="`color:${this.status.CLOSING.color}`">{{this.status.CLOSING.vi}}: {{this.closing}}</p>
+            <p class="list-inline-item" :style="`color:${this.status.LATE.color}`">{{this.status.LATE.vi}}: {{this.late}}</p>
+          </v-layout>
         </v-flex>
 
         <v-flex md7 xs12>
-          <v-container fluid id="right">
-            <v-layout
-              align-center
-              justify-end
-            >
-              <div class="has-search">
-                <span class="fa fa-search form-control-feedback"></span>
-                <input 
-                  style="width: 200px" 
-                  type="text" 
-                  class="form-control"
-                  placeholder="Nhập số điện thoại"
-                  v-model="phoneInput"
-                  @keyup.enter="submit"
-                />
+          <v-layout
+            align-center
+            justify-end
+          >
+            <div class="has-search">
+              <span class="fa fa-search form-control-feedback"></span>
+              <input 
+                style="width: 200px" 
+                type="text" 
+                class="form-control"
+                placeholder="Nhập số điện thoại"
+                v-model="phoneInput"
+                @keyup.enter="submit"
+              />
+            </div>
+
+            <v-btn class="shadow margin-left-right" icon color="#43425D">
+              <v-icon color="#FFFFFF">print</v-icon>
+            </v-btn>
+          
+            <v-btn round class="reminder">
+              <i class="fas fa-exclamation-triangle" style="margin-right:5px"></i>
+              Reminder
+            </v-btn>
+
+            <v-btn round class="new-contract" :to="{ name: 'new_contract' }">
+              <div class="back-white plus">
+                  <i class="fas fa-plus"></i>
               </div>
-
-              <v-btn class="shadow margin-left-right" icon color="#43425D">
-                <v-icon color="#FFFFFF">print</v-icon>
-              </v-btn>
-            
-              <v-btn round class="reminder">
-                <i class="fas fa-exclamation-triangle" style="margin-right:5px"></i>
-                Reminder
-              </v-btn>
-
-              <v-btn round class="new-contract" :to="{ name: 'new_contract' }">
-                <div class="back-white plus">
-                    <i class="fas fa-plus"></i>
-                </div>
-                New contract
-              </v-btn>
-            </v-layout> 
-          </v-container>
+              New contract
+            </v-btn>
+          </v-layout> 
         </v-flex>
       </v-layout>
   </div>
@@ -88,13 +84,6 @@ export default {
 </script>
 
 <style scoped>
-#left {
-  padding-left: 16px;
-}
-#right{
-  padding-right: 10px;
-}
-
 .content {
   padding-bottom: 0px;
   padding-top: 0px;
@@ -104,6 +93,7 @@ export default {
 .list-inline-item {
   font-size: 16px;
   color: #dd1e26;
+  padding-right: 10px;
 }
 
 .has-search .form-control {
@@ -192,6 +182,6 @@ export default {
 .plus i {
   color: #dd1e26;
   font-size: 10px;
-  padding: 8px 7px 8px 5px;
+  padding: 8px 7px 8px 8px;
 }
 </style>

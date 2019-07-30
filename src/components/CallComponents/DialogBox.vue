@@ -14,7 +14,10 @@
         <h3>{{this.customerName}}</h3>
         ({{this.customerPhone}})
 
-        <p v-if="this.ring===true"> Đang gọi <img src="../../assets/ring-animation.svg" alt="Loading"> </p>
+        <div v-if="this.ring===true">
+            <p style="display:inline-block;">Đang gọi</p>
+            <img  style="vertical-align: middle;" src="../../assets/ring-animation.svg" alt="Loading"> 
+        </div>
         <p v-else-if="this.step.includes('confirmed')">{{minutes}}:{{seconds}}</p>
         <p v-else>
             {{this.vietnameseError}}

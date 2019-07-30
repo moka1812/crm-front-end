@@ -35,7 +35,7 @@
           <td class="text-xs-center" @dblclick.stop>
             <v-container class="action">
               <v-layout>
-                <v-flex sm4 :style="{'margin-right': '2px'}">
+                <v-flex sm4 :style="{'margin-right': '5px'}">
                   <action-button 
                     :orderID="props.item.orderID" 
                     :step="props.item.step" 
