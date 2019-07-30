@@ -13,7 +13,7 @@
         <v-card>
             <v-list>
             <v-list-tile-title><center style="font-size: 20px;">Notifications</center></v-list-tile-title>
-            <hr style="margin-bottom: 0px"/>
+            <v-divider></v-divider>
             <v-list two-line class="notificationList">
                 <template v-for="(notification, index) in notifications"
                 >
@@ -27,7 +27,7 @@
                             <v-list-tile-sub-title>{{notification.message}}</v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                    <hr class="no-margin" :key="`divider-${index}`"/>
+                    <v-divider class="no-margin" :key="`divider-${index}`"/>
                 </template>
             </v-list>
             <v-list-tile-title><center><font color="red">See all</font></center></v-list-tile-title>
@@ -96,9 +96,6 @@ export default {
 }
 .content {
     padding: 0px 10px;
-}
-hr {
-    border-color: #d1d1d1
 }
 </style>
 

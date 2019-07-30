@@ -27,7 +27,7 @@
                             <v-list-tile-sub-title>{{branch.address}}</v-list-tile-sub-title>
                         </v-list-tile-content>
                         </v-list-tile>
-                        <v-divider v-if="index + 1 < branches.length" :key="`divider-${index}`"/>
+                        <v-divider :key="`divider-${index}`"/>
                     </template>
                 </v-list>
                 <v-divider></v-divider>
