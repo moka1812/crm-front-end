@@ -147,6 +147,7 @@
           @click="this.cancleHandle"
           :disabled="orderCreating"
           color="#fff"
+          round
         >
         Cancel
         </v-btn>
@@ -155,6 +156,7 @@
           @click="this.temporarySavingHandle"
           :disabled="orderCreating"
           color="#43425d"
+          round
         >
         Tạm lưu
         </v-btn>
@@ -164,6 +166,7 @@
           :disabled="!valid"
           :loading="orderCreating"
           color="#dd1e26"
+          round
         >
         OK
         </v-btn>

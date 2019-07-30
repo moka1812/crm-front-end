@@ -40,7 +40,7 @@
 
             <v-btn round class="new-contract" :to="{ name: 'new_contract' }">
               <div class="back-white plus">
-                  <i class="fas fa-plus"></i>
+                <i class="fas fa-plus"></i>
               </div>
               New contract
             </v-btn>

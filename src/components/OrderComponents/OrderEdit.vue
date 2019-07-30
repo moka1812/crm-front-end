@@ -201,6 +201,7 @@
                     @click="this.contractHandle"
                     v-if="contractDisable"
                     color="#43425d"
+                    round
                 >
                     Hợp Đồng
                 </v-btn>
@@ -209,6 +210,7 @@
                     @click="this.cancleHandle"
                     :disabled="orderUpdating"
                     color="#fff"
+                    round
                 >
                     Cancel
                 </v-btn>
@@ -218,6 +220,7 @@
                     :disabled="okDiable"
                     :loading="orderUpdating"
                     color="#dd1e26"
+                    round
                 >
                 OK
                 </v-btn>
