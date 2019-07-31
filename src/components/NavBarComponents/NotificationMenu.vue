@@ -1,5 +1,5 @@
 <template>
-    <v-menu offset-y :nudge-left="120">
+    <v-menu offset-y :nudge-left="120" :nudge-bottom="14" :min-width="253">
         <template v-slot:activator="{ on }">
             <v-btn flat icon v-on="on" color="#ffffff" @click="getNotification">
                 <v-icon color="#000000">notifications</v-icon>
@@ -59,8 +59,8 @@ export default {
             return this.newNotificationResult.length
         },
         notifications() {
-            return this.notificationResult.slice(0, 5)
-        }
+            return null
+        },
     },
     methods: {
         ...mapActions({
@@ -74,7 +74,7 @@ export default {
             this.getOrderDetailFromNotification({id: orderID})
             const NotificationID = this.notificationResult[index].id
             this.readNotification({id: NotificationID})
-        }
+        },
     },
     beforeDestroy() {
         clearInterval(this.schedule)
