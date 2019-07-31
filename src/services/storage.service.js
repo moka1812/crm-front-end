@@ -15,33 +15,27 @@ const VOIP_PASSWORD = 'voip_password'
 **/
 const TokenService = {
     getToken() {
-        return window.$cookies.get(TOKEN_KEY);
-        //return localStorage.getItem(TOKEN_KEY)
+        return window.$cookies.get(TOKEN_KEY)
     },
 
     saveToken(accessToken) {
-        window.$cookies.set(TOKEN_KEY, accessToken);
-        //localStorage.setItem(TOKEN_KEY, accessToken)
+        window.$cookies.set(TOKEN_KEY, accessToken)
     },
 
     removeToken() {
-        window.$cookies.remove(TOKEN_KEY);
-        //localStorage.removeItem(TOKEN_KEY)
+        window.$cookies.remove(TOKEN_KEY)
     },
 
     getRefreshToken() {
-        return window.$cookies.get(REFRESH_TOKEN_KEY);
-        //return localStorage.getItem(REFRESH_TOKEN_KEY)
+        return window.$cookies.get(REFRESH_TOKEN_KEY)
     },
 
     saveRefreshToken(refreshToken) {
-        window.$cookies.set(REFRESH_TOKEN_KEY, refreshToken);
-        //localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+        window.$cookies.set(REFRESH_TOKEN_KEY, refreshToken)
     },
 
     removeRefreshToken() {
-        window.$cookies.remove(REFRESH_TOKEN_KEY);
-        //localStorage.removeItem(REFRESH_TOKEN_KEY)
+        window.$cookies.remove(REFRESH_TOKEN_KEY)
     }
 
 }
@@ -83,10 +77,11 @@ const ProfileService = {
 
     getProfile() {
         const encoded = localStorage.getItem(PROFILE)
-        if (encoded !== null) {
+        try {
             return JSON.parse(Base64.decode(encoded))
+        } catch (error) {
+            return null
         }
-        return null
     },
 
     removeProfile() {
@@ -95,74 +90,86 @@ const ProfileService = {
 
     setName(name) {
         const encoded = localStorage.getItem(PROFILE)
-        if (encoded !== null) {
+        try {
             const profile = JSON.parse(Base64.decode(encoded))
             profile.name = name
             localStorage.setItem(PROFILE, Base64.encode(JSON.stringify(profile)))
+        } catch (error) {
+            
         }
     },
 
     getName() {
         const encoded = localStorage.getItem(PROFILE)
-        if (encoded !== null) {
+        try {
             const profile = JSON.parse(Base64.decode(encoded))
             return profile ? profile.name : null
+        } catch (error) {
+            return null
         }
-        return null
     },
 
     setID(id) {
         const encoded = localStorage.getItem(PROFILE)
-        if (encoded !== null) {
+        try {
             const profile = JSON.parse(Base64.decode(encoded))
             profile.id = id
             localStorage.setItem(PROFILE, Base64.encode(JSON.stringify(profile)))
+        } catch (error) {
+            
         }
     },
 
     getID() {
         const encoded = localStorage.getItem(PROFILE)
-        if (encoded !== null) {
+        try {
             const profile = JSON.parse(Base64.decode(encoded))
             return profile ? parseInt(profile.id) : null
+        } catch (error) {
+            return null
         }
-        return null
     },
 
     setBranch(branch) {
         const encoded = localStorage.getItem(PROFILE)
-        if (encoded !== null) {
+        try {
             const profile = JSON.parse(Base64.decode(encoded))
             profile.branch = branch
             localStorage.setItem(PROFILE, Base64.encode(JSON.stringify(profile)))
+        } catch (error) {
+            
         }
     },
 
     getBranch() {
         const encoded = localStorage.getItem(PROFILE)
-        if (encoded !== null) {
+        try {
             const profile = JSON.parse(Base64.decode(encoded))
             return profile ? profile.branch : null
+        } catch (error) {
+            return null
         }
-        return null
     },
 
     setBranchID(branchID) {
         const encoded = localStorage.getItem(PROFILE)
-        if (encoded !== null) {
+        try {
             const profile = JSON.parse(Base64.decode(encoded))
             profile.branchID = branchID
             localStorage.setItem(PROFILE, Base64.encode(JSON.stringify(profile)))
+        } catch (error) {
+            
         }
     },
 
     getBranchID() {
         const encoded = localStorage.getItem(PROFILE)
-        if (encoded !== null) {
+        try {
             const profile = JSON.parse(Base64.decode(encoded))
             return profile ? parseInt(profile.branchID) : null
+        } catch (error) {
+            return null
         }
-        return null
     },
 
 }
@@ -185,9 +192,13 @@ const CurrentBranchService = {
     },
 
     saveCurrentBranchID(currentBranchID) {
-        const currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
-        currentBranch.id = currentBranchID
-        localStorage.setItem(CURRENT_BRANCH, JSON.stringify(currentBranch))
+        try {
+            const currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+            currentBranch.id = currentBranchID
+            localStorage.setItem(CURRENT_BRANCH, JSON.stringify(currentBranch))
+        } catch (error) {
+            
+        }
     },
 
     getCurrentBranchName() {
@@ -196,9 +207,13 @@ const CurrentBranchService = {
     },
 
     saveCurrentBranchName(currentBranchName) {
-        const currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
-        currentBranch.name = currentBranchName
-        localStorage.setItem(CURRENT_BRANCH, JSON.stringify(currentBranch))
+        try {
+            const currentBranch = JSON.parse(localStorage.getItem(CURRENT_BRANCH))
+            currentBranch.name = currentBranchName
+            localStorage.setItem(CURRENT_BRANCH, JSON.stringify(currentBranch))
+        } catch (error) {
+            
+        }
     },
 }
 
