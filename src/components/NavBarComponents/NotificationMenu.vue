@@ -59,7 +59,7 @@ export default {
             return this.newNotificationResult.length
         },
         notifications() {
-            return null
+            return this.notificationResult.slice(0, 5)
         },
     },
     methods: {
