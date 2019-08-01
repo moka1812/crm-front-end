@@ -130,7 +130,7 @@ export default {
     methods : {
       detail: function (contractID) {
         if (contractID != null){
-           this.$router.push('/contract-detail');
+           this.$router.push('/contracts/contract-detail');
         }
       }
     }

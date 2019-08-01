@@ -60,6 +60,15 @@ const newContractPage = {
   }
 }
 
+const defaultContractDetailPage = {
+  path: "contract-detail",
+  name: "contractdetail",
+  component: ContractDetail,
+  meta: {
+    requiresAuth: true
+  }
+}
+
 const contractPage = {
   path: "/contracts",
   component: ContractComponent,
@@ -69,16 +78,8 @@ const contractPage = {
   children: [
     defaultContractPage,
     newContractPage,
+    defaultContractDetailPage,
   ],
-}
-
-const defaultContractDetailPage = {
-  path: "/contract-detail",
-  name: "contractdetail",
-  component: ContractDetail,
-  meta: {
-    requiresAuth: true
-  }
 }
 
 const homePage = {
@@ -92,7 +93,6 @@ const homePage = {
     orderPage,
     myInboxPage,
     contractPage,
-    defaultContractDetailPage,
   ],
 }
 
