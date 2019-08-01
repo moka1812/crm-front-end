@@ -1,5 +1,5 @@
 <template>
-  <v-card fluid class="content">
+  <v-card fluid class="content-contract-tabs">
     <tabs
       :tabs="tabs"
       :currentTab="currentTab"
@@ -114,7 +114,7 @@ export default {
     transition: transform 0.4s ease, width 0.4s ease;
   }
 }
-.content {
+.content-contract-tabs {
   padding: 0px;
   height: 100% !important;
 }

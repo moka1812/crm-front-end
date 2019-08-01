@@ -1,5 +1,5 @@
 <template>
-       <v-layout align-space-around justify-start row fill-height fluid class="content">
+       <v-layout align-space-around justify-start row fill-height fluid class="content-contract-detail">
            <v-flex xs3 class="container box-contract-info">
                <contract-info />
            </v-flex>
@@ -28,7 +28,7 @@ export default {
   background-color: #FFFFFF !important;
 }
 
-.content {
+.content-contract-detail {
   padding: 0px !important;
   margin: 0px !important;
   height: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <v-card fluid class="content">
+  <v-card fluid class="content-contract-info">
     <v-layout align-center justify-center column class="contract-detail">
       <div class="titile-contract-info">
         <i class="material-icons" :class="classStatusContract">fiber_manual_record</i>
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style scoped>
-.content {
+.content-contract-info {
   padding: 0px;
   height: 100% !important;
 }
