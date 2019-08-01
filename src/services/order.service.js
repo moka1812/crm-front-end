@@ -158,29 +158,22 @@ const OrderService = {
         }
     },
 
-    getOrderList: async function() {
+    getOrderList: async function(page) {
         try {
 
-            const response = await ApiService.get(getOrderApi)
+            let url = getOrderApi
+            if (page !== null && page !== 1) {
+                url = `${getOrderApi}?page=${page}`
+            }
 
-            const unclaimedPromise = new Promise((resolve, reject) => {
-                const data = this.filterRawOrderList(response.data["unclaimed"])
-                resolve(data)
-            })
+            const response = await ApiService.get(url)
 
-            const inprogressPromise = new Promise((resolve, reject) => {
-                const data = this.filterRawOrderList(response.data["inprogress"])
-                resolve(data)
-            })
-
-            const [unclaimed, inprogress] = await Promise.all([
-                unclaimedPromise,
-                inprogressPromise
-            ])
+            const data = this.filterRawOrderList(response.data['data'])
             
             return {
-                orders: [...unclaimed, ...inprogress],
-                count: response.data['count']
+                orders: data,
+                count: response.data['count'],
+                links: response.data['links'],
             }
 
         } catch (error) {
@@ -197,7 +190,7 @@ const OrderService = {
 
             const response = await ApiService.get(url)
 
-            const result = await this.filterRawOrderList(response.data.data)
+            const result = this.filterRawOrderList(response.data.data)
 
             return {
                 orders: result,

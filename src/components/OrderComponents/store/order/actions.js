@@ -38,6 +38,8 @@ import {
 import { ClientService, ClientError } from '../../../../services/client.service'
 import { OrderService, OrderError } from '../../../../services/order.service'
 
+const has = Object.prototype.hasOwnProperty
+
 export default {
 
     async searchClient({commit}, payload) {
@@ -102,10 +104,11 @@ export default {
         }
     },
 
-    async getOrderList({commit}) {
+    async getOrderList({commit}, payload) {
         commit(ORDER_LIST_REQUEST)
         try {
-            const {orders, count} = await OrderService.getOrderList()
+            const page = has.call(payload, 'page') ? payload.page : null
+            const {orders, count} = await OrderService.getOrderList(page)
             commit(ORDER_LIST_SUCCESS, {orders})
             commit(ORDER_COUNT, {count})
         } catch (error) {
@@ -117,10 +120,11 @@ export default {
         }
     },
 
-    async planOrderList({commit}) {
+    async planOrderList({commit}, payload) {
         commit(ORDER_LIST_SHECDULE_REQUEST)
         try {
-            const {orders, count} = await OrderService.getOrderList()
+            const page = has.call(payload, 'page') ? payload.page : null
+            const {orders, count} = await OrderService.getOrderList(page)
             commit(ORDER_LIST_SHECDULE_SUCCESS, {orders})
             commit(ORDER_COUNT, {count})
         } catch (error) {

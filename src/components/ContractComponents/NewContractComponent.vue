@@ -158,6 +158,7 @@
                                 class="backBtn"
                                 color="#fff"
                                 round
+                                @click="cancleHandle"
                             >
                                 Back
                             </v-btn>
