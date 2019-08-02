@@ -12,11 +12,11 @@
       :items="contractListResult"
       :loading="contractListRequest"
       item-key="contractID"
-      :rows-per-page-items=[20]
+      :rows-per-page-items=[2]
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <tr>
+        <tr @dblclick = "detail">
           <td class="text-xs-center content">{{ props.item.contractID }}</td>
           <td class="text-xs-center content">{{ props.item.createdDate }}</td>
           <td class="text-xs-center content ">{{ props.item.closedDate }}</td>
@@ -98,10 +98,41 @@ export default {
                     interest: '4.99',
                     storageID: 123,
                     storageLocation: 'DTH',
+                },
+                {
+                    contractID: 1,
+                    createdDate: '01/01/2019',
+                    closedDate: '01/01/2019',
+                    loanStatus: 'Active',
+                    client: 'David',
+                    asset: 'Iphone 7',
+                    loanBalance: '5.000.000',
+                    interest: '4.99',
+                    storageID: 123,
+                    storageLocation: 'DTH',
+                },
+                {
+                    contractID: 1,
+                    createdDate: '01/01/2019',
+                    closedDate: '01/01/2019',
+                    loanStatus: 'Active',
+                    client: 'David',
+                    asset: 'Iphone 7',
+                    loanBalance: '5.000.000',
+                    interest: '4.99',
+                    storageID: 123,
+                    storageLocation: 'DTH',
                 }
             ],
             contractListRequest: false,
         }
+    },
+    methods : {
+      detail: function (contractID) {
+        if (contractID != null){
+           this.$router.push('/contracts/contract-detail');
+        }
+      }
     }
 }
 </script>
@@ -118,6 +149,7 @@ td.content {
   padding: 0px !important;
 }
 .header {
+  text-transform: uppercase;
   font-weight: bold !important;
   font-size: 16px !important;
 }

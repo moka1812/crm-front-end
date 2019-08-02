@@ -9,6 +9,7 @@ import MyInbox from './components/OrderComponents/MyInboxComponents/MyInbox.vue'
 import ContractComponent from './components/ContractComponents/ContractComponent.vue'
 import Contract from './components/ContractComponents/Contract.vue'
 import NewContract from './components/ContractComponents/NewContractComponent.vue'
+import ContractDetail from './components/ContractComponents/ContractDetail.vue'
 
 import { TokenService } from './services/storage.service'
 
@@ -59,6 +60,15 @@ const newContractPage = {
   }
 }
 
+const defaultContractDetailPage = {
+  path: "contract-detail",
+  name: "contractdetail",
+  component: ContractDetail,
+  meta: {
+    requiresAuth: true
+  }
+}
+
 const contractPage = {
   path: "/contracts",
   component: ContractComponent,
@@ -68,6 +78,7 @@ const contractPage = {
   children: [
     defaultContractPage,
     newContractPage,
+    defaultContractDetailPage,
   ],
 }
 
