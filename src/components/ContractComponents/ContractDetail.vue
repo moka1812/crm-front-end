@@ -1,10 +1,10 @@
 <template>
        <v-layout align-space-around justify-start row fill-height fluid class="content-contract-detail">
-           <v-flex xs3 class="container box-contract-info">
-               <contract-info />
+           <v-flex v-if="flagSchedule === false" xs3 class="container box-contract-info">
+               <contract-info/>
            </v-flex>
-           <v-flex xs9 class="container box-contract-tabs">
-               <contract-tabs />
+           <v-flex class="container box-contract-tabs" v-bind="[flagSchedule? 'xs12' :'xs9']">
+               <contract-tabs/>
            </v-flex>
        </v-layout>
 </template>
@@ -16,7 +16,20 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "contract",
-  components: { ContractInfo, ContractTabs }
+  components: { ContractInfo, ContractTabs },
+  data: () => ({
+  }),
+  computed: {
+    ...mapGetters({
+      flagSchedule: 'contract/contractRepaymentSchedule'
+    })
+  },
+  methods: {
+    handleChange(event) {
+      const {value} = event.target;
+      this.value = value;
+    }
+  }
 };
 </script>
 

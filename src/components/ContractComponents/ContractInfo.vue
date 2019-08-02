@@ -69,11 +69,11 @@ export default {
 
 .contract-detail span{
   margin: 5px;
-  font-size: 13px;
+  font-size: 1vw;
 }
 
 .contract-detail strong{
-  font-size: 20px;
+  font-size: 1.5vw;
 }
 
 .online-status-contract {
@@ -86,11 +86,11 @@ export default {
 }
 
 .customer-info strong {
-  font-size: 14px;
+  font-size: 1.1vw;
 }
 
 .customer-info span {
-  font-size: 13px;
+  font-size: 1vw;
 }
 
 .customer-info a {
@@ -111,7 +111,7 @@ export default {
 /* button bottom*/
 .button-bottom {
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 5vw;
 }
 
 .button-bottom .btn-extend, .button-bottom .btn-repay{

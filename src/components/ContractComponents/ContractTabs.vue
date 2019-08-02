@@ -6,12 +6,11 @@
       :wrapper-class="'default-tabs'"
       :tab-class="'default-tabs__item'"
       :tab-active-class="'default-tabs__item_active'"
-      :line-class="'default-tabs__active-line'"
       @onClick="handleTabsClick"
     />
     <div>
-      <div v-if="currentTab === 'Summary'">Summary Tab</div>
-      <div v-if="currentTab === 'RepaymentsShedule'">Repayments Shedule Tab</div>
+      <div v-if="currentTab === 'Summary'"><contract-summary-tab/></div>
+      <div v-if="currentTab === 'RepaymentsShedule'"><repayment-shedule-tab/></div>
       <div v-if="currentTab === 'Transaction'">Transaction Tab</div>
       <div v-if="currentTab === 'Documents'">Documents Tab</div>
       <div v-if="currentTab === 'CollateralInfo'">CollateralInfo Tab</div>
@@ -22,6 +21,9 @@
 
 <script>
 import Tabs from "vue-tabs-with-active-line";
+import RepaymentsShedule from "./RepaymentShedule.vue"
+import ContractSummary from "./ContractSummary.vue";
+import { mapGetters, mapActions } from 'vuex';
 
 const TABS = [
   {
@@ -53,15 +55,25 @@ const TABS = [
 export default {
   name: "contract-tabs",
   components: {
-    Tabs
+    Tabs,
+    'repayment-shedule-tab': RepaymentsShedule,
+    'contract-summary-tab': ContractSummary,
   },
   data: () => ({
     tabs: TABS,
-    currentTab: "Summary"
+    currentTab: "Summary",
   }),
   methods: {
+    ...mapActions({
+      changeSchedule: 'contract/changeSchedule'
+    }),
     handleTabsClick(newTab) {
       this.currentTab = newTab;
+      if (newTab === 'RepaymentsShedule'){
+        this.changeSchedule({flagSchedule: true});
+      } else {
+        this.changeSchedule({flagSchedule: false});
+      }
     }
   }
 };
@@ -75,17 +87,18 @@ export default {
   text-align: center;
   padding-top: 10px;
   padding-bottom : 5px;
+  height: 100px;
   &__item {
     display: inline-block;
     margin: 0 3px;
-    padding: 0.8rem;
-    max-width: 12rem;
+    padding: 1vw;
+    max-width: 12vw;
     height: 100% !important;
     padding-bottom: 8px;
     text-align: center;
     align-items: center;
     vertical-align: middle;
-    font-size: 1rem;
+    font-size: 1vw;
     letter-spacing: 0.8px;
     color: #4D4F5C;
     text-decoration: none;
@@ -94,6 +107,7 @@ export default {
     transition: all 0.25s;
     &_active {
       color: #DD2028;
+      border-bottom: 2px solid #DD2028;
     }
     &:first-child {
       margin-left: 0;
