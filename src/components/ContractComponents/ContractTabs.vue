@@ -11,19 +11,23 @@
     <div>
       <div v-if="currentTab === 'Summary'"><contract-summary-tab/></div>
       <div v-if="currentTab === 'RepaymentsShedule'"><repayment-shedule-tab/></div>
-      <div v-if="currentTab === 'Transaction'">Transaction Tab</div>
-      <div v-if="currentTab === 'Documents'">Documents Tab</div>
-      <div v-if="currentTab === 'CollateralInfo'">CollateralInfo Tab</div>
-      <div v-if="currentTab === 'Notes'">Notes Tab</div>
+      <div v-if="currentTab === 'Transaction'"><transaction-tab/></div>
+      <div v-if="currentTab === 'Documents'"><contract-document-tab/></div>
+      <div v-if="currentTab === 'CollateralInfo'"><contract-collatea-info-tab/></div>
+      <div v-if="currentTab === 'Notes'"><contract-notes-tab/></div>
     </div>
   </v-card>
 </template>
 
 <script>
+import Transaction from './Transaction.vue'
 import Tabs from "vue-tabs-with-active-line";
 import RepaymentsShedule from "./RepaymentShedule.vue"
 import ContractSummary from "./ContractSummary.vue";
 import { mapGetters, mapActions } from 'vuex';
+import ContractDocument from './ContractDocument.vue';
+import ContractCollateralInfo from './ContractCollateralInfo.vue';
+import ContractNotes from './ContractNotes.vue';
 
 const TABS = [
   {
@@ -57,7 +61,11 @@ export default {
   components: {
     Tabs,
     'repayment-shedule-tab': RepaymentsShedule,
-    'contract-summary-tab': ContractSummary,
+    'contract-summary-tab': ContractSummary, 
+    'transaction-tab': Transaction,
+    'contract-document-tab': ContractDocument,
+    'contract-collatea-info-tab': ContractCollateralInfo,
+    'contract-notes-tab': ContractNotes
   },
   data: () => ({
     tabs: TABS,
@@ -107,6 +115,7 @@ export default {
     transition: all 0.25s;
     &_active {
       color: #DD2028;
+      background-color: #CBCBCB;
       border-bottom: 2px solid #DD2028;
     }
     &:first-child {

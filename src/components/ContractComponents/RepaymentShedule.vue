@@ -20,7 +20,7 @@
       :loading="scheduleListRequest"
       item-key="day"
       :expand="true"
-      :rows-per-page-items=[20]
+      hide-actions
       class="elevation-1"
     >
 
@@ -231,8 +231,8 @@ export default {
 </script>
 
 <style>
-.schudule-repayment {
-  margin-top: 35px;
+.schudule-repayment .v-toolbar{
+  margin: 0px !important;
 }
 table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child), 
 table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), 
@@ -256,7 +256,6 @@ td.content {
 .button-bottom .btn-extend, .button-bottom .btn-repay{
   margin: 5px;
   padding: 1px;
-  border-radius: 20px;
   font-size: 1vw !important;
   color: #ffffff;
   text-transform: capitalize !important;

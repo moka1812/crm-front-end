@@ -34,29 +34,21 @@
 
 <script>
 
-import ActionButton from "@/components/OrderComponents/ActionButton.vue";
-import CallButton from "@/components/OrderComponents/CallButton.vue"
-import CallTable from "@/components/OrderComponents/CallTable.vue"
-import { mapActions } from 'vuex';
-
 export default {
   name: "contract-summary-tab",
   components: {
-    ActionButton,
-    CallButton,
-    CallTable
   },
   data() {
     return {
       headers: [
         {
-          text: "Original", value: "original", align: 'left', sortable: false, class: "header", width: 3
+          text: "Original", value: "original", align: 'center', sortable: false, class: "header"
         },
         {
           text: "Paid", value: "paid", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Waived", value: "waived", align: 'center', sortable: false, class: "header", width: 1
+          text: "Waived", value: "waived", align: 'center', sortable: false, class: "header"
         },
         {
           text: "Written Off", value: "written_off", align: 'center', sortable: false, class: "header"
@@ -163,7 +155,7 @@ export default {
 
 <style>
 .contract-summary {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child), 
 table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), 
@@ -187,7 +179,7 @@ td.content {
 }
 .normal-text span {
   font-weight: normal !important;
-  margin-left: 3vw !important;
+  margin-left: 4vw !important;
 }
 
 </style>
