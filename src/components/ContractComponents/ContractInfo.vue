@@ -117,8 +117,7 @@ export default {
 .button-bottom .btn-extend, .button-bottom .btn-repay{
   margin: 5px;
   padding: 1px;
-  border-radius: 20px;
-  font-size: 12px !important;
+  font-size: 1vw !important;
   color: #ffffff;
   text-transform: capitalize !important;
 }

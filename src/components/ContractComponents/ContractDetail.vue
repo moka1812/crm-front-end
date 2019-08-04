@@ -1,12 +1,19 @@
 <template>
-       <v-layout align-space-around justify-start row fill-height fluid class="content-contract-detail">
-           <v-flex v-if="flagSchedule === false" xs3 class="container box-contract-info">
-               <contract-info/>
-           </v-flex>
-           <v-flex class="container box-contract-tabs" v-bind="[flagSchedule? 'xs12' :'xs9']">
-               <contract-tabs/>
-           </v-flex>
+      <v-layout align-space-around justify-start column>
+        <v-layout align-center justify-end row>
+          <v-btn round class="btn-back" :to="{ name: 'contract' }">
+            <i class="material-icons">close</i>
+          </v-btn>
+      </v-layout>
+      <v-layout align-space-around justify-start row fill-height fluid class="content-contract-detail">
+          <v-flex v-if="flagSchedule === false" xs3 class="container box-contract-info">
+              <contract-info/>
+          </v-flex>
+          <v-flex class="container box-contract-tabs" v-bind="[flagSchedule? 'xs12' :'xs9']">
+              <contract-tabs/>
+          </v-flex>
        </v-layout>
+      </v-layout>
 </template>
 
 <script>
@@ -55,5 +62,15 @@ export default {
 
 .box-contract-tabs {
   min-width: 700px !important;
+}
+
+.btn-back {
+  background-color: #DD1E26 !important;
+  min-width: 2.5vw !important;
+  padding: 1px;
+  margin: 0px 0px  5px 0px;
+  font-size: 1vw !important;
+  color: #ffffff !important;
+  border-radius: 5% !important;
 }
 </style>
