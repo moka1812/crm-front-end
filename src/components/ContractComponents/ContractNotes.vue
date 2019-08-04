@@ -2,7 +2,7 @@
 <div>
     <div class="contract-notes">
         <v-layout align-start justify-start column>
-            <span v-for="item in notesListResult" :key="item.create_data">
+            <span v-for="item in notesListResult" :key="item.note_id">
                 {{item.create_data}} &nbsp;-&nbsp; {{item.note}}
             </span>
         </v-layout>
@@ -10,15 +10,16 @@
     <v-flex xs12 sm12 md12>
         <v-text-field
             v-on:keyup="addNote"
+            v-model="text_note"
             label="Enter notes here..."
-            outlined
+            outline
             class='toggle'></v-text-field>
     </v-flex>
 </div>
 </template>
 
 <script>
-
+import moment from 'moment'
 export default {
   name: "contract-notes-tab",
   components: {
@@ -27,19 +28,23 @@ export default {
     return {
       notesListResult: [
                 {
-                    create_data: '2019:03:04',
-                    note:'Laptop abc xyz'
+                  note_id: 1,
+                  create_data: '2019:03:04',
+                  note:'Laptop abc xyz'
                 },
                 {
-                    create_data: '2019:03:04',
-                    note:'Laptop abc xyz'
+                  note_id: 2,
+                  create_data: '2019:03:04',
+                  note:'Laptop abc xyz'
                 },
                 {
-                    create_data: '2019:03:04',
-                    note:'Laptop abc xyz'
+                  note_id: 3,
+                  create_data: '2019:03:04',
+                  note:'Laptop abc xyz'
                 }
       ],
       notesListRequest: false,
+      text_note: "",
     }
   },
   mounted() {
@@ -47,13 +52,21 @@ export default {
   methods: {
     addNote: function(e) {
         if (e.keyCode === 13) {
-            notesListResult.push(
-                {
-                    create_data: '2019:03:04',
-                    note:'Laptop abc xyz'
-                }
-            );
+          const note_id = this.notesListResult.length + 1;
+          this.notesListResult.push(
+            {
+              note_id: note_id,
+              create_data: this.formatDate(new Date()),
+              note: this.text_note
+            }
+          );
+          this.text_note="";
         }
+    },
+    formatDate: function(value) {
+      if (value) {
+        return moment(String(value)).format('YYYY:MM:DD hh:mm');
+      }
     }
   },
 }
