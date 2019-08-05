@@ -26,11 +26,11 @@
     </v-layout>
     <div class="class-border"></div>
     <v-layout align-center justify-center row class="button-bottom">
-      <v-btn round class="btn-extend" :to="{ name: 'new_contract' }">
+      <v-btn round class="btn-extend" :to="{ name: 'extension-contract' }">
         <i class="material-icons">hourglass_full</i>
         Extend
       </v-btn>
-      <v-btn round class="btn-repay" :to="{ name: 'new_contract' }">
+      <v-btn round class="btn-repay" :to="{ name: 'contract-repayment' }">
         <i class="material-icons">check_circle</i>
         Repay
       </v-btn>

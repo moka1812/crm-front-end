@@ -10,6 +10,8 @@ import ContractComponent from './components/ContractComponents/ContractComponent
 import Contract from './components/ContractComponents/Contract.vue'
 import NewContract from './components/ContractComponents/NewContractComponent.vue'
 import ContractDetail from './components/ContractComponents/ContractDetail.vue'
+import ContractExtension from './components/ContractComponents/ContractExtension.vue'
+import ContractRepayment from './components/ContractComponents/ContractRepayment.vue'
 
 import { TokenService } from './services/storage.service'
 
@@ -69,6 +71,24 @@ const defaultContractDetailPage = {
   }
 }
 
+const extensionContractPage = {
+  path: "extension-contract",
+  name: "extension-contract",
+  component: ContractExtension,
+  meta: {
+    requiresAuth: true
+  }
+}
+
+const contractRepaymentPage = {
+  path: "contract-repayment",
+  name: "contract-repayment",
+  component: ContractRepayment,
+  meta: {
+    requiresAuth: true
+  }
+}
+
 const contractPage = {
   path: "/contracts",
   component: ContractComponent,
@@ -79,6 +99,8 @@ const contractPage = {
     defaultContractPage,
     newContractPage,
     defaultContractDetailPage,
+    extensionContractPage,
+    contractRepaymentPage,
   ],
 }
 
