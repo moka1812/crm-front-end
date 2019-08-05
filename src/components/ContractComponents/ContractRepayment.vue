@@ -6,7 +6,7 @@
         <h3>Overview</h3>
       </v-flex>
       <v-spacer />
-      <v-flex md3>
+      <v-flex md4>
         <v-stepper alt-labels v-model="step" class="elevation-0 background">
           <v-stepper-header>
             <template v-for="index in 2" class="step">
@@ -19,38 +19,31 @@
     </v-layout>
     <v-window v-model="step">
       <v-window-item :value="1">
-        <v-form v-model="valid2" class="form-customer">
-          <v-flex md12 class="title-customer">
-            <h2 style="font-weight: bold">Asset Info</h2>
-          </v-flex>
+        <v-form v-model="valid" class="form-customer">
           <v-container>
             <v-layout>
               <v-flex class="header-form header-form-lef">
                 <v-subheader class="input-header">
-                  Mô tả tài sản
+                  Contract ID
                   <span class="required">*</span>
                 </v-subheader>
               </v-flex>
-              <v-flex sm3>
-                <v-textarea
-                  v-model.lazy="assetInput"
+              <v-flex sm4>
+                <v-text-field
+                  v-model="contracIdInput"
                   rows="1"
                   auto-grow
                   :rules="[v => !!v || 'Yều cầu cần có']"
-                  outlined
-                ></v-textarea>
+                ></v-text-field>
               </v-flex>
               <v-spacer class="space" />
               <v-flex class="header-form">
-                <v-subheader class="input-header">Giá mong muốn</v-subheader>
+                <v-subheader class="input-header">Fee</v-subheader>
               </v-flex>
-              <v-flex sm3>
+              <v-flex sm4>
                 <v-text-field
-                  v-model="expectedAmountInput"
-                  :rules="[
-                                        v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                    ]"
-                  label="Giá mong muốn"
+                  v-model="feeInput"
+                  placeholder="Fee"
                   :hint="this.expectedAmountHint"
                 ></v-text-field>
               </v-flex>
@@ -58,64 +51,81 @@
             <v-layout>
               <v-flex class="header-form header-form-lef">
                 <v-subheader class="input-header">
-                  Loại tài sản
+                  Transaction Date
                   <span class="required">*</span>
                 </v-subheader>
               </v-flex>
-              <v-flex sm3>
-                <v-select
-                  v-model="assetTypeInput"
-                  :items="assetTypeItems"
-                  :rules="[v => !!v || 'Yều cầu cần có']"
-                  outline
-                ></v-select>
+              <v-flex sm4>
+                <date-picker v-model="transactionDateInput" placeholder="dd/mm/yyyy"/>
               </v-flex>
               <v-spacer class="space" />
               <v-flex class="header-form">
-                <v-subheader class="input-header">Giá thẩm định 1</v-subheader>
+                <v-subheader class="input-header">Penalty</v-subheader>
               </v-flex>
-              <v-flex sm3>
+              <v-flex sm4>
                 <v-text-field
-                  v-model="validatorAmount1Input"
-                  :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                  placeholder="Giá thẩm định 1"
-                  :hint="this.validatorAmount1Hint"
+                  v-model="penaltyInput"
+                  placeholder="Penalty"
+                  :hint="this.penaltyHint"
                 ></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout>
               <v-flex class="header-form header-form-lef">
                 <v-subheader class="input-header">
-                  Giá thẩm định 2
-                  <span class="required">*</span>
+                  Principal
                 </v-subheader>
               </v-flex>
-              <v-flex sm3>
+              <v-flex sm4>
                 <v-text-field
-                  v-model="validatorAmount2Input"
-                  :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                  placeholder="Giá thẩm định 2"
-                  :hint="this.validatorAmount2Hint"
+                  v-model="principalInput"
+                  placeholder="Principal"
+                  :hint="this.principalHint"
                 ></v-text-field>
               </v-flex>
               <v-spacer class="space" />
               <v-flex class="header-form">
-                <v-subheader class="input-header">Giá cầm</v-subheader>
+                <v-subheader class="input-header">Total Payment</v-subheader>
               </v-flex>
-              <v-flex sm3>
+              <v-flex sm4>
                 <v-text-field
-                  v-model="pawnAmountInput"
-                  :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                  placeholder="Giá cầm"
-                  :hint="this.pawnAmountHint"
+                  v-model="totalPaymentInput"
+                  placeholder="Total Payment"
+                  :hint="this.totalPaymentHint"
                 ></v-text-field>
               </v-flex>
+            </v-layout>
+            <v-layout>
+              <v-flex class="header-form header-form-lef">
+                <v-subheader class="input-header">
+                  Interest
+                </v-subheader>
+              </v-flex>
+              <v-flex sm4>
+                <v-text-field
+                  v-model="interestInput"
+                  placeholder="Interest"
+                  :hint="this.interestlHint"
+                ></v-text-field>
+              </v-flex>
+              <v-spacer class="space" />
+              <v-flex class="header-form">
+                <v-subheader class="input-header">Payment Type</v-subheader>
+              </v-flex>
+              <v-flex sm4>
+                <v-radio-group v-model="paymentTypeInput" row>
+                    <v-radio color="#dd1e26" label="Tiền mặt" aria-checked="true" value="Tiền mặt"></v-radio>
+                    <v-radio color="#dd1e26" label="Chuyển khoản" value="Chuyển khoản"></v-radio>
+                </v-radio-group>
+              </v-flex>
+            </v-layout>
+            <v-layout align-end justify-end class="button-bottom">
+              <v-btn round class="btn-back" :to="{ name: 'back-contract' }">
+                Back
+              </v-btn>
+              <v-btn round class="btn-next" :to="{ name: 'next-repayment' }">
+                Next
+              </v-btn>
             </v-layout>
           </v-container>
         </v-form>
@@ -124,11 +134,22 @@
   </v-container>
 </template>
 <script>
-  export default {
+import DatePicker from "@/components/ContractComponents/DatePicker.vue"
+export default {
   name: "contract-repayment",
-  components: {},
+  components: {
+    DatePicker,
+  },
   data: () => ({
     step: 1,
+    valid: true,
+    contracIdInput: '',
+    feeInput: '',
+    transactionDateInput: '',
+    assetTypeItems: [],
+    penaltyInput: '',
+    principalInput: '',
+    paymentTypeInput: 'Tiền mặt',
   }),
   methods: {
   }
@@ -166,15 +187,6 @@
     border-style: solid;
     border-width: 1px;
 }
-.backBtn {
-  color: #dd1e26 !important;
-}
-.nextBtn {
-  color: #ffff !important;
-}
-.cancelBtn {
-  color: #fff !important;
-}
 .input-header {
     font-size: 1vw;
     color: black;
@@ -187,12 +199,29 @@
    margin-left: 5%;
 }
 .space {
-    max-width: 25%;
+    max-width: 15%;
 }
 .required {
   color: #dd1e26;
 }
-.v-input-border .v-input__control .v-input__slot{
-  border: 1px solid red !important;
+.btn-back, .btn-next{
+  margin: 5px;
+  padding: 1px;
+  font-size: 1vw !important;
+  text-transform: capitalize !important;
+}
+.btn-back {
+  background-color: #FFFFFF !important;
+  color: #DD1E26;
+}
+.btn-back:focus {
+  background-color: #EAE5E5 !important;
+}
+.btn-next {
+  background-color: #DD1E26 !important;
+  color: #FFFFFF;
+}
+.btn-next:hover {
+  background-color: #E84D4D !important;
 }
 </style>
