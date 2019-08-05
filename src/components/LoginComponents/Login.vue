@@ -2,7 +2,7 @@
 <template>
     <v-container fluid fill-height class="pa-0">
         <v-layout>
-            <v-flex md2 :style="{'background-color': 'rgb(239, 30, 38)'}">
+            <v-flex md2 :style="{'background-color': '#de1e25'}">
               <v-layout align-center justify-center column fill-height>
                 <img src="../../assets/rabbit.png" alt="icon">
               </v-layout>

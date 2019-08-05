@@ -13,6 +13,7 @@
       item-key="orderID"
       :expand="true"
       :rows-per-page-items=[20]
+      :pagination.sync="pagination"
       class="elevation-1"
     >
       <template v-slot:items="props">
@@ -60,6 +61,15 @@
 
       <template v-slot:no-data>
         <!-- Nothing -->
+      </template>
+
+      <template v-slot:actions-prepend>
+        <v-select
+          class="page-select"
+          v-model="pagination.page"
+          :items="pageSelection"
+          label="Page"
+        ></v-select>
       </template>
 
       <template v-slot:expand="props">
@@ -122,7 +132,8 @@ export default {
         },
       ],
       steps: steps,
-      schedule: ''
+      schedule: '',
+      pagination: {},
     }
   },
   mounted() {
@@ -131,13 +142,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-       orderListRequest: 'order/orderListRequest',
-       orderListResult: 'order/orderListResult',
-       orderListErrorCode: 'order/orderListErrorCode',
-       orderListError: 'order/orderListError',
-       orderUpdatingErrorCode: 'order/orderUpdatingErrorCode',
-       orderFindingErrorCode: 'order/orderFindingErrorCode',
-     }),
+      orderListRequest: 'order/orderListRequest',
+      orderListResult: 'order/orderListResult',
+      orderListErrorCode: 'order/orderListErrorCode',
+      orderListError: 'order/orderListError',
+      orderUpdatingErrorCode: 'order/orderUpdatingErrorCode',
+      orderFindingErrorCode: 'order/orderFindingErrorCode',
+    }),
+    pageSelection() {
+      if (this.orderListResult.length === null) return null
+      return ([...Array(Math.ceil(this.orderListResult.length/20)).keys()].map(x => ++x))
+    },
   },
   methods: {
     ...mapActions({
@@ -191,9 +206,11 @@ export default {
   padding-top: 0px;
   padding-bottom: 0px;
 }
-
 .expand {
   margin: 5px 0px;
   cursor: pointer;
+}
+.page-select {
+  width: 70px;
 }
 </style>

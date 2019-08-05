@@ -65,8 +65,17 @@
         <!-- Nothing -->
       </template>
 
+      <template v-slot:actions-prepend>
+        <v-select
+          class="page-select"
+          v-model="pagination.page"
+          :items="pageSelection"
+          label="Page"
+        ></v-select>
+      </template>
+
       <template v-slot:expand="props">
-          <call-table :expand="props.expanded" :orderID="props.item.orderID" />
+        <call-table :expand="props.expanded" :orderID="props.item.orderID" />
       </template>
 
     </v-data-table>
@@ -148,6 +157,10 @@ export default {
               this.orderCountResult['appointment'] 
       } return 0
     },
+    pageSelection() {
+      if (this.total === null) return null
+      return ([...Array(Math.ceil(this.total/20)).keys()].map(x => ++x))
+    },
   },
   methods: {
     ...mapActions({
@@ -218,6 +231,9 @@ export default {
 .expand {
   margin: 5px 0px;
   cursor: pointer;
+}
+.page-select {
+  width: 70px;
 }
 </style>
 <style>
