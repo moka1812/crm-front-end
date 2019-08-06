@@ -12,10 +12,20 @@ import ContractManagement from "@/components/ContractComponents/ContractManageme
 import ContractTable from "@/components/ContractComponents/ContractTable.vue"
 
 export default {
-    name: "contract",
-    components: {
-        ContractManagement,
-        ContractTable,
-    },
+  name: "contract",
+  components: {
+    ContractManagement,
+    ContractTable,
+  },
+  beforeRouteLeave (to, from, next) {
+    //Empty Client Searching Result, If Route Order Then Error
+    this.resetClient()
+    next()
+  },
+  methods: {
+    ...mapActions({
+      resetClient: 'order/resetClient',
+    }),
+  }
 }
 </script>

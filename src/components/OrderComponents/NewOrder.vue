@@ -149,7 +149,7 @@
           color="#fff"
           round
         >
-        Cancel
+          Cancel
         </v-btn>
         <v-btn
           class="TemporarySavingBtn"
@@ -158,7 +158,16 @@
           color="#43425d"
           round
         >
-        Tạm lưu
+          Tạm lưu
+        </v-btn>
+        <v-btn
+          class="TemporarySavingBtn"
+          @click="this.newContractHandle"
+          :disabled="!valid || orderCreating"
+          color="#43425d"
+          round
+        >
+          New Contract
         </v-btn>
         <v-btn
           class="OkBtn"
@@ -168,7 +177,7 @@
           color="#dd1e26"
           round
         >
-        OK
+          OK
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -204,6 +213,13 @@ export default {
       searchTime: null,
     }
   },
+  mounted() {
+    this.getSAssetList()
+  },
+  beforeDestroy() {
+    //Empty Client Searching Result
+    this.resetClient()
+  },
   computed: {
     ...mapGetters({
       orderCreating: 'order/orderCreating',
@@ -217,15 +233,15 @@ export default {
       SAssetListResult: 'asset/SAssetListResult',
     }),
     disabled() {
-        //If Error Code == 200 then disable is false
-        if (this.clientSearchErrorCode == 200){
-            //PhoneInput rule is failing
-            if (this.$refs['phone'].hasError) {
-                return true
-            } 
-            return false
-        }
-        return true
+      //If Error Code == 200 then disable is false
+      if (this.clientSearchErrorCode == 200){
+          //PhoneInput rule is failing
+          if (this.$refs['phone'].hasError) {
+              return true
+          } 
+          return false
+      }
+      return true
     },
     expectedAmountHint() {
       return changeDigitToText(this.expectedAmountInput)
@@ -282,8 +298,9 @@ export default {
     ...mapActions({
         createOrder: 'order/createOrder',
         getOrderList: 'order/getOrderList',
+        getSAssetList: 'asset/getSAssetList',
         clientSearch: 'order/searchClient',
-        clientReset: 'order/clientReset',
+        resetClient: 'order/resetClient',
         saveOrderTemporarily: 'order/saveOrderTemporarily',
         removeTemporaryOrder: 'order/removeTemporaryOrder',
     }),
@@ -311,7 +328,7 @@ export default {
           }
       }
     },
-    temporarySavingHandle: function() {
+    temporarySavingHandle() {
       const orderDetail = {
         phone: this.phoneInput,
         firstName: this.firstNameInput,
@@ -323,6 +340,21 @@ export default {
         source: this.sourceInput,
       }
       this.saveOrderTemporarily({orderDetail})
+      this.dialog = false
+    },
+    newContractHandle() {
+      const orderDetail = {
+        phone: this.phoneInput,
+        firstName: this.firstNameInput,
+        lastName: this.lastNameInput,
+        expectedAmount: this.expectedAmountInput,
+        validatorAmount: this.validatorAmountInput,
+        assetType: this.assetTypeInput,
+        asset: this.assetInput,
+        source: this.sourceInput,
+      }
+      this.$router.push({name: 'new_contract', params: {orderDetail}})
+      //this.okHandle()
       this.dialog = false
     },
     //Create new order
@@ -362,16 +394,15 @@ export default {
             text: this.orderCreatingError
           });
         }
-
       })
     },
 
-    cancleHandle: function() {
+    cancleHandle() {
       this.reset()
       this.dialog = false
     },
 
-    search: function() {
+    search() {
         if (this.timer !== null) {
             clearTimeout(this.searchTime);
             this.searchTime = null;

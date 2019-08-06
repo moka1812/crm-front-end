@@ -17,14 +17,10 @@ export default {
         OrderManagement,
         MyInboxTable,
     },
-    mounted() {
-        this.getSAssetList()
-    },
     methods: {
         ...mapActions({
-            getSAssetList: 'asset/getSAssetList',
             resetClient: 'order/resetClient',
-            resetOrderList: 'order/resetOrderList'
+            resetOrderList: 'order/resetOrderList',
         })
     },
     beforeRouteLeave (to, from, next) {
