@@ -11,6 +11,7 @@
       :headers="headers"
       :items="contractListResult"
       :loading="contractListRequest"
+      :pagination.sync="pagination"
       item-key="contractID"
       :rows-per-page-items=[2]
       class="elevation-1"
@@ -42,6 +43,7 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex'
 import ActionButton from "@/components/ContractComponents/ActionButton.vue"
 
 export default {
@@ -86,53 +88,72 @@ export default {
                     text: "Thao tác", value: "action", align: 'center', sortable: false, class: "header"
                 },
             ],
-            contractListResult: [
-                {
-                    contractID: 1,
-                    createdDate: '01/01/2019',
-                    closedDate: '01/01/2019',
-                    loanStatus: 'Active',
-                    client: 'David',
-                    asset: 'Iphone 7',
-                    loanBalance: '5.000.000',
-                    interest: '4.99',
-                    storageID: 123,
-                    storageLocation: 'DTH',
-                },
-                {
-                    contractID: 1,
-                    createdDate: '01/01/2019',
-                    closedDate: '01/01/2019',
-                    loanStatus: 'Active',
-                    client: 'David',
-                    asset: 'Iphone 7',
-                    loanBalance: '5.000.000',
-                    interest: '4.99',
-                    storageID: 123,
-                    storageLocation: 'DTH',
-                },
-                {
-                    contractID: 1,
-                    createdDate: '01/01/2019',
-                    closedDate: '01/01/2019',
-                    loanStatus: 'Active',
-                    client: 'David',
-                    asset: 'Iphone 7',
-                    loanBalance: '5.000.000',
-                    interest: '4.99',
-                    storageID: 123,
-                    storageLocation: 'DTH',
-                }
-            ],
-            contractListRequest: false,
-        }
+            // contractListResult: [
+            //     {
+            //         contractID: 1,
+            //         createdDate: '01/01/2019',
+            //         closedDate: '01/01/2019',
+            //         loanStatus: 'Active',
+            //         client: 'David',
+            //         asset: 'Iphone 7',
+            //         loanBalance: '5.000.000',
+            //         interest: '4.99',
+            //         storageID: 123,
+            //         storageLocation: 'DTH',
+            //     },
+            //     {
+            //         contractID: 1,
+            //         createdDate: '01/01/2019',
+            //         closedDate: '01/01/2019',
+            //         loanStatus: 'Active',
+            //         client: 'David',
+            //         asset: 'Iphone 7',
+            //         loanBalance: '5.000.000',
+            //         interest: '4.99',
+            //         storageID: 123,
+            //         storageLocation: 'DTH',
+            //     },
+            //     {
+            //         contractID: 1,
+            //         createdDate: '01/01/2019',
+            //         closedDate: '01/01/2019',
+            //         loanStatus: 'Active',
+            //         client: 'David',
+            //         asset: 'Iphone 7',
+            //         loanBalance: '5.000.000',
+            //         interest: '4.99',
+            //         storageID: 123,
+            //         storageLocation: 'DTH',
+            //     }
+            // ],
+            // contractListRequest: false,
+            pagination: {},
+        } 
+    },
+    computed: {
+      ...mapGetters({
+      contractListResult: 'contract/contractListResult',
+      contractListRequest: 'contract/contractListRequest',
+      }),
     },
     methods : {
+      ...mapActions({
+        getContractList: 'contract/getContractList'
+      }),
       detail: function (contractID) {
         if (contractID != null){
            this.$router.push('/contracts/contract-detail');
         }
       }
+    },
+    watch: {
+      pagination: {
+      handler () {
+        const page = this.pagination.page
+        this.getContractList({page})
+      },
+      deep: true
+    }
     }
 }
 </script>
