@@ -2,7 +2,10 @@
     <v-container fluid class="pa-0 ma-2">
         <v-layout row>
             <v-flex md5 class="title">
-                <h2>New Contract - Customer Info</h2>
+                <h2 v-show="step==1">New Contract - Customer Info</h2>
+                <h2 v-show="step==2">New Contract - Asset Info</h2>
+                <h2 v-show="step==3">New Contract - Contract Info</h2>
+                <h2 v-show="step==4">New Contract - Confirmation</h2>
             </v-flex>
             <v-flex md7>
                 <v-stepper v-model="step" class="elevation-0 background">
@@ -513,6 +516,7 @@
                                     <v-flex sm6>
                                         <v-text-field
                                             v-model="accountNumberInput"
+                                            :style="{'margin-left': '5px'}"
                                             :rules="[
                                                     v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
                                                 ]"
@@ -556,6 +560,7 @@
             </v-window-item>
             <v-window-item :value="4">
                 <v-form v-model="valid1" class="form">
+                    <center><p class="title-form">Customer Info</p></center>
                     <v-container :style="{'padding-top': '0px'}">
                         <v-layout>
                             <v-flex sm5>
@@ -689,6 +694,7 @@
                 </v-form>
                 <br/>
                 <v-form v-model="valid2" class="form">
+                    <center><p class="title-form">Asset Info</p></center>
                     <v-container>
                         <v-layout>
                             <v-flex sm5>
@@ -725,6 +731,11 @@
                                     required
                                 >
                                 </v-select>
+                            </v-flex>
+                            <v-flex sm1 :style="{'padding-left': '0px'}">
+                                <v-btn flat icon color="#000000" :style="{'margin-left': '0px', 'margin-bottom': '0px'}">
+                                    <v-icon>description</v-icon>
+                                </v-btn>
                             </v-flex>
                             <v-spacer/>
                             <v-flex sm5>
@@ -780,6 +791,7 @@
                 </v-form>
                 <br/>
                 <v-form v-model="valid3" class="form">
+                    <center><p class="title-form">Contract Info</p></center>
                     <v-container>
                         <v-layout>
                             <v-flex sm4>
@@ -1016,6 +1028,7 @@
                                     <v-flex sm6>
                                         <v-text-field
                                             v-model="accountNumberInput"
+                                            :style="{'margin-left': '5px'}"
                                             :rules="[
                                                     v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
                                                 ]"
@@ -1206,13 +1219,18 @@ export default {
 }
 .title {
     padding-top: 20px;
-    padding-left: 16px;
 }
 .padding {
     padding-left: 95px;
     padding-right: 95px;
     background-color: #ffffff;
     border-style: solid;
+}
+.title-form {
+    font-size: 28px;
+    color: #43425D;
+    text-decoration: underline;
+    font-weight: bold;
 }
 .form {
     background-color: #ffffff;
