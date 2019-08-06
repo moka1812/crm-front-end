@@ -178,7 +178,7 @@
                 </v-form>
             </v-window-item>
             <v-window-item :value="2" class="padding">
-                <v-form v-model="valid2">
+                <v-form v-model="valid2" v-show="!isAuthorizedForm">
                     <v-container>
                         <v-layout>
                             <v-flex sm5>
@@ -262,6 +262,161 @@
                                 class="backBtn"
                                 color="#fff"
                                 @click="step--"
+                                round
+                            >
+                                Back
+                            </v-btn>
+                            <v-btn
+                                class="nextBtn"
+                                color="#dd1e26"
+                                @click="AssetNextHandle"
+                                round
+                            >
+                                Next
+                            </v-btn>
+                        </v-layout>
+                    </v-container>
+                </v-form>
+                <v-form v-model="authorizedValid" v-show="isAuthorizedForm">
+                    <v-container>
+                        <template v-if="authorizedType==='Bike/Car'">
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="labelInput"
+                                        label="Nhãn hiệu"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="vehicleStreamInput"
+                                        label="Dòng xe"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="chassisNumberInput"
+                                        label="Số khung"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="colorInput"
+                                        label="Màu sơn"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="vehicleIDInput"
+                                        label="Số máy"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="licensePlateInput"
+                                        label="Biển số đăng ký"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                        </template>
+                        <template v-else-if="authorizedType==='Realestate'">
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="customer1Input"
+                                        label="Khách hàng 1"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="nationalID1Input"
+                                        label="CMND/HC 1"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="customer2Input"
+                                        label="Khách hàng 2"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="nationalID2Input"
+                                        label="CMND/HC 2"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="landUseRightsCertificateIDInput"
+                                        label="Số sổ"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="parcelIDInput"
+                                        label="Thửa đất số"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="mapNoInput"
+                                        label="Tờ bản đồ số"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="acreageInput"
+                                        label="Diện tích"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-textarea
+                                v-model.lazy="landAddressInput"
+                                label="Địa chỉ"
+                                rows="1"
+                                auto-grow
+                            >
+                            </v-textarea>
+                        </template>
+                        <v-layout
+                            align-center
+                            justify-end
+                        >
+                            <v-btn 
+                                class="backBtn"
+                                color="#fff"
+                                @click="isAuthorizedForm=false"
                                 round
                             >
                                 Back
@@ -1085,6 +1240,7 @@ import DatePicker from "@/components/ContractComponents/DatePicker.vue"
 import changeDigitToText from '../../mixins/money'
 import sourceItems from '../../mixins/source_items'
 import contractItems from './utils/contract_items'
+const has = Object.prototype.hasOwnProperty
 
 export default {
   name: "new-contract",
@@ -1098,6 +1254,7 @@ export default {
       valid1: true,
       valid2: true,
       valid3: true,
+      authorizedValid: true,
       nameInput: '',
       emailInput: '',
       phone1Input: '',
@@ -1119,6 +1276,23 @@ export default {
       validatorAmount1Input: '',
       validatorAmount2Input: '',
       pawnAmountInput: '',
+      authorizedType: 'normal',
+      isAuthorizedForm: false,
+      labelInput: '',
+      vehicleStreamInput: '',
+      chassisNumberInput: '',
+      colorInput: '',
+      vehicleIDInput: '',
+      licensePlateInput: '',
+      customer1Input: '',
+      nationalID1Input: '',
+      customer2Input: '',
+      nationalID2Input: '',
+      landUseRightsCertificateIDInput: '',
+      parcelIDInput: '',
+      mapNoInput: '',
+      acreageInput: '',
+      landAddressInput: '',
       contractIDInput: '',
       receivedAmountInput: '',
       packageInput: '',
@@ -1145,8 +1319,25 @@ export default {
       bankBranchInput: '',
     }
   },
+  beforeCreate() {
+    if (!has.call(this.$route.params, 'orderDetail')) {
+      this.$router.push({name: 'homepage'})
+    }
+  },
   mounted() {
     this.getSAssetList()
+    try {
+      this.phone1Input = this.$route.params.orderDetail.phone
+      this.nameInput = this.$route.params.orderDetail.name
+      this.expectedAmountInput = this.$route.params.orderDetail.expectedAmount
+      this.validatorAmount1Input = this.$route.params.orderDetail.validatorAmount
+      this.assetTypeInput = this.$route.params.orderDetail.assetType
+      this.assetInput = this.$route.params.orderDetail.asset
+      this.sourceInput = this.$route.params.orderDetail.source
+      this.noteInput = this.$route.params.orderDetail.note
+    } catch (error) {
+        
+    }
   },
   computed: {
     ...mapGetters({
@@ -1204,9 +1395,30 @@ export default {
     ...mapActions({
         getSAssetList: 'asset/getSAssetList',
     }),
+    //Find asset from asset description
+    findAssetNameType(assetType) {
+      for (let item of this.SAssetListResult) {
+        if (item.description === assetType) {
+          return item.name
+        }
+      }
+    },
+    AssetNextHandle() {
+        const name = this.findAssetNameType(this.assetTypeInput)
+        if (name === 'Realestate') {
+            this.authorizedType = name
+        } else if (name === 'Bike' || name === 'Car' || name === 'Truck') {
+            this.authorizedType = 'Bike/Car'
+        }
+        if (this.authorizedType === 'normal') {
+            this.step++
+        } else {
+            this.isAuthorizedForm = true
+        }
+    },
     cancleHandle() {
         this.$router.back();
-    }
+    },
   }
 }
 </script>

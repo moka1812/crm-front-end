@@ -158,8 +158,8 @@ export default {
       } return 0
     },
     pageSelection() {
-      if (this.total === null) return null
-      return ([...Array(Math.ceil(this.total/20)).keys()].map(x => ++x))
+      if (Number.isInteger(this.total)) return ([...Array(Math.ceil(this.total/20)).keys()].map(x => ++x))
+      return null
     },
   },
   methods: {

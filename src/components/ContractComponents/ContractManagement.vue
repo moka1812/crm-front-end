@@ -37,13 +37,7 @@
               <i class="fas fa-exclamation-triangle" style="margin-right:5px"></i>
               Reminder
             </v-btn>
-
-            <v-btn round class="new-contract" :to="{ name: 'new_contract' }">
-              <div class="back-white plus">
-                <i class="fas fa-plus"></i>
-              </div>
-              New contract
-            </v-btn>
+            <new-order/>
           </v-layout> 
         </v-flex>
       </v-layout>
@@ -52,11 +46,14 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-
+import NewOrder from "@/components/OrderComponents/NewOrder.vue"
 import status from './utils/status'
 
 export default {
   name: "contract-management",
+  components: {
+    NewOrder,
+  },
   data() {
     return {
       status: status,
@@ -149,39 +146,5 @@ export default {
   color: #ffffff !important;
   margin-right: 4px;
   margin-left: 4px;
-}
-
-.new-contract {
-  background-color: #dd1e26 !important;
-  color: #fff !important;
-  margin-right: 4px;
-  margin-left: 4px;
-}
-
-.back-white {
-  background-color: #fff;
-  height: 45px;
-  width: 45px;
-  border-radius: 50%;
-}
-
-.back-white i {
-  color: #dd1e26; 
-  font-size: 25px;
-  padding: 10px;
-}
-
-.plus {
-  background-color: #fff;
-  height: 25px;
-  width: 25px;
-  border-radius: 50%;
-  margin-right: 5px;
-}
-
-.plus i {
-  color: #dd1e26;
-  font-size: 10px;
-  padding: 8px 7px 8px 8px;
 }
 </style>
