@@ -216,10 +216,6 @@ export default {
   mounted() {
     this.getSAssetList()
   },
-  beforeDestroy() {
-    //Empty Client Searching Result
-    this.resetClient()
-  },
   computed: {
     ...mapGetters({
       orderCreating: 'order/orderCreating',
@@ -235,11 +231,11 @@ export default {
     disabled() {
       //If Error Code == 200 then disable is false
       if (this.clientSearchErrorCode == 200){
-          //PhoneInput rule is failing
-          if (this.$refs['phone'].hasError) {
-              return true
-          } 
-          return false
+        //PhoneInput rule is failing
+        if (this.$refs['phone'].hasError) {
+            return true
+        } 
+        return false
       }
       return true
     },
@@ -253,19 +249,19 @@ export default {
   watch: {
     //When clientResult changes
     clientResult() {
-        if (this.clientResult !== null) {
-            this.firstNameInput = this.clientResult.first_name
-            this.lastNameInput = this.clientResult.last_name
-        } else {
-            this.firstNameInput = ''
-            this.lastNameInput = ''
-        }
+      if (this.clientResult !== null) {
+        this.firstNameInput = this.clientResult.first_name
+        this.lastNameInput = this.clientResult.last_name
+      } else {
+        this.firstNameInput = ''
+        this.lastNameInput = ''
+      }
     },
     //When finish call API get SAsset, Update assetTypeItems
     SAssetListResult() {
       const asset = []
       for (let item of this.SAssetListResult) {
-          asset.push(item.description)
+        asset.push(item.description)
       }
       this.assetTypeItems = asset
     },
@@ -290,19 +286,20 @@ export default {
         this.assetTypeInput = this.temporaryOrderDetail.assetType
         this.assetInput = this.temporaryOrderDetail.asset
         this.sourceInput = this.temporaryOrderDetail.source
+        this.noteInput = this.temporaryOrderDetail.note
         this.clientSearch({phone: this.phoneInput})
       }
     },
   },
   methods: {
     ...mapActions({
-        createOrder: 'order/createOrder',
-        getOrderList: 'order/getOrderList',
-        getSAssetList: 'asset/getSAssetList',
-        clientSearch: 'order/searchClient',
-        resetClient: 'order/resetClient',
-        saveOrderTemporarily: 'order/saveOrderTemporarily',
-        removeTemporaryOrder: 'order/removeTemporaryOrder',
+      createOrder: 'order/createOrder',
+      createOrderForContract: 'order/createOrderForContract',
+      getOrderList: 'order/getOrderList',
+      getSAssetList: 'asset/getSAssetList',
+      clientSearch: 'order/searchClient',
+      saveOrderTemporarily: 'order/saveOrderTemporarily',
+      removeTemporaryOrder: 'order/removeTemporaryOrder',
     }),
     reset() {
       //Reset Form
@@ -323,9 +320,9 @@ export default {
     //Get ID Asset Type From Description
     findAssetTypeID(assetType) {
       for (let item of this.SAssetListResult) {
-          if (item.description == assetType) {
-              return item.id
-          }
+        if (item.description == assetType) {
+          return item.id
+        }
       }
     },
     temporarySavingHandle() {
@@ -338,6 +335,7 @@ export default {
         assetType: this.assetTypeInput,
         asset: this.assetInput,
         source: this.sourceInput,
+        note: this.noteInput,
       }
       this.saveOrderTemporarily({orderDetail})
       this.dialog = false
@@ -345,16 +343,18 @@ export default {
     newContractHandle() {
       const orderDetail = {
         phone: this.phoneInput,
-        firstName: this.firstNameInput,
+        name: this.firstNameInput,
         lastName: this.lastNameInput,
         expectedAmount: this.expectedAmountInput,
         validatorAmount: this.validatorAmountInput,
         assetType: this.assetTypeInput,
         asset: this.assetInput,
         source: this.sourceInput,
+        note: this.noteInput,
       }
+      
+      this.okHandle()
       this.$router.push({name: 'new_contract', params: {orderDetail}})
-      //this.okHandle()
       this.dialog = false
     },
     //Create new order
@@ -369,6 +369,7 @@ export default {
         assetTypeID: assetTypeID,
         assetTypeDescription: this.assetInput,
         source: this.sourceInput,
+        note: this.noteInput,
       }
 
       this.createOrder(data).then(() => {
@@ -403,15 +404,15 @@ export default {
     },
 
     search() {
-        if (this.timer !== null) {
-            clearTimeout(this.searchTime);
-            this.searchTime = null;
-        }
-        this.searchTime = setTimeout(() => {
-            if (!this.$refs['phone'].hasError) {
-                this.clientSearch({phone: this.phoneInput})
-            }
-        }, 2000)
+      if (this.timer !== null) {
+          clearTimeout(this.searchTime);
+          this.searchTime = null;
+      }
+      this.searchTime = setTimeout(() => {
+          if (!this.$refs['phone'].hasError) {
+              this.clientSearch({phone: this.phoneInput})
+          }
+      }, 2000)
     },
   }
 }

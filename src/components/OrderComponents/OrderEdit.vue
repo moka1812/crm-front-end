@@ -610,10 +610,21 @@ export default {
         terminateHandle: function() {
             this.terminate()
         },
-        contractHandle: async function () {
-
+        contractHandle() {
+            const orderDetail = {
+                phone: this.phoneInput,
+                name: this.nameInput,
+                expectedAmount: this.expectedAmountInput,
+                validatorAmount: this.validatorAmountInput,
+                assetType: this.assetTypeInput,
+                asset: this.assetInput,
+                source: this.sourceInput,
+                note: this.noteInput,
+            }
+            this.$router.push({name: 'new_contract', params: {orderDetail}})
+            this.dialog = false
         },
-        cancleHandle: async function() {
+        cancleHandle() {
             this.dialog = false
         },
         okHandle: function() {

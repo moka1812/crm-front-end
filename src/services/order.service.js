@@ -35,6 +35,7 @@ const OrderService = {
             staff: ProfileService.getID(),
             source: newOrderInfo.source,
             asset: CAsset.id,
+            note: newOrderInfo.note,
             branch: CurrentBranchService.getCurrentBranchID(),
             date_claim: moment().format("YYYY-MM-DD HH:mm"),
             status: "In Progress",
@@ -56,7 +57,6 @@ const OrderService = {
                 return response.data
             }
         } catch (error) {
-            console.log(error.response.data)
             throw OrderError(error.response.status, error.response.data.detail)
         }
     },

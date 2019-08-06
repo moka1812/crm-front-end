@@ -1328,12 +1328,13 @@ export default {
     this.getSAssetList()
     try {
       this.phone1Input = this.$route.params.orderDetail.phone
-      this.nameInput = this.$route.params.orderDetail.firstName
+      this.nameInput = this.$route.params.orderDetail.name
       this.expectedAmountInput = this.$route.params.orderDetail.expectedAmount
       this.validatorAmount1Input = this.$route.params.orderDetail.validatorAmount
       this.assetTypeInput = this.$route.params.orderDetail.assetType
       this.assetInput = this.$route.params.orderDetail.asset
-      this.sourceInput = this.$route.params.orderDetail.source   
+      this.sourceInput = this.$route.params.orderDetail.source
+      this.noteInput = this.$route.params.orderDetail.note
     } catch (error) {
         
     }
