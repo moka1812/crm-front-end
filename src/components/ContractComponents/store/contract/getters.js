@@ -8,4 +8,27 @@ export default  {
     contractListResult: (state) => {
         return state.contractListResult
     },
+    contractListErrorCode: (state) => {
+        return state.contractListErrorCode
+    },
+
+    contractListError: (state) => {
+        return state.contractListError
+    },
+    contractDetailForm: (state) => {
+        return state.contractDetailForm
+    },
+
+    contractDetail: (state) => {
+        return state.contractDetail
+    },
+
+    contractDetailErrorCode: (state) => {
+        return state.contractDetailErrorCode
+    },
+
+    contractDetailError: (state) => {
+        return state.contractDetailError
+    },
+
 }

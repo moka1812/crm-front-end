@@ -3,9 +3,9 @@
     <v-layout align-center justify-center column class="contract-detail">
       <div class="titile-contract-info">
         <i class="material-icons" :class="classStatusContract">fiber_manual_record</i>
-        <strong>#325423542</strong>
+        <strong v-html="contractDetail[0].contractID">#</strong>
       </div>
-      <span>Camdo Special Rate</span>
+      <span v-html="contractDetail[0].createdDate">Camdo Special Rate</span>
       <span>Disbursement date: 23/3/2019</span>
       <span>Loan Officer: Nhung Phan</span>
       <span>Branch: CMT3 &nbsp;|&nbsp; Storage: DTH</span>
@@ -44,9 +44,33 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "contract-info",
   components: {},
+  props: {
+    contractId: Number,
+  },
   data: () => ({
     classStatusContract: "online-status-contract"
   }),
+  created() {
+    this.getContractById();
+  },
+  computed: {
+     ...mapGetters({
+      contractDetail: 'contract/contractDetail'
+      }),
+  },
+  methods: {
+    ...mapActions({
+      getContractByContractId: 'contract/getContractByContractId'
+    }),
+    getContractById(){
+      this.getContractByContractId({id: this.contractId})
+    }
+  },
+  watch: {
+    getContract() {
+      this.getContractById();
+    }
+  },
   
 };
 </script>

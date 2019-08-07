@@ -45,24 +45,24 @@ export default {
           text: "Description", value: "description", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Property Type", value: "property_type", align: 'center', sortable: false, class: "header"
+          text: "Property Type", value: "property_type", align: 'center', sortable: false, class: "header hard-width-3vw wrap-text"
         },
         {
-          text: "Storage ID", value: "storage_id", align: 'center', sortable: false, class: "header", width: 1
+          text: "Storage ID", value: "storage_id", align: 'center', sortable: false, class: "header wrap-text", width: 1
         },
         {
-          text: "Storage Location", value: "storage_location", align: 'center', sortable: false, class: "header"
+          text: "Storage Location", value: "storage_location", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Liquidation Amount", value: "liquidation_amount", align: 'center', sortable: false, class: "header"
+          text: "Liquidation Amount", value: "liquidation_amount", align: 'center', sortable: false, class: "header  wrap-text"
         },
         {
-          text: "Liquidation Status", value: "liquidation_status", align: 'center', sortable: false, class: "header hard-width-3vw wrap-text"
+          text: "Liquidation Status", value: "liquidation_status", align: 'center', sortable: false, class: "header  wrap-text"
         }
       ],
       collateralInfoListResult: [
                 {
-                    description: 'Laptop 110238384 - không dây sạc',
+                    description: 'Laptop 110238384 - không dây sạc - không pin - không main',
                     property_type:'Laptop',
                     storage_id:'22131',
                     storage_location: 'DTH',
@@ -112,9 +112,7 @@ td.content {
 
 .wrap-text {
   word-wrap: break-word;
+  white-space: pre-line !important;
 }
 
-.hard-width-3vw {
-  width: 3vw !important;;
-}
 </style>

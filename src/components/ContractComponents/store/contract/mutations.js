@@ -2,17 +2,71 @@ import Vue from 'vue'
 
 import {
     CONTRACT_REPAYMENT_SCHEDULE,
+    CONTRACT_LIST_REQUEST,
     CONTRACT_LIST_SUCCESS,
+    CONTRACT_LIST_ERROR,
+    CONTRACT_DETAIL_SUCCESS,
+    CONTRACT_DETAIL_REQUEST,
+    CONTRACT_FINDING_ERROR,
+    CONTRACT_FINDING_SUCCESS,
+    CONTRACT_FINDING_REQUEST
 } from './types'
 
 export default {
     [CONTRACT_REPAYMENT_SCHEDULE] (state, result) {
         Vue.set(state, 'flagSchedule', result)
     },
+    [CONTRACT_LIST_REQUEST] (state) {
+        Vue.set(state, 'contractListRequest', true)
+        Vue.set(state, 'contractListResult', [])
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+    },
     [CONTRACT_LIST_SUCCESS] (state, {contracts}) {
         Vue.set(state, 'contractListRequest', false)
         Vue.set(state, 'contractListResult', contracts)
-        // Vue.set(state, 'orderListError', '')
-        // Vue.set(state, 'orderListErrorCode', 200)
-    }
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+    },
+    [CONTRACT_LIST_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'contractListRequest', false)
+        Vue.set(state, 'contractListError', errorMessage)
+        Vue.set(state, 'contractListErrorCode', errorCode)
+    },
+    [CONTRACT_DETAIL_SUCCESS] (state, {contract}) {
+        Vue.set(state, 'contractDetailForm', true)
+        Vue.set(state, 'contractDetail', contract)
+        Vue.set(state, 'contractDetailErrorCode', 200)
+        Vue.set(state, 'contractDetailError', '')
+    },
+    [CONTRACT_DETAIL_REQUEST] (state) {
+        Vue.set(state, 'contractDetailForm', false)
+        Vue.set(state, 'contractDetail', null)
+        Vue.set(state, 'contractDetailErrorCode', 0)
+        Vue.set(state, 'contractDetailError', '')
+    },
+    //contract Finding Function
+    [CONTRACT_FINDING_REQUEST] (state) {
+        Vue.set(state, 'contractListRequest', true)
+        Vue.set(state, 'contractDetail', [])
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 0)
+        Vue.set(state, 'contractFindingError', '')
+        Vue.set(state, 'contractFindingErrorCode', 0)
+    },
+    [CONTRACT_FINDING_SUCCESS] (state, {contract}) {
+        Vue.set(state, 'contractListRequest', false)
+        Vue.set(state, 'contractDetail', contract[0])
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+        Vue.set(state, 'contractFindingError', '')
+        Vue.set(state, 'contractFindingErrorCode', 200)
+    },
+    [CONTRACT_FINDING_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'contractListRequest', false)
+        Vue.set(state, 'contractListError', errorMessage)
+        Vue.set(state, 'contractListErrorCode', errorCode)
+        Vue.set(state, 'contractFindingError', errorMessage)
+        Vue.set(state, 'contractFindingErrorCode', errorCode)
+    },
 }
