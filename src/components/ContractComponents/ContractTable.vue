@@ -2,7 +2,7 @@
     <div>
     <v-toolbar id="refresh" flat color="#F0F0F7">
       <v-spacer></v-spacer>
-      <v-btn color="primary">
+      <v-btn color="primary"  @click="getContractList">
         Refresh
       </v-btn>
       
@@ -17,7 +17,7 @@
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <tr @dblclick = "detail">
+        <tr @dblclick = "detail(props.item.contractID)">
           <td class="text-xs-center content">{{ props.item.contractID }}</td>
           <td class="text-xs-center content">{{ props.item.createdDate }}</td>
           <td class="text-xs-center content ">{{ props.item.closedDate }}</td>
@@ -134,15 +134,21 @@ export default {
       ...mapGetters({
       contractListResult: 'contract/contractListResult',
       contractListRequest: 'contract/contractListRequest',
+      contractListErrorCode: 'contract/contractListErrorCode',
+      contractListError: 'contract/contractListError',
       }),
     },
     methods : {
       ...mapActions({
-        getContractList: 'contract/getContractList'
+        getContractList: 'contract/getContractList',
+        // getContractDetail: 'contract/getContractDetail'
       }),
       detail: function (contractID) {
         if (contractID != null){
-           this.$router.push('/contracts/contract-detail');
+          //  this.$router.push('/contracts/contract-detail');
+          this.$router.push({path: '/contracts/contract-detail', query: {id: contractID}});
+          // this.$router.push({params: {contractID: contractID}});
+          // this.getContractDetail({contractID});
         }
       }
     },

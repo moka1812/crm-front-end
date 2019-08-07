@@ -14,6 +14,7 @@
                 v-model.lazy="dateFormatted"
                 append-icon="event"
                 :label="label"
+                :placeholder="placeholder"
                 :disabled="disable"
                 :rules="rules"
                 :hint="hint"
@@ -35,6 +36,7 @@ export default {
     props: {
         value: String,
         label: String,
+        placeholder: String,
         disable: {
             type: Boolean,
             default: false,

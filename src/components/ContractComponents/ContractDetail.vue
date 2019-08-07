@@ -7,7 +7,7 @@
       </v-layout>
       <v-layout align-space-around justify-start row fill-height fluid class="content-contract-detail">
           <v-flex v-if="flagSchedule === false" xs3 class="container box-contract-info">
-              <contract-info/>
+              <contract-info v-bind:contractId = "contractId"/>
           </v-flex>
           <v-flex class="container box-contract-tabs" v-bind="[flagSchedule? 'xs12' :'xs9']">
               <contract-tabs/>
@@ -25,17 +25,32 @@ export default {
   name: "contract",
   components: { ContractInfo, ContractTabs },
   data: () => ({
+    contractId: null
   }),
+  watch: {
+    '$route': {
+      handler: 'getContractById',
+      immediate: true
+    }
+  },
   computed: {
     ...mapGetters({
-      flagSchedule: 'contract/contractRepaymentSchedule'
-    })
+      flagSchedule: 'contract/contractRepaymentSchedule',
+      contractDetailForm: 'order/contractDetailForm',
+    }),
   },
   methods: {
-    handleChange(event) {
-      const {value} = event.target;
-      this.value = value;
-    }
+    ...mapActions({
+      getContractByContractId: 'contract/getContractByContractId'
+    }),
+    getContractById() {
+      this.contractId = this.$route.query.id;
+      // this.getContractByContractId({id: this.$route.query.id})
+    },
+    // handleChange(event) {
+    //   const {value} = event.target;
+    //   this.value = value;
+    // }
   }
 };
 </script>
