@@ -3,7 +3,8 @@
     <v-layout row>
       <v-flex md5 class="title">
         <h2>Contract Repayment</h2>
-        <h3>Overview</h3>
+        <h3 v-show="step===1">Overview</h3>
+        <h3 v-show="step===2">Receipt</h3>
       </v-flex>
       <v-spacer />
       <v-flex md4>
@@ -19,7 +20,7 @@
     </v-layout>
     <v-window v-model="step">
       <v-window-item :value="1">
-        <v-form v-model="valid" class="form-customer">
+        <v-form v-model="valid" class="form-contract">
           <v-container>
             <v-layout>
               <v-flex class="header-form header-form-lef">
@@ -44,7 +45,6 @@
                 <v-text-field
                   v-model="feeInput"
                   placeholder="Fee"
-                  :hint="this.expectedAmountHint"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -66,7 +66,6 @@
                 <v-text-field
                   v-model="penaltyInput"
                   placeholder="Penalty"
-                  :hint="this.penaltyHint"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -80,7 +79,6 @@
                 <v-text-field
                   v-model="principalInput"
                   placeholder="Principal"
-                  :hint="this.principalHint"
                 ></v-text-field>
               </v-flex>
               <v-spacer class="space" />
@@ -91,7 +89,6 @@
                 <v-text-field
                   v-model="totalPaymentInput"
                   placeholder="Total Payment"
-                  :hint="this.totalPaymentHint"
                 ></v-text-field>
               </v-flex>
             </v-layout>
@@ -105,7 +102,6 @@
                 <v-text-field
                   v-model="interestInput"
                   placeholder="Interest"
-                  :hint="this.interestlHint"
                 ></v-text-field>
               </v-flex>
               <v-spacer class="space" />
@@ -120,25 +116,30 @@
               </v-flex>
             </v-layout>
             <v-layout align-end justify-end class="button-bottom">
-              <v-btn round class="btn-back" :to="{ name: 'back-contract' }">
+              <v-btn round class="btn-back" :to="{ name: 'contract-detail' }">
                 Back
               </v-btn>
-              <v-btn round class="btn-next" :to="{ name: 'next-repayment' }">
+              <v-btn round class="btn-next" @click="step++">
                 Next
               </v-btn>
             </v-layout>
           </v-container>
         </v-form>
       </v-window-item>
+      <v-window-item :value="2">
+        <contract-repayment-preview/>
+      </v-window-item>
     </v-window>
   </v-container>
 </template>
 <script>
 import DatePicker from "@/components/ContractComponents/DatePicker.vue"
+import ContractRepaymentPreview from './ContractRepaymentPreview.vue';
 export default {
   name: "contract-repayment",
   components: {
     DatePicker,
+    'contract-repayment-preview': ContractRepaymentPreview
   },
   data: () => ({
     step: 1,
@@ -150,6 +151,8 @@ export default {
     penaltyInput: '',
     principalInput: '',
     paymentTypeInput: 'Tiền mặt',
+    totalPaymentInput:'',
+    interestInput:'',
   }),
   methods: {
   }
@@ -166,12 +169,12 @@ export default {
     padding-top: 20px;
     padding-left: 16px;
 }
-.title-customer {
-    text-align: center;
-    text-decoration: underline;
-    margin-top: 20px;
+
+.title h3 {
+  font-weight: normal;
 }
-.form-customer {
+
+.form-contract {
     background-color: #ffffff;
     border-style: solid;
     border-width: 1px;

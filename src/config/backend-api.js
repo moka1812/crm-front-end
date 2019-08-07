@@ -27,3 +27,7 @@ export const notificationAPI = `${baseURL}/notifications/`
 export const callAPI = `${baseURL}/calls/`
 
 export const orderCallAPI = `${baseURL}/orders/:id/calls/`
+
+export const contractApi = `${baseURL}/contracts/`
+
+export const contractById = `${baseURL}/contracts/:id/`

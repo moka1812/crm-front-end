@@ -1,7 +1,7 @@
 <template>
       <v-layout align-space-around justify-start column>
         <v-layout align-center justify-end row>
-          <v-btn round class="btn-back" :to="{ name: 'contract' }">
+          <v-btn round class="btn-back-contract" :to="{ name: 'contract' }">
             <i class="material-icons">close</i>
           </v-btn>
       </v-layout>
@@ -22,7 +22,7 @@ import ContractInfo from "./ContractInfo.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "contract",
+  name: "contract-detail",
   components: { ContractInfo, ContractTabs },
   data: () => ({
     contractId: null
@@ -79,7 +79,7 @@ export default {
   min-width: 700px !important;
 }
 
-.btn-back {
+.btn-back-contract {
   background-color: #DD1E26 !important;
   min-width: 2.5vw !important;
   padding: 1px;
