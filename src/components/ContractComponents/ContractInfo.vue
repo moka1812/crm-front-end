@@ -2,8 +2,8 @@
   <v-card fluid class="content-contract-info">
     <v-layout align-center justify-center column class="contract-detail">
       <div class="titile-contract-info">
-        <i class="material-icons" :class="classStatusContract">fiber_manual_record</i>
-        <strong v-html="contractDetail[0].contractID">#</strong>
+        <i class="material-icons" :class="classStatusContract">fiber_manual_record</i><strong>#</strong>
+        <strong v-html="contractDetail[0].contractID"></strong>
       </div>
       <span v-html="contractDetail[0].createdDate">Camdo Special Rate</span>
       <span>Disbursement date: 23/3/2019</span>
@@ -162,5 +162,4 @@ export default {
   border: 1px solid #BFBFBF;
   margin: 10px 20px;
 }
-
 </style>

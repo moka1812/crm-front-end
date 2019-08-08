@@ -64,7 +64,7 @@ const newContractPage = {
 
 const defaultContractDetailPage = {
   path: "contract-detail",
-  name: "contractdetail",
+  name: "contract-detail",
   component: ContractDetail,
   meta: {
     requiresAuth: true
