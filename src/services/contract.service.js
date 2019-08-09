@@ -60,15 +60,34 @@ const ContractService = {
         }
     },
 
+    getContractDoucument: async function(id) {
+        try {
+
+            const url = contractDoucument.replace(":id", id)
+
+            const response = await ApiService.get(url)
+
+            const data = this.filterRawDocumnetList(response.data)
+            
+            return {
+                docs: data,
+            }
+
+        } catch (error) {
+
+            throw ContractError(error.response.status, error.response.data.detail)
+        }
+    },
+
     filterRawContract: function(item) {
-        const data = []
+        let data = null;
         try {
             //Example created: "2019-05-31T14:16:03.932314+07:00"   
-            const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
-            const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+            const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+            const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
 
-            data.push({
-                contractID: item.id,
+            data = {
+                contractID: item.mifos_id,
                 createdDate: created,
                 closedDate: closedDate,
                 loanStatus: item.status,
@@ -78,7 +97,8 @@ const ContractService = {
                 interest: item.market_amount,
                 storageID: item.branch,
                 storageLocation: item.closed_branch,
-            })
+                branchName: item.branch_name,
+            };
             return data
         } catch (error) {
             console.log(error)
@@ -91,11 +111,12 @@ const ContractService = {
         try {
             for (let item of rawData) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
-                const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+                const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
 
                 data.push({
-                    contractID: item.id,
+                    id: item.id,
+                    contractID: item.mifos_id,
                     createdDate: created,
                     closedDate: closedDate,
                     loanStatus: item.status,
@@ -105,6 +126,7 @@ const ContractService = {
                     interest: item.market_amount,
                     storageID: item.branch,
                     storageLocation: item.closed_branch,
+                    branchName: item.branch_name,
                 })
             }
             return data
@@ -112,7 +134,28 @@ const ContractService = {
             console.log(error)
             throw error
         }
-    }
+    },
+    filterRawDocumnetList: function(rawData) {
+        const data = []
+        try {
+            for (let item of rawData) {
+                //Example created: "2019-05-31T14:16:03.932314+07:00"   
+                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+
+                data.push({
+                    id: item.id,
+                    uploader: status,
+                    create_date: created,
+                    last_update: item.status,
+                    documnet: item.s3_path,
+                })
+            }
+            return data
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    },
 
 }
 

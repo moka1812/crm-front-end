@@ -12,10 +12,11 @@
       <template v-slot:items="props">
         <tr>
           <td class="text-xs-left content" :class="props.item.css"><span>{{ props.item.original }}</span></td>
+          <td class="text-xs-center content">{{ props.item.loan_amount }}</td>
           <td class="text-xs-center content">{{ props.item.paid }}</td>
           <td class="text-xs-center content ">{{ props.item.waived }}</td>
-          <td class="text-xs-center content">{{ props.item.written_off }}</td>
           <td class="text-xs-center content" >{{ props.item.outstanding }}</td>
+          <td class="text-xs-center content">{{ props.item.unpaid }}</td>
           <td class="text-xs-center content">{{ props.item.overdue }}</td>
         </tr>
       </template>
@@ -42,77 +43,86 @@ export default {
     return {
       headers: [
         {
-          text: "Original", value: "original", align: 'center', sortable: false, class: "header"
+          text: "", value: "original", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Paid", value: "paid", align: 'center', sortable: false, class: "header"
+          text: "Khoản vay", value: "loan_amount", align: 'center', sortable: false, class: "header"
+        },
+        {
+          text: "Đã thanh toán", value: "paid", align: 'center', sortable: false, class: "header"
         },
         {
           text: "Waived", value: "waived", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Written Off", value: "written_off", align: 'center', sortable: false, class: "header"
+          text: "Nợ xấu", value: "outstanding", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Outstanding", value: "outstanding", align: 'center', sortable: false, class: "header"
+          text: "Chưa thanh toán", value: "unpaid", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Overdue", value: "overdue", align: 'center', sortable: false, class: "header"
+          text: "Quá hạn", value: "overdue", align: 'center', sortable: false, class: "header"
         }
       ],
       summaryListResult: [
                 {
                     original: 'Principal',
                     css:'bold-text',
+                    loan_amount: '123218200',
                     paid: '10,122,932',
                     waived: '0',
-                    written_off: '0',
                     outstanding: '11,341,932',
+                    unpaid: '3254222',
                     overdue: '12,346,932'
                 },
                 {
                     original: 'Interest',
                     css:'bold-text',
+                    loan_amount: '123218200',
                     paid: '10,122,932',
                     waived: '0',
-                    written_off: '0',
                     outstanding: '11,341,932',
+                    unpaid: '3254222',
                     overdue: '12,346,932'
                 },
                 {
                     original: 'Fees',
                     css:'bold-text',
+                    loan_amount: '123218200',
                     paid: '10,122,932',
                     waived: '0',
-                    written_off: '0',
                     outstanding: '11,341,932',
+                    unpaid: '3254222',
                     overdue: '12,346,932'
                 },
                 {
                     original: 'Storage',
                     css:'normal-text',
+                    loan_amount: '123218200',
                     paid: '10,122,932',
                     waived: '0',
-                    written_off: '0',
                     outstanding: '11,341,932',
+                    unpaid: '3254222',
                     overdue: '12,346,932'
                 },
                 {
                     original: 'Validate',
                     css:'normal-text',
+                    loan_amount: '123218200',
                     paid: '10,122,932',
                     waived: '0',
-                    written_off: '0',
                     outstanding: '11,341,932',
+                    unpaid: '3254222',
                     overdue: '12,346,932'
                 },
                 {
                     original: 'Notary',
                     css:'normal-text',
+                    loan_amount: '123218200',
                     paid: '10,122,932',
                     waived: '0',
-                    written_off: '0',
                     outstanding: '11,341,932',
+                    unpaid: '3254222',
                     overdue: '12,346,932'
                 },
                 {
@@ -122,6 +132,7 @@ export default {
                     waived: '0',
                     written_off: '0',
                     outstanding: '11,341,932',
+                    unpaid: '3254222',
                     overdue: '12,346,932'
                 },
                 {
@@ -131,6 +142,7 @@ export default {
                     waived: '0',
                     written_off: '0',
                     outstanding: '11,341,932',
+                    unpaid: '3254222',
                     overdue: '12,346,932'
                 },
                 {
@@ -140,6 +152,7 @@ export default {
                     waived: '0',
                     written_off: '0',
                     outstanding: '11,341,932',
+                    unpaid: '3254222',
                     overdue: '12,346,932'
                 },
       ],
