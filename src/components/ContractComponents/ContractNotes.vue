@@ -11,9 +11,8 @@
         <v-text-field
             v-on:keyup="addNote"
             v-model="text_note"
-            label="Enter notes here..."
-            outline
-            class='toggle'></v-text-field>
+            label="Nhập ghi chú..."
+            outline></v-text-field>
     </v-flex>
 </div>
 </template>
@@ -51,7 +50,9 @@ export default {
   },
   methods: {
     addNote: function(e) {
-        if (e.keyCode === 13) {
+      if (e.keyCode === 13) {
+        this.text_note = this.text_note.trim();
+        if (this.text_note != null && this.text_note != "") {
           const note_id = this.notesListResult.length + 1;
           this.notesListResult.push(
             {
@@ -62,6 +63,7 @@ export default {
           );
           this.text_note="";
         }
+      }
     },
     formatDate: function(value) {
       if (value) {

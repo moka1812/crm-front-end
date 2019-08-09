@@ -62,22 +62,22 @@ export default {
     return {
       headers: [
         {
-          text: "Office", value: "office", align: 'left', sortable: false, class: "header", width: 3
+          text: "Chi nhánh", value: "office", align: 'left', sortable: false, class: "header", width: 3
         },
         {
-          text: "Transaction Date", value: "transaction_date", align: 'center', sortable: false, class: "header"
+          text: "Ngày giao dịch", value: "transaction_date", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Transaction Type", value: "transaction_type", align: 'center', sortable: false, class: "header", width: 1
+          text: "Loại giao dịch", value: "transaction_type", align: 'center', sortable: false, class: "header", width: 1
         },
         {
-          text: "Amount", value: "amount", align: 'center', sortable: false, class: "header"
+          text: "Số tiền", value: "amount", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Break down", value: "interest", align: 'center', sortable: false, class: "header", colspan :"4"
+          text: "Chi tiết", value: "interest", align: 'center', sortable: false, class: "header", colspan :"4"
         },
         {
-          text: "Loan Balance", value: "loan_balance", align: 'center', sortable: false, class: "header"
+          text: "Dư nợ", value: "loan_balance", align: 'center', sortable: false, class: "header"
         },
       ],
       transactionListResult: [
@@ -86,10 +86,10 @@ export default {
                     transaction_date: '',
                     transaction_type: '',
                     amount: '',
-                    principal: 'Principal',
-                    interest: 'Interest',
-                    fee: 'Fee',
-                    penalties: 'Penalties',
+                    principal: 'Gốc',
+                    interest: 'Lãi',
+                    fee: 'Phí',
+                    penalties: 'Lãi thêm',
                     loan_balance: '',
                 },
                 {

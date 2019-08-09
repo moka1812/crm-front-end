@@ -5,11 +5,11 @@
        <v-layout align-center justify-end row class="button-bottom">
         <v-btn round class="btn-extend" :to="{ name: 'new_contract' }">
           <i class="material-icons">hourglass_full</i>
-          Extend
+          Gia Hạn
         </v-btn>
         <v-btn round class="btn-repay" :to="{ name: 'new_contract' }">
           <i class="material-icons">check_circle</i>
-          Repay
+          Tất Toán
         </v-btn>
     </v-layout>
       
@@ -76,43 +76,43 @@ export default {
     return {
       headers: [
         {
-          text: "Day", value: "day", align: 'left', sortable: false, class: "header", width: 3
+          text: "Số ngày", value: "day", align: 'left', sortable: false, class: "header", width: 3
         },
         {
-          text: "Date", value: "date", align: 'center', sortable: false, class: "header"
+          text: "Ngày", value: "date", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Paid date", value: "paid_date", align: 'center', sortable: false, class: "header", width: 1
+          text: "Ngày thanh toán", value: "paid_date", align: 'center', sortable: false, class: "header", width: 1
         },
         {
-          text: "Principal due", value: "principal_due", align: 'center', sortable: false, class: "header"
+          text: "Gốc đến hạn", value: "principal_due", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "blance of loan", value: "blance_of_loan", align: 'center', sortable: false, class: "header"
+          text: "Giải ngân", value: "blance_of_loan", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Interest", value: "interest", align: 'center', sortable: false, class: "header"
+          text: "Lãi", value: "interest", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Fees", value: "fees", align: 'center', sortable: false, class: "header"
+          text: "Phí", value: "fees", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Fenalties", value: "fenalties", align: 'center', sortable: false, class: "header"
+          text: "Lãi ngày", value: "fenalties", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Due", value: "due", align: 'center', sortable: false, class: "header"
+          text: "Tổng", value: "due", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Pain", value: "pain", align: 'center', sortable: false, class: "header"
+          text: "Đã thanh toán", value: "pain", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "In Advance", value: "in_advance", align: 'center', sortable: false, class: "header"
+          text: "Thanh toán trước", value: "in_advance", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Late", value: "late", align: 'center', sortable: false, class: "header"
+          text: "Trễ", value: "late", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Outstanding", value: "outstanding", align: 'center', sortable: false, class: "header"
+          text: "Tổng nợ", value: "outstanding", align: 'center', sortable: false, class: "header"
         },
       ],
       scheduleListResult: [

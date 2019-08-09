@@ -42,22 +42,22 @@ export default {
     return {
       headers: [
         {
-          text: "Description", value: "description", align: 'center', sortable: false, class: "header"
+          text: "Mô tả", value: "description", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Property Type", value: "property_type", align: 'center', sortable: false, class: "header hard-width-3vw wrap-text"
+          text: "Loại tài sản", value: "property_type", align: 'center', sortable: false, class: "header hard-width-3vw wrap-text"
         },
         {
-          text: "Storage ID", value: "storage_id", align: 'center', sortable: false, class: "header wrap-text", width: 1
+          text: "Mã lưu kho", value: "storage_id", align: 'center', sortable: false, class: "header wrap-text", width: 1
         },
         {
-          text: "Storage Location", value: "storage_location", align: 'center', sortable: false, class: "header wrap-text"
+          text: "Kho", value: "storage_location", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Liquidation Amount", value: "liquidation_amount", align: 'center', sortable: false, class: "header  wrap-text"
+          text: "Giá than lý", value: "liquidation_amount", align: 'center', sortable: false, class: "header  wrap-text"
         },
         {
-          text: "Liquidation Status", value: "liquidation_status", align: 'center', sortable: false, class: "header  wrap-text"
+          text: "Tình trạng thanh lý", value: "liquidation_status", align: 'center', sortable: false, class: "header  wrap-text"
         }
       ],
       collateralInfoListResult: [

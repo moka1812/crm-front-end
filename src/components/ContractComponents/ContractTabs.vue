@@ -31,27 +31,27 @@ import ContractNotes from './ContractNotes.vue';
 
 const TABS = [
   {
-    title: "SUMMARY",
+    title: "THÔNG TIN CHUNG",
     value: "Summary"
   },
   {
-    title: "REPAYMENT SCHEDULE",
+    title: "LỊCH TRẢ NỢ",
     value: "RepaymentsShedule"
   },
   {
-    title: "TRANSACTION",
+    title: "LỊCH GIAO DỊCH",
     value: "Transaction"
   },
   {
-    title: "DOCUMENTS",
+    title: "HỒ SƠ",
     value: "Documents"
   },
   {
-    title: "COLLATERAL INFO",
+    title: "THÔNG TIN TÀI SẢN",
     value: "CollateralInfo"
   },
   {
-    title: "NOTES",
+    title: "GHI CHÚ",
     value: "Notes"
   }
 ];

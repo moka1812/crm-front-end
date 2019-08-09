@@ -69,8 +69,8 @@
       </v-flex>
       <v-flex xs4 class="box-preview-right">
         <v-card class="body-container">
-          <strong>PLEASE PRINT OUT THE RECEIPT</strong><br>
-          <strong>AND CONFIRM THE PAYMENT</strong>
+          <strong>VUI LÒNG KIỂM TRA SỐ TIỀN VÀ</strong><br>
+          <strong>IN PHIẾU THU</strong>
           <v-layout align-center justify-center row class="button">
             <v-btn round class="btn-back">
               Back
@@ -79,7 +79,7 @@
               <i class="material-icons">print</i>
             </v-btn>
             <v-btn round class="btn-confirm">
-              Confirm Repayment
+              End
             </v-btn>
           </v-layout>
         </v-card>

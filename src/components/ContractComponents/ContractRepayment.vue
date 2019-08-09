@@ -2,9 +2,9 @@
   <v-container fluid class="pa-0 ma-2">
     <v-layout row>
       <v-flex md5 class="title">
-        <h2>Contract Repayment</h2>
+        <h2>Tất Toát Hợp Đồng</h2>
         <h3 v-show="step===1">Overview</h3>
-        <h3 v-show="step===2">Receipt</h3>
+        <h3 v-show="step===2">Phiếu Thu</h3>
       </v-flex>
       <v-spacer />
       <v-flex md4>
@@ -25,7 +25,7 @@
             <v-layout>
               <v-flex class="header-form header-form-lef">
                 <v-subheader class="input-header">
-                  Contract ID
+                  Mã HĐ
                   <span class="required">*</span>
                 </v-subheader>
               </v-flex>
@@ -39,19 +39,19 @@
               </v-flex>
               <v-spacer class="space" />
               <v-flex class="header-form">
-                <v-subheader class="input-header">Fee</v-subheader>
+                <v-subheader class="input-header">Phí</v-subheader>
               </v-flex>
               <v-flex sm4>
                 <v-text-field
                   v-model="feeInput"
-                  placeholder="Fee"
+                  placeholder="Phí"
                 ></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout>
               <v-flex class="header-form header-form-lef">
                 <v-subheader class="input-header">
-                  Transaction Date
+                  Ngày giao dịch
                   <span class="required">*</span>
                 </v-subheader>
               </v-flex>
@@ -60,53 +60,53 @@
               </v-flex>
               <v-spacer class="space" />
               <v-flex class="header-form">
-                <v-subheader class="input-header">Penalty</v-subheader>
+                <v-subheader class="input-header">Lãi thêm</v-subheader>
               </v-flex>
               <v-flex sm4>
                 <v-text-field
                   v-model="penaltyInput"
-                  placeholder="Penalty"
+                  placeholder="Lãi thêm"
                 ></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout>
               <v-flex class="header-form header-form-lef">
                 <v-subheader class="input-header">
-                  Principal
+                  Gốc
                 </v-subheader>
               </v-flex>
               <v-flex sm4>
                 <v-text-field
                   v-model="principalInput"
-                  placeholder="Principal"
+                  placeholder="Gốc"
                 ></v-text-field>
               </v-flex>
               <v-spacer class="space" />
               <v-flex class="header-form">
-                <v-subheader class="input-header">Total Payment</v-subheader>
+                <v-subheader class="input-header">Tổng tiền</v-subheader>
               </v-flex>
               <v-flex sm4>
                 <v-text-field
                   v-model="totalPaymentInput"
-                  placeholder="Total Payment"
+                  placeholder="Tổng tiền"
                 ></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout>
               <v-flex class="header-form header-form-lef">
                 <v-subheader class="input-header">
-                  Interest
+                  Lãi
                 </v-subheader>
               </v-flex>
               <v-flex sm4>
                 <v-text-field
                   v-model="interestInput"
-                  placeholder="Interest"
+                  placeholder="Lãi"
                 ></v-text-field>
               </v-flex>
               <v-spacer class="space" />
               <v-flex class="header-form">
-                <v-subheader class="input-header">Payment Type</v-subheader>
+                <v-subheader class="input-header">Hình thức thanh toán</v-subheader>
               </v-flex>
               <v-flex sm4>
                 <v-radio-group v-model="paymentTypeInput" row>

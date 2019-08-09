@@ -2,37 +2,37 @@
   <v-card fluid class="content-contract-info">
     <v-layout align-center justify-center column class="contract-detail">
       <div class="titile-contract-info">
-        <i class="material-icons" :class="classStatusContract">fiber_manual_record</i><strong>#</strong>
-        <strong v-html="contractDetail[0].contractID"></strong>
+        <i class="material-icons" :class="classStatusContract">fiber_manual_record</i>
+        <strong>#{{contractDetail.contractID}}</strong>
       </div>
-      <span v-html="contractDetail[0].createdDate">Camdo Special Rate</span>
-      <span>Disbursement date: 23/3/2019</span>
-      <span>Loan Officer: Nhung Phan</span>
-      <span>Branch: CMT3 &nbsp;|&nbsp; Storage: DTH</span>
+      <span>Camdo Special Rate</span>
+      <span>Ngày Giờ Mở HĐ: {{contractDetail.createdDate}}</span> 
+      <span>Làm hợp Đồng: Nhung Phan</span>
+      <span>Chi nhánh: {{contractDetail.branchName}} &nbsp;|&nbsp; Lưu Kho: {{contractDetail.storageID}}</span>
     </v-layout>
     <div class="class-border"></div>
     <v-layout align-start justify-center column class="customer-info">
       <div class="titile-customer-info">
-        <Strong>Customer Infomation</Strong>
+        <Strong>Thông Tin Khách Hàng</Strong>
       </div>
-      <span class="label-customer">Name</span>
+      <span class="label-customer">Họ tên:</span>
       <router-link to="/contracts">Nguyễn Văn A</router-link>
-      <span class="label-customer">Phone number 1:</span>
+      <span class="label-customer">Số Điện Thoại 1:</span>
       <span>+84013218328</span>
-      <span class="label-customer">Alternate Phone</span>
+      <span class="label-customer">Số Điện Thoại 2:</span>
       <span>+84013218328</span>
-      <span class="label-customer">Home Address</span>
+      <span class="label-customer">Địa chỉ:</span>
       <span>Sân bay Tân SSS</span>
     </v-layout>
     <div class="class-border"></div>
     <v-layout align-center justify-center row class="button-bottom">
       <v-btn round class="btn-extend" :to="{ name: 'extension-contract' }">
         <i class="material-icons">hourglass_full</i>
-        Extend
+        Gia Hạn
       </v-btn>
       <v-btn round class="btn-repay" :to="{ name: 'contract-repayment' }">
         <i class="material-icons">check_circle</i>
-        Repay
+        Tất Toán
       </v-btn>
     </v-layout>
   </v-card>
@@ -45,7 +45,7 @@ export default {
   name: "contract-info",
   components: {},
   props: {
-    contractId: Number,
+    contractId: String,
   },
   data: () => ({
     classStatusContract: "online-status-contract"

@@ -17,7 +17,7 @@
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <tr @dblclick = "detail(props.item.contractID)">
+        <tr @dblclick = "detail(props.item.id)">
           <td class="text-xs-center content">{{ props.item.contractID }}</td>
           <td class="text-xs-center content">{{ props.item.createdDate }}</td>
           <td class="text-xs-center content ">{{ props.item.closedDate }}</td>
