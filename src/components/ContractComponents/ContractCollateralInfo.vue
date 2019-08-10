@@ -45,10 +45,10 @@ export default {
           text: "Mô tả", value: "description", align: 'center', sortable: false, class: "header"
         },
         {
-          text: "Loại tài sản", value: "property_type", align: 'center', sortable: false, class: "header hard-width-3vw wrap-text"
+          text: "Loại tài sản", value: "property_type", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Mã lưu kho", value: "storage_id", align: 'center', sortable: false, class: "header wrap-text", width: 1
+          text: "Mã lưu kho", value: "storage_id", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
           text: "Kho", value: "storage_location", align: 'center', sortable: false, class: "header wrap-text"
@@ -114,5 +114,4 @@ td.content {
   word-wrap: break-word;
   white-space: pre-line !important;
 }
-
 </style>

@@ -12,6 +12,7 @@ import NewContract from './components/ContractComponents/NewContractComponent.vu
 import ContractDetail from './components/ContractComponents/ContractDetail.vue'
 import ContractExtension from './components/ContractComponents/ContractExtension.vue'
 import ContractRepayment from './components/ContractComponents/ContractRepayment.vue'
+import InterestReminder from './components/InterestReminder/InterestReminderManagement.vue'
 
 import { TokenService } from './services/storage.service'
 
@@ -104,6 +105,17 @@ const contractPage = {
   ],
 }
 
+const interestReminderPage = {
+  path: "/interest-reminder",
+  name: "interest-reminder",
+  component: InterestReminder,
+  meta: {
+    requiresAuth: true
+  },
+  children: [
+  ],
+}
+
 const homePage = {
   path: "/",
   name: "homepage",
@@ -115,6 +127,7 @@ const homePage = {
     orderPage,
     myInboxPage,
     contractPage,
+    interestReminderPage,
   ],
 }
 

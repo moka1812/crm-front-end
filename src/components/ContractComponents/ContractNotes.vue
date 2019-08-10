@@ -7,7 +7,7 @@
             </span>
         </v-layout>
     </div>
-    <v-flex xs12 sm12 md12>
+    <v-flex xs12 sm12 md12 class="border-text">
         <v-text-field
             v-on:keyup="addNote"
             v-model="text_note"
@@ -84,5 +84,12 @@ export default {
 
 .contract-notes span {
   margin-bottom: 5px;
+}
+
+.border-text .v-input__slot {
+  border: 1px solid #000000 !important;
+}
+.border-text .v-input__slot:hover, .border-text .v-input__slot::before {
+  border: 1px solid #2D80D4 !important;
 }
 </style>

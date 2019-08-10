@@ -22,12 +22,17 @@ export default [
     ]
   },
   {
-    name: 'CONTRACTS',
+    name: 'HỢP ĐỒNG',
     icon: 'work',
     link: '/contracts',
   },
   {
-    name: 'CUSTOMERS',
+    name: 'NHẮC LÃI',
+    icon: 'notifications',
+    link: '/interest-reminder',
+  },
+  {
+    name: 'KHÁCH HÀNG',
     icon: 'person',
     link: ''
     //link: '/customers',
