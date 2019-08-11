@@ -116,7 +116,7 @@
   padding: 50px !important;
   font-size: 13px;
 }
-.class-border {
+.container-repayment-preview .class-border {
   border: 1px solid #BFBFBF !important;
   width: 100%;
   margin: 10px 20px;
@@ -176,8 +176,6 @@
 
 .button .btn-print {
   background-color: #43425D !important;
-  min-width: 2vw !important;
-  border-radius: 50% !important;
 }
 
 .button .btn-back {

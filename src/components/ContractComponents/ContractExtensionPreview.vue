@@ -116,7 +116,7 @@
   padding: 50px !important;
   font-size: 13px;
 }
-.class-border {
+.container-repayment-preview .class-border {
   border: 1px solid #BFBFBF !important;
   width: 100%;
   margin: 10px 20px;
