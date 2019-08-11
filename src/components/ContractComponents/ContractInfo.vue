@@ -158,7 +158,7 @@ export default {
   background-color: #EA526F !important;
 }
 
-.class-border {
+.content-contract-info .class-border {
   border: 1px solid #BFBFBF;
   margin: 10px 20px;
 }

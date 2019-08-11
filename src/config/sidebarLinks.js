@@ -34,8 +34,7 @@ export default [
   {
     name: 'KHÁCH HÀNG',
     icon: 'person',
-    link: ''
-    //link: '/customers',
+    link: '/customers',
   },
   // {
   //   name: 'CHAT ROOM',

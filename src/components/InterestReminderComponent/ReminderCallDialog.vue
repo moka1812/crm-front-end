@@ -84,7 +84,7 @@ export default {
 .call-info span {
   color: #A5A5A7;
 }
-.class-border {
+.call-content .class-border {
   border: 1px solid #BFBFBF;
   margin: 10px 20px;
 }

@@ -142,12 +142,12 @@ table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
   padding: 0 5px;
 }
 td.content {
-  font-size: 17px !important;
+  font-size: 1vw !important;
   padding: 0px !important;
 }
 .header {
   font-weight: bold !important;
-  font-size: 16px !important;
+  font-size: 1.2vw !important;
 }
 
 .button button {
