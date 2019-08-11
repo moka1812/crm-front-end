@@ -1,7 +1,8 @@
 import ApiService from './api.service'
 import { ProfileService, CurrentBranchService } from './storage.service'
 import { AssetService, AssetError } from './asset.serivce'
-import { orderApi, orderFromStaffAPI, contractApi, contractById } from '../config/backend-api'
+import { deleteContractDocument, contractDoucument, 
+    contractApi, contractById, contractDocumentApi } from '../config/backend-api'
 import moment from 'moment'
 
 class ContractError extends Error {
@@ -79,6 +80,41 @@ const ContractService = {
         }
     },
 
+    deleteContractDocument:  async function(id) {
+        try {
+
+            const url = deleteContractDocument.replace(":id", id)
+
+            const responsedelete = await ApiService.delete(url)
+            
+            return {
+                docs: response.data,
+            }
+
+        } catch (error) {
+
+            throw ContractError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    uploadContractDocument: async function(data) {
+        try {
+            const currentUserID = ProfileService.getID()
+            data.append('uploader', currentUserID)
+            const url = contractDocumentApi;
+
+            const response = await ApiService.post(contractDocumentApi, data)
+            
+            return {
+                docs: response.data,
+            }
+
+        } catch (error) {
+
+            throw ContractError(error.response.status, error.response.data.detail)
+        }
+    },
+
     filterRawContract: function(item) {
         let data = null;
         try {
@@ -138,16 +174,17 @@ const ContractService = {
     filterRawDocumnetList: function(rawData) {
         const data = []
         try {
-            for (let item of rawData) {
+            for (let item of rawData.data) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
                 const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
 
                 data.push({
                     id: item.id,
-                    uploader: status,
+                    uploader: item.uploader_name,
                     create_date: created,
                     last_update: item.status,
-                    documnet: item.s3_path,
+                    link: item.s3_path,
+                    document: item.doc_type
                 })
             }
             return data

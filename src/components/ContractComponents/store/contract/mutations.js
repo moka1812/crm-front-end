@@ -9,7 +9,9 @@ import {
     CONTRACT_DETAIL_REQUEST,
     CONTRACT_FINDING_ERROR,
     CONTRACT_FINDING_SUCCESS,
-    CONTRACT_FINDING_REQUEST
+    CONTRACT_FINDING_REQUEST,
+    CONTRACT_DOCUMENT_REQUEST,
+    CONTRACT_DOCUMENT_SUCCESS,
 } from './types'
 
 export default {
@@ -68,5 +70,17 @@ export default {
         Vue.set(state, 'contractListErrorCode', errorCode)
         Vue.set(state, 'contractFindingError', errorMessage)
         Vue.set(state, 'contractFindingErrorCode', errorCode)
+    },
+    [CONTRACT_DOCUMENT_REQUEST] (state) {
+        Vue.set(state, 'documentListRequest', true)
+        Vue.set(state, 'documentListResult', [])
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+    },
+    [CONTRACT_DOCUMENT_SUCCESS] (state, {docs}) {
+        Vue.set(state, 'documentListRequest', false)
+        Vue.set(state, 'documentListResult', docs)
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
     },
 }
