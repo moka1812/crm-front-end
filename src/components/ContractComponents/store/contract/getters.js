@@ -31,4 +31,12 @@ export default  {
         return state.contractDetailError
     },
 
+    documentListResult: (state) => {
+        return state.documentListResult
+    },
+
+    documentListRequest: (state) => {
+        return state.documentListRequest
+    }
+
 }

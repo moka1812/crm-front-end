@@ -8,7 +8,8 @@ import {
     CONTRACT_DETAIL_ERROR,
     CONTRACT_FINDING_REQUEST,
     CONTRACT_FINDING_ERROR,
-    CONTRACT_FINDING_SUCCESS,
+    CONTRACT_DOCUMENT_REQUEST,
+    CONTRACT_DOCUMENT_SUCCESS,
 } from './types'
 import {ContractService, ContractError} from '../../../../services/contract.service'
 
@@ -62,5 +63,45 @@ export default {
             }
         }
     },
+
+    async getContractDocument({commit}, payload) {
+        commit(CONTRACT_DOCUMENT_REQUEST)
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const {docs} = await ContractService.getContractDoucument(id)
+            commit(CONTRACT_DOCUMENT_SUCCESS, {docs})
+        } catch (error) {
+            if (error instanceof ContractError) {
+                commit(CONTRACT_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CONTRACT_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async deleteContractDoucument({commit}, payload) {
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const {docs} = await ContractService.deleteContractDocument(id)
+        } catch (error) {
+            if (error instanceof ContractError) {
+                commit(CONTRACT_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CONTRACT_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async uploadContractDocument({commit}, data) {
+        try {
+            const {docs} = await ContractService.uploadContractDocument(data)
+        } catch(error) {
+            if (error instanceof ContractError) {
+                commit(CONTRACT_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CONTRACT_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    }
     
 }

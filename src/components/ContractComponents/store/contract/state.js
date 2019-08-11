@@ -14,5 +14,8 @@ export default function initialState () {
 
         contractFindingError: '',
         contractFindingErrorCode: 0,
+
+        documentListResult: [],
+        documentListRequest: false
     }
 }
