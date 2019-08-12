@@ -13,7 +13,9 @@ import ContractDetail from './components/ContractComponents/ContractDetail.vue'
 import ContractExtension from './components/ContractComponents/ContractExtension.vue'
 import ContractRepayment from './components/ContractComponents/ContractRepayment.vue'
 import InterestReminderComponent from './components/InterestReminderComponent/InterestReminderManagement.vue'
-import CustomerComponent from './components/CustomerComponent/CustomerMangement.vue'
+import CustomerComponent from './components/CustomerComponent/customerComponent.vue'
+import CustomerMangement from './components/CustomerComponent/CustomerMangement.vue'
+import CustomerDetail from './components/CustomerComponent/CustomerDetail.vue'
 
 import { TokenService } from './services/storage.service'
 
@@ -117,14 +119,33 @@ const interestReminderPage = {
   ],
 }
 
+const defaultCusomterPage = {
+  path: "",
+  name: "customers",
+  component: CustomerMangement,
+  meta: {
+    requiresAuth: true
+  }
+}
+
+const customerDetailPage = {
+  path: "customer-detail",
+  name: "customer-detail",
+  component: CustomerDetail,
+  meta: {
+    requiresAuth: true
+  }
+}
+
 const customerPage = {
   path: "/customers",
-  name: "customers",
   component: CustomerComponent,
   meta: {
     requiresAuth: true
   },
   children: [
+    defaultCusomterPage,
+    customerDetailPage
   ],
 }
 
