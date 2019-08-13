@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="content-customer">
-      <v-layout align-start justify-start row>
+      <v-layout align-start justify-start row style="align-items: center;justify-content: center;">
         <v-flex xs3>
           <h2>Hồ Sơ Khách Hàng</h2>
         </v-flex>

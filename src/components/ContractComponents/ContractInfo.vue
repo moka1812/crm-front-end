@@ -16,7 +16,7 @@
         <Strong>Thông Tin Khách Hàng</Strong>
       </div>
       <span class="label-customer">Họ tên:</span>
-      <router-link to="/contracts">Nguyễn Văn A</router-link>
+      <router-link to="/customers">Nguyễn Văn A</router-link>
       <span class="label-customer">Số Điện Thoại 1:</span>
       <span>+84013218328</span>
       <span class="label-customer">Số Điện Thoại 2:</span>

@@ -5,7 +5,7 @@
           <v-card class="customer-item" :class="index%2===0?'margin-right':''" v-if="showData(index)">
             <v-layout align-start justify-start column>
               <div class="button">
-                <v-btn class="btn-edit">
+                <v-btn class="btn-edit" :to="{ name : 'customer-detail'}">
                   <i class="material-icons">mode_edit</i>
                 </v-btn>
               </div>
