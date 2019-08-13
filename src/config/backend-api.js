@@ -10,7 +10,7 @@ export const SAssetListAPI = `${baseURL}/sassets/`
 
 export const CAssetsAPI = `${baseURL}/cassets/`
 
-export const getClientByPhoneApi = `${baseURL}/client/get-client-by-phone/`
+export const clientAPI = `${baseURL}/client/`
 
 export const orderApi = `${baseURL}/orders/`
 

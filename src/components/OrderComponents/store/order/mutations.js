@@ -47,7 +47,8 @@ export default {
     [CLIENT_SEARCHING_SUCCESS] (state, {result}) {
         Vue.set(state, 'clientSearching', false)
         if (result.status) { // Old Customer
-            Vue.set(state, 'clientResult', result.data)
+            //Get first client from client array
+            Vue.set(state, 'clientResult', result.data[0])
         }
         Vue.set(state, 'clientSearchErrorCode', 200)
     },
