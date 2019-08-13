@@ -1,5 +1,5 @@
 import ApiService from '../services/api.service'
-import { getClientByPhoneApi } from '../config/backend-api'
+import { clientAPI } from '../config/backend-api'
 
 class ClientError extends Error {
     constructor(errorCode, message) {
@@ -14,28 +14,49 @@ const ClientService = {
     getClientByPhone: async function (phone) {
 
         try {
-            const url = `${getClientByPhoneApi}?phone=${phone}`
+            const url = `${clientAPI}?phone=${phone}`
 
             const response = await ApiService.get(url)
 
-            if (response.status == 200) { //Response Success
+            if (response.data.length === 0) { //New Client
+                return {
+                    status: false,
+                    data: null
+                }
+            } else {
                 return {
                     status: true,
                     data: response.data
                 }
-            } 
+            }
 
         } catch (error) {
-            if (error.response.status == 400) { //New Client
-                return {
-                    status: false,
-                    data: error.response.data[0]
-                }
-            }
-            
             throw new ClientError(error.response.status, error.response.data)
         }
-    }
+    },
+    getClientByNationalID: async function (nationalID) {
+
+        try {
+            const url = `${clientAPI}?nationalid=${nationalID}`
+
+            const response = await ApiService.get(url)
+
+            if (response.data.length === 0) { //New Client
+                return {
+                    status: false,
+                    data: null
+                }
+            } else {
+                return {
+                    status: true,
+                    data: response.data
+                }
+            }
+
+        } catch (error) {
+            throw new ClientError(error.response.status, error.response.data)
+        }
+    },
 }
 
 export default ClientService
