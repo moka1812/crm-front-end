@@ -45,6 +45,22 @@
           <td class="text-xs-center content">{{ props.item.outstanding }}</td>
         </tr>
       </template>
+      <template slot="footer">
+        <td class="text-xs-center content"></td>
+        <td class="text-xs-center content">Total</td>
+        <td class="text-xs-center content"></td> 
+        <td class="text-xs-center content">12345453</td>
+        <td class="text-xs-center content">12345453</td>
+        <td class="text-xs-center content">12345453</td>
+        <td class="text-xs-center content">12345453</td>
+        <td class="text-xs-center content">0</td> 
+        <td class="text-xs-center content">0</td>
+        <td class="text-xs-center content">12345453</td> 
+        <td class="text-xs-center content">0</td>
+        <td class="text-xs-center content">0</td> 
+        <td class="text-xs-center content">12345453</td>
+        
+    </template>
 
       <template v-slot:no-data>
         <!-- Nothing -->
@@ -63,7 +79,7 @@
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 import CallButton from "@/components/OrderComponents/CallButton.vue"
 import CallTable from "@/components/OrderComponents/CallTable.vue"
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "repayment-shedule-tab",
@@ -71,6 +87,9 @@ export default {
     ActionButton,
     CallButton,
     CallTable
+  },
+  props: {
+    contractId: String,
   },
   data() {
     return {
@@ -201,7 +220,7 @@ export default {
                     late: 123,
                     outstanding: 'DTH',
                 },
-                                 {
+                {
                     day: 2,
                     date: '01/01/2019',
                     paid_date: '01/01/2019',
@@ -218,14 +237,46 @@ export default {
                     late: 123,
                     outstanding: 'DTH',
                 },
+                // {
+                //     day: '',
+                //     date: Total,
+                //     paid_date: '',
+                //     principal_due: 21321321,
+                //     blance_of_loan: '',
+                //     asset: '12321321',
+                //     loanBalance: '0',
+                //     interest: '0',
+                //     fees: 1331414134,
+                //     fenalties: '12313213',
+                //     due: 213213213,
+                //     pain: '21321313',
+                //     in_advance: '0',
+                //     late: 0,
+                //     outstanding:0,
+                // },
       ],
       scheduleListRequest: false,
     }
   },
-  mounted() {
-        
+  created() {
+    this.getSchedule();
   },
+  computed: {
+     ...mapGetters({
+      scheduleListResult: 'contract/scheduleListResult',
+      scheduleListRequest: 'contract/scheduleListRequest',
+      contractListError: 'contract/contractListError',
+      contractListErrorCode: 'contract/contractListErrorCode',
+      }),
+  },
+
   methods: {
+     ...mapActions({
+      getContractRepaymentSchedule: 'contract/getContractRepaymentSchedule',
+    }),
+    getSchedule() {
+      this.getContractRepaymentSchedule({id: this.contractId})
+    },
   },
 }
 </script>

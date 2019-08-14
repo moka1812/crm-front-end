@@ -39,6 +39,9 @@ export default {
   name: "contract-summary-tab",
   components: {
   },
+  props: {
+    contractId: String,
+  },
   data() {
     return {
       headers: [

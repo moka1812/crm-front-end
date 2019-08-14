@@ -122,10 +122,9 @@
                             <v-flex class="header-form header-form-lef">
                                 <v-subheader  class="input-header">Quận/Huyện</v-subheader>
                             </v-flex>
-                            <v-flex sm3>
+                            <v-flex sm3 class="select-fix-height">
                                 <v-select
                                     v-model="districtInput"
-                                    class="v-input-border"
                                     :items="districtItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     outline
@@ -136,13 +135,12 @@
                             <v-flex class="header-form" >
                                 <v-subheader class="input-header">Thành phố</v-subheader>
                             </v-flex>
-                            <v-flex sm3>
+                            <v-flex sm3 class="select-fix-height">
                                 <v-select
                                     v-model="cityInput"
                                     :items="cityItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     outline
-                                    class="select"
                                 >
                                 </v-select>
                             </v-flex>
@@ -151,7 +149,7 @@
                             <v-flex class="header-form header-form-lef">
                                 <v-subheader  class="input-header">Source</v-subheader>
                             </v-flex>
-                            <v-flex xs12 sm3>
+                            <v-flex xs12 sm3 class="select-fix-height">
                                 <v-select
                                     v-model="sourceInput"
                                     :items="sourceItems"
@@ -227,7 +225,7 @@
                             <v-flex class="header-form header-form-lef">
                                 <v-subheader class="input-header">Loại tài sản<span class="required">*</span></v-subheader>
                             </v-flex>
-                            <v-flex sm3>
+                            <v-flex sm3 class="select-fix-height">
                                 <v-select
                                     v-model="assetTypeInput"
                                     :items="assetTypeItems"
@@ -308,12 +306,11 @@
                              <v-flex class="header-form" >
                                 <v-subheader class="input-header">Loại HĐ<span class="required">*</span></v-subheader>
                             </v-flex>
-                            <v-flex sm3>
+                            <v-flex sm3 class="select-fix-height">
                                 <v-select
                                     v-model="packageInput"
                                     :items="packageItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
-                                    label="Gói"
                                     outline
                                 >
                                 </v-select>
@@ -337,12 +334,11 @@
                              <v-flex class="header-form header-form-lef">
                                 <v-subheader class="input-header">Gói<span class="required">*</span></v-subheader>
                             </v-flex>
-                            <v-flex sm3>
+                            <v-flex sm3 class="select-fix-height">
                                 <v-select
                                     v-model="packageInput"
                                     :items="packageItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
-                                    label="Gói"
                                     outline
                                 >
                                 </v-select>
@@ -574,14 +570,13 @@
                             </v-flex>
                             <v-flex sm8>
                                 <v-layout>
-                                    <v-flex sm6>
+                                    <v-flex sm6 class="select-fix-border">
                                         <v-select
                                             v-model="bankInput"
                                             :items="bankItems"
                                             label="Ngân hàng"
                                             :disabled="methodInput == 'Tiền mặt'"
                                             outline
-                                            class="select"
                                         >
                                         </v-select>
                                     </v-flex>
@@ -772,7 +767,7 @@ export default {
     border-style: solid;
 }
 .form {
-    background-color: #ffffff;
+    background-color: red;
     border-style: solid;
     border-width: 1px;
 }
@@ -802,7 +797,23 @@ export default {
 .required {
   color: #dd1e26;
 }
-.v-input-border .v-input__control .v-input__slot{
-  border: 1px solid red !important;
+
+.select-fix-height .vld-icon {
+  text-align: center !important;
+}
+.select-fix-height .v-text-field--box .v-input__slot, 
+.select-fix-height .v-text-field--outline .v-input__slot{
+  min-height: 45px !important;
+  border: 1px solid !important;
+}
+.select-fix-height .v-select__selections {
+  padding-top: 0px !important;
+}
+.select-fix-height .v-input__append-inner{
+  margin-top: 10px !important;
+}
+.select-fix-border .v-text-field--box .v-input__slot, 
+.select-fix-border .v-text-field--outline .v-input__slot{
+  border: 1px solid !important;
 }
 </style>

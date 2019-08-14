@@ -10,7 +10,7 @@
               <contract-info v-bind:contractId = "contractId"/>
           </v-flex>
           <v-flex class="container box-contract-tabs" v-bind="[flagSchedule? 'xs12' :'xs9']">
-              <contract-tabs/>
+              <contract-tabs v-bind:contractId = "contractId"/>
           </v-flex>
        </v-layout>
       </v-layout>
