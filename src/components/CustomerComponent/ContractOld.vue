@@ -58,28 +58,28 @@ export default {
     return {
       headers: [
         {
-          text: "Mã hợp đồng", value: "contractId", align: 'left', sortable: false, class: "header", width: 3
+          text: "Mã hợp đồng", value: "contractId", align: 'center', sortable: false, class: "header wrap-text", width: 3
         },
         {
-          text: "Loan Accout", value: "loan_accout", align: 'center', sortable: false, class: "header"
+          text: "Loan Accout", value: "loan_accout", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Ngày hết hạn", value: "paid_date", align: 'center', sortable: false, class: "header", width: 1
+          text: "Ngày hết hạn", value: "paid_date", align: 'center', sortable: false, class: "header wrap-text", width: 1
         },
         {
-          text: "loại tài sản", value: "assset_type", align: 'center', sortable: false, class: "header"
+          text: "loại tài sản", value: "assset_type", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Origial Loan", value: "original_loan", align: 'center', sortable: false, class: "header"
+          text: "Origial Loan", value: "original_loan", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Loan Balance", value: "loan_balance", align: 'center', sortable: false, class: "header"
+          text: "Loan Balance", value: "loan_balance", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Amount Pain", value: "amount_paid", align: 'center', sortable: false, class: "header"
+          text: "Amount Pain", value: "amount_paid", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Storage Location", value: "storage_location", align: 'center', sortable: false, class: "header"
+          text: "Storage Location", value: "storage_location", align: 'center', sortable: false, class: "header wrap-text"
         },
       ],
       scheduleListResult: [
@@ -153,5 +153,10 @@ td.content {
 
 .btn-repay {
   background-color: #EA526F !important;
+}
+
+.wrap-text {
+  word-wrap: break-word;
+  white-space: pre-line !important;
 }
 </style>

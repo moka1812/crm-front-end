@@ -2,8 +2,11 @@
   <v-card fluid class="content-customer-info">
     <v-layout align-center justify-center column class="customer-info">
           <img src="../../assets/default-avatar.png" alt="logo" class="avatar-img">
-          <h2 class="customer-name">{{customertDetail.customerName}}</h2>
-          <span>CMND/HC: {{customertDetail.externalId}}</span>
+          <div class="box-customer-name">
+            <h2 class="customer-name">{{customertDetail.customerName}}</h2>
+            <customer-info-edit-dialog/>
+          </div>
+          <span>Mã KH #: {{customertDetail.customerId}}</span>
           <span>Chi Nhánh: {{customertDetail.branch}}</span>
           <span>Người Tạo: {{customertDetail.staff}}</span>
     </v-layout>
@@ -117,16 +120,18 @@
 </template>
 
 <script>
+import CustomerInfoEditDialog from './CustomerInfoEditDialog.vue'
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "customer-info",
-  components: {},
+  components: { CustomerInfoEditDialog},
   props: {
     customerId: String,
   },
   data: () => ({
     customertDetail: {
+      customerId:'32785423',
       customerName: "Trịnh thanh bình",
       externalId: "3242141",
       branch: "TML",
@@ -134,19 +139,13 @@ export default {
     }
   }),
   created() {
-    this.getContractById();
   },
   computed: {
     
   },
   methods: {
-    getContractById(){
-    }
   },
   watch: {
-    getContract() {
-      this.getContractById();
-    }
   },
   
 };
@@ -174,8 +173,18 @@ export default {
 }
 
 .content-customer-info .customer-name {
-  margin-top: 10px;
+  margin-right: 10px;
   text-transform: uppercase;
+  font-size: 16px;
+}
+
+.content-customer-info .box-customer-name {
+  display: inline-flex;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .content-customer-info .customer-info-bottom {

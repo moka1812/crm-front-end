@@ -12,7 +12,7 @@
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <tr @click="props.expanded = !props.expanded">
+        <tr @dblclick="props.expanded = !props.expanded">
           <td class="text-xs-center content">{{ props.item.contractId }}</td>
           <td class="text-xs-center content">{{ props.item.fullName }}</td>
           <td class="text-xs-center content ">{{ props.item.dueDate }}</td>

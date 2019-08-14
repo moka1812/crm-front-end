@@ -37,6 +37,14 @@ export default  {
 
     documentListRequest: (state) => {
         return state.documentListRequest
-    }
+    },
+
+    scheduleListResult: (state) => {
+        return state.scheduleListResult
+    },
+
+    scheduleListRequest: (state) => {
+        return state.scheduleListRequest
+    },
 
 }

@@ -23,6 +23,9 @@ export default {
   name: "contract-notes-tab",
   components: {
   },
+  props: {
+    contractId: String,
+  },
   data() {
     return {
       notesListResult: [

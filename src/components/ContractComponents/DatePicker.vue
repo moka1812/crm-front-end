@@ -2,6 +2,7 @@
     <v-menu
         v-model="menu"
         :close-on-content-click="false"
+        :disabled="disable"
         lazy
         transition="scale-transition"
         offset-y
@@ -19,6 +20,7 @@
                 :rules="rules"
                 :hint="hint"
                 :persistent-hint="true"
+                :outline="outline"
                 @click:append="menu=true"
             >
             </v-text-field>
@@ -37,10 +39,8 @@ export default {
         value: String,
         label: String,
         placeholder: String,
-        disable: {
-            type: Boolean,
-            default: false,
-        },
+        disable: Boolean,
+        outline: Boolean,
         rules: {
             type: Array,
             default: function () {

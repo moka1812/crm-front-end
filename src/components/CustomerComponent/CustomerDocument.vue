@@ -1,5 +1,5 @@
 <template>
-  <div class="contract-document">
+  <div class="cusomter-document">
     <v-toolbar id="refresh" flat color="#0000" style="margin-bottom : 20px">
       <v-spacer></v-spacer>
       <v-layout align-center justify-end row>
@@ -77,7 +77,7 @@
             <v-flex sm4>
               <v-subheader class="input-header">Loại giấy tờ</v-subheader>
             </v-flex>
-            <v-flex sm6>
+            <v-flex sm6 class="select-fix-height">
               <v-select
                 v-model="selected"
                 class
@@ -118,10 +118,8 @@ import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 import Loading from "vue-loading-overlay";
 
-    const Fs = require('fs')  
-      const Path = require('path') 
 export default {
-  name: "contract-document-tab",
+  name: "cusomter-document-tab",
   components: {
     Loading
   },
@@ -288,7 +286,7 @@ export default {
 </script>
 
 <style>
-.contract-document .v-toolbar {
+.cusomter-document .v-toolbar {
   margin: 0px !important;
 }
 table.v-table tbody td:first-child,
@@ -359,18 +357,19 @@ td.content {
   margin-left: 100px !important;
   border-radius: 2px;
 }
-.vld-icon {
+.select-fix-height .vld-icon {
   text-align: center !important;
 }
-.v-text-field--box .v-input__slot,
-.v-text-field--outline .v-input__slot {
+
+.select-fix-height .v-text-field--box .v-input__slot,
+.select-fix-height .v-text-field--outline .v-input__slot {
   min-height: 45px !important;
   border: 1px solid !important;
 }
-.v-select__selections {
+.select-fix-height .v-select__selections {
   padding-top: 0px !important;
 }
-.v-input__append-inner {
+.select-fix-height .v-input__append-inner {
   margin-top: 10px !important;
 }
 

@@ -10,21 +10,21 @@
     />
     <div>
       <div v-if="currentTab === 'Summary'"><contract-summary-tab/></div>
-      <div v-if="currentTab === 'RepaymentsShedule'"><repayment-shedule-tab/></div>
-      <div v-if="currentTab === 'Transaction'"><transaction-tab/></div>
-      <div v-if="currentTab === 'Documents'"><contract-document-tab/></div>
-      <div v-if="currentTab === 'CollateralInfo'"><contract-collatea-info-tab/></div>
-      <div v-if="currentTab === 'Notes'"><contract-notes-tab/></div>
+      <div v-if="currentTab === 'RepaymentsShedule'"><repayment-shedule-tab v-bind:contractId = "contractId"/></div>
+      <div v-if="currentTab === 'Transaction'"><transaction-tab v-bind:contractId = "contractId"/></div>
+      <div v-if="currentTab === 'Documents'"><contract-document-tab v-bind:contractId = "contractId"/></div>
+      <div v-if="currentTab === 'CollateralInfo'"><contract-collatea-info-tab v-bind:contractId = "contractId"/></div>
+      <div v-if="currentTab === 'Notes'"><contract-notes-tab v-bind:contractId = "contractId"/></div>
     </div>
   </v-card>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import Transaction from './Transaction.vue'
 import Tabs from "vue-tabs-with-active-line";
 import RepaymentsShedule from "./RepaymentShedule.vue"
 import ContractSummary from "./ContractSummary.vue";
-import { mapGetters, mapActions } from 'vuex';
 import ContractDocument from './ContractDocument.vue';
 import ContractCollateralInfo from './ContractCollateralInfo.vue';
 import ContractNotes from './ContractNotes.vue';
@@ -66,6 +66,9 @@ export default {
     'contract-document-tab': ContractDocument,
     'contract-collatea-info-tab': ContractCollateralInfo,
     'contract-notes-tab': ContractNotes
+  },
+  props: {
+    contractId: String,
   },
   data: () => ({
     tabs: TABS,

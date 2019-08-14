@@ -49,7 +49,7 @@
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 import CallButton from "@/components/OrderComponents/CallButton.vue"
 import CallTable from "@/components/OrderComponents/CallTable.vue"
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "transaction-tab",
@@ -107,10 +107,24 @@ export default {
       transactionListRequest: false,
     }
   },
-  mounted() {
-        
+  created() {
+    this.getTransaction();
+  },
+  computed: {
+     ...mapGetters({
+      transactionListResult: 'contract/transactionListResult',
+      transactionListRequest: 'contract/transactionListRequest',
+      contractListError: 'contract/contractListError',
+      contractListErrorCode: 'contract/contractListErrorCode',
+      }),
   },
   methods: {
+     ...mapActions({
+      getContractTransactionLog: 'contract/getContractTransactionLog',
+    }),
+    getTransaction() {
+      this.getContractTransactionLog({id: this.contractId})
+    },
   },
 }
 </script>

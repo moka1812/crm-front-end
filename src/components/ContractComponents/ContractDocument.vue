@@ -95,7 +95,7 @@
             <v-flex sm4 >
               <v-subheader class="input-header">Loại giấy tờ</v-subheader>
             </v-flex>
-            <v-flex sm6> 
+            <v-flex sm6 class="select-fix-height"> 
               <v-select
                   v-model="selected"
                   class=""
@@ -151,7 +151,6 @@ import { mapActions, mapGetters } from "vuex";
 import axios from 'axios'
 import Loading from 'vue-loading-overlay';
 
-const fs = require('fs');
 export default {
   name: "contract-document-tab",
   components: {
@@ -188,6 +187,9 @@ export default {
       documentType: ['CMND/HD', 'Cavet', 'Giấy ủy quyền', 'Hợp đồng nhà'],
     }
   },
+  props: {
+    contractId: String,
+  },
   created() {
     this.getDocument();
   },
@@ -204,7 +206,7 @@ export default {
       uploadContractDocument: 'contract/uploadContractDocument'
     }),
     getDocument(){
-      this.getContractDocument({id: "1"})
+      this.getContractDocument({id: this.contractId})
     },
     viewDocument: function(link) {
        window.open(link, "_blank");  
@@ -359,17 +361,18 @@ td.content {
   margin-left: 100px !important;
   border-radius: 2px;
 }
-.vld-icon {
+.select-fix-height .vld-icon {
   text-align: center !important;
 }
- .v-text-field--box .v-input__slot, .v-text-field--outline .v-input__slot{
-   min-height: 45px !important;
-   border: 1px solid !important;
-  }
-.v-select__selections {
+.select-fix-height .v-text-field--box .v-input__slot, 
+.select-fix-height .v-text-field--outline .v-input__slot{
+  min-height: 45px !important;
+  border: 1px solid !important;
+}
+.select-fix-height .v-select__selections {
   padding-top: 0px !important;
 }
-.v-input__append-inner{
+.select-fix-height .v-input__append-inner{
   margin-top: 10px !important;
 }
 
