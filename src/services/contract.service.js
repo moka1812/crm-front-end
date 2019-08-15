@@ -1,8 +1,8 @@
 import ApiService from './api.service'
 import { ProfileService, CurrentBranchService } from './storage.service'
 import { AssetService, AssetError } from './asset.serivce'
-import { deleteContractDocument, contractDoucument, 
-    contractApi, contractById, contractDocumentApi } from '../config/backend-api'
+import { deleteContractDocument, contractDoucument, contractCollectoralInfo, contractSummary,
+contractApi, contractById, contractDocumentApi, contractRepaymentSchedule, contractTransaction } from '../config/backend-api'
 import moment from 'moment'
 
 class ContractError extends Error {
@@ -115,6 +115,88 @@ const ContractService = {
         }
     },
 
+    getContractSummary: async function(id) {
+        try {
+
+            const url = contractSummary.replace(":id", id)
+
+            const response = await ApiService.get(url)
+
+            const data =response.data
+            
+            return {
+                contracts: data,
+            }
+
+        } catch (error) {
+
+            throw ContractError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    getContractRepaymentSchedule: async function(id) {
+        try {
+
+            const url = contractRepaymentSchedule.replace(":id", id)
+
+            const response = await ApiService.get(url)
+
+            const data = this.filterRawRepaymentSchedule(response.data)
+
+            const total = this.filterRawContractTotalSchedule(response.data)
+            
+            return {
+                contracts: data,
+                total: total
+            }
+
+        } catch (error) {
+
+            throw ContractError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    getContractCollectoralInfo: async function(id) {
+        try {
+
+            const url = contractCollectoralInfo.replace(":id", id)
+
+            const response = await ApiService.get(url)
+
+            const data = this.filterRawCollectoralInfo(response.data)
+            
+            return {
+                contracts: data,
+                total: total
+            }
+
+        } catch (error) {
+
+            throw ContractError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    getContractTransactionLog: async function(id) {
+
+        try {
+
+            const url = contractTransaction.replace(":id", id)
+
+            const response = await ApiService.get(url)
+
+            const data = this.filterRawTransactionInfo(response.data)
+            
+            return {
+                contracts: data,
+            }
+
+        } catch (error) {
+
+            throw ContractError(error.response.status, error.response.data.detail)
+        }
+
+    },
+
     filterRawContract: function(item) {
         let data = null;
         try {
@@ -185,6 +267,124 @@ const ContractService = {
                     last_update: item.status,
                     link: item.s3_path,
                     document: item.doc_type
+                })
+            }
+            return data
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    },
+
+    filterRawRepaymentSchedule: function(rawData) {
+        const data = []
+        try {
+            for (let item of rawData.detail.repaymentSchedule.periods) {
+                //Example created: "2019-05-31T14:16:03.932314+07:00"   
+                // const date = new moment(item.dueDate.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                // const paid = new moment(item.date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                const date = '15/03/2016'
+                const paid = '15/03/2016'
+
+                data.push({
+                    day: item.daysInPeriod,
+                    date: date,
+                    paid_date: paid,
+                    principal_due: item.due,
+                    blance_of_loan: item.principalLoanBalanceOutstanding,
+                    interest: item.interestDue,
+                    fees: '',
+                    fenalties: '',
+                    due: item.totalDueForPeriod,
+                    pain: item.totalPaidForPeriod,
+                    in_advance: item.totalPaidInAdvanceForPeriod,
+                    late: item.totalPaidLateForPeriod,
+                    outstanding: item.totalOutstandingForPeriod
+                })
+            }
+            return data
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    },
+
+    filterRawContractTotalSchedule: function(item) {
+        let total = null;
+        try {
+            total = {
+                // Total Outstanding
+                totalOutstanding: item.detail.repaymentSchedule.totalOutstanding,
+                // Total Late
+                totalPaidLate: item.detail.repaymentSchedule.totalPaidLate,
+                // Total In Advance
+                totalAdvancePayment: item.detail.repaymentSchedule.totalAdvancePayment,
+                // Total Paid
+                totalRepayment: item.detail.repaymentSchedule.totalRepayment,
+                // Total Due
+                totalRepaymentExpected: item.detail.repaymentSchedule.totalRepaymentExpected,
+                // Total Penalties
+                totalPenaltyChargesCharged: item.detail.repaymentSchedule.totalPenaltyChargesCharged,
+                // Total Fees
+                totalFeeChargesCharged: item.detail.repaymentSchedule.totalFeeChargesCharged,
+                //Total Interest
+                totalInterestCharged: item.detail.repaymentSchedule.totalInterestCharged,
+                // Total Principle due
+                totalPrincipalExpected: item.detail.repaymentSchedule.totalPrincipalExpected,
+            }
+            return total
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    },
+
+    // chưa có bản map, đang chờ bản map
+    filterRawCollectoralInfo: function(rawData) {
+        const data = []
+        try {
+
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    },
+
+    filterRawTransactionInfo: function(rawData) {
+        const data = []
+        if (rawData.detail.length > 0) {
+            data.push(
+                {
+                    office: '',
+                    transaction_date: '',
+                    transaction_type: '',
+                    amount: '',
+                    principal: 'Gốc',
+                    interest: 'Lãi',
+                    fee: 'Phí',
+                    penalties: 'Lãi thêm',
+                    loan_balance: '',
+                },
+            )
+        }
+        try {
+            for (let item of rawData.detail) {
+                //Example created: "2019-05-31T14:16:03.932314+07:00"   
+                const date = '11/02/2016'
+                // if (item.date !== null && item.date !== '') {
+                //     date = new moment(item.date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                // }
+            
+                data.push({
+                    office: item.officeName,
+                    transaction_date: date,
+                    transaction_type: item.type.value,
+                    amount: item.amount,
+                    principal:  item.principalPortion,
+                    fee: item.feeChargesPortion,
+                    interest: item.interestPortion,
+                    penalties: item.penaltyChargesPortion,
+                    loan_balance: item.outstandingLoanBalance,
                 })
             }
             return data

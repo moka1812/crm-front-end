@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "contract-summary-tab",
@@ -162,9 +163,22 @@ export default {
       summaryListRequest: false,
     }
   },
-  mounted() {
+  created() {
+    this.getSummary();
+  },
+  computed: {
+     ...mapGetters({
+      summaryListResult: 'contract/summaryListResult',
+      summaryListRequest: 'contract/summaryListRequest',
+      }),
   },
   methods: {
+     ...mapActions({
+      getContractSummary: 'contract/getContractSummary',
+    }),
+    getSummary(){
+      this.getContractSummary({id: this.contractId})
+    },
   },
 }
 </script>
