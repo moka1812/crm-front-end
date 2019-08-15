@@ -9,7 +9,7 @@
       @onClick="handleTabsClick"
     />
     <div>
-      <div v-if="currentTab === 'Summary'"><contract-summary-tab/></div>
+      <div v-if="currentTab === 'Summary'"><contract-summary-tab v-bind:contractId = "contractId"/></div>
       <div v-if="currentTab === 'RepaymentsShedule'"><repayment-shedule-tab v-bind:contractId = "contractId"/></div>
       <div v-if="currentTab === 'Transaction'"><transaction-tab v-bind:contractId = "contractId"/></div>
       <div v-if="currentTab === 'Documents'"><contract-document-tab v-bind:contractId = "contractId"/></div>

@@ -47,4 +47,24 @@ export default  {
         return state.scheduleListRequest
     },
 
+    transactionListResult: (state) => {
+        return state.transactionListResult
+    },
+
+    transactionListRequest: (state) => {
+        return state.transactionListRequest
+    },
+
+    contractTotalResult: (state) => {
+        return state.contractTotalResult
+    },
+
+    summaryListResult: (state) => {
+        return state.summaryListResult
+    },
+
+    summaryListRequest: (state) => {
+        return state.summaryListRequest
+    },
+
 }
