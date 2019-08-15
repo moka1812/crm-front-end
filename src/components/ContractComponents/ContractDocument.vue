@@ -81,7 +81,7 @@
       </v-card>
       <v-card v-if="dialogFlag === 2">
         <v-card-title class="headline">Đang tải lên...</v-card-title>
-        <v-card-text>
+        <v-card-text class="select-fix-height">
           <loading 
             :active.sync="isLoading" 
             :can-cancel="true" 
@@ -221,7 +221,7 @@ export default {
         this.deleteContractDocument({id: this.documentId});
         this.dialog = false
         setTimeout(() => {
-           this.getContractDocument({id: "1"})
+           this.getContractDocument({id: this.contractId})
         },1000)
     },
     back: function() {
@@ -267,14 +267,14 @@ export default {
       formData.append('s3_path', this.fileUpload)
       formData.append('status', 1)
       formData.append('notes', null)
-      formData.append('contract ', 1)
+      formData.append('contract ', this.contractId)
       // formData.append('uploader', 1)
       this.uploadContractDocument(formData)
       //end loading
       setTimeout(() => {
         this.isLoading = false
         this.dialog = false
-        this.getContractDocument({id: "1"})
+        this.getContractDocument({id: this.contractId})
       },5000)
       this.fileUpload = null
       this.confirmDisabled = true

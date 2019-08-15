@@ -68,7 +68,7 @@
               </table>
             </v-flex>
             <v-flex xs6>
-              <v-card-title class="headline">Thông Tin Liên Hệ</v-card-title>
+              <v-card-title class="headline">Cập Nhật Thông Tin Liên Hệ</v-card-title>
               <table style="width:100%;">
                 <tbody>
                   <tr>
@@ -217,10 +217,12 @@ export default {
 
 .customer-edit-content-dialog .footer .btn-cancel{
   background-color: #F0F0F0!important;
+  color: #DD1E26;
 }
 
 .customer-edit-content-dialog .footer .btn-ok{
   background-color: #DD1E26 !important;
+  color: #F0F0F0;
 }
 
 .customer-edit-content .class-border {

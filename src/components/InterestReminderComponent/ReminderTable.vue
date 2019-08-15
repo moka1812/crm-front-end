@@ -31,7 +31,11 @@
               <v-btn fab dark small class="mx-2 btn-file" @click = "detail(props.item.contractId)">
                 <i class="material-icons">insert_drive_file</i>
               </v-btn>
-              <reminder-call-dialog/>
+              <reminder-call-dialog 
+                    :flagCustomer="'customer'"
+                    :phoneNumber1="'+2371412647231'"
+                    :phoneNumber2="'+2371412647223'"
+              />
             </v-layout>
           </td>
         </tr>

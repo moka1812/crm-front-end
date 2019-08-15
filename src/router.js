@@ -16,6 +16,7 @@ import InterestReminderComponent from './components/InterestReminderComponent/In
 import CustomerComponent from './components/CustomerComponent/customerComponent.vue'
 import CustomerMangement from './components/CustomerComponent/CustomerMangement.vue'
 import CustomerDetail from './components/CustomerComponent/CustomerDetail.vue'
+import AccoutantComponent from './components/AccountantComponent/AccountantManagement.vue'
 
 import { TokenService } from './services/storage.service'
 
@@ -119,6 +120,17 @@ const interestReminderPage = {
   ],
 }
 
+const accoutantPage = {
+  path: "/accountants",
+  name: "accountants",
+  component: AccoutantComponent,
+  meta: {
+    requiresAuth: true
+  },
+  children: [
+  ],
+}
+
 const defaultCusomterPage = {
   path: "",
   name: "customers",
@@ -162,6 +174,7 @@ const homePage = {
     contractPage,
     interestReminderPage,
     customerPage,
+    accoutantPage,
   ],
 }
 
