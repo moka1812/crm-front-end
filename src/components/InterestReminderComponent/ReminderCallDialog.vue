@@ -1,7 +1,7 @@
 <template>
   <v-layout justify-center class="call-content">
     <div class="button">
-      <v-btn fab dark small class="mx-2 btn-call" @click.stop="dialog = true">
+      <v-btn fab dark small class="mx-2" :class="classCSS" @click.stop="dialog = true">
         <i class="material-icons">call</i>
       </v-btn>
     </div>
@@ -18,7 +18,7 @@
           <v-layout align-center justify-center row>
             <div>
               <span>Số điện thoại 1:</span><br>
-              <strong>0974928338</strong>
+              <strong>{{phoneNumber1}}</strong>
             </div>
             <div class="button">
               <v-btn fab dark small class="mx-1 btn-call">
@@ -30,7 +30,7 @@
           <v-layout align-center justify-center row>
             <div>
               <span>Số điện thoại 2:</span><br>
-              <strong>0974928339</strong>
+              <strong>{{phoneNumber2}}</strong>
             </div>
             <div class="button">
               <v-btn fab dark small class="mx-1 btn-call">
@@ -51,8 +51,24 @@ export default {
   data () {
     return {
       dialog: false,
+      classCSS:'btn-call-reminder',
     }
   },
+  props: {
+    flagCustomer: String,
+    phoneNumber1: String,
+    phoneNumber2: String,
+  },
+  created() {
+    this.createCss();
+  },
+  methods : {
+    createCss() {
+      if (this.flagCustomer==='customer') {
+        this.classCSS = 'btn-call-customer'
+      }
+    }
+  }
 }
 </script>
 <style>
@@ -64,6 +80,16 @@ export default {
 .button .btn-call {
   background-color: #C2E6FD!important;
   color: #0197F6!important;
+}
+
+.button .btn-call-reminder {
+  background-color: #C2E6FD!important;
+  color: #0197F6!important;
+}
+
+.button .btn-call-customer {
+  background-color: #FFFFFF!important;
+  color: #DD1E26!important;
 }
 
 .call-content {

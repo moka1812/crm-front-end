@@ -1,11 +1,11 @@
 <template>
   <v-container fluid class="content-reminder">
       <v-layout align-start justify-start row>
-        <v-flex xs2>
+        <v-flex xs5>
           <h2>Nhắc Lãi</h2>
           <p>Tổng <span style="color: red;">{{totalRecordInterest}}</span></p>
         </v-flex>
-        <v-flex xs10>
+        <v-flex xs7>
           <v-layout align-start justify-end row>
             <div class="has-search">
               <span class="fa fa-search form-control-feedback"></span>
