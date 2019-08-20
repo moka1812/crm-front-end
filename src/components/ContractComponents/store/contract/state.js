@@ -25,6 +25,7 @@ export default function initialState () {
         transactionListRequest: false,
 
         contractTotalResult: null,
+        contractTotalSummaryResult: null,
 
         summaryListResult: [],
         summaryListRequest: false,

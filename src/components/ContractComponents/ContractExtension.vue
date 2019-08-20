@@ -6,7 +6,7 @@
                 <h3>Contract #123456</h3>
             </v-flex>
             <v-spacer/>
-            <v-flex md3>
+            <v-flex md4>
                 <v-stepper alt-labels v-model="step" class="elevation-0 background">
                     <v-stepper-header>
                         <template v-for="index in 2" class="step">
@@ -20,7 +20,7 @@
         <v-window v-model="step">
             <v-window-item :value="1">
                 <v-form v-model="valid1" class="form-customer">
-                    <v-flex md12 class="title-customer">
+                    <v-flex md12 class="title-form">
                         <h2 style="font-weight: bold">Customer Info</h2>
                     </v-flex>
                     <v-container :style="{'padding-top': '0px'}">
@@ -187,7 +187,7 @@
                 </v-form>
                 <br/>
                 <v-form v-model="valid2" class="form-customer">
-                    <v-flex md12 class="title-customer">
+                    <v-flex md12 class="title-form">
                         <h2 style="font-weight: bold">Asset Info</h2>
                     </v-flex>
                     <v-container>
@@ -236,7 +236,7 @@
                             </v-flex>
                             <v-spacer class="space"/>
                             <v-flex class="header-form" >
-                                <v-subheader class="input-header">Giá thẩm định 1</v-subheader>
+                                <v-subheader class="input-header">Giá thẩm định</v-subheader>
                             </v-flex>
                             <v-flex sm3>
                                 <v-text-field
@@ -252,15 +252,13 @@
                         </v-layout>
                         <v-layout>
                             <v-flex class="header-form header-form-lef">
-                                <v-subheader class="input-header">Giá thẩm định 2<span class="required">*</span></v-subheader>
+                                <v-subheader class="input-header">Phụ kiện<span class="required">*</span></v-subheader>
                             </v-flex>
                             <v-flex sm3>
                                 <v-text-field
                                     v-model="validatorAmount2Input"
-                                    :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    placeholder="Giá thẩm định 2"
+                                    :rules="[v => !!v || 'Yều cầu cần có']"
+                                    placeholder="Phụ kiện"
                                     :hint="this.validatorAmount2Hint"
                                 >
                                 </v-text-field>
@@ -281,11 +279,29 @@
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
+                        <v-layout>
+                            <v-flex class="header-form header-form-lef">
+                                <v-subheader class="input-header">Note</v-subheader>
+                            </v-flex>
+                            <v-flex sm3>
+                                <v-text-field
+                                    v-model="validatorAmount2Input"
+                                    placeholder="Note"
+                                    :hint="this.validatorAmount2Hint"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-spacer class="space"/>
+                            <v-flex class="header-form" >
+                            </v-flex>
+                            <v-flex sm3>
+                            </v-flex>
+                        </v-layout>
                     </v-container>
                 </v-form>
                 <br/>
                 <v-form v-model="valid3" class="form-customer">
-                    <v-flex md12 class="title-customer">
+                    <v-flex md12 class="title-form">
                         <h2 style="font-weight: bold">Contract Info</h2>
                     </v-flex>
                     <v-container>
@@ -303,29 +319,22 @@
                                 >
                                 </v-text-field>
                             </v-flex>
-                             <v-flex class="header-form" >
-                                <v-subheader class="input-header">Loại HĐ<span class="required">*</span></v-subheader>
+                            <v-flex class="header-form header-form-lef">
+                                <v-subheader class="input-header">Ngày mở HĐ<span class="required">*</span></v-subheader>
                             </v-flex>
-                            <v-flex sm3 class="select-fix-height">
-                                <v-select
-                                    v-model="packageInput"
-                                    :items="packageItems"
-                                    :rules="[v => !!v || 'Yều cầu cần có']"
-                                    outline
-                                >
-                                </v-select>
+                            <v-flex sm3>
+                                <date-picker v-model="openingDateInput" placeholder="Ngày mở hợp đồng*"/>
                             </v-flex>
-                             <v-flex class="header-form" >
-                                <v-subheader class="input-header">Số tiền nhận được</v-subheader>
+                            <v-flex class="header-form" >
+                                <v-subheader class="input-header">Khoản làm tròn</v-subheader>
                             </v-flex>
                             <v-flex sm3>
                                 <v-text-field
-                                    v-model="receivedAmountInput"
+                                    v-model="roundingInput"
                                     :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
-                                    label="Số tiền nhận được"
-                                    :hint="this.receivedAmountHint"
+                                    placeholder="Khoản làm tròn"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -350,42 +359,6 @@
                                 <date-picker v-model="expirationDateInput" placeholder="Ngày hết hạn hợp đồng*"/>
                             </v-flex>
                             <v-flex class="header-form" >
-                                <v-subheader class="input-header">Khoản làm tròn</v-subheader>
-                            </v-flex>
-                            <v-flex sm3>
-                                <v-text-field
-                                    v-model="roundingInput"
-                                    :rules="[
-                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    placeholder="Khoản làm tròn"
-                                >
-                                </v-text-field>
-                            </v-flex>
-                        </v-layout>
-                        <v-layout>
-                            <v-flex class="header-form header-form-lef">
-                                <v-subheader class="input-header">Ngày mở HĐ<span class="required">*</span></v-subheader>
-                            </v-flex>
-                            <v-flex sm3>
-                                <date-picker v-model="openingDateInput" placeholder="Ngày mở hợp đồng*"/>
-                            </v-flex>
-                            <v-flex class="header-form" >
-                                <v-subheader class="input-header">Gốc<span class="required">*</span></v-subheader>
-                            </v-flex>
-                            <v-flex sm3>
-                                <v-text-field
-                                    v-model="costInput"
-                                    :rules="[
-                                            v => !!v || 'Yều cầu cần có',
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    placeholder="Gốc*"
-                                    required
-                                >
-                                </v-text-field>
-                            </v-flex>
-                            <v-flex class="header-form" >
                                 <v-subheader class="input-header">Còn nợ<span class="required">*</span></v-subheader>
                             </v-flex>
                             <v-flex sm3>
@@ -401,6 +374,16 @@
                             </v-flex>
                         </v-layout>
                         <v-layout>
+                            <v-flex class="header-form header-form-lef">
+                                <v-subheader class="input-header">Lãi Suất<span class="required">*</span></v-subheader>
+                            </v-flex>
+                            <v-flex sm3>
+                                <v-text-field
+                                    v-model="interestRateInput"
+                                    placeholder="Lãi xuất"
+                                >
+                                </v-text-field>
+                            </v-flex>
                             <v-flex class="header-form header-form-lef">
                                 <v-subheader class="input-header">Giá cầm<span class="required">*</span></v-subheader>
                             </v-flex>
@@ -419,7 +402,7 @@
                             <v-flex class="header-form" >
                                 <v-subheader style="font-weight: bold" class="input-header">Tổng phí</v-subheader>
                             </v-flex>
-                            <v-flex sm4>
+                            <v-flex sm3>
                                 <v-text-field
                                     v-model="feeInput"
                                     placeholder="Tổng phí"
@@ -429,6 +412,53 @@
                             </v-flex>
                         </v-layout>
                         <v-layout>
+                            <v-flex class="header-form header-form-lef">
+                            </v-flex>
+                            <v-flex sm3>
+                            </v-flex>
+                            <v-flex class="header-form header-form-lef">
+                                <v-subheader class="input-header">Gốc<span class="required">*</span></v-subheader>
+                            </v-flex>
+                            <v-flex sm3>
+                                <v-text-field
+                                    v-model="costInput"
+                                    :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    placeholder="Gốc*"
+                                    required>
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex>
+                                <v-subheader class="input-header">Phí kho bãi</v-subheader>
+                            </v-flex>
+                            <v-flex sm3 style="display: flex;">
+                                <v-checkbox
+                                    v-model="warehousingFeeCheck"
+                                    color="#dd1e26">
+                                </v-checkbox>
+                                <v-text-field
+                                    v-model="warehousingFeeInput"
+                                    :rules="[
+                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    placeholder="Phí kho bãi"
+                                    :disabled="!warehousingFeeCheck"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex class="header-form header-form-lef">
+                                <v-subheader class="input-header">Phương thức giải ngân<span class="required">*</span></v-subheader>
+                            </v-flex>
+                            <v-flex sm3>
+                                <v-radio-group v-model="methodInput" row style="margin-top:0px !important;">
+                                    <v-radio color="#dd1e26" label="Tiền mặt" value="Tiền mặt"></v-radio>
+                                    <v-radio color="#dd1e26" label="Chuyển khoản" value="Chuyển khoản"></v-radio>
+                                </v-radio-group>
+                            </v-flex>
                             <v-flex class="header-form header-form-lef">
                                 <v-subheader class="input-header">Tiền lãi<span class="required">*</span></v-subheader>
                             </v-flex>
@@ -444,161 +474,68 @@
                                 >
                                 </v-text-field>
                             </v-flex>
-                            <v-flex sm1></v-flex>
-                            <v-flex sm8>
-                                <v-layout>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="warehousingFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm6>
-                                                <v-subheader class="input-header">Phí kho bãi</v-subheader>
-                                            </v-flex>
-                                            <v-flex sm1></v-flex>
-                                            <v-flex>
-                                                <v-text-field
-                                                    v-model="warehousingFeeInput"
-                                                    :rules="[
-                                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                        ]"
-                                                    placeholder="Phí kho bãi"
-                                                    :disabled="!warehousingFeeCheck"
-                                                >
-                                                </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                    <v-flex sm1>
-                                        
-                                    </v-flex>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="appraisalFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm6 >
-                                                <v-subheader class="input-header">Phí thẩm định</v-subheader>
-                                            </v-flex>
-                                            <v-flex sm1></v-flex>
-                                            <v-flex>
-                                                <v-text-field
-                                                    v-model="appraisalFeeInput"
-                                                    :rules="[
-                                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                        ]"
-                                                    placeholder="Phí thẩm định"
-                                                    :disabled="!appraisalFeeCheck"
-                                                >
-                                                </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="notaryFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm6 >
-                                                <v-subheader class="input-header">Phí công chứng</v-subheader>
-                                            </v-flex>
-                                            <v-flex sm1></v-flex>
-                                            <v-flex >
-                                                <v-text-field
-                                                    v-model="notaryFeeInput"
-                                                    :rules="[
-                                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                        ]"
-                                                    placeholder="Phí công chứng"
-                                                    :disabled="!notaryFeeCheck"
-                                                >
-                                                </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                    <v-flex sm1></v-flex>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="anotherFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm6 >
-                                                <v-subheader class="input-header">Phí khác</v-subheader>
-                                            </v-flex>
-                                            <v-flex sm1></v-flex>
-                                            <v-flex>
-                                            <v-text-field
-                                                v-model="anotherFeeInput"
-                                                :rules="[
-                                                        v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                    ]"
-                                                placeholder="Phí khác"
-                                                :disabled="!anotherFeeCheck"
-                                            >
-                                            </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                </v-layout>
+                            <v-flex class="header-form" >
+                                <v-subheader class="input-header">Số tiền nhận được</v-subheader>
+                            </v-flex>
+                            <v-flex sm3>
+                                <v-text-field
+                                    v-model="receivedAmountInput"
+                                    :rules="[
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Số tiền nhận được"
+                                    :hint="this.receivedAmountHint"
+                                >
+                                </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-layout>
-                            <v-flex sm4>
-                                <label class="v-label theme--light"> Phương thức </label>
-                                <v-radio-group v-model="methodInput" row>
-                                    <v-radio color="#dd1e26" label="Tiền mặt" value="Tiền mặt"></v-radio>
-                                    <v-radio color="#dd1e26" label="Chuyển khoản" value="Chuyển khoản"></v-radio>
-                                </v-radio-group>
+                            <v-flex class="header-form header-form-lef">
+                                <v-subheader class="input-header">Ngân hàng<span class="required">*</span></v-subheader>
                             </v-flex>
-                            <v-flex sm8>
-                                <v-layout>
-                                    <v-flex sm6 class="select-fix-border">
-                                        <v-select
-                                            v-model="bankInput"
-                                            :items="bankItems"
-                                            label="Ngân hàng"
-                                            :disabled="methodInput == 'Tiền mặt'"
-                                            outline
-                                        >
-                                        </v-select>
-                                    </v-flex>
-
-                                    <v-flex sm6>
-                                        <v-text-field
-                                            v-model="accountNumberInput"
-                                            :rules="[
-                                                    v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                ]"
-                                            label="Số tài khoản"
-                                            :disabled="methodInput == 'Tiền mặt'"
-                                        >
-                                        </v-text-field>
-                                    </v-flex>
-                                </v-layout>
+                            <v-flex sm3 class="select-fix-height">
+                                <v-select
+                                    v-model="bankInput"
+                                    :items="bankItems"
+                                    :disabled="methodInput == 'Tiền mặt'"
+                                    outline
+                                >
+                                </v-select>
+                            </v-flex>
+                            <v-flex class="header-form header-form-lef">
+                                <v-subheader class="input-header">Số tài khoản<span class="required">*</span></v-subheader>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="accountNumberInput"
+                                    :rules="[
+                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Số tài khoản"
+                                    :disabled="methodInput == 'Tiền mặt'"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex class="header-form">
+                            </v-flex>
+                            <v-flex sm2>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex class="header-form header-form-lef">
+                                <v-subheader class="input-header">Chi Nhánh/PGD</v-subheader>
+                            </v-flex>
+                            <v-flex sm9>
                                 <v-text-field
                                     v-model="bankBranchInput"
                                     label="Chi Nhánh/PGD"
                                     :disabled="methodInput == 'Tiền mặt'"
                                 >
                                 </v-text-field>
+                            </v-flex>
+                            <v-flex class="header-form">
+                            </v-flex>
+                            <v-flex sm2>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -672,6 +609,7 @@ export default {
       bankItems: ['Không', 'ACB', 'Maritimebank', 'Sacombank', 'OCB', 'thêm...'],
       accountNumberInput: '',
       bankBranchInput: '',
+      interestRateInput: '',
     }
   },
   mounted() {
@@ -750,7 +688,7 @@ export default {
     padding-top: 20px;
     padding-left: 16px;
 }
-.title-customer {
+.title-form {
     text-align: center;
     text-decoration: underline;
     margin-top: 20px;
@@ -811,9 +749,5 @@ export default {
 }
 .select-fix-height .v-input__append-inner{
   margin-top: 10px !important;
-}
-.select-fix-border .v-text-field--box .v-input__slot, 
-.select-fix-border .v-text-field--outline .v-input__slot{
-  border: 1px solid !important;
 }
 </style>

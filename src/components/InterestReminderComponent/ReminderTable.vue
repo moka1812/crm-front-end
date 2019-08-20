@@ -32,7 +32,7 @@
                 <i class="material-icons">insert_drive_file</i>
               </v-btn>
               <reminder-call-dialog 
-                    :flagCustomer="'customer'"
+                    :flagCustomer="'reminder'"
                     :phoneNumber1="'+2371412647231'"
                     :phoneNumber2="'+2371412647223'"
               />

@@ -67,4 +67,8 @@ export default  {
         return state.summaryListRequest
     },
 
+    contractTotalSummaryResult: (state) => {
+        return state.contractTotalSummaryResult
+    }
+
 }

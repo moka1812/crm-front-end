@@ -16,7 +16,8 @@ import {
     CONTRACT_TRANSACTION_LIST_SUCCESS,
     CONTRACT_SCHEDULE_TOTAL,
     CONTRACT_SUMMARY_REQUEST,
-    CONTRACT_SUMMARY_RESULT
+    CONTRACT_SUMMARY_RESULT,
+    CONTRACT_SUMMARY_TOTAL,
 } from './types'
 import {ContractService, ContractError} from '../../../../services/contract.service'
 
@@ -147,8 +148,9 @@ export default {
         commit(CONTRACT_SUMMARY_REQUEST)
         try {
             const id = has.call(payload, 'id') ? payload.id : null
-            const {contracts} = await ContractService.getContractSummary(id)
+            const {contracts, total} = await ContractService.getContractSummary(id)
             commit(CONTRACT_SUMMARY_RESULT, {contracts})
+            commit(CONTRACT_SUMMARY_TOTAL, {total})
         } catch(error) {
             if (error instanceof ContractError) {
                 commit(CONTRACT_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})

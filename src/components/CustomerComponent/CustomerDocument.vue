@@ -179,18 +179,18 @@ export default {
   },
   computed: {
     ...mapGetters({
-      documentListResult: "contract/documentListResult",
-      documentListRequest: "contract/documentListRequest"
+      documentListResult: "customer/documentListResult",
+      documentListRequest: "customer/documentListRequest"
     })
   },
   methods: {
     ...mapActions({
-      getContractDocument: "contract/getContractDocument",
-      deleteContractDocument: "contract/deleteContractDoucument",
-      uploadContractDocument: "contract/uploadContractDocument"
+      getCustomerDocument: "customer/getCustomerDocument",
+      deleteCustomerDocument: "customer/deleteCustomerDoucument",
+      uploadCustomerDocument: "customer/uploadCustomerDocument"
     }),
     getDocument() {
-      this.getContractDocument({ id: "1" });
+      this.getCustomerDocument({ id: "1" });
     },
     viewDocument: function(link) {
       window.open(link, "_blank");
@@ -211,10 +211,10 @@ export default {
       })
     },
     deleteDocument: function() {
-      this.deleteContractDocument({ id: this.documentId });
+      this.deleteCustomerDocument({ id: this.documentId });
       this.dialog = false;
       setTimeout(() => {
-        this.getContractDocument({ id: "1" });
+        this.getCustomerDocument({ id: "1" });
       }, 1000);
     },
     back: function() {
@@ -259,15 +259,15 @@ export default {
       formData.append("doc_type", documentType);
       formData.append("s3_path", this.fileUpload);
       formData.append("status", 1);
-      formData.append("notes", null);
-      formData.append("contract ", 1);
+      formData.append("notes", 'no notes');
+      formData.append("client ", 1);
       // formData.append('uploader', 1)
-      this.uploadContractDocument(formData);
+      this.uploadCustomerDocument(formData);
       //end loading
       setTimeout(() => {
         this.isLoading = false;
         this.dialog = false;
-        this.getContractDocument({ id: "1" });
+        this.getCustomerDocument({ id: "1" });
       }, 5000);
       this.fileUpload = null;
       this.confirmDisabled = true;
@@ -278,7 +278,7 @@ export default {
     }
   },
   watch: {
-    getContract() {
+    getCustomer() {
       this.getDocument();
     }
   }
