@@ -33,8 +33,7 @@ export default {
     async getContractList({commit}, payload) {
         commit(CONTRACT_LIST_REQUEST)
         try {
-            const page = has.call(payload, 'page') ? payload.page : null
-            const {contracts} = await ContractService.getContractList(page)
+            const {contracts} = await ContractService.getContractList()
             commit(CONTRACT_LIST_SUCCESS, {contracts})
         } catch (error) {
             if (error instanceof ContractError) {

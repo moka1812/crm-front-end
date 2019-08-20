@@ -11,9 +11,8 @@
       :headers="headers"
       :items="contractListResult"
       :loading="contractListRequest"
-      :pagination.sync="pagination"
       item-key="contractID"
-      :rows-per-page-items=[2]
+      :rows-per-page-items=[3]
       class="elevation-1"
     >
       <template v-slot:items="props">
@@ -21,13 +20,12 @@
           <td class="text-xs-center content">{{ props.item.contractID }}</td>
           <td class="text-xs-center content">{{ props.item.createdDate }}</td>
           <td class="text-xs-center content ">{{ props.item.closedDate }}</td>
-          <td class="text-xs-center content">{{ props.item.loanStatus }}</td>
-          <td class="text-xs-center content">{{ props.item.client }}</td>
-          <td class="text-xs-center content">{{ props.item.asset }}</td>
-          <td class="text-xs-center content">{{ props.item.loanBalance }}</td>
+          <td class="text-xs-center content">{{ props.item.status }}</td>
+          <td class="text-xs-center content">{{ props.item.clientName }}</td>
+          <td class="text-xs-center content">{{ props.item.assetDescription }}</td>
+          <td class="text-xs-center content">{{ props.item.approvedAmount }}</td>
           <td class="text-xs-center content">{{ props.item.interest }}</td>
-          <td class="text-xs-center content">{{ props.item.storageID }}</td>
-          <td class="text-xs-center content">{{ props.item.storageLocation }}</td>
+          <td class="text-xs-center content">{{ props.item.branchName }}</td>
           <td class="text-xs-center" @dblclick.stop>
             <action-button/>
           </td>
@@ -43,19 +41,19 @@
 </template>
 
 <script>
+import ActionButton from './ActionButton.vue'
 import {mapActions, mapGetters} from 'vuex'
-import ActionButton from "@/components/ContractComponents/ActionButton.vue"
 
 export default {
     name: "table-lib",
-    components: {
-        ActionButton,
+    components: { 
+      ActionButton
     },
     data() {
         return {
             headers: [
                 {
-                    text: "Mã Contract", value: "contractID", align: 'left', sortable: false, class: "header", width: 3
+                    text: "Mã HĐ", value: "contractID", align: 'left', sortable: false, class: "header", width: 3
                 },
                 {
                     text: "Ngày tạo", value: "createdDate", align: 'center', sortable: false, class: "header"
@@ -64,7 +62,7 @@ export default {
                     text: "Ngày đóng", value: "closedDate", align: 'center', sortable: false, class: "header"
                 },
                 {
-                    text: "Trạng thái vay", value: "loanStatus", align: 'center', sortable: false, class: "header"
+                    text: "Trạng thái", value: "loanStatus", align: 'center', sortable: false, class: "header"
                 },
                 {
                     text: "Khách hàng", value: "client", align: 'center', sortable: false, class: "header"
@@ -79,55 +77,12 @@ export default {
                     text: "Lãi suất", value: "interest", align: 'center', sortable: false, class: "header"
                 },
                 {
-                    text: "Mã kho", value: "storageID", align: 'center', sortable: false, class: "header"
-                },
-                {
                     text: "Địa chỉ", value: "storageLocation", align: 'center', sortable: false, class: "header"
                 },
                 {
                     text: "Thao tác", value: "action", align: 'center', sortable: false, class: "header"
                 },
             ],
-            // contractListResult: [
-            //     {
-            //         contractID: 1,
-            //         createdDate: '01/01/2019',
-            //         closedDate: '01/01/2019',
-            //         loanStatus: 'Active',
-            //         client: 'David',
-            //         asset: 'Iphone 7',
-            //         loanBalance: '5.000.000',
-            //         interest: '4.99',
-            //         storageID: 123,
-            //         storageLocation: 'DTH',
-            //     },
-            //     {
-            //         contractID: 1,
-            //         createdDate: '01/01/2019',
-            //         closedDate: '01/01/2019',
-            //         loanStatus: 'Active',
-            //         client: 'David',
-            //         asset: 'Iphone 7',
-            //         loanBalance: '5.000.000',
-            //         interest: '4.99',
-            //         storageID: 123,
-            //         storageLocation: 'DTH',
-            //     },
-            //     {
-            //         contractID: 1,
-            //         createdDate: '01/01/2019',
-            //         closedDate: '01/01/2019',
-            //         loanStatus: 'Active',
-            //         client: 'David',
-            //         asset: 'Iphone 7',
-            //         loanBalance: '5.000.000',
-            //         interest: '4.99',
-            //         storageID: 123,
-            //         storageLocation: 'DTH',
-            //     }
-            // ],
-            // contractListRequest: false,
-            pagination: {},
         } 
     },
     computed: {
@@ -141,26 +96,16 @@ export default {
     methods : {
       ...mapActions({
         getContractList: 'contract/getContractList',
-        // getContractDetail: 'contract/getContractDetail'
       }),
       detail: function (contractID) {
-        if (contractID != null){
-          //  this.$router.push('/contracts/contract-detail');
+        if (contractID != null) {
           this.$router.push({path: '/contracts/contract-detail', query: {id: contractID}});
-          // this.$router.push({params: {contractID: contractID}});
-          // this.getContractDetail({contractID});
         }
       }
     },
-    watch: {
-      pagination: {
-      handler () {
-        const page = this.pagination.page
-        this.getContractList({page})
-      },
-      deep: true
-    }
-    }
+    created() {
+      this.getContractList();
+    },
 }
 </script>
 
