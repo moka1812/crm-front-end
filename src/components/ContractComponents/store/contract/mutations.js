@@ -19,6 +19,7 @@ import {
     CONTRACT_SCHEDULE_TOTAL,
     CONTRACT_SUMMARY_RESULT,
     CONTRACT_SUMMARY_REQUEST,
+    CONTRACT_SUMMARY_TOTAL,
 } from './types'
 
 export default {
@@ -116,6 +117,9 @@ export default {
     },
     [CONTRACT_SCHEDULE_TOTAL] (state, {total}) {
         Vue.set(state, 'contractTotalResult', total)
+    },
+    [CONTRACT_SUMMARY_TOTAL] (state, {total}) {
+        Vue.set(state, 'contractTotalSummaryResult', total)
     },
     [CONTRACT_SUMMARY_REQUEST] (state) {
         Vue.set(state, 'summaryListRequest', true)

@@ -45,3 +45,11 @@ export const contractCollectoralInfo = `${baseURL}/contracts/:id/collectoral-inf
 export const contractTransaction = `${baseURL}/contracts/:id/transaction-log/`
 
 export const contractRepaymentSchedule = `${baseURL}/contracts/:id/repayment-schedule/`
+
+export const customerApi = `${baseURL}/client/`
+
+export const customerDoucument = `${baseURL}/client/:id/client-docs/`
+
+export const deleteCustomerDocument = `${baseURL}/client-docs/:id/`
+
+export const customerDocumentApi = `${baseURL}/client-docs/`

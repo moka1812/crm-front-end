@@ -148,7 +148,6 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import axios from 'axios'
 import Loading from 'vue-loading-overlay';
 
 export default {
@@ -210,12 +209,6 @@ export default {
     },
     viewDocument: function(link) {
        window.open(link, "_blank");  
-    },
-    downloadItem (url) {
-    axios.get(url)
-      .catch(error => {
-        console.error(error)
-      })
     },
     deleteDocument: function() {
         this.deleteContractDocument({id: this.documentId});

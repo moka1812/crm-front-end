@@ -21,6 +21,16 @@
         </tr>
       </template>
 
+       <template slot="footer">
+        <td class="text-xs-left content bold-text"><span>Tổng</span></td>
+        <td class="text-xs-center content total">{{contractTotalSummaryResult === null ? '' : contractTotalSummaryResult.loan_amount}}</td>
+        <td class="text-xs-center content total">{{contractTotalSummaryResult === null ? '' : contractTotalSummaryResult.paid}}</td>
+        <td class="text-xs-center content total">{{contractTotalSummaryResult === null ? '' : contractTotalSummaryResult.waived}}</td>
+        <td class="text-xs-center content total">{{contractTotalSummaryResult === null ? '' : contractTotalSummaryResult.unpaid}}</td>
+        <td class="text-xs-center content total">{{contractTotalSummaryResult === null ? '' : contractTotalSummaryResult.outstanding}}</td> 
+        <td class="text-xs-center content total">{{contractTotalSummaryResult === null ? '' : contractTotalSummaryResult.overdue}}</td> 
+    </template>
+
       <template v-slot:no-data>
         <!-- Nothing -->
       </template>
@@ -68,99 +78,99 @@ export default {
           text: "Quá hạn", value: "overdue", align: 'center', sortable: false, class: "header"
         }
       ],
-      summaryListResult: [
-                {
-                    original: 'Principal',
-                    css:'bold-text',
-                    loan_amount: '123218200',
-                    paid: '10,122,932',
-                    waived: '0',
-                    outstanding: '11,341,932',
-                    unpaid: '3254222',
-                    overdue: '12,346,932'
-                },
-                {
-                    original: 'Interest',
-                    css:'bold-text',
-                    loan_amount: '123218200',
-                    paid: '10,122,932',
-                    waived: '0',
-                    outstanding: '11,341,932',
-                    unpaid: '3254222',
-                    overdue: '12,346,932'
-                },
-                {
-                    original: 'Fees',
-                    css:'bold-text',
-                    loan_amount: '123218200',
-                    paid: '10,122,932',
-                    waived: '0',
-                    outstanding: '11,341,932',
-                    unpaid: '3254222',
-                    overdue: '12,346,932'
-                },
-                {
-                    original: 'Storage',
-                    css:'normal-text',
-                    loan_amount: '123218200',
-                    paid: '10,122,932',
-                    waived: '0',
-                    outstanding: '11,341,932',
-                    unpaid: '3254222',
-                    overdue: '12,346,932'
-                },
-                {
-                    original: 'Validate',
-                    css:'normal-text',
-                    loan_amount: '123218200',
-                    paid: '10,122,932',
-                    waived: '0',
-                    outstanding: '11,341,932',
-                    unpaid: '3254222',
-                    overdue: '12,346,932'
-                },
-                {
-                    original: 'Notary',
-                    css:'normal-text',
-                    loan_amount: '123218200',
-                    paid: '10,122,932',
-                    waived: '0',
-                    outstanding: '11,341,932',
-                    unpaid: '3254222',
-                    overdue: '12,346,932'
-                },
-                {
-                    original: 'Other',
-                    css:'normal-text',
-                    paid: '10,122,932',
-                    waived: '0',
-                    written_off: '0',
-                    outstanding: '11,341,932',
-                    unpaid: '3254222',
-                    overdue: '12,346,932'
-                },
-                {
-                    original: 'Penalties',
-                    css:'bold-text',
-                    paid: '10,122,932',
-                    waived: '0',
-                    written_off: '0',
-                    outstanding: '11,341,932',
-                    unpaid: '3254222',
-                    overdue: '12,346,932'
-                },
-                {
-                    original: 'Total',
-                    css:'bold-text',
-                    paid: '10,122,932',
-                    waived: '0',
-                    written_off: '0',
-                    outstanding: '11,341,932',
-                    unpaid: '3254222',
-                    overdue: '12,346,932'
-                },
-      ],
-      summaryListRequest: false,
+      // summaryListResult: [
+      //           {
+      //               original: 'Principal',
+      //               css:'bold-text',
+      //               loan_amount: '123218200',
+      //               paid: '10,122,932',
+      //               waived: '0',
+      //               outstanding: '11,341,932',
+      //               unpaid: '3254222',
+      //               overdue: '12,346,932'
+      //           },
+      //           {
+      //               original: 'Interest',
+      //               css:'bold-text',
+      //               loan_amount: '123218200',
+      //               paid: '10,122,932',
+      //               waived: '0',
+      //               outstanding: '11,341,932',
+      //               unpaid: '3254222',
+      //               overdue: '12,346,932'
+      //           },
+      //           {
+      //               original: 'Fees',
+      //               css:'bold-text',
+      //               loan_amount: '123218200',
+      //               paid: '10,122,932',
+      //               waived: '0',
+      //               outstanding: '11,341,932',
+      //               unpaid: '3254222',
+      //               overdue: '12,346,932'
+      //           },
+      //           {
+      //               original: 'Storage',
+      //               css:'normal-text',
+      //               loan_amount: '123218200',
+      //               paid: '10,122,932',
+      //               waived: '0',
+      //               outstanding: '11,341,932',
+      //               unpaid: '3254222',
+      //               overdue: '12,346,932'
+      //           },
+      //           {
+      //               original: 'Validate',
+      //               css:'normal-text',
+      //               loan_amount: '123218200',
+      //               paid: '10,122,932',
+      //               waived: '0',
+      //               outstanding: '11,341,932',
+      //               unpaid: '3254222',
+      //               overdue: '12,346,932'
+      //           },
+      //           {
+      //               original: 'Notary',
+      //               css:'normal-text',
+      //               loan_amount: '123218200',
+      //               paid: '10,122,932',
+      //               waived: '0',
+      //               outstanding: '11,341,932',
+      //               unpaid: '3254222',
+      //               overdue: '12,346,932'
+      //           },
+      //           {
+      //               original: 'Other',
+      //               css:'normal-text',
+      //               paid: '10,122,932',
+      //               waived: '0',
+      //               written_off: '0',
+      //               outstanding: '11,341,932',
+      //               unpaid: '3254222',
+      //               overdue: '12,346,932'
+      //           },
+      //           {
+      //               original: 'Penalties',
+      //               css:'bold-text',
+      //               paid: '10,122,932',
+      //               waived: '0',
+      //               written_off: '0',
+      //               outstanding: '11,341,932',
+      //               unpaid: '3254222',
+      //               overdue: '12,346,932'
+      //           },
+      //           {
+      //               original: 'Total',
+      //               css:'bold-text',
+      //               paid: '10,122,932',
+      //               waived: '0',
+      //               written_off: '0',
+      //               outstanding: '11,341,932',
+      //               unpaid: '3254222',
+      //               overdue: '12,346,932'
+      //           },
+      // ],
+      // summaryListRequest: false,
     }
   },
   created() {
@@ -170,6 +180,7 @@ export default {
      ...mapGetters({
       summaryListResult: 'contract/summaryListResult',
       summaryListRequest: 'contract/summaryListRequest',
+      contractTotalSummaryResult: 'contract/contractTotalSummaryResult',
       }),
   },
   methods: {
