@@ -184,6 +184,7 @@
                                     ]"
                                     label="Giá mong muốn"
                                     :hint="this.expectedAmountHint"
+                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -208,6 +209,7 @@
                                         ]"
                                     label="Giá thẩm định"
                                     :hint="this.validatorAmountHint"
+                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -231,6 +233,7 @@
                                         ]"
                                     label="Giá cầm"
                                     :hint="pawnAmountHint"
+                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -464,6 +467,7 @@
                                         ]"
                                     label="Lãi suất*"
                                     :disabled="interestRateDisabled"
+                                    type="number"
                                     required
                                 >
                                 </v-text-field>
@@ -477,6 +481,7 @@
                                         ]"
                                     label="Giá cầm*"
                                     :hint="pawnAmountHint"
+                                    type="number"
                                     required
                                 >
                                 </v-text-field>
@@ -490,6 +495,7 @@
                                     label="Khoản làm tròn"
                                     readonly
                                     :hint="roundingHint"
+                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -506,7 +512,7 @@
                                         ]"
                                     label="Gốc*"
                                     :hint="costHint"
-                                    required
+                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -519,6 +525,7 @@
                                         ]"
                                     label="Phí kho bãi"
                                     :hint="warehousingFeeHint"
+                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -540,6 +547,7 @@
                                         ]"
                                     label="Tiền lãi"
                                     :hint="interestMoneyHint"
+                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -552,6 +560,7 @@
                                         ]"
                                     label="Số tiền nhận được"
                                     :hint="this.receivedAmountHint"
+                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -770,6 +779,7 @@
                                     ]"
                                     label="Giá mong muốn"
                                     :hint="this.expectedAmountHint"
+                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -799,6 +809,7 @@
                                         ]"
                                     label="Giá thẩm định"
                                     :hint="this.validatorAmountHint"
+                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -822,6 +833,7 @@
                                         ]"
                                     label="Giá cầm"
                                     :hint="pawnAmountHint"
+                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -915,6 +927,7 @@
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Khoản làm tròn"
+                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -932,8 +945,8 @@
                                         ]"
                                     label="Gốc*"
                                     :hint="costHint"
+                                    type="number"
                                     readonly
-                                    required
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -944,6 +957,7 @@
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Phí kho bãi"
+                                    type="number"
                                     :hint="warehousingFeeHint"
                                 >
                                 </v-text-field>
@@ -966,6 +980,7 @@
                                         ]"
                                     label="Tiền lãi"
                                     :hint="interestMoneyHint"
+                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -978,6 +993,7 @@
                                         ]"
                                     label="Số tiền nhận được"
                                     :hint="this.receivedAmountHint"
+                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -1262,13 +1278,13 @@ export default {
     changeCaculate() {
         if (this.interestRateInput && this.pawnAmountInput) {
             const productName = this.productListResult[this.packageInput].productName
-            this.costInput = getCost(this.pawnAmountInput, this.interestRateInput, productName)
-            this.roundingInput = getRoundFee(this.pawnAmountInput, this.interestRateInput, productName)
-            this.interestMoneyInput = (this.pawnAmountInput - this.costInput).toFixed(3)
+            this.costInput = String(getCost(this.pawnAmountInput, this.interestRateInput, productName))
+            this.roundingInput = String(getRoundFee(this.pawnAmountInput, this.interestRateInput, productName))
+            this.interestMoneyInput = String((this.pawnAmountInput - this.costInput).toFixed(3))
         } else {
-            this.costInput = 0
-            this.roundingInput = 0
-            this.interestMoneyInput = 0
+            this.costInput = '0'
+            this.roundingInput = '0'
+            this.interestMoneyInput = '0'
         }
     },
     cancleHandle() {
