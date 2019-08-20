@@ -37,3 +37,5 @@ export const contractDoucument = `${baseURL}/contracts/:id/contract-docs/`
 export const deleteContractDocument = `${baseURL}/contract-docs/:id/`
 
 export const contractDocumentApi = `${baseURL}/contract-docs/`
+
+export const productApi = `${baseURL}/products/`

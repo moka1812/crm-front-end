@@ -18,31 +18,16 @@
                 </v-stepper>
             </v-flex>
         </v-layout>
-        <v-layout v-if="step==1">
-            <v-flex sm3>
-                <v-layout justify-start>
-                    <v-checkbox
-                        v-model="newCustomer"
-                        label="Khách hàng mới"
-                        color="#dd1e26"
-                    ></v-checkbox>
-                    <v-checkbox
-                        v-model="oldCustomer"
-                        label="Khách hàng cũ"
-                        color="#dd1e26"
-                    ></v-checkbox>
-                </v-layout>
-            </v-flex>
-        </v-layout>
-        <v-window v-model="step">
+
+        <v-window v-if="!contract" v-model="step">
             <v-window-item :value="1" class="padding">
                 <v-form v-model="valid1">
                     <v-container :style="{'padding-top': '0px'}">
                         <v-layout>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model.lazy="nameInput"
-                                    label="Tên*"
+                                    v-model.lazy="firstNameInput"
+                                    label="Họ*"
                                     required
                                 >
                                 </v-text-field>
@@ -50,8 +35,8 @@
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model.lazy="emailInput"
-                                    label="Email"
+                                    v-model.lazy="lastNameInput"
+                                    label="Tên*"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -76,7 +61,7 @@
                                     v-model.lazy="phone2Input"
                                     :rules="[
                                         //Phone has charater pre '+' (only one or no), from 10-13 digits.
-                                        v => /^-?[+]?[0-9]{10,13}$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        v => /\s|[0-9]{10,13}$/.test(v) || 'Dữ liệu không hợp lệ'
                                     ]"
                                     label="Phone 2"
                                 >
@@ -91,11 +76,8 @@
                             <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="NationalIDInput"
-                                    label="CMND"
+                                    label="CMND/HC*"
                                 >
-                                    <template slot="append-outer">
-                                        <v-icon>attach_file</v-icon>
-                                    </template>
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
@@ -169,6 +151,7 @@
                                 class="nextBtn"
                                 color="#dd1e26"
                                 @click="step++"
+                                :diasbled="!valid1"
                                 round
                             >
                                 Next
@@ -219,27 +202,25 @@
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model="validatorAmount1Input"
+                                    v-model="validatorAmountInput"
                                     :rules="[
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
-                                    label="Giá thẩm định 1"
-                                    :hint="this.validatorAmount1Hint"
+                                    label="Giá thẩm định"
+                                    :hint="this.validatorAmountHint"
                                 >
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-layout>
                             <v-flex sm5>
-                                <v-text-field
-                                    v-model="validatorAmount2Input"
-                                    :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Giá thẩm định 2"
-                                    :hint="this.validatorAmount2Hint"
-                                >
-                                </v-text-field>
+                                <v-textarea
+                                    v-model.lazy="accessoryInput"
+                                    label="Phụ Kiện"
+                                    rows="1"
+                                    auto-grow
+                                    >
+                                </v-textarea>
                             </v-flex>
                             <v-spacer/>
                             <v-flex sm5>
@@ -249,7 +230,7 @@
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Giá cầm"
-                                    :hint="this.pawnAmountHint"
+                                    :hint="pawnAmountHint"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -440,26 +421,15 @@
                             <v-flex sm4>
                                 <v-text-field
                                     v-model="contractIDInput"
-                                    :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Mã hợp đồng"
+                                    label="Mã HĐ"
                                 >
                                 </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                                <date-picker v-model="openingDateInput" label="Ngày mở hợp đồng*"/>
                             </v-flex>
                             <v-flex sm4>
                                 
-                            </v-flex>
-                            <v-flex sm4>
-                                <v-text-field
-                                    v-model="receivedAmountInput"
-                                    :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Số tiền nhận được"
-                                    :hint="this.receivedAmountHint"
-                                >
-                                </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-layout>
@@ -474,179 +444,83 @@
                                 </v-select>
                             </v-flex>
                             <v-flex sm4>
-                                <date-picker v-model="expirationDateInput" label="Ngày hết hạn hợp đồng*"/>
+                                <v-text-field
+                                    v-model="expirationDateInput"
+                                    label="Ngày hết hạn hợp đồng"
+                                    readonly
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                                
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="interestRateInput"
+                                    :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                        ]"
+                                    label="Lãi suất*"
+                                    :disabled="interestRateDisabled"
+                                    required
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="pawnAmountInput"
+                                    :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Giá cầm*"
+                                    :hint="pawnAmountHint"
+                                    required
+                                >
+                                </v-text-field>
                             </v-flex>
                             <v-flex sm4>
                                 <v-text-field
                                     v-model="roundingInput"
                                     :rules="[
-                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Khoản làm tròn"
+                                    readonly
+                                    :hint="roundingHint"
                                 >
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-layout>
                             <v-flex sm4>
-                                <date-picker v-model="openingDateInput" label="Ngày mở hợp đồng*"/>
                             </v-flex>
                             <v-flex sm4>
                                 <v-text-field
                                     v-model="costInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Gốc*"
+                                    :hint="costHint"
                                     required
-                                >
-                                </v-text-field>
-                            </v-flex>
-                            <v-flex sm4>
-                                <v-text-field
-                                    v-model="owedInput"
-                                    :rules="[
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Còn nợ"
-                                    required
-                                >
-                                </v-text-field>
-                            </v-flex>
-                        </v-layout>
-                        <v-layout>
-                            <v-flex sm4>
-                                <v-text-field
-                                    v-model="pawnPriceInput"
-                                    :rules="[
-                                            v => !!v || 'Yều cầu cần có',
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Giá cầm*"
-                                    required
-                                >
-                                </v-text-field>
-                            </v-flex>
-                            <v-flex sm4>
-                                <v-text-field
-                                    v-model="feeInput"
-                                    label="Tổng phí"
                                     readonly
                                 >
                                 </v-text-field>
                             </v-flex>
-                        </v-layout>
-                        <v-layout>
                             <v-flex sm4>
                                 <v-text-field
-                                    v-model="interestMoneyInput"
+                                    v-model="warehousingFeeInput"
                                     :rules="[
-                                            v => !!v || 'Yều cầu cần có',
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
-                                    label="Tiền lãi"
-                                    readonly
+                                    label="Phí kho bãi"
+                                    :hint="warehousingFeeHint"
                                 >
                                 </v-text-field>
-                            </v-flex>
-                            <v-flex sm8>
-                                <v-layout>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="warehousingFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm11>
-                                                <v-text-field
-                                                    v-model="warehousingFeeInput"
-                                                    :rules="[
-                                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                        ]"
-                                                    label="Phí kho bãi"
-                                                    :disabled="!warehousingFeeCheck"
-                                                >
-                                                </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                    <v-flex sm1>
-                                        
-                                    </v-flex>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="appraisalFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm11>
-                                                <v-text-field
-                                                    v-model="appraisalFeeInput"
-                                                    :rules="[
-                                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                        ]"
-                                                    label="Phí thẩm định"
-                                                    :disabled="!appraisalFeeCheck"
-                                                >
-                                                </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="notaryFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm11>
-                                                <v-text-field
-                                                    v-model="notaryFeeInput"
-                                                    :rules="[
-                                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                        ]"
-                                                    label="Phí công chứng"
-                                                    :disabled="!notaryFeeCheck"
-                                                >
-                                                </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                    <v-flex sm1></v-flex>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="anotherFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm11>
-                                            <v-text-field
-                                                v-model="anotherFeeInput"
-                                                :rules="[
-                                                        v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                    ]"
-                                                label="Phí khác"
-                                                :disabled="!anotherFeeCheck"
-                                            >
-                                            </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                </v-layout>
                             </v-flex>
                         </v-layout>
                         <v-layout>
@@ -657,30 +531,57 @@
                                     <v-radio color="#dd1e26" label="Chuyển khoản" value="Chuyển khoản"></v-radio>
                                 </v-radio-group>
                             </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="interestMoneyInput"
+                                    :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Tiền lãi"
+                                    :hint="interestMoneyHint"
+                                    readonly
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="receivedAmountInput"
+                                    :rules="[
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Số tiền nhận được"
+                                    :hint="this.receivedAmountHint"
+                                    readonly
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex sm5>
+                                <v-select
+                                    v-model="bankInput"
+                                    :items="bankItems"
+                                    label="Ngân hàng"
+                                    :disabled="methodInput == 'Tiền mặt'"
+                                >
+                                </v-select>
+                            </v-flex>
+                            <v-flex sm3>
+                                <v-text-field
+                                    v-model="accountNumberInput"
+                                    :style="{'margin-left': '5px'}"
+                                    :rules="[
+                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Số tài khoản"
+                                    :disabled="methodInput == 'Tiền mặt'"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
                             <v-flex sm8>
-                                <v-layout>
-                                    <v-flex sm6>
-                                        <v-select
-                                            v-model="bankInput"
-                                            :items="bankItems"
-                                            label="Ngân hàng"
-                                            :disabled="methodInput == 'Tiền mặt'"
-                                        >
-                                        </v-select>
-                                    </v-flex>
-                                    <v-flex sm6>
-                                        <v-text-field
-                                            v-model="accountNumberInput"
-                                            :style="{'margin-left': '5px'}"
-                                            :rules="[
-                                                    v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                ]"
-                                            label="Số tài khoản"
-                                            :disabled="methodInput == 'Tiền mặt'"
-                                        >
-                                        </v-text-field>
-                                    </v-flex>
-                                </v-layout>
                                 <v-text-field
                                     v-model="bankBranchInput"
                                     label="Chi Nhánh/PGD"
@@ -720,8 +621,8 @@
                         <v-layout>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model.lazy="nameInput"
-                                    label="Tên*"
+                                    v-model.lazy="firstNameInput"
+                                    label="Họ*"
                                     required
                                 >
                                 </v-text-field>
@@ -729,8 +630,8 @@
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model.lazy="emailInput"
-                                    label="Email"
+                                    v-model.lazy="lastNameInput"
+                                    label="Tên*"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -755,7 +656,7 @@
                                     v-model.lazy="phone2Input"
                                     :rules="[
                                         //Phone has charater pre '+' (only one or no), from 10-13 digits.
-                                        v => /^-?[+]?[0-9]{10,13}$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        v => /^-?[0-9]{10,13}?$/.test(v) || 'Dữ liệu không hợp lệ'
                                     ]"
                                     label="Phone 2"
                                 >
@@ -772,9 +673,6 @@
                                     v-model.lazy="NationalIDInput"
                                     label="CMND"
                                 >
-                                    <template slot="append-outer">
-                                        <v-icon>attach_file</v-icon>
-                                    </template>
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
@@ -895,27 +793,25 @@
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model="validatorAmount1Input"
+                                    v-model="validatorAmountInput"
                                     :rules="[
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
-                                    label="Giá thẩm định 1"
-                                    :hint="this.validatorAmount1Hint"
+                                    label="Giá thẩm định"
+                                    :hint="this.validatorAmountHint"
                                 >
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-layout>
                             <v-flex sm5>
-                                <v-text-field
-                                    v-model="validatorAmount2Input"
-                                    :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Giá thẩm định 2"
-                                    :hint="this.validatorAmount2Hint"
-                                >
-                                </v-text-field>
+                                <v-textarea
+                                    v-model.lazy="accessoryInput"
+                                    label="Phụ Kiện"
+                                    rows="1"
+                                    auto-grow
+                                    >
+                                </v-textarea>
                             </v-flex>
                             <v-spacer/>
                             <v-flex sm5>
@@ -925,7 +821,7 @@
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Giá cầm"
-                                    :hint="this.pawnAmountHint"
+                                    :hint="pawnAmountHint"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -952,26 +848,15 @@
                             <v-flex sm4>
                                 <v-text-field
                                     v-model="contractIDInput"
-                                    :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Mã hợp đồng"
+                                    label="Mã HĐ"
                                 >
                                 </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                                <date-picker v-model="openingDateInput" label="Ngày mở hợp đồng*"/>
                             </v-flex>
                             <v-flex sm4>
                                 
-                            </v-flex>
-                            <v-flex sm4>
-                                <v-text-field
-                                    v-model="receivedAmountInput"
-                                    :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Số tiền nhận được"
-                                    :hint="this.receivedAmountHint"
-                                >
-                                </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-layout>
@@ -986,179 +871,82 @@
                                 </v-select>
                             </v-flex>
                             <v-flex sm4>
-                                <date-picker v-model="expirationDateInput" label="Ngày hết hạn hợp đồng*"/>
+                                <v-text-field
+                                    v-model="expirationDateInput"
+                                    label="Ngày hết hạn hợp đồng"
+                                    readonly
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                               
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="interestRateInput"
+                                    :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            
+                                        ]"
+                                    label="Lãi suất*"
+                                    required
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="pawnAmountInput"
+                                    :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Giá cầm*"
+                                    required
+                                    :hint="pawnAmountHint"
+                                >
+                                </v-text-field>
                             </v-flex>
                             <v-flex sm4>
                                 <v-text-field
                                     v-model="roundingInput"
                                     :rules="[
-                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Khoản làm tròn"
+                                    readonly
                                 >
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-layout>
                             <v-flex sm4>
-                                <date-picker v-model="openingDateInput" label="Ngày mở hợp đồng*"/>
                             </v-flex>
                             <v-flex sm4>
                                 <v-text-field
                                     v-model="costInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Gốc*"
-                                    required
-                                >
-                                </v-text-field>
-                            </v-flex>
-                            <v-flex sm4>
-                                <v-text-field
-                                    v-model="owedInput"
-                                    :rules="[
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Còn nợ"
-                                    required
-                                >
-                                </v-text-field>
-                            </v-flex>
-                        </v-layout>
-                        <v-layout>
-                            <v-flex sm4>
-                                <v-text-field
-                                    v-model="pawnPriceInput"
-                                    :rules="[
-                                            v => !!v || 'Yều cầu cần có',
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
-                                        ]"
-                                    label="Giá cầm*"
-                                    required
-                                >
-                                </v-text-field>
-                            </v-flex>
-                            <v-flex sm4>
-                                <v-text-field
-                                    v-model="feeInput"
-                                    label="Tổng phí"
+                                    :hint="costHint"
                                     readonly
+                                    required
                                 >
                                 </v-text-field>
                             </v-flex>
-                        </v-layout>
-                        <v-layout>
                             <v-flex sm4>
                                 <v-text-field
-                                    v-model="interestMoneyInput"
+                                    v-model="warehousingFeeInput"
                                     :rules="[
-                                            v => !!v || 'Yều cầu cần có',
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
-                                    label="Tiền lãi"
-                                    readonly
+                                    label="Phí kho bãi"
+                                    :hint="warehousingFeeHint"
                                 >
                                 </v-text-field>
-                            </v-flex>
-                            <v-flex sm8>
-                                <v-layout>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="warehousingFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm11>
-                                                <v-text-field
-                                                    v-model="warehousingFeeInput"
-                                                    :rules="[
-                                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                        ]"
-                                                    label="Phí kho bãi"
-                                                    :disabled="!warehousingFeeCheck"
-                                                >
-                                                </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                    <v-flex sm1>
-                                        
-                                    </v-flex>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="appraisalFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm11>
-                                                <v-text-field
-                                                    v-model="appraisalFeeInput"
-                                                    :rules="[
-                                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                        ]"
-                                                    label="Phí thẩm định"
-                                                    :disabled="!appraisalFeeCheck"
-                                                >
-                                                </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                </v-layout>
-                                <v-layout>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="notaryFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm11>
-                                                <v-text-field
-                                                    v-model="notaryFeeInput"
-                                                    :rules="[
-                                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                        ]"
-                                                    label="Phí công chứng"
-                                                    :disabled="!notaryFeeCheck"
-                                                >
-                                                </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                    <v-flex sm1></v-flex>
-                                    <v-flex sm5>
-                                        <v-layout>
-                                            <v-flex sm1>
-                                                <v-checkbox
-                                                    v-model="anotherFeeCheck"
-                                                    color="#dd1e26"
-                                                >
-                                                </v-checkbox>
-                                            </v-flex>
-                                            <v-flex sm11>
-                                            <v-text-field
-                                                v-model="anotherFeeInput"
-                                                :rules="[
-                                                        v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                    ]"
-                                                label="Phí khác"
-                                                :disabled="!anotherFeeCheck"
-                                            >
-                                            </v-text-field>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-flex>
-                                </v-layout>
                             </v-flex>
                         </v-layout>
                         <v-layout>
@@ -1169,30 +957,57 @@
                                     <v-radio color="#dd1e26" label="Chuyển khoản" value="Chuyển khoản"></v-radio>
                                 </v-radio-group>
                             </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="interestMoneyInput"
+                                    :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Tiền lãi"
+                                    :hint="interestMoneyHint"
+                                    readonly
+                                >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex sm4>
+                                <v-text-field
+                                    v-model="receivedAmountInput"
+                                    :rules="[
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Số tiền nhận được"
+                                    :hint="this.receivedAmountHint"
+                                    readonly
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex sm5>
+                                <v-select
+                                    v-model="bankInput"
+                                    :items="bankItems"
+                                    label="Ngân hàng"
+                                    :disabled="methodInput == 'Tiền mặt'"
+                                >
+                                </v-select>
+                            </v-flex>
+                            <v-flex sm3>
+                                <v-text-field
+                                    v-model="accountNumberInput"
+                                    :style="{'margin-left': '5px'}"
+                                    :rules="[
+                                            v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        ]"
+                                    label="Số tài khoản"
+                                    :disabled="methodInput == 'Tiền mặt'"
+                                >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
                             <v-flex sm8>
-                                <v-layout>
-                                    <v-flex sm6>
-                                        <v-select
-                                            v-model="bankInput"
-                                            :items="bankItems"
-                                            label="Ngân hàng"
-                                            :disabled="methodInput == 'Tiền mặt'"
-                                        >
-                                        </v-select>
-                                    </v-flex>
-                                    <v-flex sm6>
-                                        <v-text-field
-                                            v-model="accountNumberInput"
-                                            :style="{'margin-left': '5px'}"
-                                            :rules="[
-                                                    v => /^\d*$/.test(v) || 'Dữ liệu không hợp lệ'
-                                                ]"
-                                            label="Số tài khoản"
-                                            :disabled="methodInput == 'Tiền mặt'"
-                                        >
-                                        </v-text-field>
-                                    </v-flex>
-                                </v-layout>
                                 <v-text-field
                                     v-model="bankBranchInput"
                                     label="Chi Nhánh/PGD"
@@ -1231,7 +1046,9 @@
                 </v-form>
             </v-window-item>
         </v-window>
-        
+        <v-container v-else>
+
+        </v-container>
     </v-container>
 </template>
 <script>
@@ -1240,6 +1057,10 @@ import DatePicker from "@/components/ContractComponents/DatePicker.vue"
 import changeDigitToText from '../../mixins/money'
 import sourceItems from '../../mixins/source_items'
 import contractItems from './utils/contract_items'
+import cityItems from './utils/city_items'
+import moment from 'moment'
+import {getCost, getRoundFee} from './utils/caculate'
+
 const has = Object.prototype.hasOwnProperty
 
 export default {
@@ -1250,22 +1071,20 @@ export default {
   data() {
     return {
       step: 1,
-      newCustomer: true,
-      valid1: true,
+      valid1: false,
       valid2: true,
       valid3: true,
       authorizedValid: true,
-      nameInput: '',
-      emailInput: '',
+      firstNameInput: '',
+      lastNameInput: '',
       phone1Input: '',
       phone2Input: '',
       dobInput: '',
       NationalIDInput: '',
       addressInput: '',
       districtInput:'',
-      districtItems: ['Quận 1', 'Quận 2', 'Quận 3'],
-      cityInput: '',
-      cityItems: ['Tp.HCM', 'Hà Nội'],
+      cityInput: Object.keys(cityItems)[0],
+      cityItems: Object.keys(cityItems),
       sourceInput: '',
       sourceItems: sourceItems,
       noteInput: '',
@@ -1273,8 +1092,8 @@ export default {
       expectedAmountInput: '',
       assetTypeInput: '',
       assetTypeItems: [],
-      validatorAmount1Input: '',
-      validatorAmount2Input: '',
+      validatorAmountInput: '',
+      accessoryInput: '',
       pawnAmountInput: '',
       authorizedType: 'normal',
       isAuthorizedForm: false,
@@ -1293,30 +1112,22 @@ export default {
       mapNoInput: '',
       acreageInput: '',
       landAddressInput: '',
-      contractIDInput: '',
-      receivedAmountInput: '',
       packageInput: '',
-      packageItems: ['1 Tuần', '1 Tháng', '1 Tháng - Ưu đãi', 'Flexi'],
       expirationDateInput: '',
       roundingInput : '',
-      openingDateInput: '',
+      contractIDInput: '',
+      openingDateInput: moment().format("DD/MM/YYYY"),
       costInput: '',
-      owedInput: '',
-      pawnPriceInput: '',
+      interestRateInput: '',
+      interestRateDisabled: true,
       interestMoneyInput: '',
-      warehousingFeeCheck: false,
-      warehousingFeeInput: '',
-      appraisalFeeCheck: false,
-      appraisalFeeInput: '',
-      notaryFeeCheck: false,
-      notaryFeeInput: '',
-      anotherFeeCheck: false,
-      anotherFeeInput: '',
+      warehousingFeeInput: 0,
       methodInput: 'Tiền mặt',
       bankInput: '',
       bankItems: ['Không', 'ACB', 'Maritimebank', 'Sacombank', 'OCB', 'thêm...'],
       accountNumberInput: '',
       bankBranchInput: '',
+      contract: false,
     }
   },
   beforeCreate() {
@@ -1328,9 +1139,9 @@ export default {
     this.getSAssetList()
     try {
       this.phone1Input = this.$route.params.orderDetail.phone
-      this.nameInput = this.$route.params.orderDetail.name
+      this.lastNameInput = this.$route.params.orderDetail.name
       this.expectedAmountInput = this.$route.params.orderDetail.expectedAmount
-      this.validatorAmount1Input = this.$route.params.orderDetail.validatorAmount
+      this.validatorAmountInput = this.$route.params.orderDetail.validatorAmount
       this.assetTypeInput = this.$route.params.orderDetail.assetType
       this.assetInput = this.$route.params.orderDetail.asset
       this.sourceInput = this.$route.params.orderDetail.source
@@ -1338,26 +1149,44 @@ export default {
     } catch (error) {
         
     }
+    this.getProduct()
   },
   computed: {
     ...mapGetters({
         SAssetListResult: 'asset/SAssetListResult',
+        productListResult: 'product/productListResult',
     }),
-    oldCustomer: {
-        get() {return !this.newCustomer},
-        set(value) {this.newCustomer = !value}
+    packageItems() {
+        try {
+            return Object.keys(this.productListResult)
+        } catch (error) {
+            return []
+        }
+    },
+    districtItems() {
+        try {
+            return cityItems[this.cityInput]
+        } catch (error) {
+            return []
+        }
     },
     expectedAmountHint() {
       return changeDigitToText(this.expectedAmountInput)
     },
-    validatorAmount1Hint() {
-        return changeDigitToText(this.validatorAmount1Input)
-    },
-    validatorAmount2Hint() {
-        return changeDigitToText(this.validatorAmount2Input)
+    validatorAmountHint() {
+        return changeDigitToText(this.validatorAmountInput)
     },
     pawnAmountHint() {
         return changeDigitToText(this.pawnAmountInput)
+    },
+    warehousingFeeHint() {
+        return changeDigitToText(this.warehousingFeeInput)
+    },
+    roundingHint() {
+        return changeDigitToText(this.roundingInput)
+    },
+    costHint() {
+        return changeDigitToText(this.costInput)
     },
     contractTypeItems() {
         const types = []
@@ -1369,15 +1198,14 @@ export default {
     receivedAmountHint() {
         return changeDigitToText(this.receivedAmountInput)
     },
-    feeInput() {
+    interestMoneyHint() {
+        return changeDigitToText(this.interestMoneyInput)
+    },
+    receivedAmountInput() {
         try {
-            const warehousingFee = this.warehousingFeeCheck ? Number.parseInt(this.warehousingFeeInput) || 0 : 0
-            const appraisalFee = this.appraisalFeeCheck ? Number.parseInt(this.appraisalFeeInput) || 0 : 0
-            const notaryFee = this.notaryFeeCheck ? Number.parseInt(this.notaryFeeInput) || 0 : 0
-            const anotherFee = this.anotherFeeCheck ? Number.parseInt(this.anotherFeeInput) || 0 : 0
-            return warehousingFee + appraisalFee + notaryFee + anotherFee
+            return (this.costInput - this.warehousingFeeInput).toFixed(3)
         } catch (error) {
-            return ''
+            return null
         }
     }
   },
@@ -1390,10 +1218,25 @@ export default {
       }
       this.assetTypeItems = asset
     },
+    packageInput() {
+        this.interestRateInput = this.productListResult[this.packageInput].interestValue
+        if (this.interestRateInput) {
+            this.interestRateDisabled = true
+        } else {
+            this.interestRateDisabled = false
+        }
+    },
+    pawnAmountInput() {
+        this.changeCaculate()
+    },
+    interestRateInput() {
+        this.changeCaculate()
+    },
   },
   methods: {
     ...mapActions({
         getSAssetList: 'asset/getSAssetList',
+        getProduct: 'product/getProduct',
     }),
     //Find asset from asset description
     findAssetNameType(assetType) {
@@ -1414,6 +1257,18 @@ export default {
             this.step++
         } else {
             this.isAuthorizedForm = true
+        }
+    },
+    changeCaculate() {
+        if (this.interestRateInput && this.pawnAmountInput) {
+            const productName = this.productListResult[this.packageInput].productName
+            this.costInput = getCost(this.pawnAmountInput, this.interestRateInput, productName)
+            this.roundingInput = getRoundFee(this.pawnAmountInput, this.interestRateInput, productName)
+            this.interestMoneyInput = (this.pawnAmountInput - this.costInput).toFixed(3)
+        } else {
+            this.costInput = 0
+            this.roundingInput = 0
+            this.interestMoneyInput = 0
         }
     },
     cancleHandle() {

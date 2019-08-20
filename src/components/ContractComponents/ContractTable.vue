@@ -22,7 +22,7 @@
           <td class="text-xs-center content">{{ props.item.createdDate }}</td>
           <td class="text-xs-center content ">{{ props.item.closedDate }}</td>
           <td class="text-xs-center content">{{ props.item.loanStatus }}</td>
-          <td class="text-xs-center content">{{ props.item.client }}</td>
+          <td class="text-xs-center content">{{ props.item.name }}</td>
           <td class="text-xs-center content">{{ props.item.asset }}</td>
           <td class="text-xs-center content">{{ props.item.loanBalance }}</td>
           <td class="text-xs-center content">{{ props.item.interest }}</td>

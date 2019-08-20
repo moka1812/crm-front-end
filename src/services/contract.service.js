@@ -27,7 +27,7 @@ const ContractService = {
             const response = await ApiService.get(url)
 
             const data = this.filterRawContractList(response.data)
-            
+
             return {
                 contracts: data,
                 // count: response.data['count'],
@@ -148,14 +148,19 @@ const ContractService = {
             for (let item of rawData) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
                 const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-                const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-
+                
+                const closedDate = null;
+                if (item.close_date !== null) {
+                    closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+                }
+                 
                 data.push({
                     id: item.id,
                     contractID: item.mifos_id,
                     createdDate: created,
                     closedDate: closedDate,
                     loanStatus: item.status,
+                    name: item.client_name,
                     client: item.client,
                     asset: item.asset,
                     loanBalance: item.agent,

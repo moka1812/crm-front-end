@@ -44,11 +44,11 @@ const OrderService = {
         }
 
         if (newOrderInfo.expectedAmount != null) {
-            data.required_amount = newOrderInfo.expectedAmount
+            data.required_amount = newOrderInfo.expectedAmount * 1000000
         }
 
         if (newOrderInfo.validatorAmount != null) {
-            data.proposed_amount = newOrderInfo.validatorAmount
+            data.proposed_amount = newOrderInfo.validatorAmount * 1000000
         }
 
         try {
@@ -92,11 +92,11 @@ const OrderService = {
         }
 
         if (orderInfo.expectedAmount != null) {
-            orderData.required_amount = orderInfo.expectedAmount
+            orderData.required_amount = orderInfo.expectedAmount * 1000000
         }
 
         if (orderInfo.validatorAmount != null) {
-            orderData.proposed_amount = orderInfo.validatorAmount
+            orderData.proposed_amount = orderInfo.validatorAmount * 1000000
         }
 
         const url = `${orderApi}${orderID}/`
@@ -169,7 +169,7 @@ const OrderService = {
             const response = await ApiService.get(url)
 
             const data = this.filterRawOrderList(response.data['data'])
-            
+
             return {
                 orders: data,
                 count: response.data['count'],
@@ -246,11 +246,11 @@ const OrderService = {
                     client: item.client,
                     staff: item.staff,
                     agent: item.staff_name,
-                    expectedAmount: item.required_amount,
+                    expectedAmount: item.required_amount / 1000000,
                     branchName: item.branch_name,
                     marketAmount: item.market_amount,
-                    validatorAmount: item.proposed_amount,
-                    approvedAmount: item.approved_amount,
+                    validatorAmount: item.proposed_amount / 1000000,
+                    approvedAmount: item.approved_amount / 1000000,
                     supporter: item.support_agent,
                     supportAgentName: item.support_agent_name,
                     createdDate: created,

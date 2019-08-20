@@ -8,6 +8,7 @@ import { moduleAuth } from '../components/LoginComponents/store/auth/index';
 import { moduleAsset } from '../components/OrderComponents/store/asset/index'
 import { moduleCall } from '../components/CallComponents/store/call/index'
 import { moduleContract } from '../components/ContractComponents/store/contract/index'
+import { moduleProduct } from '../components/ContractComponents/store/product/index'
 
 
 Vue.use(Vuex);
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     asset: moduleAsset,
     notification: moduleNotification,
     call: moduleCall,
+    product: moduleProduct,
   },
   actions: {
     reset({commit}) {
@@ -32,6 +34,7 @@ export default new Vuex.Store({
       commit('asset/reset')
       commit('notification/reset')
       commit('call/reset')
+      commit('product/reset')
     }
   }
 });
