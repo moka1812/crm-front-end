@@ -36,6 +36,11 @@ export default [
     icon: 'person',
     link: '/customers',
   },
+  {
+    name: 'KẾ TOÁN & QUỸ',
+    icon: 'account_balance',
+    link: '/accountants',
+  },
   // {
   //   name: 'CHAT ROOM',
   //   icon: 'forum',

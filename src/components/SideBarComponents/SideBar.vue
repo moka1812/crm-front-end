@@ -104,7 +104,7 @@ export default {
 }
 
 .side-bar {
-  background-color: #dd1e26;
+  background-color: #dd1e26 !important;
 }
 
 .content {
@@ -151,7 +151,7 @@ a {
 }
 
 .highlight {
-  background-color: #c11313;
+  background-color: #c11313 !important;
   color: white;
   pointer-events: none;
 }

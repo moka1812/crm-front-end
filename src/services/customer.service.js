@@ -1,10 +1,11 @@
 import ApiService from './api.service'
-import { ProfileService } from './storage.service'
-import { deleteContractDocument, contractDoucument, contractCollectoralInfo, contractSummary,
-contractApi, contractById, contractDocumentApi, contractRepaymentSchedule, contractTransaction } from '../config/backend-api'
+import { ProfileService, CurrentBranchService } from './storage.service'
+import { AssetService, AssetError } from './asset.serivce'
+import { deleteCustomerDocument, customerDoucument, customerCollectoralInfo, customerSummary,
+customerApi, customerById, customerDocumentApi, customerRepaymentSchedule, customerTransaction } from '../config/backend-api'
 import moment from 'moment'
 
-class ContractError extends Error {
+class CustomerError extends Error {
     constructor(errorCode, message) {
         super(message)
         this.name = this.constructor.name
@@ -13,85 +14,54 @@ class ContractError extends Error {
     }
 }
 
-const ContractService = {
+const CustomerService = {
 
-    createContract: async function(newContractInfo) {
-
-        const data = {
-            order: newContractInfo.orderID,
-            client: newContractInfo.clientID,
-            product: newContractInfo.prodcutID,
-            required_amount: newContractInfo.expectedAmount * 1000000,
-            market_amount: newContractInfo.marketAmount * 1000000,
-            proposed_amount: newContractInfo.validatorAmount * 1000000,
-            approved_amount: newContractInfo.approvedAmount * 1000000,
-            special_interest_value: newContractInfo.interestValue,
-            agent: ProfileService.getID(),
-            branch: CurrentBranchService.getCurrentBranchID(),
-            warehousing_fee: newContractInfo.warehousingFee,
-            matures_date: newContractInfo.openingDate,
-            due_date: newContractInfo.expirationDate,
-        }
-
-        if (newContractInfo.penalty != null) {
-            data.penalty = newContractInfo.penalty
-        }
-
-        try {
-            const response = await ApiService.post(contractApi, data)
-            if (response.status == 201) {
-                return response.data
-            }
-        } catch (error) {
-            throw OrderError(error.response.status, error.response.data.detail)
-        }
-    },
-
-    getContractList: async function(page) {
+    getCustomerList: async function(page) {
         try {
 
-            let url = contractApi
+            let url = customerApi
 
             const response = await ApiService.get(url)
 
-            const data = this.filterRawContractList(response.data)
-
-            return {
-                contracts: data,
-                // count: response.data['count'],
-                // links: response.data['links'],
-            }
-
-        } catch (error) {
-            throw ContractError(error.response.status, error.response.data.detail)
-        }
-    },
-
-    getContractByContractId: async function(id) {
-        try {
-
-            const url = contractById.replace(":id", id)
-
-            const response = await ApiService.get(url)
-
-            const data = this.filterRawContract(response.data)
+            const data = this.filterRawCustomerList(response.data)
             
             return {
-                contract: data,
+                customers: data,
                 // count: response.data['count'],
                 // links: response.data['links'],
             }
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
-    getContractDoucument: async function(id) {
+    getCustomerByCustomerId: async function(id) {
         try {
 
-            const url = contractDoucument.replace(":id", id)
+            const url = customerById.replace(":id", id)
+
+            const response = await ApiService.get(url)
+
+            const data = this.filterRawCustomer(response.data)
+            
+            return {
+                customer: data,
+                // count: response.data['count'],
+                // links: response.data['links'],
+            }
+
+        } catch (error) {
+
+            throw CustomerError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    getCustomerDoucument: async function(id) {
+        try {
+
+            const url = customerDoucument.replace(":id", id)
 
             const response = await ApiService.get(url)
 
@@ -103,14 +73,14 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
-    deleteContractDocument:  async function(id) {
+    deleteCustomerDocument:  async function(id) {
         try {
 
-            const url = deleteContractDocument.replace(":id", id)
+            const url = deleteCustomerDocument.replace(":id", id)
 
             const responsedelete = await ApiService.delete(url)
             
@@ -120,17 +90,16 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.responsedelete.status, error.responsedelete.data.detail)
+            throw CustomerError(error.responsedelete.status, error.responsedelete.data.detail)
         }
     },
 
-    uploadContractDocument: async function(data) {
+    uploadCustomerDocument: async function(data) {
         try {
             const currentUserID = ProfileService.getID()
             data.append('uploader', currentUserID)
-            const url = contractDocumentApi;
 
-            const response = await ApiService.post(contractDocumentApi, data)
+            const response = await ApiService.post(customerDocumentApi, data)
             
             return {
                 docs: response.data,
@@ -138,14 +107,14 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
-    getContractSummary: async function(id) {
+    getCustomerSummary: async function(id) {
         try {
 
-            const url = contractSummary.replace(":id", id)
+            const url = customerSummary.replace(":id", id)
 
             const response = await ApiService.get(url)
 
@@ -154,96 +123,97 @@ const ContractService = {
             const total = this.filterTotalSummary(response.data)
             
             return {
-                contracts: data,
+                customers: data,
                 total: total
             }
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
-    getContractRepaymentSchedule: async function(id) {
+    getCustomerRepaymentSchedule: async function(id) {
         try {
 
-            const url = contractRepaymentSchedule.replace(":id", id)
+            const url = customerRepaymentSchedule.replace(":id", id)
 
             const response = await ApiService.get(url)
 
             const data = this.filterRawRepaymentSchedule(response.data)
 
-            const total = this.filterRawContractTotalSchedule(response.data)
+            const total = this.filterRawCustomerTotalSchedule(response.data)
             
             return {
-                contracts: data,
+                customers: data,
                 total: total
             }
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
-    getContractCollectoralInfo: async function(id) {
+    getCustomerCollectoralInfo: async function(id) {
         try {
 
-            const url = contractCollectoralInfo.replace(":id", id)
+            const url = customerCollectoralInfo.replace(":id", id)
 
             const response = await ApiService.get(url)
 
             const data = this.filterRawCollectoralInfo(response.data)
             
             return {
-                contracts: data,
+                customers: data,
                 total: total
             }
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
-    getContractTransactionLog: async function(id) {
+    getCustomerTransactionLog: async function(id) {
 
         try {
 
-            const url = contractTransaction.replace(":id", id)
+            const url = customerTransaction.replace(":id", id)
 
             const response = await ApiService.get(url)
 
             const data = this.filterRawTransactionInfo(response.data)
             
             return {
-                contracts: data,
+                customers: data,
             }
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw CustomerError(error.response.status, error.response.data.detail)
         }
 
     },
 
-    filterRawContract: function(item) {
+    filterRawCustomer: function(item) {
         let data = null;
         try {
             //Example created: "2019-05-31T14:16:03.932314+07:00"   
-            const created = new moment(item.created, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
-            const closedDate = new moment(item.close_date, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
+            const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+            const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
 
             data = {
-                id: item.id,
-                contractID: item.mifos_id,
+                customerID: item.mifos_id,
                 createdDate: created,
                 closedDate: closedDate,
-                status: item.status,
-                clientName: item.client_name,
-                assetDescription: item.asset_description,
-                approvedAmount: item.approved_amount,
-                interest: item.interest_value,
+                loanStatus: item.status,
+                client: item.client,
+                asset: item.asset,
+                loanBalance: item.agent,
+                interest: item.market_amount,
+                storageID: item.branch,
+                storageLocation: item.closed_branch,
                 branchName: item.branch_name,
             };
             return data
@@ -253,29 +223,24 @@ const ContractService = {
         }
     },
     
-    filterRawContractList: function(rawData) {
+    filterRawCustomerList: function(rawData) {
         const data = []
         try {
             for (let item of rawData) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
                 const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-                
-                const closedDate = null;
-                if (item.close_date !== null) {
-                    closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-                }
-                 
+                const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+
                 data.push({
                     id: item.id,
-                    contractID: item.mifos_id,
-                    createdDate: created,
-                    closedDate: closedDate,
+                    customerId: item.mifos_id,
+                    customerName: item.first_name +' '+ item.last_name,
+                    externalId: closedDate,
                     status: item.status,
-                    clientName: item.client_name,
-                    assetDescription: this.subTextAsset(item.asset_description),
-                    approvedAmount: item.approved_amount,
-                    interest: item.interest_value,
-                    branchName: item.branch_name,
+                    office: item.client,
+                    lastContact: item.asset,
+                    matures_date: item.agent,
+                    activeLoan: item.market_amount,
                 })
             }
             return data
@@ -284,13 +249,7 @@ const ContractService = {
             throw error
         }
     },
-    subTextAsset: function(textFull) {
-        if(textFull === null || textFull === undefined || textFull.length <= 30) {
-            return textFull
-        } else {
-            return textFull.substring(0, 30) + "...";
-        }
-    },
+
     filterRawDocumnetList: function(rawData) {
         const data = []
         try {
@@ -347,7 +306,7 @@ const ContractService = {
         }
     },
 
-    filterRawContractTotalSchedule: function(item) {
+    filterRawCustomerTotalSchedule: function(item) {
         let total = null;
         try {
             total = {
@@ -524,6 +483,6 @@ const ContractService = {
 
 }
 
-export default ContractService
+export default CustomerService
 
-export { ContractService, ContractError }
+export { CustomerService, CustomerError }

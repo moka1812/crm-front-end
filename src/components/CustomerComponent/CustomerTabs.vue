@@ -1,5 +1,5 @@
 <template>
-  <v-card fluid class="content-contract-tabs">
+  <v-card fluid class="content-customer-tabs">
     <tabs
       :tabs="tabs"
       :currentTab="currentTab"
@@ -9,25 +9,25 @@
       @onClick="handleTabsClick"
     />
     <div>
-      <div v-if="currentTab === 'Summary'"><contract-summary-tab v-bind:contractId = "contractId"/></div>
-      <div v-if="currentTab === 'RepaymentsShedule'"><repayment-shedule-tab v-bind:contractId = "contractId"/></div>
-      <div v-if="currentTab === 'Transaction'"><transaction-tab v-bind:contractId = "contractId"/></div>
-      <div v-if="currentTab === 'Documents'"><contract-document-tab v-bind:contractId = "contractId"/></div>
-      <div v-if="currentTab === 'CollateralInfo'"><contract-collatea-info-tab v-bind:contractId = "contractId"/></div>
-      <div v-if="currentTab === 'Notes'"><contract-notes-tab v-bind:contractId = "contractId"/></div>
+      <div v-if="currentTab === 'Summary'"><customer-summary-tab/></div>
+      <div v-if="currentTab === 'ContractNew'"><contract-new-tab/></div>
+      <div v-if="currentTab === 'ContractOld'"><contract-old-tab/></div>
+      <div v-if="currentTab === 'Documents'"><customer-document-tab/></div>
+      <div v-if="currentTab === 'BankAccout'"><bank-accout-tab/></div>
+      <div v-if="currentTab === 'Notes'"><customer-notes-tab/></div>
     </div>
   </v-card>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Transaction from './Transaction.vue'
+import BankAccout from './BankAccout.vue'
 import Tabs from "vue-tabs-with-active-line";
-import RepaymentsShedule from "./RepaymentShedule.vue"
-import ContractSummary from "./ContractSummary.vue";
-import ContractDocument from './ContractDocument.vue';
-import ContractCollateralInfo from './ContractCollateralInfo.vue';
-import ContractNotes from './ContractNotes.vue';
+import CustomerSummary from "./CustomerSummary.vue";
+import CustomerDocument from './CustomerDocument.vue';
+import CustomerNotes from './CustomerNotes.vue';
+import ContractNew from './ContractNew.vue'
+import ContractOld from './ContractOld.vue'
 
 const TABS = [
   {
@@ -35,20 +35,20 @@ const TABS = [
     value: "Summary"
   },
   {
-    title: "LỊCH TRẢ NỢ",
-    value: "RepaymentsShedule"
+    title: "HỢP ĐỒNG MỞ",
+    value: "ContractNew"
   },
   {
-    title: "LỊCH GIAO DỊCH",
-    value: "Transaction"
+    title: "HỢP ĐỒNG CŨ",
+    value: "ContractOld"
   },
   {
     title: "HỒ SƠ",
     value: "Documents"
   },
   {
-    title: "THÔNG TIN TÀI SẢN",
-    value: "CollateralInfo"
+    title: "TÀI KHOẢN NGÂN HÀNG",
+    value: "BankAccout"
   },
   {
     title: "GHI CHÚ",
@@ -57,29 +57,20 @@ const TABS = [
 ];
 
 export default {
-  name: "contract-tabs",
+  name: "customer-tabs",
   components: {
     Tabs,
-    'repayment-shedule-tab': RepaymentsShedule,
-    'contract-summary-tab': ContractSummary, 
-    'transaction-tab': Transaction,
-    'contract-document-tab': ContractDocument,
-    'contract-collatea-info-tab': ContractCollateralInfo,
-    'contract-notes-tab': ContractNotes
-  },
-  props: {
-    contractId: String,
+    'customer-summary-tab': CustomerSummary, 
+    'customer-document-tab': CustomerDocument,
+    'bank-accout-tab': BankAccout,
+    'customer-notes-tab': CustomerNotes,
+    'contract-new-tab': ContractNew,
+    'contract-old-tab': ContractOld
   },
   data: () => ({
     tabs: TABS,
     currentTab: "Summary",
   }),
-  watch: {
-    init: {
-      handler: 'initFlagSchedule',
-      immediate: true
-    }
-  },
   methods: {
     ...mapActions({
       changeSchedule: 'contract/changeSchedule'
@@ -91,9 +82,6 @@ export default {
       } else {
         this.changeSchedule({flagSchedule: false});
       }
-    }, 
-    initFlagSchedule() {
-      this.changeSchedule({flagSchedule: false});
     }
   }
 };
@@ -112,7 +100,7 @@ export default {
     display: inline-block;
     margin: 0 3px;
     padding: 1vw;
-    max-width: 12vw;
+    max-width: 9vw;
     height: 100% !important;
     padding-bottom: 8px;
     text-align: center;
@@ -149,7 +137,7 @@ export default {
     transition: transform 0.4s ease, width 0.4s ease;
   }
 }
-.content-contract-tabs {
+.content-customer-tabs {
   padding: 0px;
   height: 100% !important;
 }

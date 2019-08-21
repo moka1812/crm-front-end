@@ -9,6 +9,7 @@ import { moduleAsset } from '../components/OrderComponents/store/asset/index'
 import { moduleCall } from '../components/CallComponents/store/call/index'
 import { moduleContract } from '../components/ContractComponents/store/contract/index'
 import { moduleProduct } from '../components/ContractComponents/store/product/index'
+import { moduleCustomer } from '../components/CustomerComponent/store/customer/index' 
 
 
 Vue.use(Vuex);
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     order: moduleOrder,
     contract: moduleContract,
     asset: moduleAsset,
+    customer: moduleCustomer,
     notification: moduleNotification,
     call: moduleCall,
     product: moduleProduct,

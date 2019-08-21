@@ -12,7 +12,7 @@
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <tr @click="props.expanded = !props.expanded">
+        <tr @dblclick="props.expanded = !props.expanded">
           <td class="text-xs-center content">{{ props.item.contractId }}</td>
           <td class="text-xs-center content">{{ props.item.fullName }}</td>
           <td class="text-xs-center content ">{{ props.item.dueDate }}</td>
@@ -31,7 +31,11 @@
               <v-btn fab dark small class="mx-2 btn-file" @click = "detail(props.item.contractId)">
                 <i class="material-icons">insert_drive_file</i>
               </v-btn>
-              <reminder-call-dialog/>
+              <reminder-call-dialog 
+                    :flagCustomer="'reminder'"
+                    :phoneNumber1="'+2371412647231'"
+                    :phoneNumber2="'+2371412647223'"
+              />
             </v-layout>
           </td>
         </tr>

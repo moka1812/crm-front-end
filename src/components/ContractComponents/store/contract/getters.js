@@ -57,6 +57,38 @@ export default  {
 
     documentListRequest: (state) => {
         return state.documentListRequest
+    },
+
+    scheduleListResult: (state) => {
+        return state.scheduleListResult
+    },
+
+    scheduleListRequest: (state) => {
+        return state.scheduleListRequest
+    },
+
+    transactionListResult: (state) => {
+        return state.transactionListResult
+    },
+
+    transactionListRequest: (state) => {
+        return state.transactionListRequest
+    },
+
+    contractTotalResult: (state) => {
+        return state.contractTotalResult
+    },
+
+    summaryListResult: (state) => {
+        return state.summaryListResult
+    },
+
+    summaryListRequest: (state) => {
+        return state.summaryListRequest
+    },
+
+    contractTotalSummaryResult: (state) => {
+        return state.contractTotalSummaryResult
     }
 
 }

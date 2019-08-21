@@ -49,7 +49,7 @@
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 import CallButton from "@/components/OrderComponents/CallButton.vue"
 import CallTable from "@/components/OrderComponents/CallTable.vue"
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "transaction-tab",
@@ -57,6 +57,9 @@ export default {
     ActionButton,
     CallButton,
     CallTable
+  },
+  props: {
+    contractId: String
   },
   data() {
     return {
@@ -80,37 +83,51 @@ export default {
           text: "Dư nợ", value: "loan_balance", align: 'center', sortable: false, class: "header"
         },
       ],
-      transactionListResult: [
-                {
-                    office: '',
-                    transaction_date: '',
-                    transaction_type: '',
-                    amount: '',
-                    principal: 'Gốc',
-                    interest: 'Lãi',
-                    fee: 'Phí',
-                    penalties: 'Lãi thêm',
-                    loan_balance: '',
-                },
-                {
-                    office: 'CMT8',
-                    transaction_date: '31/2/2019',
-                    transaction_type: 'Repayment',
-                    amount: 9000000,
-                    principal: 9000000,
-                    interest: 0,
-                    fee: 1000000,
-                    penalties: 0,
-                    loan_balance: 9000000,
-                },
-      ],
-      transactionListRequest: false,
+      // transactionListResult: [
+      //           {
+      //               office: '',
+      //               transaction_date: '',
+      //               transaction_type: '',
+      //               amount: '',
+      //               principal: 'Gốc',
+      //               interest: 'Lãi',
+      //               fee: 'Phí',
+      //               penalties: 'Lãi thêm',
+      //               loan_balance: '',
+      //           },
+      //           {
+      //               office: 'CMT8',
+      //               transaction_date: '31/2/2019',
+      //               transaction_type: 'Repayment',
+      //               amount: 9000000,
+      //               principal: 9000000,
+      //               interest: 0,
+      //               fee: 1000000,
+      //               penalties: 0,
+      //               loan_balance: 9000000,
+      //           },
+      // ],
+      // transactionListRequest: false,
     }
   },
-  mounted() {
-        
+  created() {
+    this.getTransaction();
+  },
+  computed: {
+     ...mapGetters({
+      transactionListResult: 'contract/transactionListResult',
+      transactionListRequest: 'contract/transactionListRequest',
+      contractListError: 'contract/contractListError',
+      contractListErrorCode: 'contract/contractListErrorCode',
+      }),
   },
   methods: {
+     ...mapActions({
+      getContractTransactionLog: 'contract/getContractTransactionLog',
+    }),
+    getTransaction() {
+      this.getContractTransactionLog({id: this.contractId})
+    },
   },
 }
 </script>
@@ -134,6 +151,7 @@ td.content {
   font-weight: bold !important;
   font-size: 1vw !important;
   background-color: #EBECEC;
+  text-align: center;
 }
 #refresh .v-toolbar__content {
   padding-right: 0px;

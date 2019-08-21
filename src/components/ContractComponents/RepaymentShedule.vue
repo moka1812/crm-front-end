@@ -45,6 +45,21 @@
           <td class="text-xs-center content">{{ props.item.outstanding }}</td>
         </tr>
       </template>
+      <template slot="footer">
+        <td class="text-xs-center content total"></td>
+        <td class="text-xs-center content total">Total</td>
+        <td class="text-xs-center content total"></td> 
+        <td class="text-xs-center content total">{{contractTotalResult === null ? '' : contractTotalResult.totalPrincipalExpected}}</td>
+        <td class="text-xs-center content total"></td> 
+        <td class="text-xs-center content total">{{contractTotalResult === null ? '' : contractTotalResult.totalInterestCharged}}</td>
+        <td class="text-xs-center content total">{{contractTotalResult === null ? '' : contractTotalResult.totalFeeChargesCharged}}</td>
+        <td class="text-xs-center content total">{{contractTotalResult === null ? '' : contractTotalResult.totalPenaltyChargesCharged}}</td>
+        <td class="text-xs-center content total">{{contractTotalResult === null ? '' : contractTotalResult.totalRepaymentExpected}}</td> 
+        <td class="text-xs-center content total">{{contractTotalResult === null ? '' : contractTotalResult.totalRepayment}}</td> 
+        <td class="text-xs-center content total">{{contractTotalResult === null ? '' : contractTotalResult.totalAdvancePayment}}</td>
+        <td class="text-xs-center content total">{{contractTotalResult === null ? '' : contractTotalResult.totalPaidLate}}</td> 
+        <td class="text-xs-center content total">{{contractTotalResult === null ? '' : contractTotalResult.totalOutstanding}}</td>
+    </template>
 
       <template v-slot:no-data>
         <!-- Nothing -->
@@ -63,7 +78,7 @@
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 import CallButton from "@/components/OrderComponents/CallButton.vue"
 import CallTable from "@/components/OrderComponents/CallTable.vue"
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "repayment-shedule-tab",
@@ -71,6 +86,9 @@ export default {
     ActionButton,
     CallButton,
     CallTable
+  },
+  props: {
+    contractId: String,
   },
   data() {
     return {
@@ -115,117 +133,150 @@ export default {
           text: "Tổng nợ", value: "outstanding", align: 'center', sortable: false, class: "header"
         },
       ],
-      scheduleListResult: [
-                {
-                    day: 1,
-                    date: '01/01/2019',
-                    paid_date: '01/01/2019',
-                    principal_due: 'Active',
-                    blance_of_loan: 'David',
-                    asset: 'Iphone 7',
-                    loanBalance: '5.000.000',
-                    interest: '4.99',
-                    fees: 123,
-                    fenalties: 'DTH',
-                    due: 'Iphone 7',
-                    pain: '5.000.000',
-                    in_advance: '4.99',
-                    late: 123,
-                    outstanding: 'DTH',
-                },
-                 {
-                    day: 2,
-                    date: '01/01/2019',
-                    paid_date: '01/01/2019',
-                    principal_due: 'Active',
-                    blance_of_loan: 'David',
-                    asset: 'Iphone 7',
-                    loanBalance: '5.000.000',
-                    interest: '4.99',
-                    fees: 123,
-                    fenalties: 'DTH',
-                    due: 'Iphone 7',
-                    pain: '5.000.000',
-                    in_advance: '4.99',
-                    late: 123,
-                    outstanding: 'DTH',
-                },
-                                 {
-                    day: 2,
-                    date: '01/01/2019',
-                    paid_date: '01/01/2019',
-                    principal_due: 'Active',
-                    blance_of_loan: 'David',
-                    asset: 'Iphone 7',
-                    loanBalance: '5.000.000',
-                    interest: '4.99',
-                    fees: 123,
-                    fenalties: 'DTH',
-                    due: 'Iphone 7',
-                    pain: '5.000.000',
-                    in_advance: '4.99',
-                    late: 123,
-                    outstanding: 'DTH',
-                },
-                                 {
-                    day: 2,
-                    date: '01/01/2019',
-                    paid_date: '01/01/2019',
-                    principal_due: 'Active',
-                    blance_of_loan: 'David',
-                    asset: 'Iphone 7',
-                    loanBalance: '5.000.000',
-                    interest: '4.99',
-                    fees: 123,
-                    fenalties: 'DTH',
-                    due: 'Iphone 7',
-                    pain: '5.000.000',
-                    in_advance: '4.99',
-                    late: 123,
-                    outstanding: 'DTH',
-                },
-                                 {
-                    day: 2,
-                    date: '01/01/2019',
-                    paid_date: '01/01/2019',
-                    principal_due: 'Active',
-                    blance_of_loan: 'David',
-                    asset: 'Iphone 7',
-                    loanBalance: '5.000.000',
-                    interest: '4.99',
-                    fees: 123,
-                    fenalties: 'DTH',
-                    due: 'Iphone 7',
-                    pain: '5.000.000',
-                    in_advance: '4.99',
-                    late: 123,
-                    outstanding: 'DTH',
-                },
-                                 {
-                    day: 2,
-                    date: '01/01/2019',
-                    paid_date: '01/01/2019',
-                    principal_due: 'Active',
-                    blance_of_loan: 'David',
-                    asset: 'Iphone 7',
-                    loanBalance: '5.000.000',
-                    interest: '4.99',
-                    fees: 123,
-                    fenalties: 'DTH',
-                    due: 'Iphone 7',
-                    pain: '5.000.000',
-                    in_advance: '4.99',
-                    late: 123,
-                    outstanding: 'DTH',
-                },
-      ],
-      scheduleListRequest: false,
+      // scheduleListResult: [
+      //           {
+      //               day: 1,
+      //               date: '01/01/2019',
+      //               paid_date: '01/01/2019',
+      //               principal_due: 'Active',
+      //               blance_of_loan: 'David',
+      //               asset: 'Iphone 7',
+      //               loanBalance: '5.000.000',
+      //               interest: '4.99',
+      //               fees: 123,
+      //               fenalties: 'DTH',
+      //               due: 'Iphone 7',
+      //               pain: '5.000.000',
+      //               in_advance: '4.99',
+      //               late: 123,
+      //               outstanding: 'DTH',
+      //           },
+      //            {
+      //               day: 2,
+      //               date: '01/01/2019',
+      //               paid_date: '01/01/2019',
+      //               principal_due: 'Active',
+      //               blance_of_loan: 'David',
+      //               asset: 'Iphone 7',
+      //               loanBalance: '5.000.000',
+      //               interest: '4.99',
+      //               fees: 123,
+      //               fenalties: 'DTH',
+      //               due: 'Iphone 7',
+      //               pain: '5.000.000',
+      //               in_advance: '4.99',
+      //               late: 123,
+      //               outstanding: 'DTH',
+      //           },
+      //                            {
+      //               day: 2,
+      //               date: '01/01/2019',
+      //               paid_date: '01/01/2019',
+      //               principal_due: 'Active',
+      //               blance_of_loan: 'David',
+      //               asset: 'Iphone 7',
+      //               loanBalance: '5.000.000',
+      //               interest: '4.99',
+      //               fees: 123,
+      //               fenalties: 'DTH',
+      //               due: 'Iphone 7',
+      //               pain: '5.000.000',
+      //               in_advance: '4.99',
+      //               late: 123,
+      //               outstanding: 'DTH',
+      //           },
+      //                            {
+      //               day: 2,
+      //               date: '01/01/2019',
+      //               paid_date: '01/01/2019',
+      //               principal_due: 'Active',
+      //               blance_of_loan: 'David',
+      //               asset: 'Iphone 7',
+      //               loanBalance: '5.000.000',
+      //               interest: '4.99',
+      //               fees: 123,
+      //               fenalties: 'DTH',
+      //               due: 'Iphone 7',
+      //               pain: '5.000.000',
+      //               in_advance: '4.99',
+      //               late: 123,
+      //               outstanding: 'DTH',
+      //           },
+      //                            {
+      //               day: 2,
+      //               date: '01/01/2019',
+      //               paid_date: '01/01/2019',
+      //               principal_due: 'Active',
+      //               blance_of_loan: 'David',
+      //               asset: 'Iphone 7',
+      //               loanBalance: '5.000.000',
+      //               interest: '4.99',
+      //               fees: 123,
+      //               fenalties: 'DTH',
+      //               due: 'Iphone 7',
+      //               pain: '5.000.000',
+      //               in_advance: '4.99',
+      //               late: 123,
+      //               outstanding: 'DTH',
+      //           },
+      //           {
+      //               day: 2,
+      //               date: '01/01/2019',
+      //               paid_date: '01/01/2019',
+      //               principal_due: 'Active',
+      //               blance_of_loan: 'David',
+      //               asset: 'Iphone 7',
+      //               loanBalance: '5.000.000',
+      //               interest: '4.99',
+      //               fees: 123,
+      //               fenalties: 'DTH',
+      //               due: 'Iphone 7',
+      //               pain: '5.000.000',
+      //               in_advance: '4.99',
+      //               late: 123,
+      //               outstanding: 'DTH',
+      //           },
+                // {
+                //     day: '',
+                //     date: Total,
+                //     paid_date: '',
+                //     principal_due: 21321321,
+                //     blance_of_loan: '',
+                //     asset: '12321321',
+                //     loanBalance: '0',
+                //     interest: '0',
+                //     fees: 1331414134,
+                //     fenalties: '12313213',
+                //     due: 213213213,
+                //     pain: '21321313',
+                //     in_advance: '0',
+                //     late: 0,
+                //     outstanding:0,
+                // },
+      // ],
+      // scheduleListRequest: false,
     }
   },
-  mounted() {
-        
+  created() {
+    this.getSchedule();
   },
+  computed: {
+     ...mapGetters({
+      scheduleListResult: 'contract/scheduleListResult',
+      scheduleListRequest: 'contract/scheduleListRequest',
+      contractTotalResult: 'contract/contractTotalResult',
+      contractListError: 'contract/contractListError',
+      contractListErrorCode: 'contract/contractListErrorCode',
+      }),
+  },
+
   methods: {
+     ...mapActions({
+      getContractRepaymentSchedule: 'contract/getContractRepaymentSchedule',
+    }),
+    getSchedule() {
+      this.getContractRepaymentSchedule({id: this.contractId})
+    },
   },
 }
 </script>
@@ -259,6 +310,9 @@ td.content {
   font-size: 1vw !important;
   color: #ffffff;
   text-transform: capitalize !important;
+}
+.total {
+  font-weight: bold
 }
 .btn-extend {
   background-color: #91CB3E !important;

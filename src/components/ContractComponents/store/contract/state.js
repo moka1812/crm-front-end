@@ -22,6 +22,19 @@ export default function initialState () {
         contractFindingErrorCode: 0,
 
         documentListResult: [],
-        documentListRequest: false
+        documentListRequest: false,
+
+        scheduleListResult: [],
+        scheduleListRequest: false,
+
+        transactionListResult: [],
+        transactionListRequest: false,
+
+        contractTotalResult: null,
+        contractTotalSummaryResult: null,
+
+        summaryListResult: [],
+        summaryListRequest: false,
+
     }
 }

@@ -38,6 +38,9 @@ export default {
   name: "contract-collatea-info-tab",
   components: {
   },
+  props: {
+    contractId: String,
+  },
   data() {
     return {
       headers: [

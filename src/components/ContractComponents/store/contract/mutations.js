@@ -20,6 +20,14 @@ import {
 
     CONTRACT_DOCUMENT_REQUEST,
     CONTRACT_DOCUMENT_SUCCESS,
+    CONTRACT_SCHEDULE_REQUEST,
+    CONTRACT_SCHEDULE_LIST_SUCCESS,
+    CONTRACT_TRANSACTION_REQUEST,
+    CONTRACT_TRANSACTION_LIST_SUCCESS,
+    CONTRACT_SCHEDULE_TOTAL,
+    CONTRACT_SUMMARY_RESULT,
+    CONTRACT_SUMMARY_REQUEST,
+    CONTRACT_SUMMARY_TOTAL,
 } from './types'
 
 export default {
@@ -105,6 +113,48 @@ export default {
     [CONTRACT_DOCUMENT_SUCCESS] (state, {docs}) {
         Vue.set(state, 'documentListRequest', false)
         Vue.set(state, 'documentListResult', docs)
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+    },
+    [CONTRACT_SCHEDULE_REQUEST] (state) {
+        Vue.set(state, 'scheduleListRequest', true)
+        Vue.set(state, 'scheduleListResult', [])
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+    },
+    [CONTRACT_SCHEDULE_LIST_SUCCESS] (state, {contracts}) {
+        Vue.set(state, 'scheduleListRequest', false)
+        Vue.set(state, 'scheduleListResult', contracts)
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+    },
+    [CONTRACT_TRANSACTION_REQUEST] (state) {
+        Vue.set(state, 'transactionListRequest', true)
+        Vue.set(state, 'transactionListResult', [])
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+    },
+    [CONTRACT_TRANSACTION_LIST_SUCCESS] (state, {contracts}) {
+        Vue.set(state, 'transactionListRequest', false)
+        Vue.set(state, 'transactionListResult', contracts)
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+    },
+    [CONTRACT_SCHEDULE_TOTAL] (state, {total}) {
+        Vue.set(state, 'contractTotalResult', total)
+    },
+    [CONTRACT_SUMMARY_TOTAL] (state, {total}) {
+        Vue.set(state, 'contractTotalSummaryResult', total)
+    },
+    [CONTRACT_SUMMARY_REQUEST] (state) {
+        Vue.set(state, 'summaryListRequest', true)
+        Vue.set(state, 'summaryListResult', [])
+        Vue.set(state, 'contractListError', '')
+        Vue.set(state, 'contractListErrorCode', 200)
+    },
+    [CONTRACT_SUMMARY_RESULT] (state, {contracts}) {
+        Vue.set(state, 'summaryListRequest', false)
+        Vue.set(state, 'summaryListResult', contracts)
         Vue.set(state, 'contractListError', '')
         Vue.set(state, 'contractListErrorCode', 200)
     },

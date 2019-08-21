@@ -10,6 +10,14 @@ import {
     CONTRACT_FINDING_ERROR,
     CONTRACT_DOCUMENT_REQUEST,
     CONTRACT_DOCUMENT_SUCCESS,
+    CONTRACT_SCHEDULE_REQUEST,
+    CONTRACT_SCHEDULE_LIST_SUCCESS,
+    CONTRACT_TRANSACTION_REQUEST,
+    CONTRACT_TRANSACTION_LIST_SUCCESS,
+    CONTRACT_SCHEDULE_TOTAL,
+    CONTRACT_SUMMARY_REQUEST,
+    CONTRACT_SUMMARY_RESULT,
+    CONTRACT_SUMMARY_TOTAL,
 } from './types'
 import {ContractService, ContractError} from '../../../../services/contract.service'
 
@@ -25,8 +33,7 @@ export default {
     async getContractList({commit}, payload) {
         commit(CONTRACT_LIST_REQUEST)
         try {
-            const page = has.call(payload, 'page') ? payload.page : null
-            const {contracts} = await ContractService.getContractList(page)
+            const {contracts} = await ContractService.getContractList()
             commit(CONTRACT_LIST_SUCCESS, {contracts})
         } catch (error) {
             if (error instanceof ContractError) {
@@ -93,6 +100,7 @@ export default {
     },
 
     async uploadContractDocument({commit}, data) {
+
         try {
             const {docs} = await ContractService.uploadContractDocument(data)
         } catch(error) {
@@ -102,6 +110,53 @@ export default {
                 commit(CONTRACT_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
-    }
+    },
+
+    async getContractRepaymentSchedule({commit}, payload) {
+        commit(CONTRACT_SCHEDULE_REQUEST)
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const {contracts, total} = await ContractService.getContractRepaymentSchedule(id)
+            commit(CONTRACT_SCHEDULE_LIST_SUCCESS, {contracts})
+            commit(CONTRACT_SCHEDULE_TOTAL, {total})
+        } catch(error) {
+            if (error instanceof ContractError) {
+                commit(CONTRACT_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CONTRACT_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async getContractTransactionLog({commit}, payload) {
+        commit(CONTRACT_TRANSACTION_REQUEST)
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const {contracts} = await ContractService.getContractTransactionLog(id)
+            commit(CONTRACT_TRANSACTION_LIST_SUCCESS, {contracts})
+        } catch(error) {
+            if (error instanceof ContractError) {
+                commit(CONTRACT_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CONTRACT_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async getContractSummary({commit}, payload) {
+        commit(CONTRACT_SUMMARY_REQUEST)
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const {contracts, total} = await ContractService.getContractSummary(id)
+            commit(CONTRACT_SUMMARY_RESULT, {contracts})
+            commit(CONTRACT_SUMMARY_TOTAL, {total})
+        } catch(error) {
+            if (error instanceof ContractError) {
+                commit(CONTRACT_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CONTRACT_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
     
 }
