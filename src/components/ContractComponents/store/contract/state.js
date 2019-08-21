@@ -7,6 +7,12 @@ export default function initialState () {
         contractListErrorCode: 0,
         contractListError: '',
 
+        // Contract Creating Function
+        contractCreatingRequest: false,
+        contractCreatingResult: null,
+        contractCreatingErrorCode: 0,
+        contractCreatingError: '',
+
         contractDetailForm: false,
         contractDetail: null,
         contractDetailErrorCode: 0,

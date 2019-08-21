@@ -16,6 +16,38 @@ class ContractError extends Error {
 
 const ContractService = {
 
+    createContract: async function(newContractInfo) {
+
+        const data = {
+            order: newContractInfo.orderID,
+            client: newContractInfo.clientID,
+            product: newContractInfo.prodcutID,
+            required_amount: newContractInfo.expectedAmount * 1000000,
+            market_amount: newContractInfo.marketAmount * 1000000,
+            proposed_amount: newContractInfo.validatorAmount * 1000000,
+            approved_amount: newContractInfo.approvedAmount * 1000000,
+            special_interest_value: newContractInfo.interestValue,
+            agent: ProfileService.getID(),
+            branch: CurrentBranchService.getCurrentBranchID(),
+            warehousing_fee: newContractInfo.warehousingFee,
+            matures_date: newContractInfo.openingDate,
+            due_date: newContractInfo.expirationDate,
+        }
+
+        if (newContractInfo.penalty != null) {
+            data.penalty = newContractInfo.penalty
+        }
+
+        try {
+            const response = await ApiService.post(contractApi, data)
+            if (response.status == 201) {
+                return response.data
+            }
+        } catch (error) {
+            throw OrderError(error.response.status, error.response.data.detail)
+        }
+    },
+
     getContractList: async function(page) {
         try {
 
@@ -35,7 +67,6 @@ const ContractService = {
             }
 
         } catch (error) {
-
             throw ContractError(error.response.status, error.response.data.detail)
         }
     },

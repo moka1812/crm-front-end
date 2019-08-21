@@ -5,11 +5,19 @@ import {
     CONTRACT_LIST_REQUEST,
     CONTRACT_LIST_SUCCESS,
     CONTRACT_LIST_ERROR,
-    CONTRACT_DETAIL_SUCCESS,
+
+    CONTRACT_CREATING_REQUEST,
+    CONTRACT_CREATING_SUCCESS,
+    CONTRACT_CREATING_ERROR,
+
     CONTRACT_DETAIL_REQUEST,
-    CONTRACT_FINDING_ERROR,
-    CONTRACT_FINDING_SUCCESS,
+    CONTRACT_DETAIL_SUCCESS,
+    CONTRACT_DETAIL_ERROR,
+
     CONTRACT_FINDING_REQUEST,
+    CONTRACT_FINDING_SUCCESS,
+    CONTRACT_FINDING_ERROR,
+
     CONTRACT_DOCUMENT_REQUEST,
     CONTRACT_DOCUMENT_SUCCESS,
 } from './types'
@@ -34,6 +42,23 @@ export default {
         Vue.set(state, 'contractListRequest', false)
         Vue.set(state, 'contractListError', errorMessage)
         Vue.set(state, 'contractListErrorCode', errorCode)
+    },
+    //Order Creating Function
+    [CONTRACT_CREATING_REQUEST] (state) {
+        Vue.set(state, 'contractCreatingRequest', true)
+        Vue.set(state, 'contractCreatingResult', null)
+        Vue.set(state, 'contractCreatingError', '')
+        Vue.set(state, 'contractCreatingErrorCode', 0)
+    },
+    [CONTRACT_CREATING_SUCCESS] (state, {result}) {
+        Vue.set(state, 'contractCreatingRequest', false)
+        Vue.set(state, 'contractCreatingResult', result)
+        Vue.set(state, 'contractCreatingErrorCode', 201)
+    },
+    [CONTRACT_CREATING_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'contractCreatingRequest', false)
+        Vue.set(state, 'contractCreatingError', errorMessage)
+        Vue.set(state, 'contractCreatingErrorCode', errorCode)
     },
     [CONTRACT_DETAIL_SUCCESS] (state, {contract}) {
         Vue.set(state, 'contractDetailForm', true)

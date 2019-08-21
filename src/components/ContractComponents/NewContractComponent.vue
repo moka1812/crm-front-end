@@ -28,7 +28,9 @@
                                 <v-text-field
                                     v-model.lazy="firstNameInput"
                                     label="Họ*"
-                                    required
+                                    :rules="[
+                                        v => !!v || 'Yêu cầu cần có',
+                                    ]"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -37,6 +39,9 @@
                                 <v-text-field
                                     v-model.lazy="lastNameInput"
                                     label="Tên*"
+                                    :rules="[
+                                        v => !!v || 'Yêu cầu cần có',
+                                    ]"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -61,7 +66,7 @@
                                     v-model.lazy="phone2Input"
                                     :rules="[
                                         //Phone has charater pre '+' (only one or no), from 10-13 digits.
-                                        v => /\s|[0-9]{10,13}$/.test(v) || 'Dữ liệu không hợp lệ'
+                                       v => /^null$|^\s*$|^[0-9]{10,13}?$/.test(v) || 'Dữ liệu không hợp lệ'
                                     ]"
                                     label="Phone 2"
                                 >
@@ -86,7 +91,7 @@
                             :rules="[
                                 v => !!v || 'Yêu cầu cần có',
                             ]"
-                            label="Địa chỉ"
+                            label="Địa chỉ*"
                             required
                         >
                         </v-text-field>
@@ -632,6 +637,9 @@
                                 <v-text-field
                                     v-model.lazy="firstNameInput"
                                     label="Họ*"
+                                    :rules="[
+                                        v => !!v || 'Yêu cầu cần có',
+                                    ]"
                                     required
                                 >
                                 </v-text-field>
@@ -640,6 +648,9 @@
                             <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="lastNameInput"
+                                    :rules="[
+                                        v => !!v || 'Yêu cầu cần có',
+                                    ]"
                                     label="Tên*"
                                 >
                                 </v-text-field>
@@ -665,7 +676,7 @@
                                     v-model.lazy="phone2Input"
                                     :rules="[
                                         //Phone has charater pre '+' (only one or no), from 10-13 digits.
-                                        v => /^-?[0-9]{10,13}?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                        v => /^null$|^\s*$|^[0-9]{10,13}?$/.test(v) || 'Dữ liệu không hợp lệ'
                                     ]"
                                     label="Phone 2"
                                 >
@@ -690,7 +701,7 @@
                             :rules="[
                                 v => !!v || 'Yêu cầu cần có',
                             ]"
-                            label="Địa chỉ"
+                            label="Địa chỉ*"
                             required
                         >
                         </v-text-field>
@@ -1054,6 +1065,7 @@
                             <v-btn class="nextBtn"
                                 color="#dd1e26"
                                 round
+                                @click="createHandle"
                             >
                                 Confirm
                             </v-btn>
@@ -1171,6 +1183,7 @@ export default {
     ...mapGetters({
         SAssetListResult: 'asset/SAssetListResult',
         productListResult: 'product/productListResult',
+        clientResult: 'order/clientResult',
     }),
     packageItems() {
         try {
@@ -1236,11 +1249,15 @@ export default {
     },
     packageInput() {
         this.interestRateInput = this.productListResult[this.packageInput].interestValue
+        this.changeExpirationDate()
         if (this.interestRateInput) {
             this.interestRateDisabled = true
         } else {
             this.interestRateDisabled = false
         }
+    },
+    openingDateInput() {
+        this.changeExpirationDate()
     },
     pawnAmountInput() {
         this.changeCaculate()
@@ -1253,6 +1270,7 @@ export default {
     ...mapActions({
         getSAssetList: 'asset/getSAssetList',
         getProduct: 'product/getProduct',
+        searchClient: 'order/searchClient',
     }),
     //Find asset from asset description
     findAssetNameType(assetType) {
@@ -1287,8 +1305,23 @@ export default {
             this.interestMoneyInput = '0'
         }
     },
+    changeExpirationDate() {
+        const repayEvery = this.productListResult[this.packageInput].repayEvery
+        const openingDate = moment(this.openingDateInput, "DD/MM/YYYY")
+        if (repayEvery === 30) {
+            this.expirationDateInput = openingDate.add(1, 'M').format("DD/MM/YYYY")
+        } else {
+            this.expirationDateInput = openingDate.add(repayEvery, 'd').format("DD/MM/YYYY")
+        }
+    },
     cancleHandle() {
         this.$router.back();
+    },
+    createHandle: async function() {
+        await this.searchClient({phone: this.phone1Input})
+        if (this.clientResult != null) {
+            
+        }
     },
   }
 }

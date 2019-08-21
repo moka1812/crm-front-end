@@ -68,8 +68,8 @@ export default {
     [ORDER_CREATING_REQUEST] (state) {
         Vue.set(state, 'orderCreating', true)
         Vue.set(state, 'orderCreatingResult', null)
-        Vue.set(state, 'orderCreatingErrorCode', '')
-        Vue.set(state, 'orderCreatingError', 0)
+        Vue.set(state, 'orderCreatingErrorCode', 0)
+        Vue.set(state, 'orderCreatingError', '')
     },
     [ORDER_CREATING_SUCCESS] (state, {result}) {
         Vue.set(state, 'orderCreating', false)
