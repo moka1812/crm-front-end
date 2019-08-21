@@ -98,21 +98,19 @@ export default {
       return Math.ceil(totalRows/this.rowOfPage);
     },
     getClassStatus(status, matures_date){
-      if (status==='active') {
+      if (status==='Active') {
         if (this.isOverdue(matures_date)===true) {
           return 'overdue-status';
         }
         return 'active-status';
-      } else if (status==='waiting') {
+      } else if (status==='Waiting') {
         return 'waiting-status';
-      } else if (status==='close') {
+      } else if (status==='Closed') {
         return 'close-status';
       }
     },
     isOverdue(matures_date) {
-      if (matures_date !== null && 
-          matures_date !== "" && 
-          matures_date !== undefined) {
+      if (isNullOrUndefined (matures_date) === false &&  matures_date !== "") {
           try {
             const matures_date_tmp = new moment(matures_date, "YYYY-MM-DD[T]HH:mm");
             if (matures_date_tmp.isValid() === true) {
@@ -131,45 +129,45 @@ export default {
     },
     getListCustomers() {
       this.items = [
-        {customerId:'id1',customerName:'Name1',externalId:'CMND1',status:'active',office:'TML',lastContact:'8/1/2019',matures_date:'2019-11-11T16:01:14.117509+07:00',activeLoan:'1'},
-        {customerId:'id2',customerName:'Name2',externalId:'CMND2',status:'waiting',office:'TML',lastContact:'8/2/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'2'},
-        {customerId:'id3',customerName:'Name3',externalId:'CMND3',status:'close',office:'TML',lastContact:'8/3/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'3'},
-        {customerId:'id4',customerName:'Name4',externalId:'CMND4',status:'active',office:'TML',lastContact:'8/4/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'4'},
-        {customerId:'id5',customerName:'Name5',externalId:'CMND5',status:'active',office:'TML',lastContact:'8/5/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'5'},
-        {customerId:'id6',customerName:'Name6',externalId:'CMND6',status:'close',office:'TML',lastContact:'8/6/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'6'},
-        {customerId:'id7',customerName:'Name7',externalId:'CMND7',status:'active',office:'TML',lastContact:'8/7/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'7'},
-        {customerId:'id8',customerName:'Name8',externalId:'CMND8',status:'active',office:'TML',lastContact:'8/8/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'8'},
-        {customerId:'id9',customerName:'Name9',externalId:'CMND9',status:'active',office:'TML',lastContact:'8/9/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'9'},
-        {customerId:'id10',customerName:'Name10',externalId:'CMND10',status:'active',office:'TML',lastContact:'8/10/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'10'},
-        {customerId:'id11',customerName:'Name11',externalId:'CMND11',status:'active',office:'TML',lastContact:'8/11/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'11'},
-        {customerId:'id12',customerName:'Name12',externalId:'CMND12',status:'active',office:'TML',lastContact:'8/12/2019',matures_date:null,activeLoan:'12'},
-        {customerId:'id13',customerName:'Name13',externalId:'CMND13',status:'active',office:'TML',lastContact:'8/13/2019',matures_date:'',activeLoan:'13'},
-        {customerId:'id14',customerName:'Name14',externalId:'CMND14',status:'active',office:'TML',lastContact:'8/14/2019',matures_date:'abc',activeLoan:'14'},
-        {customerId:'id15',customerName:'Name15',externalId:'CMND15',status:'active',office:'TML',lastContact:'8/15/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'15'},
-        {customerId:'id16',customerName:'Name16',externalId:'CMND16',status:'active',office:'TML',lastContact:'8/16/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'16'},
-        {customerId:'id17',customerName:'Name17',externalId:'CMND17',status:'active',office:'TML',lastContact:'8/17/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'17'},
-        {customerId:'id18',customerName:'Name18',externalId:'CMND18',status:'active',office:'TML',lastContact:'8/18/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'18'},
-        {customerId:'id19',customerName:'Name19',externalId:'CMND19',status:'active',office:'TML',lastContact:'8/19/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'19'},
-        {customerId:'id20',customerName:'Name20',externalId:'CMND20',status:'active',office:'TML',lastContact:'8/20/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'20'},
-        {customerId:'id21',customerName:'Name21',externalId:'CMND21',status:'active',office:'TML',lastContact:'8/21/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'21'},
-        {customerId:'id22',customerName:'Name22',externalId:'CMND22',status:'active',office:'TML',lastContact:'8/22/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'22'},
-        {customerId:'id23',customerName:'Name23',externalId:'CMND23',status:'active',office:'TML',lastContact:'8/23/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'23'},
-        {customerId:'id24',customerName:'Name24',externalId:'CMND24',status:'active',office:'TML',lastContact:'8/24/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'24'},
-        {customerId:'id25',customerName:'Name25',externalId:'CMND25',status:'active',office:'TML',lastContact:'8/25/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'25'},
-        {customerId:'id26',customerName:'Name26',externalId:'CMND26',status:'active',office:'TML',lastContact:'8/26/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'26'},
-        {customerId:'id27',customerName:'Name27',externalId:'CMND27',status:'active',office:'TML',lastContact:'8/27/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'27'},
-        {customerId:'id28',customerName:'Name28',externalId:'CMND28',status:'active',office:'TML',lastContact:'8/28/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'28'},
-        {customerId:'id29',customerName:'Name29',externalId:'CMND29',status:'active',office:'TML',lastContact:'8/29/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'29'},
-        {customerId:'id30',customerName:'Name30',externalId:'CMND30',status:'active',office:'TML',lastContact:'8/30/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'30'},
-        {customerId:'id31',customerName:'Name31',externalId:'CMND31',status:'active',office:'TML',lastContact:'8/31/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'31'},
-        {customerId:'id32',customerName:'Name32',externalId:'CMND32',status:'active',office:'TML',lastContact:'9/1/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'32'},
-        {customerId:'id33',customerName:'Name33',externalId:'CMND33',status:'active',office:'TML',lastContact:'9/2/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'33'},
-        {customerId:'id34',customerName:'Name34',externalId:'CMND34',status:'active',office:'TML',lastContact:'9/3/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'34'},
-        {customerId:'id35',customerName:'Name35',externalId:'CMND35',status:'active',office:'TML',lastContact:'9/4/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'35'},
-        {customerId:'id36',customerName:'Name36',externalId:'CMND36',status:'active',office:'TML',lastContact:'9/5/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'36'},
-        {customerId:'id37',customerName:'Name37',externalId:'CMND37',status:'active',office:'TML',lastContact:'9/6/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'37'},
-        {customerId:'id38',customerName:'Name38',externalId:'CMND38',status:'active',office:'TML',lastContact:'9/7/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'38'},
-        {customerId:'id39',customerName:'Name39',externalId:'CMND39',status:'active',office:'TML',lastContact:'9/8/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'39'},
+        {customerId:'id1',customerName:'Name1',externalId:'CMND1',status:'Active',office:'TML',lastContact:'8/1/2019',matures_date:'2019-11-11T16:01:14.117509+07:00',activeLoan:'1'},
+        {customerId:'id2',customerName:'Name2',externalId:'CMND2',status:'Waiting',office:'TML',lastContact:'8/2/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'2'},
+        {customerId:'id3',customerName:'Name3',externalId:'CMND3',status:'Closed',office:'TML',lastContact:'8/3/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'3'},
+        {customerId:'id4',customerName:'Name4',externalId:'CMND4',status:'Active',office:'TML',lastContact:'8/4/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'4'},
+        {customerId:'id5',customerName:'Name5',externalId:'CMND5',status:'Active',office:'TML',lastContact:'8/5/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'5'},
+        {customerId:'id6',customerName:'Name6',externalId:'CMND6',status:'Closed',office:'TML',lastContact:'8/6/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'6'},
+        {customerId:'id7',customerName:'Name7',externalId:'CMND7',status:'Active',office:'TML',lastContact:'8/7/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'7'},
+        {customerId:'id8',customerName:'Name8',externalId:'CMND8',status:'Active',office:'TML',lastContact:'8/8/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'8'},
+        {customerId:'id9',customerName:'Name9',externalId:'CMND9',status:'Active',office:'TML',lastContact:'8/9/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'9'},
+        {customerId:'id10',customerName:'Name10',externalId:'CMND10',status:'Active',office:'TML',lastContact:'8/10/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'10'},
+        {customerId:'id11',customerName:'Name11',externalId:'CMND11',status:'Active',office:'TML',lastContact:'8/11/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'11'},
+        {customerId:'id12',customerName:'Name12',externalId:'CMND12',status:'Active',office:'TML',lastContact:'8/12/2019',matures_date:null,activeLoan:'12'},
+        {customerId:'id13',customerName:'Name13',externalId:'CMND13',status:'Active',office:'TML',lastContact:'8/13/2019',matures_date:'',activeLoan:'13'},
+        {customerId:'id14',customerName:'Name14',externalId:'CMND14',status:'Active',office:'TML',lastContact:'8/14/2019',matures_date:'abc',activeLoan:'14'},
+        {customerId:'id15',customerName:'Name15',externalId:'CMND15',status:'Active',office:'TML',lastContact:'8/15/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'15'},
+        {customerId:'id16',customerName:'Name16',externalId:'CMND16',status:'Active',office:'TML',lastContact:'8/16/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'16'},
+        {customerId:'id17',customerName:'Name17',externalId:'CMND17',status:'Active',office:'TML',lastContact:'8/17/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'17'},
+        {customerId:'id18',customerName:'Name18',externalId:'CMND18',status:'Active',office:'TML',lastContact:'8/18/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'18'},
+        {customerId:'id19',customerName:'Name19',externalId:'CMND19',status:'Active',office:'TML',lastContact:'8/19/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'19'},
+        {customerId:'id20',customerName:'Name20',externalId:'CMND20',status:'Active',office:'TML',lastContact:'8/20/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'20'},
+        {customerId:'id21',customerName:'Name21',externalId:'CMND21',status:'Active',office:'TML',lastContact:'8/21/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'21'},
+        {customerId:'id22',customerName:'Name22',externalId:'CMND22',status:'Active',office:'TML',lastContact:'8/22/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'22'},
+        {customerId:'id23',customerName:'Name23',externalId:'CMND23',status:'Active',office:'TML',lastContact:'8/23/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'23'},
+        {customerId:'id24',customerName:'Name24',externalId:'CMND24',status:'Active',office:'TML',lastContact:'8/24/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'24'},
+        {customerId:'id25',customerName:'Name25',externalId:'CMND25',status:'Active',office:'TML',lastContact:'8/25/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'25'},
+        {customerId:'id26',customerName:'Name26',externalId:'CMND26',status:'Active',office:'TML',lastContact:'8/26/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'26'},
+        {customerId:'id27',customerName:'Name27',externalId:'CMND27',status:'Active',office:'TML',lastContact:'8/27/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'27'},
+        {customerId:'id28',customerName:'Name28',externalId:'CMND28',status:'Active',office:'TML',lastContact:'8/28/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'28'},
+        {customerId:'id29',customerName:'Name29',externalId:'CMND29',status:'Active',office:'TML',lastContact:'8/29/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'29'},
+        {customerId:'id30',customerName:'Name30',externalId:'CMND30',status:'Active',office:'TML',lastContact:'8/30/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'30'},
+        {customerId:'id31',customerName:'Name31',externalId:'CMND31',status:'Active',office:'TML',lastContact:'8/31/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'31'},
+        {customerId:'id32',customerName:'Name32',externalId:'CMND32',status:'Active',office:'TML',lastContact:'9/1/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'32'},
+        {customerId:'id33',customerName:'Name33',externalId:'CMND33',status:'Active',office:'TML',lastContact:'9/2/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'33'},
+        {customerId:'id34',customerName:'Name34',externalId:'CMND34',status:'Active',office:'TML',lastContact:'9/3/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'34'},
+        {customerId:'id35',customerName:'Name35',externalId:'CMND35',status:'Active',office:'TML',lastContact:'9/4/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'35'},
+        {customerId:'id36',customerName:'Name36',externalId:'CMND36',status:'Active',office:'TML',lastContact:'9/5/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'36'},
+        {customerId:'id37',customerName:'Name37',externalId:'CMND37',status:'Active',office:'TML',lastContact:'9/6/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'37'},
+        {customerId:'id38',customerName:'Name38',externalId:'CMND38',status:'Active',office:'TML',lastContact:'9/7/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'38'},
+        {customerId:'id39',customerName:'Name39',externalId:'CMND39',status:'Active',office:'TML',lastContact:'9/8/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'39'},
       ];
       this.totalPage = this.getTotalPage(this.items.length);
     }

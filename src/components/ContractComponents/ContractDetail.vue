@@ -36,21 +36,12 @@ export default {
   computed: {
     ...mapGetters({
       flagSchedule: 'contract/contractRepaymentSchedule',
-      contractDetailForm: 'order/contractDetailForm',
     }),
   },
   methods: {
-    ...mapActions({
-      getContractByContractId: 'contract/getContractByContractId'
-    }),
     getContractById() {
       this.contractId = this.$route.query.id;
-      // this.getContractByContractId({id: this.$route.query.id})
     },
-    // handleChange(event) {
-    //   const {value} = event.target;
-    //   this.value = value;
-    // }
   }
 };
 </script>

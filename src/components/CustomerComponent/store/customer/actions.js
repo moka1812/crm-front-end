@@ -18,18 +18,18 @@ import {
     CUSTOMER_SUMMARY_REQUEST,
     CUSTOMER_SUMMARY_RESULT,
     CUSTOMER_SUMMARY_TOTAL,
+	CONTRACT_ACTIVE_REQUEST,
+    CONTRACT_ACTIVE_RESULT,
+    CONTRACT_CLOSE_REQUEST,
+    CONTRACT_CLOSE_RESULT,    
+    BANK_ACCOUT_REQUEST,
+    BANK_ACCOUT_RESULT,
 } from './types'
 import {CustomerService, CustomerError} from '../../../../services/customer.service'
 
 const has = Object.prototype.hasOwnProperty
 
 export default {
-
-    async changeSchedule({commit}, payload) {
-        const schedule = payload.flagSchedule;
-        commit(CUSTOMER_REPAYMENT_SCHEDULE, schedule)
-    },
-
     async getCustomerList({commit}, payload) {
         commit(CUSTOMER_LIST_REQUEST)
         try {
@@ -113,13 +113,13 @@ export default {
         }
     },
 
-    async getCustomerRepaymentSchedule({commit}, payload) {
-        commit(CUSTOMER_SCHEDULE_REQUEST)
+    async getContractActive({commit}, payload) {
+        commit(CONTRACT_ACTIVE_REQUEST)
         try {
             const id = has.call(payload, 'id') ? payload.id : null
-            const {customers, total} = await CustomerService.getCustomerRepaymentSchedule(id)
-            commit(CUSTOMER_SCHEDULE_LIST_SUCCESS, {customers})
-            commit(CUSTOMER_SCHEDULE_TOTAL, {total})
+            const {cus} = await CustomerService.getContractActive(id)
+            commit(CONTRACT_ACTIVE_RESULT, {cus})
+
         } catch(error) {
             if (error instanceof CustomerError) {
                 commit(CUSTOMER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
@@ -129,12 +129,28 @@ export default {
         }
     },
 
-    async getCustomerTransactionLog({commit}, payload) {
-        commit(CUSTOMER_TRANSACTION_REQUEST)
+    async getContractClose({commit}, payload) {
+        commit(CONTRACT_CLOSE_REQUEST)
         try {
             const id = has.call(payload, 'id') ? payload.id : null
-            const {customers} = await CustomerService.getCustomerTransactionLog(id)
-            commit(CUSTOMER_TRANSACTION_LIST_SUCCESS, {customers})
+            const {cus} = await CustomerService.getContractClose(id)
+            commit(CONTRACT_CLOSE_RESULT, {cus})
+
+        } catch(error) {
+            if (error instanceof CustomerError) {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async getBankAccout({commit}, payload) {
+        commit(BANK_ACCOUT_REQUEST)
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const {cus} = await CustomerService.getBankAccout(id)
+            commit(BANK_ACCOUT_RESULT, {cus})
         } catch(error) {
             if (error instanceof CustomerError) {
                 commit(CUSTOMER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})

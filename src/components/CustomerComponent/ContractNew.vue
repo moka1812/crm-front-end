@@ -5,8 +5,8 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="scheduleListResult"
-      :loading="scheduleListRequest"
+      :items="contractActiveListResult"
+      :loading="contractActiveListRequest"
       item-key="contractId"
       :expand="true"
       :rows-per-page-items=[2]
@@ -19,11 +19,7 @@
           <td class="text-xs-center content">{{ props.item.loan_accout }}</td>
           <td class="text-xs-center content ">{{ props.item.paid_date }}</td>
           <td class="text-xs-center content">{{ props.item.assset_type }}</td>
-          <td class="text-xs-center content" >
-            {{ props.item.original_loan }}
-          </td>
           <td class="text-xs-center content">{{ props.item.loan_balance }}</td>
-          <td class="text-xs-center content">{{ props.item.amount_paid }}</td>
           <td class="text-xs-center content">{{ props.item.storage_location }}</td>
         </tr>
       </template>
@@ -45,7 +41,7 @@
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 import CallButton from "@/components/OrderComponents/CallButton.vue"
 import CallTable from "@/components/OrderComponents/CallTable.vue"
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "contract-new-tab",
@@ -58,60 +54,66 @@ export default {
     return {
       headers: [
         {
-          text: "Mã hợp đồng", value: "contractId", align: 'center', sortable: false, class: "header wrap-text", width: 3
+          text: "Mã hợp đồng", value: "contractId", align: 'center', sortable: false, class: "header wrap-text", 
         },
         {
           text: "Loan Accout", value: "loan_accout", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Ngày hết hạn", value: "paid_date", align: 'center', sortable: false, class: "header wrap-text", width: 1
+          text: "Ngày hết hạn", value: "paid_date", align: 'center', sortable: false, class: "header wrap-text", 
         },
-        {
+        { 
           text: "Tài sản", value: "assset_type", align: 'center', sortable: false, class: "header wrap-text"
-        },
-        {
-          text: "Origial Loan", value: "original_loan", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
           text: "Loan Balance", value: "loan_balance", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Amount Pain", value: "amount_paid", align: 'center', sortable: false, class: "header wrap-text"
-        },
-        {
           text: "Storage Location", value: "storage_location", align: 'center', sortable: false, class: "header wrap-text"
         },
       ],
-            scheduleListResult: [
-                {
-                    contractId: 1,
-                    loan_accout: '01/01/2019',
-                    paid_date: '01/01/2019',
-                    assset_type: 'Active',
-                    amount_paid: 'David',
-                    storage_location: 'Iphone 7',
-                    original_loan: '5.000.000',
-                    loan_balance: '4.99',
-                },
-                 {
-                     contractId: 1,
-                    loan_accout: '01/01/2019',
-                    paid_date: '01/01/2019',
-                    assset_type: 'Active',
-                    amount_paid: 'David',
-                    storage_location: 'Iphone 7',
-                    original_loan: '5.000.000',
-                    loan_balance: '4.99',
-                },
+      //       scheduleListResult: [
+      //           {
+      //               contractId: 1,
+      //               loan_accout: '01/01/2019',
+      //               paid_date: '01/01/2019',
+      //               assset_type: 'Active',
+      //               amount_paid: 'David',
+      //               storage_location: 'Iphone 7',
+      //               original_loan: '5.000.000',
+      //               loan_balance: '4.99',
+      //           },
+      //            {
+      //               contractId: 1,
+      //               loan_accout: '01/01/2019',
+      //               paid_date: '01/01/2019',
+      //               assset_type: 'Active',
+      //               amount_paid: 'David',
+      //               storage_location: 'Iphone 7',
+      //               original_loan: '5.000.000',
+      //               loan_balance: '4.99',
+      //           },
             
-      ],
-      scheduleListRequest: false,
+      // ],
+      // scheduleListRequest: false,
     }
   },
-  mounted() {
-        
+  created() {
+    this.getActiveContract();
+  },
+  computed: {
+    ...mapGetters({
+      contractActiveListResult: "customer/contractActiveListResult",
+      contractActiveListRequest: "customer/contractActiveListRequest"
+    })
   },
   methods: {
+      ...mapActions({
+      getContractActive: "customer/getContractActive",
+    }),
+    getActiveContract() {
+      this.getContractActive({id : '2'})
+    },
   },
 }
 </script>

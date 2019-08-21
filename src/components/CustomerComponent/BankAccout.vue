@@ -11,8 +11,8 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="transactionListResult"
-      :loading="transactionListRequest"
+      :items="bankAccoutListResult"
+      :loading="bankAccoutListRequest"
       item-key="day"
       :expand="true"
       hide-actions
@@ -46,6 +46,21 @@
       </template> -->
 
     </v-data-table>
+    <v-dialog v-model="dialog" :max-width="maxWidth" persistent>
+      <v-card>
+        <v-card-title class="headline">NHẬP THÔNG TIN TK NGÂN HÀNG</v-card-title>
+        <v-card-text>
+          <v-layout>
+              <v-flex sm4>
+                  <v-subheader class="input-header">Name*</v-subheader>
+              </v-flex>
+              <v-flex sm8>
+                  <v-text-fieldv-model.lazy="nameInput" placeholder="Exp : Pham Le David" outlined></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -54,7 +69,7 @@
 import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 import CallButton from "@/components/OrderComponents/CallButton.vue"
 import CallTable from "@/components/OrderComponents/CallTable.vue"
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "transaction-tab",
@@ -85,27 +100,44 @@ export default {
           text: "Xóa", value: "delete", align: 'center', sortable: false, class: "header"
         },
       ],
-      transactionListResult: [
-                {
-                    name: 'Ngô Lan Hương',
-                    bank: 'Sacombank',
-                    bank_accout: '0366265312355',
-                    branch: 9000000,
-                },
-                {
-                    name: 'Ngô Lan Hương',
-                    bank: 'Sacombank',
-                    bank_accout: '0366265312355',
-                    branch: 9000000,
-                },
-      ],
-      transactionListRequest: false,
+      dialog: false,
+      maxWidth: 800,
+      // bankAccoutListResult: [
+      //           {
+      //               name: 'Ngô Lan Hương',
+      //               bank: 'Sacombank',
+      //               bank_accout: '0366265312355',
+      //               branch: 9000000,
+      //           },
+      //           {
+      //               name: 'Ngô Lan Hương',
+      //               bank: 'Sacombank',
+      //               bank_accout: '0366265312355',
+      //               branch: 9000000,
+      //           },
+      // ],
+      // bankAccoutListRequest: false,
     }
   },
-  mounted() {
-        
+  created() {
+    this.bankAccout();
+  },
+  computed: {
+    ...mapGetters({
+      bankAccoutListResult: "customer/bankAccoutListResult",
+      bankAccoutListRequest: "customer/bankAccoutListRequest"
+    })
   },
   methods: {
+      ...mapActions({
+      getBankAccout: "customer/getBankAccout",
+    }),
+    bankAccout() {
+      this.getBankAccout({id : '1'})
+    },
+    upload: function(){
+      this.dialog = true
+    }
   },
 }
 </script>

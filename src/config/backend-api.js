@@ -55,3 +55,5 @@ export const customerDoucument = `${baseURL}/client/:id/client-docs/`
 export const deleteCustomerDocument = `${baseURL}/client-docs/:id/`
 
 export const customerDocumentApi = `${baseURL}/client-docs/`
+
+export const customerById = `${baseURL}/client/:id/`
