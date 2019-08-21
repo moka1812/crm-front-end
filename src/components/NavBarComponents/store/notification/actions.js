@@ -40,20 +40,22 @@ export default {
                 commit(NEW_NOTIFICATION_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
-
-        newNotificationResultFilter.forEach((element) => {
-            vue.$notify({
-              group: 'new-notification',
-              type: 'error',
-              title: element.order,
-              text: {
-                id: element.id,
-                message: element.message
-              },
-              speed: 2000,
-              duration: 604800, //1 week
-            });
-        })
+        
+        if (newNotificationResultFilter instanceof Array) {
+            newNotificationResultFilter.forEach((element) => {
+                vue.$notify({
+                  group: 'new-notification',
+                  type: 'error',
+                  title: element.order,
+                  text: {
+                    id: element.id,
+                    message: element.message
+                  },
+                  speed: 2000,
+                  duration: 604800, //1 week
+                });
+            })
+        }
     },
     
     async getNotification({commit}) {

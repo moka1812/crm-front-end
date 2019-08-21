@@ -30,7 +30,7 @@ const changeDigitToText = (rawMoney) => {
     if (thousandDigit>0) {
         result += `${thousandDigit}  `
     }
-    if (hundredDigit>0) {
+    if (hundredDigit>0 | thousandDigit > 0) {
         result += 'nghìn '
     }
     if (result) {

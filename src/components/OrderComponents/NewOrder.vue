@@ -340,22 +340,44 @@ export default {
       this.saveOrderTemporarily({orderDetail})
       this.dialog = false
     },
-    newContractHandle() {
-      const orderDetail = {
+    newContractHandle: async function() {
+      const assetTypeID = await this.findAssetTypeID(this.assetTypeInput)
+
+      const data = {
         phone: this.phoneInput,
-        name: this.firstNameInput,
-        lastName: this.lastNameInput,
-        expectedAmount: this.expectedAmountInput,
-        validatorAmount: this.validatorAmountInput,
-        assetType: this.assetTypeInput,
-        asset: this.assetInput,
+        firstName: this.firstNameInput,
+        expectedAmount: this.expectedAmountInput == '' ? null : this.expectedAmountInput,
+        validatorAmount: this.validatorAmountInput == '' ? null : this.validatorAmountInput,
+        assetTypeID: assetTypeID,
+        assetTypeDescription: this.assetInput,
         source: this.sourceInput,
         note: this.noteInput,
       }
-      
-      this.okHandle()
-      this.$router.push({name: 'new_contract', params: {orderDetail}})
-      this.dialog = false
+
+      this.createOrder(data).then(() => {
+        if (this.orderCreatingErrorCode == 201) {
+          this.dialog = false
+          const orderDetail = {
+            phone: this.phoneInput,
+            name: this.firstNameInput,
+            lastName: this.lastNameInput,
+            expectedAmount: this.expectedAmountInput,
+            validatorAmount: this.validatorAmountInput,
+            assetType: this.assetTypeInput,
+            asset: this.assetInput,
+            source: this.sourceInput,
+            note: this.noteInput,
+          }
+          this.$router.push({name: 'new_contract', params: {orderDetail}})
+        } else {
+          this.$notify({
+            group: 'foo',
+            type: 'error',
+            title: "Error: "+this.orderCreatingErrorCode,
+            text: this.orderCreatingError
+          });
+        }
+      })
     },
     //Create new order
     okHandle: async function() {

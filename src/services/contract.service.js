@@ -15,7 +15,39 @@ class ContractError extends Error {
 
 const ContractService = {
 
-    getContractList: async function() {
+    createContract: async function(newContractInfo) {
+
+        const data = {
+            order: newContractInfo.orderID,
+            client: newContractInfo.clientID,
+            product: newContractInfo.prodcutID,
+            required_amount: newContractInfo.expectedAmount * 1000000,
+            market_amount: newContractInfo.marketAmount * 1000000,
+            proposed_amount: newContractInfo.validatorAmount * 1000000,
+            approved_amount: newContractInfo.approvedAmount * 1000000,
+            special_interest_value: newContractInfo.interestValue,
+            agent: ProfileService.getID(),
+            branch: CurrentBranchService.getCurrentBranchID(),
+            warehousing_fee: newContractInfo.warehousingFee,
+            matures_date: newContractInfo.openingDate,
+            due_date: newContractInfo.expirationDate,
+        }
+
+        if (newContractInfo.penalty != null) {
+            data.penalty = newContractInfo.penalty
+        }
+
+        try {
+            const response = await ApiService.post(contractApi, data)
+            if (response.status == 201) {
+                return response.data
+            }
+        } catch (error) {
+            throw OrderError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    getContractList: async function(page) {
         try {
 
             let url = contractApi
@@ -23,7 +55,7 @@ const ContractService = {
             const response = await ApiService.get(url)
 
             const data = this.filterRawContractList(response.data)
-            
+
             return {
                 contracts: data,
                 // count: response.data['count'],
@@ -31,7 +63,6 @@ const ContractService = {
             }
 
         } catch (error) {
-
             throw ContractError(error.response.status, error.response.data.detail)
         }
     },
@@ -227,9 +258,13 @@ const ContractService = {
         try {
             for (let item of rawData) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const created = new moment(item.created, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
-                const closedDate = new moment(item.close_date, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
-
+                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+                
+                const closedDate = null;
+                if (item.close_date !== null) {
+                    closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+                }
+                 
                 data.push({
                     id: item.id,
                     contractID: item.mifos_id,
