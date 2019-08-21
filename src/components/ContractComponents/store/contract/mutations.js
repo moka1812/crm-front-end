@@ -51,7 +51,7 @@ export default {
         Vue.set(state, 'contractListError', errorMessage)
         Vue.set(state, 'contractListErrorCode', errorCode)
     },
-    //Order Creating Function
+    //Contract Creating Function
     [CONTRACT_CREATING_REQUEST] (state) {
         Vue.set(state, 'contractCreatingRequest', true)
         Vue.set(state, 'contractCreatingResult', null)

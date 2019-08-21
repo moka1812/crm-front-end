@@ -14,6 +14,8 @@ export const clientAPI = `${baseURL}/client/`
 
 export const orderApi = `${baseURL}/orders/`
 
+export const productApi = `${baseURL}/products/`
+
 export const getOrderApi = `${baseURL}/orders/custom_list/`
 
 export const orderFromStaffAPI = `${baseURL}/staffs/:id/orders/`

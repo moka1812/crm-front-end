@@ -219,6 +219,7 @@ export default {
   computed: {
     ...mapGetters({
       orderCreating: 'order/orderCreating',
+      orderCreatingResult: 'order/orderCreatingResult',
       orderCreatingErrorCode: 'order/orderCreatingErrorCode',
       orderCreatingError: 'order/orderCreatingError',
       clientSearching:'order/clientSearching',
@@ -231,10 +232,14 @@ export default {
     disabled() {
       //If Error Code == 200 then disable is false
       if (this.clientSearchErrorCode == 200){
-        //PhoneInput rule is failing
-        if (this.$refs['phone'].hasError) {
-            return true
-        } 
+        
+        try {
+          //PhoneInput rule is failing
+          if (this.$refs['phone'].hasError) {
+              return true
+          } 
+        } catch (error) { }
+        
         return false
       }
       return true
@@ -250,8 +255,8 @@ export default {
     //When clientResult changes
     clientResult() {
       if (this.clientResult !== null) {
-        this.firstNameInput = this.clientResult.first_name
-        this.lastNameInput = this.clientResult.last_name
+        this.firstNameInput = this.clientResult.firstName
+        this.lastNameInput = this.clientResult.lastName
       } else {
         this.firstNameInput = ''
         this.lastNameInput = ''
@@ -357,6 +362,7 @@ export default {
       this.createOrder(data).then(() => {
         if (this.orderCreatingErrorCode == 201) {
           this.dialog = false
+
           const orderDetail = {
             phone: this.phoneInput,
             name: this.firstNameInput,
@@ -365,9 +371,11 @@ export default {
             validatorAmount: this.validatorAmountInput,
             assetType: this.assetTypeInput,
             asset: this.assetInput,
+            assetID: this.orderCreatingResult.asset,
+            orderID: this.orderCreatingResult.id,
             source: this.sourceInput,
-            note: this.noteInput,
           }
+
           this.$router.push({name: 'new_contract', params: {orderDetail}})
         } else {
           this.$notify({

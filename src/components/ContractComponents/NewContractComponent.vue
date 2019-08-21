@@ -31,6 +31,7 @@
                                     :rules="[
                                         v => !!v || 'Yêu cầu cần có',
                                     ]"
+                                    :readonly="!newClient"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -42,6 +43,7 @@
                                     :rules="[
                                         v => !!v || 'Yêu cầu cần có',
                                     ]"
+                                    :readonly="!newClient"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -50,13 +52,8 @@
                             <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="phone1Input"
-                                    :rules="[
-                                        v => !!v || 'Yêu cầu cần có',
-                                        //Phone has charater pre '+' (only one or no), from 10-13 digits.
-                                        v => /^[+]?[0-9]{10,13}$/.test(v) || 'Dữ liệu không hợp lệ'
-                                    ]"
                                     label="Phone 1*"
-                                    required
+                                    readonly
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -69,19 +66,21 @@
                                        v => /^null$|^\s*$|^[0-9]{10,13}?$/.test(v) || 'Dữ liệu không hợp lệ'
                                     ]"
                                     label="Phone 2"
+                                    :readonly="!newClient"
                                 >
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-layout>
                             <v-flex sm5>
-                                <date-picker v-model="dobInput" label="DOB*"/>
+                                <date-picker v-model="dobInput" label="DOB*" :readonly="!newClient"/>
                             </v-flex>
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model.lazy="NationalIDInput"
+                                    v-model.lazy="nationalIDInput"
                                     label="CMND/HC*"
+                                    :readonly="!newClient"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -92,9 +91,24 @@
                                 v => !!v || 'Yêu cầu cần có',
                             ]"
                             label="Địa chỉ*"
-                            required
+                            :readonly="!newClient"
                         >
                         </v-text-field>
+                        <v-layout>
+                            <v-flex sm7>
+                            </v-flex>
+                            <v-flex sm5>
+                                <v-select
+                                    v-model="sourceInput"
+                                    :items="sourceItems"
+                                    :rules="[v => !!v || 'Yều cầu cần có']"
+                                    label="Source"
+                                    :readonly="!newClient"
+                                >
+                                </v-select>
+                            </v-flex>
+                            <v-spacer/>
+                        </v-layout>
                         <v-layout>
                             <v-flex sm5>
                                 <v-select
@@ -102,7 +116,7 @@
                                     :items="districtItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Quận/Huyện"
-                                    required
+                                    :readonly="!newClient"
                                 >
                                 </v-select>
                             </v-flex>
@@ -113,31 +127,9 @@
                                     :items="cityItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Thành phố"
-                                    required
+                                    :readonly="!newClient"
                                 >
                                 </v-select>
-                            </v-flex>
-                        </v-layout>
-                        <v-layout>
-                            <v-flex sm5>
-                                <v-select
-                                    v-model="sourceInput"
-                                    :items="sourceItems"
-                                    :rules="[v => !!v || 'Yều cầu cần có']"
-                                    label="Source"
-                                    required
-                                >
-                                </v-select>
-                            </v-flex>
-                            <v-spacer/>
-                            <v-flex sm5>
-                                <v-textarea
-                                    v-model.lazy="noteInput"
-                                    label="Note"
-                                    rows="1"
-                                    auto-grow
-                                    >
-                                </v-textarea>
                             </v-flex>
                         </v-layout>
                         <v-layout
@@ -201,7 +193,7 @@
                                     :items="assetTypeItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Loại tài sản*"
-                                    required
+                                    readonly
                                 >
                                 </v-select>
                             </v-flex>
@@ -232,12 +224,12 @@
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model="pawnAmountInput"
+                                    v-model="approvedAmountInput"
                                     :rules="[
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Giá cầm"
-                                    :hint="pawnAmountHint"
+                                    :hint="approvedAmountHint"
                                     type="number"
                                 >
                                 </v-text-field>
@@ -430,6 +422,7 @@
                                 <v-text-field
                                     v-model="contractIDInput"
                                     label="Mã HĐ"
+                                    :readonly="true"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -479,13 +472,13 @@
                             </v-flex>
                             <v-flex sm4>
                                 <v-text-field
-                                    v-model="pawnAmountInput"
+                                    v-model="approvedAmountInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Giá cầm*"
-                                    :hint="pawnAmountHint"
+                                    :hint="approvedAmountHint"
                                     type="number"
                                     required
                                 >
@@ -545,13 +538,13 @@
                             </v-flex>
                             <v-flex sm4>
                                 <v-text-field
-                                    v-model="interestMoneyInput"
+                                    v-model="interestValueInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Tiền lãi"
-                                    :hint="interestMoneyHint"
+                                    :hint="interestValueHint"
                                     type="number"
                                     readonly
                                 >
@@ -660,13 +653,8 @@
                             <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="phone1Input"
-                                    :rules="[
-                                        v => !!v || 'Yêu cầu cần có',
-                                        //Phone has charater pre '+' (only one or no), from 10-13 digits.
-                                        v => /^[+]?[0-9]{10,13}$/.test(v) || 'Dữ liệu không hợp lệ'
-                                    ]"
                                     label="Phone 1*"
-                                    required
+                                    readonly
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -690,7 +678,7 @@
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model.lazy="NationalIDInput"
+                                    v-model.lazy="nationalIDInput"
                                     label="CMND"
                                 >
                                 </v-text-field>
@@ -741,13 +729,7 @@
                             </v-flex>
                             <v-spacer/>
                             <v-flex sm5>
-                                <v-textarea
-                                    v-model.lazy="noteInput"
-                                    label="Note"
-                                    rows="1"
-                                    auto-grow
-                                    >
-                                </v-textarea>
+
                             </v-flex>
                         </v-layout>
                         <v-layout
@@ -838,12 +820,12 @@
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
-                                    v-model="pawnAmountInput"
+                                    v-model="approvedAmountInput"
                                     :rules="[
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Giá cầm"
-                                    :hint="pawnAmountHint"
+                                    :hint="approvedAmountHint"
                                     type="number"
                                 >
                                 </v-text-field>
@@ -920,14 +902,14 @@
                             </v-flex>
                             <v-flex sm4>
                                 <v-text-field
-                                    v-model="pawnAmountInput"
+                                    v-model="approvedAmountInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Giá cầm*"
                                     required
-                                    :hint="pawnAmountHint"
+                                    :hint="approvedAmountHint"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -984,13 +966,13 @@
                             </v-flex>
                             <v-flex sm4>
                                 <v-text-field
-                                    v-model="interestMoneyInput"
+                                    v-model="interestValueInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
                                             v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Tiền lãi"
-                                    :hint="interestMoneyHint"
+                                    :hint="interestValueHint"
                                     type="number"
                                     readonly
                                 >
@@ -1103,26 +1085,26 @@ export default {
       valid2: true,
       valid3: true,
       authorizedValid: true,
+      newClient: true,
       firstNameInput: '',
       lastNameInput: '',
       phone1Input: '',
       phone2Input: '',
       dobInput: '',
-      NationalIDInput: '',
+      nationalIDInput: '',
       addressInput: '',
       districtInput:'',
       cityInput: Object.keys(cityItems)[0],
       cityItems: Object.keys(cityItems),
       sourceInput: '',
       sourceItems: sourceItems,
-      noteInput: '',
       assetInput: '',
       expectedAmountInput: '',
       assetTypeInput: '',
       assetTypeItems: [],
       validatorAmountInput: '',
       accessoryInput: '',
-      pawnAmountInput: '',
+      approvedAmountInput: '',
       authorizedType: 'normal',
       isAuthorizedForm: false,
       labelInput: '',
@@ -1148,7 +1130,7 @@ export default {
       costInput: '',
       interestRateInput: '',
       interestRateDisabled: true,
-      interestMoneyInput: '',
+      interestValueInput: '',
       warehousingFeeInput: 0,
       methodInput: 'Tiền mặt',
       bankInput: '',
@@ -1166,14 +1148,33 @@ export default {
   mounted() {
     this.getSAssetList()
     try {
-      this.phone1Input = this.$route.params.orderDetail.phone
-      this.lastNameInput = this.$route.params.orderDetail.name
+      const phone = this.$route.params.orderDetail.phone
+      this.searchClient({phone: phone}).then(() => {
+          if (this.clientResult !== null) {
+            this.newClient = false
+            this.firstNameInput = this.clientResult.firstName
+            this.lastNameInput = this.clientResult.lastName
+            this.phone1Input = this.clientResult.primaryPhone
+            this.phone2Input = this.clientResult.alternativePhone
+            this.dobInput = this.clientResult.dateOfBirth
+            this.nationalIDInput = this.clientResult.nationalId
+            this.addressInput = this.clientResult.address
+            this.districtInput = this.clientResult.district
+            this.cityInput = this.clientResult.city
+          } else {
+            this.phone1Input = phone
+            this.lastNameInput = this.$route.params.orderDetail.name
+          }
+      })
+
       this.expectedAmountInput = this.$route.params.orderDetail.expectedAmount
       this.validatorAmountInput = this.$route.params.orderDetail.validatorAmount
       this.assetTypeInput = this.$route.params.orderDetail.assetType
-      this.assetInput = this.$route.params.orderDetail.asset
       this.sourceInput = this.$route.params.orderDetail.source
-      this.noteInput = this.$route.params.orderDetail.note
+
+      const [asset, accessory] = this.$route.params.orderDetail.asset.split(' __ ')
+      this.assetInput = asset
+      this.accessoryInput = accessory == undefined ? '' : accessory
     } catch (error) {
         
     }
@@ -1182,8 +1183,19 @@ export default {
   computed: {
     ...mapGetters({
         SAssetListResult: 'asset/SAssetListResult',
+        CAssetUpdatingResult: 'asset/CAssetUpdatingResult',
+        CAssetUpdatingErrorCode: 'asset/CAssetUpdatingErrorCode',
+        CAssetUpdatingError: 'asset/CAssetUpdatingError',
         productListResult: 'product/productListResult',
         clientResult: 'order/clientResult',
+        clientCreatingRequest: 'client/clientCreatingRequest',
+        clientCreatingResult: 'client/clientCreatingResult',
+        clientCreatingErrorCode: 'client/clientCreatingErrorCode',
+        clientCreatingError: 'client/clientCreatingError',
+        contractCreatingRequest: 'contract/contractCreatingRequest',
+        contractCreatingResult: 'contract/contractCreatingResult',
+        contractCreatingErrorCode: 'contract/contractCreatingErrorCode',
+        contractCreatingError: 'contract/contractCreatingError',
     }),
     packageItems() {
         try {
@@ -1205,8 +1217,8 @@ export default {
     validatorAmountHint() {
         return changeDigitToText(this.validatorAmountInput)
     },
-    pawnAmountHint() {
-        return changeDigitToText(this.pawnAmountInput)
+    approvedAmountHint() {
+        return changeDigitToText(this.approvedAmountInput)
     },
     warehousingFeeHint() {
         return changeDigitToText(this.warehousingFeeInput)
@@ -1227,8 +1239,8 @@ export default {
     receivedAmountHint() {
         return changeDigitToText(this.receivedAmountInput)
     },
-    interestMoneyHint() {
-        return changeDigitToText(this.interestMoneyInput)
+    interestValueHint() {
+        return changeDigitToText(this.interestValueInput)
     },
     receivedAmountInput() {
         try {
@@ -1236,7 +1248,7 @@ export default {
         } catch (error) {
             return null
         }
-    }
+    },
   },
   watch: {
     //When finish call API get SAsset, Update assetTypeItems
@@ -1259,7 +1271,7 @@ export default {
     openingDateInput() {
         this.changeExpirationDate()
     },
-    pawnAmountInput() {
+    approvedAmountInput() {
         this.changeCaculate()
     },
     interestRateInput() {
@@ -1271,6 +1283,9 @@ export default {
         getSAssetList: 'asset/getSAssetList',
         getProduct: 'product/getProduct',
         searchClient: 'order/searchClient',
+        createClient: 'client/createClient',
+        updateCAsset: 'asset/updateCAsset',
+        createContract: 'contract/createContract',
     }),
     //Find asset from asset description
     findAssetNameType(assetType) {
@@ -1294,15 +1309,15 @@ export default {
         }
     },
     changeCaculate() {
-        if (this.interestRateInput && this.pawnAmountInput) {
+        if (this.interestRateInput && this.approvedAmountInput) {
             const productName = this.productListResult[this.packageInput].productName
-            this.costInput = String(getCost(this.pawnAmountInput, this.interestRateInput, productName))
-            this.roundingInput = String(getRoundFee(this.pawnAmountInput, this.interestRateInput, productName))
-            this.interestMoneyInput = String((this.pawnAmountInput - this.costInput).toFixed(3))
+            this.costInput = String(getCost(this.approvedAmountInput, this.interestRateInput, productName))
+            this.roundingInput = String(getRoundFee(this.approvedAmountInput, this.interestRateInput, productName))
+            this.interestValueInput = String((this.approvedAmountInput - this.costInput).toFixed(3))
         } else {
             this.costInput = '0'
             this.roundingInput = '0'
-            this.interestMoneyInput = '0'
+            this.interestValueInput = '0'
         }
     },
     changeExpirationDate() {
@@ -1317,11 +1332,110 @@ export default {
     cancleHandle() {
         this.$router.back();
     },
-    createHandle: async function() {
-        await this.searchClient({phone: this.phone1Input})
-        if (this.clientResult != null) {
-            
+    getClient: async function() {
+
+        if (this.newClient === true) {
+            const data = {
+                firstName: this.firstNameInput,
+                lastName: this.lastNameInput,
+                primaryPhone: this.phone1Input,
+                alternativePhone: this.phone2Input,
+                address: this.addressInput,
+                district: this.districtInput,
+                city: this.cityInput,
+                DOB: this.dobInput,
+                nationalID: this.nationalID,
+            }
+            await this.createClient(data)
+            if (this.clientCreatingErrorCode === 201) {
+                return this.clientCreatingResult.id
+            } else {
+                this.$notify({
+                    group: 'foo',
+                    type: 'error',
+                    title: "Error: "+this.clientCreatingErrorCode,
+                    text: this.clientCreatingError,
+                });
+                return null
+            }
         }
+        return this.clientResult.id
+    },
+    updateAsset: async function() {
+        const data = {}
+
+        if (!/^null$|^\s*$/.test(this.accessoryInput)) {
+            data['description'] = `${this.assetInput} __ ${this.accessoryInput}`
+        } else {
+            data['description'] =this.assetInput
+        }
+        await this.updateCAsset({
+            id: this.$route.params.orderDetail.assetID,
+            data: data,
+        })
+        if (this.CAssetUpdatingErrorCode == 200) {
+            return true
+        } else {
+            this.$notify({
+                group: 'foo',
+                type: 'error',
+                title: "Error: "+this.CAssetUpdatingErrorCode,
+                text: this.CAssetUpdatingError,
+            });
+            return false
+        }
+    },
+    createHandle: async function() {
+        
+        const promise1 = new Promise((resolve, reject) => {
+            this.getClient().then(clientID => {
+                resolve(clientID)
+            })
+        });
+
+        const promise2 = new Promise((resolve, reject) => {
+            this.updateAsset().then(assetUpdate => {
+                resolve(assetUpdate)
+            })
+        });
+
+        const [clientID, assetUpdate] = await Promise.all([promise1, promise2])
+
+        if (clientID === null || assetUpdate === false) {
+            return
+        }
+
+        const data = {
+            orderID: this.$route.params.orderDetail.orderID,
+            clientID: clientID,
+            productID: this.productListResult[this.packageInput].id,
+            expectedAmount: this.expectedAmountInput,
+            marketAmount: this.marketAmount,
+            validatorAmount: this.validatorAmountInput,
+            approvedAmount: this.approvedAmountInput,
+            interestRate: this.interestRateInput,
+            warehousingFee: this.warehousingFeeInput,
+            openingDate: moment(this.openingDateInput, "DD/MM/YYYY").format("YYYY-MM-DD"),
+            expirationDate: moment(this.expirationDateInput, "DD/MM/YYYY").format("YYYY-MM-DD"),
+        }
+
+        this.createContract(data).then(() => {
+            if (this.contractCreatingError == 201) {
+                this.$notify({
+                    group: 'foo',
+                    type: 'success',
+                    title: "Tạo hợp đồng thành công",
+                    text: ''
+                });
+            } else {
+                this.$notify({
+                    group: 'foo',
+                    type: 'error',
+                    title: "Error: "+this.contractCreatingErrorCode,
+                    text: this.contractCreatingError
+                });
+            }
+        })
     },
   }
 }

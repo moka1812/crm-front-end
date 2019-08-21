@@ -13,7 +13,6 @@ class ProductError extends Error {
 const ProductService = {
     getProduct: async function() {
 
-
         try {
 
             const response = await ApiService.get(productApi)

@@ -28,10 +28,22 @@ const AssetService = {
             throw AssetError(error.response.status, error.response.data.detail)
         }
     },
-    updateCAsset: async function(id, data){
+    updateCAsset: async function(id, newData){
+        const data = {
+            description: newData.description,
+        }
+
+        if (newData.storageID != null) {
+            data.storage_id = newData.storageID
+        }
+
+        if (newData.status != null) {
+            data.status = newData.status
+        }
+
         const url = `${CAssetsAPI}${id}/`
         try {
-            const response = await ApiService.put(url, data)
+            const response = await ApiService.patch(url, data)
             const CAsset = response.data
             return CAsset 
         } catch (error) {

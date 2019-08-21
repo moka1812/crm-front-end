@@ -86,8 +86,8 @@ export default {
     [ORDER_UPDATING_REQUEST] (state) {
         Vue.set(state, 'orderUpdating', true)
         Vue.set(state, 'orderUpdatingResult', null)
-        Vue.set(state, 'orderUpdatingErrorCode', '')
-        Vue.set(state, 'orderUpdatingError', 0)
+        Vue.set(state, 'orderUpdatingErrorCode', 0)
+        Vue.set(state, 'orderUpdatingError', '')
     },
     [ORDER_UPDATING_SUCCESS] (state, {result}) {
         Vue.set(state, 'orderUpdating', false)
