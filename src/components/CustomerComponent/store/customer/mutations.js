@@ -20,6 +20,12 @@ import {
     CUSTOMER_SUMMARY_RESULT,
     CUSTOMER_SUMMARY_REQUEST,
     CUSTOMER_SUMMARY_TOTAL,
+    CONTRACT_ACTIVE_REQUEST,
+    CONTRACT_ACTIVE_RESULT,
+    CONTRACT_CLOSE_REQUEST,
+    CONTRACT_CLOSE_RESULT,
+    BANK_ACCOUT_REQUEST,
+    BANK_ACCOUT_RESULT,
 } from './types'
 
 export default {
@@ -130,6 +136,42 @@ export default {
     [CUSTOMER_SUMMARY_RESULT] (state, {customers}) {
         Vue.set(state, 'summaryListRequest', false)
         Vue.set(state, 'summaryListResult', customers)
+        Vue.set(state, 'customerListError', '')
+        Vue.set(state, 'customerListErrorCode', 200)
+    },
+    [CONTRACT_ACTIVE_REQUEST] (state) {
+        Vue.set(state, 'contractActiveListRequest', true)
+        Vue.set(state, 'contractActiveListResult', [])
+        Vue.set(state, 'customerListError', '')
+        Vue.set(state, 'customerListErrorCode', 200)
+    },
+    [CONTRACT_ACTIVE_RESULT] (state, {cus}) {
+        Vue.set(state, 'contractActiveListRequest', false)
+        Vue.set(state, 'contractActiveListResult', cus)
+        Vue.set(state, 'customerListError', '')
+        Vue.set(state, 'customerListErrorCode', 200)
+    },
+    [CONTRACT_CLOSE_REQUEST] (state) {
+        Vue.set(state, 'contractCloseListRequest', true)
+        Vue.set(state, 'contractCloseListResult', [])
+        Vue.set(state, 'customerListError', '')
+        Vue.set(state, 'customerListErrorCode', 200)
+    },
+    [CONTRACT_CLOSE_RESULT] (state, {cus}) {
+        Vue.set(state, 'contractCloseListRequest', false)
+        Vue.set(state, 'contractCloseListResult', cus)
+        Vue.set(state, 'customerListError', '')
+        Vue.set(state, 'customerListErrorCode', 200)
+    },
+    [BANK_ACCOUT_REQUEST] (state) {
+        Vue.set(state, 'bankAccoutListRequest', true)
+        Vue.set(state, 'bankAccoutListResult', [])
+        Vue.set(state, 'customerListError', '')
+        Vue.set(state, 'customerListErrorCode', 200)
+    },
+    [BANK_ACCOUT_RESULT] (state, {cus}) {
+        Vue.set(state, 'bankAccoutListRequest', false)
+        Vue.set(state, 'bankAccoutListResult', cus)
         Vue.set(state, 'customerListError', '')
         Vue.set(state, 'customerListErrorCode', 200)
     },

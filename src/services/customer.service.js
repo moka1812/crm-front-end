@@ -199,22 +199,12 @@ const CustomerService = {
     filterRawCustomer: function(item) {
         let data = null;
         try {
-            //Example created: "2019-05-31T14:16:03.932314+07:00"   
-            const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-            const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-
             data = {
-                customerID: item.mifos_id,
-                createdDate: created,
-                closedDate: closedDate,
-                loanStatus: item.status,
-                client: item.client,
-                asset: item.asset,
-                loanBalance: item.agent,
-                interest: item.market_amount,
-                storageID: item.branch,
-                storageLocation: item.closed_branch,
-                branchName: item.branch_name,
+                id: item.id,
+                fullName: item.full_name,
+                primaryPhone: item.primary_phone,
+                alternativePhone: item.alternative_phone,
+                address: item.address + " " + item.district+ " " + item.city,
             };
             return data
         } catch (error) {

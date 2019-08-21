@@ -69,6 +69,30 @@ export default  {
 
     customerTotalSummaryResult: (state) => {
         return state.customerTotalSummaryResult
-    }
+    },
+
+    contractActiveListResult: (state) => {
+        return state.contractActiveListResult
+    },
+
+    contractActiveListRequest: (state) => {
+        return state.contractActiveListRequest
+    },
+
+    contractCloseListResult: (state) => {
+        return state.contractCloseListResult
+    },
+
+    contractCloseListRequest: (state) => {
+        return state.contractCloseListRequest
+    },
+
+    bankAccoutListRequest: (state) => {
+        return state.bankAccoutListRequest
+    },
+
+    bankAccoutListResult: (state) => {
+        return state.bankAccoutListResult
+    },
 
 }

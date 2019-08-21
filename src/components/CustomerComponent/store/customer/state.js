@@ -30,5 +30,16 @@ export default function initialState () {
         summaryListResult: [],
         summaryListRequest: false,
 
+ 		contractActiveListResult:  [],
+        contractActiveListRequest: false,
+
+        contractCloseListResult:  [],
+        contractCloseListRequest: false,
+
+        contractCloseListResult:  [],
+        contractCloseListRequest: false,
+
+        bankAccoutListRequest: false,
+        bankAccoutListResult:  [],
     }
 }

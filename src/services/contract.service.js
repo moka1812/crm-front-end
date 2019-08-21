@@ -241,19 +241,17 @@ const ContractService = {
         try {
             //Example created: "2019-05-31T14:16:03.932314+07:00"   
             const created = new moment(item.created, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
-            const closedDate = new moment(item.close_date, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
 
             data = {
                 id: item.id,
                 contractID: item.mifos_id,
                 createdDate: created,
-                closedDate: closedDate,
                 status: item.status,
-                clientName: item.client_name,
-                assetDescription: item.asset_description,
-                approvedAmount: item.approved_amount / 1000000,
-                interest: item.interest_value,
+                maturesDate: item.matures_date,
+                creater:"Lan Nguyễn",
+                clientId: item.client,
                 branchName: item.branch_name,
+                storage: "CMN"
             };
             return data
         } catch (error) {
