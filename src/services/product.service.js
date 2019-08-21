@@ -23,7 +23,7 @@ const ProductService = {
 
         } catch (error) {
 
-            throw OrderError(error.response.status, error.response.data)
+            throw new ProductError(error.response.status, error.response.data)
         }
     },
 

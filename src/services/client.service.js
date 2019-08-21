@@ -34,7 +34,7 @@ const ClientService = {
                 return response.data
             }
         } catch (error) {
-            throw ClientError(error.response.status, error.response.data)
+            throw new ClientError(error.response.status, error.response.data)
         }
     },
 

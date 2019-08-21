@@ -16,7 +16,7 @@ const AssetService = {
             const response = await ApiService.get(SAssetListAPI)
             return response.data
         } catch (error) {
-            throw AssetError(error.response.status, error.response.data)
+            throw new AssetError(error.response.status, error.response.data)
         }
     },
     createCAsset: async function(data) {
@@ -25,7 +25,7 @@ const AssetService = {
             const CAsset = response.data
             return CAsset 
         } catch (error) {
-            throw AssetError(error.response.status, error.response.data.detail)
+            throw new AssetError(error.response.status, error.response.data.detail)
         }
     },
     updateCAsset: async function(id, newData){
@@ -47,7 +47,7 @@ const AssetService = {
             const CAsset = response.data
             return CAsset 
         } catch (error) {
-            throw AssetError(error.response.status, error.response.data.detail)
+            throw new AssetError(error.response.status, error.response.data.detail)
         }
     }
 }
