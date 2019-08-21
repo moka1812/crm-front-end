@@ -1,5 +1,5 @@
 import ApiService from './api.service'
-import { ProfileService, CurrentBranchService } from './storage.service'
+import { ProfileService } from './storage.service'
 import { deleteContractDocument, contractDoucument, contractCollectoralInfo, contractSummary,
 contractApi, contractById, contractDocumentApi, contractRepaymentSchedule, contractTransaction } from '../config/backend-api'
 import moment from 'moment'
@@ -15,13 +15,10 @@ class ContractError extends Error {
 
 const ContractService = {
 
-    getContractList: async function(page) {
+    getContractList: async function() {
         try {
 
             let url = contractApi
-            if (page !== null && page !== 1) {
-                url = `${contractApi}?page=${page}`
-            }
 
             const response = await ApiService.get(url)
 
@@ -203,20 +200,19 @@ const ContractService = {
         let data = null;
         try {
             //Example created: "2019-05-31T14:16:03.932314+07:00"   
-            const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-            const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+            const created = new moment(item.created, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
+            const closedDate = new moment(item.close_date, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
 
             data = {
+                id: item.id,
                 contractID: item.mifos_id,
                 createdDate: created,
                 closedDate: closedDate,
-                loanStatus: item.status,
-                client: item.client,
-                asset: item.asset,
-                loanBalance: item.agent,
-                interest: item.market_amount,
-                storageID: item.branch,
-                storageLocation: item.closed_branch,
+                status: item.status,
+                clientName: item.client_name,
+                assetDescription: item.asset_description,
+                approvedAmount: item.approved_amount,
+                interest: item.interest_value,
                 branchName: item.branch_name,
             };
             return data
@@ -231,21 +227,19 @@ const ContractService = {
         try {
             for (let item of rawData) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-                const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+                const created = new moment(item.created, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
+                const closedDate = new moment(item.close_date, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY");
 
                 data.push({
                     id: item.id,
                     contractID: item.mifos_id,
                     createdDate: created,
                     closedDate: closedDate,
-                    loanStatus: item.status,
-                    client: item.client,
-                    asset: item.asset,
-                    loanBalance: item.agent,
-                    interest: item.market_amount,
-                    storageID: item.branch,
-                    storageLocation: item.closed_branch,
+                    status: item.status,
+                    clientName: item.client_name,
+                    assetDescription: this.subTextAsset(item.asset_description),
+                    approvedAmount: item.approved_amount,
+                    interest: item.interest_value,
                     branchName: item.branch_name,
                 })
             }
@@ -255,7 +249,13 @@ const ContractService = {
             throw error
         }
     },
-
+    subTextAsset: function(textFull) {
+        if(textFull === null || textFull === undefined || textFull.length <= 30) {
+            return textFull
+        } else {
+            return textFull.substring(0, 30) + "...";
+        }
+    },
     filterRawDocumnetList: function(rawData) {
         const data = []
         try {
