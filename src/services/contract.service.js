@@ -1,5 +1,5 @@
 import ApiService from './api.service'
-import { ProfileService } from './storage.service'
+import { ProfileService, CurrentBranchService } from './storage.service'
 import { deleteContractDocument, contractDoucument, contractCollectoralInfo, contractSummary,
 contractApi, contractById, contractDocumentApi, contractRepaymentSchedule, contractTransaction } from '../config/backend-api'
 import moment from 'moment'
@@ -20,12 +20,12 @@ const ContractService = {
         const data = {
             order: newContractInfo.orderID,
             client: newContractInfo.clientID,
-            product: newContractInfo.prodcutID,
+            product: newContractInfo.productID,
             required_amount: newContractInfo.expectedAmount * 1000000,
             market_amount: newContractInfo.marketAmount * 1000000,
             proposed_amount: newContractInfo.validatorAmount * 1000000,
             approved_amount: newContractInfo.approvedAmount * 1000000,
-            special_interest_value: newContractInfo.interestValue,
+            special_interest_value: newContractInfo.interestRate,
             agent: ProfileService.getID(),
             branch: CurrentBranchService.getCurrentBranchID(),
             warehousing_fee: newContractInfo.warehousingFee,
@@ -37,13 +37,22 @@ const ContractService = {
             data.penalty = newContractInfo.penalty
         }
 
+        if (newContractInfo.parentContractId != null) {
+            data.parent_contract_id = newContractInfo.parentContractId
+        }
+
         try {
             const response = await ApiService.post(contractApi, data)
             if (response.status == 201) {
                 return response.data
             }
         } catch (error) {
-            throw OrderError(error.response.status, error.response.data.detail)
+            const array = error.response.data.detail.map(x =>{
+                const key = Object.keys(x);
+                return x[key]
+            })
+            console.log(error.response.status)
+            throw ContractError(error.response.status, '123')
         }
     },
 
@@ -242,7 +251,7 @@ const ContractService = {
                 status: item.status,
                 clientName: item.client_name,
                 assetDescription: item.asset_description,
-                approvedAmount: item.approved_amount,
+                approvedAmount: item.approved_amount / 1000000,
                 interest: item.interest_value,
                 branchName: item.branch_name,
             };

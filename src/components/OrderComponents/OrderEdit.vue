@@ -612,14 +612,15 @@ export default {
         },
         contractHandle() {
             const orderDetail = {
-                phone: this.phoneInput,
-                name: this.nameInput,
-                expectedAmount: this.expectedAmountInput,
-                validatorAmount: this.validatorAmountInput,
-                assetType: this.assetTypeInput,
-                asset: this.assetInput,
-                source: this.sourceInput,
-                note: this.noteInput,
+                phone:  this.orderDetail.phone,
+                name: this.orderDetail.name,
+                expectedAmount: this.orderDetail.expectedAmount,
+                validatorAmount: this.orderDetail.validatorAmount,
+                assetType: this.orderDetail.asset,
+                asset: this.orderDetail.assetDescription,
+                assetID: this.orderDetail.assetID,
+                orderID: this.orderDetail.orderID,
+                source: this.orderDetail.source,
             }
             this.$router.push({name: 'new_contract', params: {orderDetail}})
             this.dialog = false

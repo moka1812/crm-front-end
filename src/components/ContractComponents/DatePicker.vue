@@ -21,11 +21,12 @@
                 :hint="hint"
                 :persistent-hint="true"
                 :outline="outline"
+                :readonly="readonly"
                 @click:append="menu=true"
             >
             </v-text-field>
         </template>
-        <v-date-picker v-model="date" no-title @input="turnOff"></v-date-picker>
+        <v-date-picker v-model="date" no-title @input="turnOff" :readonly="readonly"></v-date-picker>
     </v-menu>
 </template>
 
@@ -40,6 +41,7 @@ export default {
         label: String,
         placeholder: String,
         disable: Boolean,
+        readonly: Boolean,
         outline: Boolean,
         rules: {
             type: Array,
