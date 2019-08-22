@@ -54,7 +54,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -73,7 +73,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -90,7 +90,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.responsedelete.status, error.responsedelete.data.detail)
+            throw new CustomerError(error.responsedelete.status, error.responsedelete.data.detail)
         }
     },
 
@@ -107,7 +107,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -129,7 +129,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -151,7 +151,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -171,7 +171,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -191,7 +191,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
 
     },

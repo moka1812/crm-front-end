@@ -17,7 +17,7 @@ const OrderService = {
 
     createOrder : async function(newOrderInfo) {
         const CAssetData = {
-            asset: newOrderInfo.assetTypeID,
+            asset: 'abc',
             description: newOrderInfo.assetTypeDescription
         }
         let CAsset;
@@ -26,8 +26,9 @@ const OrderService = {
             CAsset = await AssetService.createCAsset(CAssetData)
         } catch (error) {
             if (error instanceof AssetError) {
-                throw OrderError(error.errorCode, error.message)
+                throw new OrderError(error.errorCode, error.message)
             }
+            console.log(error)
         }
         const data = {
             phone: newOrderInfo.phone,
@@ -57,7 +58,7 @@ const OrderService = {
                 return response.data
             }
         } catch (error) {
-            throw OrderError(error.response.status, error.response.data.detail)
+            throw new OrderError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -104,7 +105,7 @@ const OrderService = {
             const response = await ApiService.put(url, orderData)
             return response.data
         } catch (error) {
-            throw OrderError(error.response.status, error.response.data)
+            throw new OrderError(error.response.status, error.response.data)
         }
         
     },
@@ -128,7 +129,7 @@ const OrderService = {
             return response.data
         } catch (error) {
             console.log( error.response.data)
-            throw OrderError(error.response.status, error.response.data)
+            throw new OrderError(error.response.status, error.response.data)
         }
     },
 
@@ -154,7 +155,7 @@ const OrderService = {
             return response.data
         } catch (error) {
             console.log( error.response.data)
-            throw OrderError(error.response.status, error.response.data)
+            throw new OrderError(error.response.status, error.response.data)
         }
     },
 
@@ -178,7 +179,7 @@ const OrderService = {
 
         } catch (error) {
 
-            throw OrderError(error.response.status, error.response.data.detail)
+            throw new OrderError(error.response.status, error.response.data.detail)
         }
     },
     getOrderListFromStaff: async function() {
@@ -199,7 +200,7 @@ const OrderService = {
 
         } catch (error) {
 
-            throw OrderError(error.response.status, error.response.data)
+            throw new OrderError(error.response.status, error.response.data)
         }
     },
     getOrderDetail: async function (id) {
@@ -210,7 +211,7 @@ const OrderService = {
             const [result] = await this.filterRawOrderList([response.data])
             return result
         } catch (error) {
-            throw OrderError(error.response.status, error.response.data)
+            throw new OrderError(error.response.status, error.response.data)
         }
     },
 
@@ -222,7 +223,7 @@ const OrderService = {
             const data = this.filterRawOrderList(response.data)
             return data
         } catch (error) {
-            throw OrderError(error.response.status, error.response.data.detail)
+            throw new OrderError(error.response.status, error.response.data.detail)
         }
     },
 

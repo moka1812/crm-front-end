@@ -51,8 +51,7 @@ const ContractService = {
                 const key = Object.keys(x);
                 return x[key]
             })
-            console.log(error.response.status)
-            throw ContractError(error.response.status, '123')
+            throw new ContractError(error.response.status, array.join())
         }
     },
 
@@ -72,7 +71,7 @@ const ContractService = {
             }
 
         } catch (error) {
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw new ContractError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -93,7 +92,7 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw new ContractError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -112,7 +111,7 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw new ContractError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -129,7 +128,7 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.responsedelete.status, error.responsedelete.data.detail)
+            throw new ContractError(error.responsedelete.status, error.responsedelete.data.detail)
         }
     },
 
@@ -147,7 +146,7 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw new ContractError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -169,7 +168,7 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw new ContractError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -191,7 +190,7 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw new ContractError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -211,7 +210,7 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw new ContractError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -231,7 +230,7 @@ const ContractService = {
 
         } catch (error) {
 
-            throw ContractError(error.response.status, error.response.data.detail)
+            throw new ContractError(error.response.status, error.response.data.detail)
         }
 
     },

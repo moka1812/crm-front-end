@@ -28,7 +28,7 @@ const CallService = {
             const response = await ApiService.post(callAPI, data)
             return response.data
         } catch (error) {
-            throw CallError(error.response.status, error.response.data)
+            throw new CallError(error.response.status, error.response.data)
         }
     },
 
@@ -58,7 +58,7 @@ const CallService = {
             const response = await ApiService.patch(url, data)
             return response.data
         } catch (error) {
-            throw CallError(error.response.status, error.response.data)
+            throw new CallError(error.response.status, error.response.data)
         }
     },
 
@@ -76,7 +76,7 @@ const CallService = {
 
         } catch (error) {
 
-            throw CallError(error.response.status, error.response.data)
+            throw new CallError(error.response.status, error.response.data)
         }
     },
 
@@ -112,7 +112,7 @@ const CallService = {
 
         } catch (error) {
             console.log(error)
-            throw CallError(error.response.status, error.response.data)
+            throw new CallError(error.response.status, error.response.data)
         }
     },
     convertTime: function(time) {
