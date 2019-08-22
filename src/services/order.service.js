@@ -17,7 +17,7 @@ const OrderService = {
 
     createOrder : async function(newOrderInfo) {
         const CAssetData = {
-            asset: 'abc',
+            asset: newOrderInfo.assetTypeID,
             description: newOrderInfo.assetTypeDescription
         }
         let CAsset;
