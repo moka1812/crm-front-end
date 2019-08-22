@@ -1,11 +1,7 @@
 <template>
 <div>
     <div class="contract-notes">
-        <v-layout align-start justify-start column>
-            <span v-for="item in notesListResult" :key="item.note_id">
-                {{item.create_data}} &nbsp;-&nbsp; {{item.note}}
-            </span>
-        </v-layout>
+        <textarea :value="notes" disabled rows="10" style="width:100%;height:100%;"></textarea>
     </div>
     <v-flex xs12 sm12 md12 class="border-text">
         <v-text-field
@@ -18,7 +14,9 @@
 </template>
 
 <script>
-import moment from 'moment'
+import moment from 'moment';
+import {mapGetters} from 'vuex'
+
 export default {
   name: "contract-notes-tab",
   components: {
@@ -26,26 +24,14 @@ export default {
   props: {
     contractId: String,
   },
+  computed: {
+    ...mapGetters({
+      userLogin: 'auth/name'
+    })
+  },
   data() {
     return {
-      notesListResult: [
-                {
-                  note_id: 1,
-                  create_data: '2019:03:04',
-                  note:'Laptop abc xyz'
-                },
-                {
-                  note_id: 2,
-                  create_data: '2019:03:04',
-                  note:'Laptop abc xyz'
-                },
-                {
-                  note_id: 3,
-                  create_data: '2019:03:04',
-                  note:'Laptop abc xyz'
-                }
-      ],
-      notesListRequest: false,
+      notes: "",
       text_note: "",
     }
   },
@@ -55,15 +41,15 @@ export default {
     addNote: function(e) {
       if (e.keyCode === 13) {
         this.text_note = this.text_note.trim();
-        if (this.text_note != null && this.text_note != "") {
-          const note_id = this.notesListResult.length + 1;
-          this.notesListResult.push(
-            {
-              note_id: note_id,
-              create_data: this.formatDate(new Date()),
-              note: this.text_note
-            }
-          );
+        if (this.text_note != "") {
+          if (this.notes!=="") {
+            this.notes = this.notes.concat("\r\n");
+          }
+          this.notes = this.notes.concat(this.userLogin)
+                          .concat(" - ")
+                          .concat(this.formatDate(new Date()))
+                          .concat(" - ")
+                          .concat(this.text_note);
           this.text_note="";
         }
       }
@@ -80,9 +66,10 @@ export default {
 <style>
 .contract-notes {
   margin-top: 15px;
-  padding: 2vw 1vw 2vw 1vw;
+  padding: 0 1vw 0 1vw;
   border: 1px solid #9D9D9D;
   border-radius: 2px;
+  height: 50vh;
 }
 
 .contract-notes span {

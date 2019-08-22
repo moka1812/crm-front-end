@@ -204,7 +204,7 @@ const CustomerService = {
                 fullName: item.full_name,
                 primaryPhone: item.primary_phone,
                 alternativePhone: item.alternative_phone,
-                address: item.address + " " + item.district+ " " + item.city,
+                address: item.fulladdress,
             };
             return data
         } catch (error) {
