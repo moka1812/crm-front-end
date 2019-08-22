@@ -5,6 +5,13 @@ export default  {
     currentBranchID: (state) => {
         return state.currentBranchID
     },
+    currentBranchAddress: (state) => {
+        for (let branch of state.branchListResult) {
+            if (branch.id === state.currentBranchID) {
+                return branch.address
+            }
+        }
+    },
     branchListRequest: (state) => {
         return state.branchListRequest
     },

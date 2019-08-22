@@ -13,8 +13,8 @@
           </v-flex>
           <v-flex xs9>
             <div class="titel-repayment-name"><h1>HỢP ĐỒNG CẦM CỐ</h1></div>
-            <strong>Mã hợp đồng(HĐ):{{contractId}}</strong><br>
-            <strong>Mã khách hàng(KH):{{customerId}}</strong><br>
+            <strong>Mã hợp đồng(HĐ):XXXXX</strong><br>
+            <strong>Mã khách hàng(KH):XXXXX</strong><br>
           </v-flex>
         </v-layout>
         <br/>
@@ -78,7 +78,7 @@
                 <br/>
                 GPKD số: 0313412428
                 <br/>
-                Địa chỉ: {{branchAddress}}
+                Địa chỉ: {{currentBranchAddress}}
             </v-flex>
         </v-layout>
 
@@ -121,7 +121,7 @@
                   <li>Số lượng:</li>
               </v-flex>
               <v-flex sm4>
-                  {{total}}
+                  01
               </v-flex>
           </v-layout>
         </ul>
@@ -150,7 +150,7 @@
                   <li>Lãi suất trong hạn:</li>
               </v-flex>
               <v-flex sm4>
-                  {{interestRate}} %
+                  1.5 %
               </v-flex>
           </v-layout>
           <v-layout>
@@ -195,14 +195,11 @@
           <strong>VUI LÒNG KIỂM TRA SỐ TIỀN VÀ</strong><br>
           <strong>IN PHIẾU THU</strong>
           <v-layout align-center justify-center row class="button">
-            <v-btn round class="btn-back">
+            <v-btn round class="btn-back" @click="backHandle">
               Back
             </v-btn>
-            <v-btn fab dark small class="mx-2 btn-print">
-              <i class="material-icons">print</i>
-            </v-btn>
-            <v-btn round class="btn-confirm">
-              End
+            <v-btn fab dark small class="mx-2 btn-print" :loading="printing">
+              <i class="material-icons" @click="printHandle">print</i>
             </v-btn>
           </v-layout>
         </v-card>
@@ -211,34 +208,46 @@
   </v-container>
 </template>
 <script>
-  export default {
+import {mapGetters} from 'vuex'
+
+export default {
   name: "contract-repayment-preview",
-  components: {
+  props: {
+    transactionDate: String,
+    customerName: String,
+    phoneNumber: String,
+    birthDay: String,
+    nationalID: String,
+    address: String,
+    branchAddress: String,
+    asset: String,
+    description: String,
+    accessory: String,
+    approvedAmount: String,
+    date: String,
+    interestRate: Number,
+    fee: Number,
+    receivedAmountInput: String,
+    interestMoneyHint: String,
   },
-  data: () => ({
-    contractId: 'STB-contract-id',
-    customerId: 'STB-customer-id',
-    transactionDate: '2019/03/03',
-    customerName: 'Ma Văn Chiều',
-    phoneNumber: '03482947287',
-    birthDay: '17-05-1996',
-    nationalID: '197351905',
-    address: '213 Lê Văn Việt - Quận 9',
-    branchAddress: '190 Đinh Tiên Hoàng, P. ĐK, Q1',
-    asset: 'Điện thoại',
-    description: 'iphone 7plus 32g',
-    accessory: 'hộp-sạc-tai nghe',
-    total: '01',
-    approvedAmount: '5,500,000 VND',
-    date: '22-06-2019',
-    interestRate: 1.5,
-    fee: 3.49,
-    receivedAmountInput: '5,255,000 VND',
-    interestMoneyHint: '275,000 VND',
-  }),
-  mounted() {
+  computed: {
+    ...mapGetters({
+      currentBranchAddress: 'branch/currentBranchAddress',
+      clientCreatingRequest: 'client/clientCreatingRequest',
+      CAssetUpdatingRequest: 'asset/CAssetUpdatingRequest',
+      contractCreatingRequest: 'contract/contractCreatingRequest',
+    }),
+    printing() {
+      return this.clientCreatingRequest || this.CAssetUpdatingRequest || this.contractCreatingRequest
+    },
   },
   methods: {
+    backHandle() {
+      this.$emit('back')
+    },
+    printHandle() {
+      this.$emit('end')
+    },
   },
 }
 </script>
