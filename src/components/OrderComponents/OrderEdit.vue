@@ -520,7 +520,44 @@ export default {
                 return true
             }
             return true
-        }
+        },
+        updateFromContract() {
+            if (this.valid && this.orderDetail != null) {
+
+                if (this.nameInput !== this.orderDetail.name) {
+                    return false
+                }
+                if (this.phoneInput !== this.orderDetail.phone) {
+                    return false
+                } 
+                if (this.assetTypeInput !== this.orderDetail.asset) {
+                    return false
+                }
+                if (this.expectedAmountInput !== this.orderDetail.expectedAmount) {
+                    if (!(this.expectedAmountInput === '' && this.orderDetail.expectedAmount === null)) {
+                        return false
+                    }
+                }
+                if (this.assetInput !== this.orderDetail.assetDescription) {
+                    return false
+                }
+                if (this.validatorAmountInput !== this.orderDetail.validatorAmount) {
+                    if (!(this.validatorAmountInput === '' && this.orderDetail.validatorAmount === null)) {
+                        return false
+                    } 
+                }
+                if (this.sourceInput !== this.orderDetail.source) {
+                    return false
+                }
+                if (this.noteInput !== this.orderDetail.note) {
+                    return false
+                }
+
+                //Not Yet Edit
+                return true
+            }
+            return true
+        },
     },
     watch: {
         //Update assetTypeItem when SAssetList changes
@@ -611,19 +648,24 @@ export default {
             this.terminate()
         },
         contractHandle() {
-            const orderDetail = {
-                phone:  this.orderDetail.phone,
-                name: this.orderDetail.name,
-                expectedAmount: this.orderDetail.expectedAmount,
-                validatorAmount: this.orderDetail.validatorAmount,
-                assetType: this.orderDetail.asset,
-                asset: this.orderDetail.assetDescription,
-                assetID: this.orderDetail.assetID,
-                orderID: this.orderDetail.orderID,
-                source: this.orderDetail.source,
+            if (this.updateFromContract) {
+                const orderDetail = {
+                    phone:  this.orderDetail.phone,
+                    name: this.orderDetail.name,
+                    expectedAmount: this.orderDetail.expectedAmount,
+                    validatorAmount: this.orderDetail.validatorAmount,
+                    assetType: this.orderDetail.asset,
+                    asset: this.orderDetail.assetDescription,
+                    assetID: this.orderDetail.assetID,
+                    orderID: this.orderDetail.orderID,
+                    source: this.orderDetail.source,
+                }
+                this.$router.push({name: 'new_contract', params: {orderDetail}})
+                this.dialog = false
+            } else {
+
             }
-            this.$router.push({name: 'new_contract', params: {orderDetail}})
-            this.dialog = false
+            
         },
         cancleHandle() {
             this.dialog = false

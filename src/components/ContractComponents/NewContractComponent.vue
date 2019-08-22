@@ -1,13 +1,14 @@
 <template>
     <v-container fluid class="pa-0 ma-2">
-        <v-layout row>
+        <h2 v-if="contract">Kiểm tra hợp đồng</h2>
+        <v-layout v-else row>
             <v-flex md5 class="title">
                 <h2 v-show="step==1">New Contract - Customer Info</h2>
                 <h2 v-show="step==2">New Contract - Asset Info</h2>
                 <h2 v-show="step==3">New Contract - Contract Info</h2>
                 <h2 v-show="step==4">New Contract - Confirmation</h2>
             </v-flex>
-            <v-flex md7>
+            <v-flex md7 v-show="contract">
                 <v-stepper v-model="step" class="elevation-0 background">
                     <v-stepper-header>
                         <template v-for="index in 4" class="step">
@@ -32,6 +33,7 @@
                                         v => !!v || 'Yêu cầu cần có',
                                     ]"
                                     :readonly="!newClient"
+                                    hint="Ví dụ: Phạm"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -44,6 +46,7 @@
                                         v => !!v || 'Yêu cầu cần có',
                                     ]"
                                     :readonly="!newClient"
+                                    hint="Ví dụ: Lê David"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -73,7 +76,12 @@
                         </v-layout>
                         <v-layout>
                             <v-flex sm5>
-                                <date-picker v-model="dobInput" label="DOB*" :readonly="!newClient"/>
+                                <date-picker 
+                                    v-model="dobInput" 
+                                    label="DOB*" 
+                                    :readonly="!newClient"
+                                    :rules="dobRules"
+                                />
                             </v-flex>
                             <v-spacer/>
                             <v-flex sm5>
@@ -81,15 +89,14 @@
                                     v-model.lazy="nationalIDInput"
                                     label="CMND/HC*"
                                     :readonly="!newClient"
+                                    :rules="[v => !!v || 'Yều cầu cần có']"
                                 >
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-text-field
                             v-model.lazy="addressInput"
-                            :rules="[
-                                v => !!v || 'Yêu cầu cần có',
-                            ]"
+                            :rules="[v => !!v || 'Yều cầu cần có']"
                             label="Địa chỉ*"
                             :readonly="!newClient"
                         >
@@ -103,7 +110,7 @@
                                     :items="sourceItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Source"
-                                    :readonly="!newClient"
+                                    :disabled="!newClient"
                                 >
                                 </v-select>
                             </v-flex>
@@ -116,7 +123,7 @@
                                     :items="districtItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Quận/Huyện"
-                                    :readonly="!newClient"
+                                    :disabled="!newClient"
                                 >
                                 </v-select>
                             </v-flex>
@@ -127,7 +134,7 @@
                                     :items="cityItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Thành phố"
-                                    :readonly="!newClient"
+                                    :disabled="!newClient"
                                 >
                                 </v-select>
                             </v-flex>
@@ -148,7 +155,7 @@
                                 class="nextBtn"
                                 color="#dd1e26"
                                 @click="step++"
-                                :diasbled="!valid1"
+                                :disabled="!valid1"
                                 round
                             >
                                 Next
@@ -181,7 +188,6 @@
                                     ]"
                                     label="Giá mong muốn"
                                     :hint="this.expectedAmountHint"
-                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -206,7 +212,6 @@
                                         ]"
                                     label="Giá thẩm định"
                                     :hint="this.validatorAmountHint"
-                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -230,7 +235,6 @@
                                         ]"
                                     label="Giá cầm"
                                     :hint="approvedAmountHint"
-                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -252,6 +256,7 @@
                                 color="#dd1e26"
                                 @click="AssetNextHandle"
                                 round
+                                :disabled="!valid2"
                             >
                                 Next
                             </v-btn>
@@ -266,6 +271,7 @@
                                     <v-text-field
                                         v-model="labelInput"
                                         label="Nhãn hiệu"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
                                     </v-text-field>
                                 </v-flex>
@@ -274,6 +280,7 @@
                                     <v-text-field
                                         v-model="vehicleStreamInput"
                                         label="Dòng xe"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
                                     </v-text-field>
                                 </v-flex>
@@ -283,6 +290,7 @@
                                     <v-text-field
                                         v-model="chassisNumberInput"
                                         label="Số khung"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
                                     </v-text-field>
                                 </v-flex>
@@ -291,6 +299,7 @@
                                     <v-text-field
                                         v-model="colorInput"
                                         label="Màu sơn"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
                                     </v-text-field>
                                 </v-flex>
@@ -300,6 +309,7 @@
                                     <v-text-field
                                         v-model="vehicleIDInput"
                                         label="Số máy"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
                                     </v-text-field>
                                 </v-flex>
@@ -308,6 +318,7 @@
                                     <v-text-field
                                         v-model="licensePlateInput"
                                         label="Biển số đăng ký"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
                                     </v-text-field>
                                 </v-flex>
@@ -317,25 +328,9 @@
                             <v-layout>
                                 <v-flex sm5>
                                     <v-text-field
-                                        v-model="customer1Input"
-                                        label="Khách hàng 1"
-                                    >
-                                    </v-text-field>
-                                </v-flex>
-                                <v-spacer/>
-                                <v-flex sm5>
-                                    <v-text-field
-                                        v-model="nationalID1Input"
-                                        label="CMND/HC 1"
-                                    >
-                                    </v-text-field>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout>
-                                <v-flex sm5>
-                                    <v-text-field
                                         v-model="customer2Input"
                                         label="Khách hàng 2"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
                                     </v-text-field>
                                 </v-flex>
@@ -344,51 +339,11 @@
                                     <v-text-field
                                         v-model="nationalID2Input"
                                         label="CMND/HC 2"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
                                     </v-text-field>
                                 </v-flex>
                             </v-layout>
-                            <v-layout>
-                                <v-flex sm5>
-                                    <v-text-field
-                                        v-model="landUseRightsCertificateIDInput"
-                                        label="Số sổ"
-                                    >
-                                    </v-text-field>
-                                </v-flex>
-                                <v-spacer/>
-                                <v-flex sm5>
-                                    <v-text-field
-                                        v-model="parcelIDInput"
-                                        label="Thửa đất số"
-                                    >
-                                    </v-text-field>
-                                </v-flex>
-                            </v-layout>
-                            <v-layout>
-                                <v-flex sm5>
-                                    <v-text-field
-                                        v-model="mapNoInput"
-                                        label="Tờ bản đồ số"
-                                    >
-                                    </v-text-field>
-                                </v-flex>
-                                <v-spacer/>
-                                <v-flex sm5>
-                                    <v-text-field
-                                        v-model="acreageInput"
-                                        label="Diện tích"
-                                    >
-                                    </v-text-field>
-                                </v-flex>
-                            </v-layout>
-                            <v-textarea
-                                v-model.lazy="landAddressInput"
-                                label="Địa chỉ"
-                                rows="1"
-                                auto-grow
-                            >
-                            </v-textarea>
                         </template>
                         <v-layout
                             align-center
@@ -407,6 +362,7 @@
                                 color="#dd1e26"
                                 @click="step++"
                                 round
+                                :disabled="!authorizedValid"
                             >
                                 Next
                             </v-btn>
@@ -440,7 +396,6 @@
                                     :items="packageItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Gói"
-                                    required
                                 >
                                 </v-select>
                             </v-flex>
@@ -465,8 +420,6 @@
                                         ]"
                                     label="Lãi suất*"
                                     :disabled="interestRateDisabled"
-                                    type="number"
-                                    required
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -479,8 +432,6 @@
                                         ]"
                                     label="Giá cầm*"
                                     :hint="approvedAmountHint"
-                                    type="number"
-                                    required
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -493,7 +444,6 @@
                                     label="Khoản làm tròn"
                                     readonly
                                     :hint="roundingHint"
-                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -510,7 +460,6 @@
                                         ]"
                                     label="Gốc*"
                                     :hint="costHint"
-                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -523,7 +472,6 @@
                                         ]"
                                     label="Phí kho bãi"
                                     :hint="warehousingFeeHint"
-                                    type="number"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -545,7 +493,6 @@
                                         ]"
                                     label="Tiền lãi"
                                     :hint="interestValueHint"
-                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -558,7 +505,6 @@
                                         ]"
                                     label="Số tiền nhận được"
                                     :hint="this.receivedAmountHint"
-                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -614,6 +560,7 @@
                                 color="#dd1e26"
                                 @click="step++"
                                 round
+                                :disabled="!valid3"
                             >
                                 Next
                             </v-btn>
@@ -633,7 +580,8 @@
                                     :rules="[
                                         v => !!v || 'Yêu cầu cần có',
                                     ]"
-                                    required
+                                    :readonly="newClient ? !edit1 : true "
+                                    hint="Ví dụ: Phạm"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -641,10 +589,12 @@
                             <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="lastNameInput"
+                                    label="Tên*"
                                     :rules="[
                                         v => !!v || 'Yêu cầu cần có',
                                     ]"
-                                    label="Tên*"
+                                    :readonly="newClient ? !edit1 : true "
+                                    hint="Ví dụ: Lê David"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -664,22 +614,30 @@
                                     v-model.lazy="phone2Input"
                                     :rules="[
                                         //Phone has charater pre '+' (only one or no), from 10-13 digits.
-                                        v => /^null$|^\s*$|^[0-9]{10,13}?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                       v => /^null$|^\s*$|^[0-9]{10,13}?$/.test(v) || 'Dữ liệu không hợp lệ'
                                     ]"
                                     label="Phone 2"
+                                    :readonly="newClient ? !edit1 : true "
                                 >
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-layout>
                             <v-flex sm5>
-                                <date-picker v-model="dobInput" label="DOB*"/>
+                                <date-picker 
+                                    v-model="dobInput" 
+                                    label="DOB*" 
+                                    :readonly="newClient ? !edit1 : true "
+                                    :rules="dobRules"
+                                />
                             </v-flex>
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
                                     v-model.lazy="nationalIDInput"
-                                    label="CMND"
+                                    label="CMND/HC*"
+                                    :readonly="newClient ? !edit1 : true "
+                                    :rules="[v => !!v || 'Yều cầu cần có']"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -690,9 +648,24 @@
                                 v => !!v || 'Yêu cầu cần có',
                             ]"
                             label="Địa chỉ*"
-                            required
+                            :readonly="newClient ? !edit1 : true "
                         >
                         </v-text-field>
+                        <v-layout>
+                            <v-flex sm7>
+                            </v-flex>
+                            <v-flex sm5>
+                                <v-select
+                                    v-model="sourceInput"
+                                    :items="sourceItems"
+                                    :rules="[v => !!v || 'Yều cầu cần có']"
+                                    label="Source"
+                                    :disabled="newClient ? !edit1 : true "
+                                >
+                                </v-select>
+                            </v-flex>
+                            <v-spacer/>
+                        </v-layout>
                         <v-layout>
                             <v-flex sm5>
                                 <v-select
@@ -700,7 +673,7 @@
                                     :items="districtItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Quận/Huyện"
-                                    required
+                                    :disabled="newClient ? !edit1 : true "
                                 >
                                 </v-select>
                             </v-flex>
@@ -711,38 +684,64 @@
                                     :items="cityItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Thành phố"
-                                    required
+                                    :disabled="newClient ? !edit1 : true "
                                 >
                                 </v-select>
-                            </v-flex>
-                        </v-layout>
-                        <v-layout>
-                            <v-flex sm5>
-                                <v-select
-                                    v-model="sourceInput"
-                                    :items="sourceItems"
-                                    :rules="[v => !!v || 'Yều cầu cần có']"
-                                    label="Source"
-                                    required
-                                >
-                                </v-select>
-                            </v-flex>
-                            <v-spacer/>
-                            <v-flex sm5>
-
                             </v-flex>
                         </v-layout>
                         <v-layout
                             align-center
                             justify-end
+                            v-show="!edit2 && !editAuthorized && !edit3"
                         >
-                            <v-btn
-                                class="backBtn"
-                                color="#fff"
-                                round
+                            <v-dialog
+                                v-model="dialog1"
+                                width="300"
                             >
-                                <i class="fas fa-pen" style="margin-right:5px"></i>
-                                Edit
+                                <template v-slot:activator="{ on }">
+                                    <v-btn
+                                        class="backBtn"
+                                        color="#fff"
+                                        round
+                                        v-on="on"
+                                        v-show="!edit1"
+                                    >
+                                        <i class="fas fa-pen" style="margin-right:5px"></i>
+                                        Edit
+                                    </v-btn>
+                                </template>
+
+                                <v-card class="pa-4">
+                                    <center>
+                                        <strong>Xác nhận chỉnh sửa hợp đồng</strong>
+                                    </center>
+                                    <v-layout align-center justify-center row fill-height>
+                                        <v-btn
+                                            class="yesBtn"
+                                            color="#157F1F"
+                                            round
+                                            @click="edit1=true; dialog1=false"
+                                        >
+                                            Yes
+                                        </v-btn>
+                                        <v-btn
+                                            class="backBtn"
+                                            color="#fff"
+                                            round
+                                            @click="dialog1=false"
+                                        >
+                                            No
+                                        </v-btn>
+                                    </v-layout>
+                                </v-card>
+                            </v-dialog>
+                            <v-btn class="nextBtn"
+                                color="#dd1e26"
+                                round
+                                @click="edit1=false"
+                                v-show="edit1"
+                            >
+                                Accept
                             </v-btn>
                         </v-layout>
                     </v-container>
@@ -760,6 +759,7 @@
                                     auto-grow
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     required
+                                    :readonly="!edit2"
                                 >
                                 </v-textarea>
                             </v-flex>
@@ -772,7 +772,7 @@
                                     ]"
                                     label="Giá mong muốn"
                                     :hint="this.expectedAmountHint"
-                                    type="number"
+                                    :readonly="!edit2"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -784,14 +784,9 @@
                                     :items="assetTypeItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Loại tài sản*"
-                                    required
+                                    readonly
                                 >
                                 </v-select>
-                            </v-flex>
-                            <v-flex sm1 :style="{'padding-left': '0px'}">
-                                <v-btn flat icon color="#000000" :style="{'margin-left': '0px', 'margin-bottom': '0px'}">
-                                    <v-icon>description</v-icon>
-                                </v-btn>
                             </v-flex>
                             <v-spacer/>
                             <v-flex sm5>
@@ -802,7 +797,7 @@
                                         ]"
                                     label="Giá thẩm định"
                                     :hint="this.validatorAmountHint"
-                                    type="number"
+                                    :readonly="!edit2"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -814,6 +809,7 @@
                                     label="Phụ Kiện"
                                     rows="1"
                                     auto-grow
+                                    :readonly="!edit2"
                                     >
                                 </v-textarea>
                             </v-flex>
@@ -826,7 +822,7 @@
                                         ]"
                                     label="Giá cầm"
                                     :hint="approvedAmountHint"
-                                    type="number"
+                                    :readonly="!edit2"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -834,13 +830,205 @@
                         <v-layout
                             align-center
                             justify-end
+                            v-show="!edit1 && !editAuthorized && !edit3"
                         >
-                            <v-btn class="backBtn"
-                                color="#fff"
-                                round
+                            <v-dialog
+                                v-model="dialog2"
+                                width="300"
                             >
-                                <i class="fas fa-pen" style="margin-right:5px"></i>
-                                Edit
+                                <template v-slot:activator="{ on }">
+                                    <v-btn
+                                        class="backBtn"
+                                        color="#fff"
+                                        round
+                                        v-on="on"
+                                        v-show="!edit2"
+                                    >
+                                        <i class="fas fa-pen" style="margin-right:5px"></i>
+                                        Edit
+                                    </v-btn>
+                                </template>
+
+                                <v-card class="pa-4">
+                                    <center>
+                                        <strong>Xác nhận chỉnh sửa hợp đồng</strong>
+                                    </center>
+                                    <v-layout align-center justify-center row fill-height>
+                                        <v-btn
+                                            class="yesBtn"
+                                            color="#157F1F"
+                                            round
+                                            @click="edit2=true; dialog2=false"
+                                        >
+                                            Yes
+                                        </v-btn>
+                                        <v-btn
+                                            class="backBtn"
+                                            color="#fff"
+                                            round
+                                            @click="dialog2=false"
+                                        >
+                                            No
+                                        </v-btn>
+                                    </v-layout>
+                                </v-card>
+                            </v-dialog>
+                            <v-btn class="nextBtn"
+                                color="#dd1e26"
+                                round
+                                @click="edit2=false"
+                                v-show="edit2"
+                            >
+                                Accept
+                            </v-btn>
+                        </v-layout>
+                    </v-container>
+                </v-form>
+                <br/>
+                <v-form v-model="authorizedValid" v-show="isAuthorizedForm" class="form">
+                    <center><p class="title-form">Contract Info</p></center>
+                    <v-container>
+                        <template v-if="authorizedType==='Bike/Car'">
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="labelInput"
+                                        label="Nhãn hiệu"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :readonly="!editAuthorized"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="vehicleStreamInput"
+                                        label="Dòng xe"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :readonly="!editAuthorized"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="chassisNumberInput"
+                                        label="Số khung"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :readonly="!editAuthorized"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="colorInput"
+                                        label="Màu sơn"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :readonly="!editAuthorized"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="vehicleIDInput"
+                                        label="Số máy"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :readonly="!editAuthorized"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="licensePlateInput"
+                                        label="Biển số đăng ký"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :readonly="!editAuthorized"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                        </template>
+                        <template v-else-if="authorizedType==='Realestate'">
+                            <v-layout>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="customer2Input"
+                                        label="Khách hàng 2"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :readonly="!editAuthorized"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                                <v-spacer/>
+                                <v-flex sm5>
+                                    <v-text-field
+                                        v-model="nationalID2Input"
+                                        label="CMND/HC 2"
+                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :readonly="!editAuthorized"
+                                    >
+                                    </v-text-field>
+                                </v-flex>
+                            </v-layout>
+                        </template>
+                        <v-layout
+                            align-center
+                            justify-end
+                            v-show="!edit1 && !edit2 && !edit3"
+                        >
+                            <v-dialog
+                                v-model="dialogAuthorized"
+                                width="300"
+                            >
+                                <template v-slot:activator="{ on }">
+                                    <v-btn
+                                        class="backBtn"
+                                        color="#fff"
+                                        round
+                                        v-on="on"
+                                        v-show="!editAuthorized"
+                                    >
+                                        <i class="fas fa-pen" style="margin-right:5px"></i>
+                                        Edit
+                                    </v-btn>
+                                </template>
+
+                                <v-card class="pa-4">
+                                    <center>
+                                        <strong>Xác nhận chỉnh sửa hợp đồng</strong>
+                                    </center>
+                                    <v-layout align-center justify-center row fill-height>
+                                        <v-btn
+                                            class="yesBtn"
+                                            color="#157F1F"
+                                            round
+                                            @click="editAuthorized=true; dialogAuthorized=false"
+                                        >
+                                            Yes
+                                        </v-btn>
+                                        <v-btn
+                                            class="backBtn"
+                                            color="#fff"
+                                            round
+                                            @click="dialogAuthorized=false"
+                                        >
+                                            No
+                                        </v-btn>
+                                    </v-layout>
+                                </v-card>
+                            </v-dialog>
+                            <v-btn class="nextBtn"
+                                color="#dd1e26"
+                                round
+                                @click="editAuthorized=false"
+                                v-show="editAuthorized"
+                            >
+                                Accept
                             </v-btn>
                         </v-layout>
                     </v-container>
@@ -854,11 +1042,12 @@
                                 <v-text-field
                                     v-model="contractIDInput"
                                     label="Mã HĐ"
+                                    :readonly="true"
                                 >
                                 </v-text-field>
                             </v-flex>
                             <v-flex sm4>
-                                <date-picker v-model="openingDateInput" label="Ngày mở hợp đồng*"/>
+                                <date-picker v-model="openingDateInput" :readonly="!edit3" label="Ngày mở hợp đồng*"/>
                             </v-flex>
                             <v-flex sm4>
                                 
@@ -871,7 +1060,7 @@
                                     :items="packageItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Gói"
-                                    required
+                                    :readonly="!edit3"
                                 >
                                 </v-select>
                             </v-flex>
@@ -884,7 +1073,7 @@
                                 </v-text-field>
                             </v-flex>
                             <v-flex sm4>
-                               
+                                
                             </v-flex>
                         </v-layout>
                         <v-layout>
@@ -893,10 +1082,10 @@
                                     v-model="interestRateInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            
                                         ]"
                                     label="Lãi suất*"
-                                    required
+                                    :disabled="interestRateDisabled"
+                                    :readonly="!edit3"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -908,8 +1097,8 @@
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Giá cầm*"
-                                    required
                                     :hint="approvedAmountHint"
+                                    :readonly="!edit3"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -920,8 +1109,8 @@
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Khoản làm tròn"
-                                    type="number"
                                     readonly
+                                    :hint="roundingHint"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -938,7 +1127,6 @@
                                         ]"
                                     label="Gốc*"
                                     :hint="costHint"
-                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -950,8 +1138,8 @@
                                             v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Phí kho bãi"
-                                    type="number"
                                     :hint="warehousingFeeHint"
+                                    :readonly="!edit3"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -959,7 +1147,7 @@
                         <v-layout>
                             <v-flex sm4>
                                 <label class="v-label theme--light"> Phương thức </label>
-                                <v-radio-group v-model="methodInput" row>
+                                <v-radio-group v-model="methodInput" row :readonly="!edit3">
                                     <v-radio color="#dd1e26" label="Tiền mặt" value="Tiền mặt"></v-radio>
                                     <v-radio color="#dd1e26" label="Chuyển khoản" value="Chuyển khoản"></v-radio>
                                 </v-radio-group>
@@ -969,11 +1157,10 @@
                                     v-model="interestValueInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            v => /^\d+$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
                                         ]"
                                     label="Tiền lãi"
                                     :hint="interestValueHint"
-                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -986,7 +1173,6 @@
                                         ]"
                                     label="Số tiền nhận được"
                                     :hint="this.receivedAmountHint"
-                                    type="number"
                                     readonly
                                 >
                                 </v-text-field>
@@ -999,6 +1185,7 @@
                                     :items="bankItems"
                                     label="Ngân hàng"
                                     :disabled="methodInput == 'Tiền mặt'"
+                                    :readonly="!edit3"
                                 >
                                 </v-select>
                             </v-flex>
@@ -1011,6 +1198,7 @@
                                         ]"
                                     label="Số tài khoản"
                                     :disabled="methodInput == 'Tiền mặt'"
+                                    :readonly="!edit3"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -1021,6 +1209,7 @@
                                     v-model="bankBranchInput"
                                     label="Chi Nhánh/PGD"
                                     :disabled="methodInput == 'Tiền mặt'"
+                                    :readonly="!edit3"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -1028,6 +1217,7 @@
                         <v-layout
                             align-center
                             justify-end
+                            v-show="!edit1 && !edit2 && !editAuthorized"
                         >
                             <v-btn
                                 class="cancelBtn"
@@ -1037,17 +1227,59 @@
                             >
                                 Cancel
                             </v-btn>
-                            <v-btn class="backBtn"
-                                color="#fff"
-                                round
+                            <v-dialog
+                                v-model="dialog3"
+                                width="300"
                             >
-                                <i class="fas fa-pen" style="margin-right:5px"></i>
-                                Edit
+                                <template v-slot:activator="{ on }">
+                                    <v-btn
+                                        class="backBtn"
+                                        color="#fff"
+                                        round
+                                        v-on="on"
+                                        v-show="!edit3"
+                                    >
+                                        <i class="fas fa-pen" style="margin-right:5px"></i>
+                                        Edit
+                                    </v-btn>
+                                </template>
+
+                                <v-card class="pa-4">
+                                    <center class="edit">
+                                        <strong>Xác nhận chỉnh sửa hợp đồng</strong>
+                                    </center>
+                                    <v-layout align-center justify-center row fill-height>
+                                        <v-btn
+                                            class="yesBtn"
+                                            color="#157F1F"
+                                            round
+                                            @click="edit3=true; dialog3=false"
+                                        >
+                                            Yes
+                                        </v-btn>
+                                        <v-btn
+                                            class="backBtn"
+                                            color="#fff"
+                                            round
+                                            @click="dialog3=false"
+                                        >
+                                            No
+                                        </v-btn>
+                                    </v-layout>
+                                </v-card>
+                            </v-dialog>
+                            <v-btn class="nextBtn"
+                                color="#dd1e26"
+                                round
+                                @click="edit3=false"
+                                v-show="edit3"
+                            >
+                                Accept
                             </v-btn>
                             <v-btn class="nextBtn"
                                 color="#dd1e26"
                                 round
-                                @click="createHandle"
+                                @click="contract=true"
                             >
                                 Confirm
                             </v-btn>
@@ -1055,15 +1287,52 @@
                     </v-container>
                 </v-form>
             </v-window-item>
+            <v-window-item :value="5">
+                <v-card class="form">
+                    <center>
+                        <v-icon size="150" color="#157F1F">check_circle</v-icon>
+                        <br/>
+                        <strong class="content-success">HOÀN THÀNH HỢP ĐỒNG</strong>
+                        <br/>
+                        <v-btn class="nextBtn"
+                            color="#dd1e26"
+                            round
+                            min-width="166"
+                            min-height="51"
+                            @click="cancleHandle"
+                        >
+                            Back
+                        </v-btn>
+                    </center>
+                </v-card>
+            </v-window-item>
         </v-window>
-        <v-container v-else>
-
-        </v-container>
+        <template v-else>
+            <new-contract-preview
+                :transactionDate="openingDateInput"
+                :customerName="`${firstNameInput} ${lastNameInput}`"
+                :phoneNumber="phone1Input"
+                :birthDay="dobInput"
+                :nationalID="nationalIDInput"
+                :address="`${addressInput}, ${districtInput}, ${cityInput}`"
+                :asset="assetTypeInput"
+                :description="assetInput"
+                :accessory="accessoryInput"
+                :approvedAmount="approvedAmountInput"
+                :date="expirationDateInput"
+                :fee="parseFloat(interestRateInput) - 1.5"
+                :receivedAmountInput="receivedAmountInput"
+                :interestMoneyHint="interestValueInput"
+                @back="contract=false" 
+                @end="createHandle"
+            />
+        </template>
     </v-container>
 </template>
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import DatePicker from "@/components/ContractComponents/DatePicker.vue"
+import NewContractPreview from "@/components/ContractComponents/NewContractPreview.vue"
 import changeDigitToText from '../../mixins/money'
 import sourceItems from '../../mixins/source_items'
 import contractItems from './utils/contract_items'
@@ -1077,6 +1346,7 @@ export default {
   name: "new-contract",
   components: {
     DatePicker,
+    NewContractPreview,
   },
   data() {
     return {
@@ -1084,6 +1354,14 @@ export default {
       valid1: false,
       valid2: true,
       valid3: true,
+      edit1: false,
+      edit2: false,
+      edit3: false,
+      editAuthorized: false,
+      dialog1: false,
+      dialog2: false,
+      dialog3: false,
+      dialogAuthorized: false,
       authorizedValid: true,
       newClient: true,
       firstNameInput: '',
@@ -1113,15 +1391,8 @@ export default {
       colorInput: '',
       vehicleIDInput: '',
       licensePlateInput: '',
-      customer1Input: '',
-      nationalID1Input: '',
       customer2Input: '',
       nationalID2Input: '',
-      landUseRightsCertificateIDInput: '',
-      parcelIDInput: '',
-      mapNoInput: '',
-      acreageInput: '',
-      landAddressInput: '',
       packageInput: '',
       expirationDateInput: '',
       roundingInput : '',
@@ -1138,6 +1409,25 @@ export default {
       accountNumberInput: '',
       bankBranchInput: '',
       contract: false,
+      dobRules: [
+            value => {
+                if (value !== null) {
+                    const date = moment(value, "DD/MM/YYYY", true)
+
+                    if (date.isValid()) {
+                        const currentDate = moment()
+                        if (currentDate.diff(date, 'years') >= 15) {
+                            return true
+                        } else {
+                            return 'Không đủ độ tuổi'
+                        }
+                    }
+
+                    return 'Dữ liệu không hợp lệ'
+                }
+                return 'Yêu cầu cần có'
+            }
+        ]
     }
   },
   beforeCreate() {
@@ -1188,11 +1478,9 @@ export default {
         CAssetUpdatingError: 'asset/CAssetUpdatingError',
         productListResult: 'product/productListResult',
         clientResult: 'order/clientResult',
-        clientCreatingRequest: 'client/clientCreatingRequest',
         clientCreatingResult: 'client/clientCreatingResult',
         clientCreatingErrorCode: 'client/clientCreatingErrorCode',
         clientCreatingError: 'client/clientCreatingError',
-        contractCreatingRequest: 'contract/contractCreatingRequest',
         contractCreatingResult: 'contract/contractCreatingResult',
         contractCreatingErrorCode: 'contract/contractCreatingErrorCode',
         contractCreatingError: 'contract/contractCreatingError',
@@ -1343,7 +1631,7 @@ export default {
                 address: this.addressInput,
                 district: this.districtInput,
                 city: this.cityInput,
-                DOB: this.dobInput,
+                DOB: moment(this.dobInput, "DD/MM/YYYY").format("YYYY-MM-DD"),
                 nationalID: this.nationalID,
             }
             await this.createClient(data)
@@ -1420,13 +1708,16 @@ export default {
         }
 
         this.createContract(data).then(() => {
-            if (this.contractCreatingError == 201) {
+            if (this.contractCreatingErrorCode === 201) {
                 this.$notify({
                     group: 'foo',
                     type: 'success',
                     title: "Tạo hợp đồng thành công",
                     text: ''
                 });
+                this.contract = false
+                this.step ++
+
             } else {
                 this.$notify({
                     group: 'foo',
@@ -1466,6 +1757,9 @@ export default {
     background-color: #ffffff;
     border-style: solid;
 }
+.yesBtn {
+    color: #ffff !important;
+}
 .backBtn {
   color: #dd1e26 !important;
 }
@@ -1474,5 +1768,13 @@ export default {
 }
 .cancelBtn {
   color: #fff !important;
+}
+.edit {
+    font-size: 18px;
+    color: #4D4F5C;
+}
+.content-success {
+    color: #4D4F5C;
+    font-size: 70px;
 }
 </style>
