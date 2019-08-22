@@ -1,14 +1,20 @@
 <template>
     <v-container fluid class="pa-0 ma-2">
-        <h2 v-if="contract">Kiểm tra hợp đồng</h2>
+        <h2 v-if="contract">Kiểm Tra Hợp Đồng</h2>
         <v-layout v-else row>
             <v-flex md5 class="title">
-                <h2 v-show="step==1">New Contract - Customer Info</h2>
-                <h2 v-show="step==2">New Contract - Asset Info</h2>
-                <h2 v-show="step==3">New Contract - Contract Info</h2>
-                <h2 v-show="step==4">New Contract - Confirmation</h2>
+                <h2 v-show="step==1">Hợp Đồng Mới - Thông Tin KH</h2>
+                <h2 v-show="step==2 && !isAuthorizedForm">Hợp Đồng Mới - Thông Tin Tài Sản</h2>
+                <h2 v-show="step==2 && isAuthorizedForm">
+                    Hợp Đồng Mới - 
+                    <template v-if="authorizedType==='Bike/Car'">Giấy Uỷ Quyền</template>
+                    <template v-else-if="authorizedType==='Realestate'">Hợp Đồng Mua Bán</template>
+                </h2>
+                <h2 v-show="step==3">Hợp Đồng Mới - Thông Tin HĐ</h2>
+                <h2 v-show="step==4">Hợp Đồng Mới - Xác Nhận</h2>
+                <h2 v-show="step==5">Hợp Đồng Mới - Hoàn Thành</h2>
             </v-flex>
-            <v-flex md7 v-show="contract">
+            <v-flex md7 v-show="!contract">
                 <v-stepper v-model="step" class="elevation-0 background">
                     <v-stepper-header>
                         <template v-for="index in 4" class="step">
@@ -110,7 +116,7 @@
                                     :items="sourceItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Source"
-                                    :disabled="!newClient"
+                                    :disabled="true"
                                 >
                                 </v-select>
                             </v-flex>
@@ -231,7 +237,14 @@
                                 <v-text-field
                                     v-model="approvedAmountInput"
                                     :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ',
+                                            v => {
+                                                if (parseFloat(v) > validatorAmountInput) {
+                                                    return 'Không được lớn hơn giá thẩm định'
+                                                }
+                                                return true
+                                            },
                                         ]"
                                     label="Giá cầm"
                                     :hint="approvedAmountHint"
@@ -428,7 +441,13 @@
                                     v-model="approvedAmountInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ',
+                                            v => {
+                                                if (parseFloat(v) > validatorAmountInput) {
+                                                    return 'Không được lớn hơn giá thẩm định'
+                                                }
+                                                return true
+                                            },
                                         ]"
                                     label="Giá cầm*"
                                     :hint="approvedAmountHint"
@@ -570,7 +589,7 @@
             </v-window-item>
             <v-window-item :value="4">
                 <v-form v-model="valid1" class="form">
-                    <center><p class="title-form">Customer Info</p></center>
+                    <center><p class="title-form">Thông Tin Khách Hàng</p></center>
                     <v-container :style="{'padding-top': '0px'}">
                         <v-layout>
                             <v-flex sm5>
@@ -660,7 +679,7 @@
                                     :items="sourceItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Source"
-                                    :disabled="newClient ? !edit1 : true "
+                                    :disabled="true"
                                 >
                                 </v-select>
                             </v-flex>
@@ -748,7 +767,7 @@
                 </v-form>
                 <br/>
                 <v-form v-model="valid2" class="form">
-                    <center><p class="title-form">Asset Info</p></center>
+                    <center><p class="title-form">Thông Tin Tài Sản</p></center>
                     <v-container>
                         <v-layout>
                             <v-flex sm5>
@@ -818,7 +837,14 @@
                                 <v-text-field
                                     v-model="approvedAmountInput"
                                     :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ',
+                                            v => {
+                                                if (parseFloat(v) > validatorAmountInput) {
+                                                    return 'Không được lớn hơn giá thẩm định'
+                                                }
+                                                return true
+                                            },
                                         ]"
                                     label="Giá cầm"
                                     :hint="approvedAmountHint"
@@ -886,7 +912,12 @@
                 </v-form>
                 <br/>
                 <v-form v-model="authorizedValid" v-show="isAuthorizedForm" class="form">
-                    <center><p class="title-form">Contract Info</p></center>
+                    <center>
+                        <p class="title-form">
+                            <template v-if="authorizedType==='Bike/Car'">Giấy Uỷ Quyền</template>
+                            <template v-else-if="authorizedType==='Realestate'">Hợp Đồng Mua Bán</template>
+                        </p>
+                    </center>
                     <v-container>
                         <template v-if="authorizedType==='Bike/Car'">
                             <v-layout>
@@ -1035,7 +1066,7 @@
                 </v-form>
                 <br/>
                 <v-form v-model="valid3" class="form">
-                    <center><p class="title-form">Contract Info</p></center>
+                    <center><p class="title-form">Thông Tin Hợp Đồng</p></center>
                     <v-container>
                         <v-layout>
                             <v-flex sm4>
@@ -1094,7 +1125,13 @@
                                     v-model="approvedAmountInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ',
+                                            v => {
+                                                if (parseFloat(v) > validatorAmountInput) {
+                                                    return 'Không được lớn hơn giá thẩm định'
+                                                }
+                                                return true
+                                            },
                                         ]"
                                     label="Giá cầm*"
                                     :hint="approvedAmountHint"
@@ -1477,7 +1514,7 @@ export default {
         CAssetUpdatingErrorCode: 'asset/CAssetUpdatingErrorCode',
         CAssetUpdatingError: 'asset/CAssetUpdatingError',
         productListResult: 'product/productListResult',
-        clientResult: 'order/clientResult',
+        clientResult: 'client/clientResult',
         clientCreatingResult: 'client/clientCreatingResult',
         clientCreatingErrorCode: 'client/clientCreatingErrorCode',
         clientCreatingError: 'client/clientCreatingError',
@@ -1570,7 +1607,7 @@ export default {
     ...mapActions({
         getSAssetList: 'asset/getSAssetList',
         getProduct: 'product/getProduct',
-        searchClient: 'order/searchClient',
+        searchClient: 'client/searchClient',
         createClient: 'client/createClient',
         updateCAsset: 'asset/updateCAsset',
         createContract: 'contract/createContract',

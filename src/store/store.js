@@ -10,8 +10,7 @@ import { moduleCall } from '../components/CallComponents/store/call/index'
 import { moduleContract } from '../components/ContractComponents/store/contract/index'
 import { moduleProduct } from '../components/ContractComponents/store/product/index'
 import { moduleCustomer } from '../components/CustomerComponent/store/customer/index'
-import { moduleClient } from '../components/ContractComponents/store/client/index'
-
+import { moduleClient } from '../components/ClientComponents/store/client/index'
 
 Vue.use(Vuex);
 

@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      resetClient: 'order/resetClient',
+      resetClient: 'client/resetClient',
     }),
   }
 }

@@ -1,11 +1,6 @@
 import Vue from 'vue'
 
 import {
-    CLIENT_SEARCHING_REQUEST,
-    CLIENT_SEARCHING_SUCCESS,
-    CLIENT_SEARCHING_ERROR,
-    CLIENT_SEARCHING_RESET,
-
     ORDER_CREATING_REQUEST,
     ORDER_CREATING_SUCCESS,
     ORDER_CREATING_ERROR,
@@ -37,32 +32,6 @@ import {
 } from './types'
 
 export default {
-    //Client Search Function
-    [CLIENT_SEARCHING_REQUEST] (state) {
-        Vue.set(state, 'clientSearching', true)
-        Vue.set(state, 'clientResult', null)
-        Vue.set(state, 'clientSearchError', '')
-        Vue.set(state, 'clientSearchErrorCode', 0)
-    },
-    [CLIENT_SEARCHING_SUCCESS] (state, {result}) {
-        Vue.set(state, 'clientSearching', false)
-        if (result.status) { // Old Customer
-            //Get first client from client array
-            Vue.set(state, 'clientResult', result.data[0])
-        }
-        Vue.set(state, 'clientSearchErrorCode', 200)
-    },
-    [CLIENT_SEARCHING_ERROR] (state, {errorCode, errorMessage}) {
-        Vue.set(state, 'clientSearching', false),
-        Vue.set(state, 'clientSearchErrorCode', errorCode)
-        Vue.set(state, 'clientSearchError', errorMessage)
-    },
-    [CLIENT_SEARCHING_RESET] (state) {
-        Vue.set(state, 'clientSearching', false)
-        Vue.set(state, 'clientResult', null)
-        Vue.set(state, 'clientSearchError', '')
-        Vue.set(state, 'clientSearchErrorCode', 0)
-    },
 
     //Order Creating Function
     [ORDER_CREATING_REQUEST] (state) {

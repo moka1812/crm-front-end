@@ -1,9 +1,4 @@
 import {
-    CLIENT_SEARCHING_REQUEST,
-    CLIENT_SEARCHING_SUCCESS,
-    CLIENT_SEARCHING_ERROR,
-    CLIENT_SEARCHING_RESET,
-
     TURN_OFF_DIALOG,
 
     ORDER_CREATING_REQUEST,
@@ -35,32 +30,11 @@ import {
     TEMPORARY_ORDER_SAVING_REQUEST,
 } from './types'
 
-import { ClientService, ClientError } from '../../../../services/client.service'
 import { OrderService, OrderError } from '../../../../services/order.service'
 
 const has = Object.prototype.hasOwnProperty
 
 export default {
-
-    async searchClient({commit}, payload) {
-        commit(CLIENT_SEARCHING_REQUEST)
-        try {
-
-            const result = await ClientService.getClientByPhone(payload.phone)
-            commit(CLIENT_SEARCHING_SUCCESS, {result})
-            
-        } catch (error) {
-            if (error instanceof ClientError) {
-                commit(CLIENT_SEARCHING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
-            } else {
-                commit(CLIENT_SEARCHING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
-            }
-        }
-    },
-
-    async resetClient({commit}) {
-        commit(CLIENT_SEARCHING_RESET)
-    },
 
     async createOrder({commit}, payload) {
         commit(ORDER_CREATING_REQUEST)

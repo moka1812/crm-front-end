@@ -1,6 +1,11 @@
 export default function initialState () {
     return {
-
+        //Client Search Function
+        clientSearching: false,
+        clientResult: null,
+        clientSearchErrorCode: 0,
+        clientSearchError: '',
+        
         // Client Creating Function
         clientCreatingRequest: false,
         clientCreatingResult: null,

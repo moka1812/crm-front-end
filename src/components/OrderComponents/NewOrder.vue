@@ -222,10 +222,10 @@ export default {
       orderCreatingResult: 'order/orderCreatingResult',
       orderCreatingErrorCode: 'order/orderCreatingErrorCode',
       orderCreatingError: 'order/orderCreatingError',
-      clientSearching:'order/clientSearching',
-      clientSearchErrorCode:'order/clientSearchErrorCode',
-      clientSearchError:'order/clientSearchError',
-      clientResult: 'order/clientResult',
+      clientSearching:'client/clientSearching',
+      clientSearchErrorCode:'client/clientSearchErrorCode',
+      clientSearchError:'client/clientSearchError',
+      clientResult: 'client/clientResult',
       temporaryOrderDetail: 'order/temporaryOrderDetail',
       SAssetListResult: 'asset/SAssetListResult',
     }),
@@ -292,7 +292,7 @@ export default {
         this.assetInput = this.temporaryOrderDetail.asset
         this.sourceInput = this.temporaryOrderDetail.source
         this.noteInput = this.temporaryOrderDetail.note
-        this.clientSearch({phone: this.phoneInput})
+        this.searchClient({phone: this.phoneInput})
       }
     },
   },
@@ -302,9 +302,9 @@ export default {
       createOrderForContract: 'order/createOrderForContract',
       getOrderList: 'order/getOrderList',
       getSAssetList: 'asset/getSAssetList',
-      clientSearch: 'order/searchClient',
       saveOrderTemporarily: 'order/saveOrderTemporarily',
       removeTemporaryOrder: 'order/removeTemporaryOrder',
+      searchClient: 'client/searchClient',
     }),
     reset() {
       //Reset Form
@@ -440,7 +440,7 @@ export default {
       }
       this.searchTime = setTimeout(() => {
           if (!this.$refs['phone'].hasError) {
-              this.clientSearch({phone: this.phoneInput})
+              this.searchClient({phone: this.phoneInput})
           }
       }, 2000)
     },
