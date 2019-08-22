@@ -33,6 +33,9 @@ export default {
       immediate: true
     }
   },
+  created() {
+    this.getContractById();
+  },
   computed: {
     ...mapGetters({
       flagSchedule: 'contract/contractRepaymentSchedule',

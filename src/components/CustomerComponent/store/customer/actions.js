@@ -160,6 +160,46 @@ export default {
         }
     },
 
+    async uploadBankAccout({commit}, payload) {
+        try {
+            const data = has.call(payload, 'data') ? payload.data : null
+            const {cus} = await CustomerService.uploadBankAccout(data)
+        } catch(error) {
+            if (error instanceof CustomerError) {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async deleteBankAccout({commit}, payload) {
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const {cus} = await CustomerService.deleteBankAccout(id)
+        } catch(error) {
+            if (error instanceof CustomerError) {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async updateBankAccout({commit}, payload) {
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const data = has.call(payload, 'data') ? payload.data : null
+            const {cus} = await CustomerService.updateBankAccout(id, data)
+        } catch(error) {
+            if (error instanceof CustomerError) {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
     async getCustomerSummary({commit}, payload) {
         commit(CUSTOMER_SUMMARY_REQUEST)
         try {

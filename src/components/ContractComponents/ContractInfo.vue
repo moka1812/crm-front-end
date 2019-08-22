@@ -10,8 +10,8 @@
       </div>
       <span>Camdo Special Rate</span>
       <span>Ngày Giờ Mở HĐ: {{contractDetail.createdDate}}</span> 
-      <span>Làm hợp Đồng: {{contractDetail.creater}}</span>
-      <span>Chi nhánh: {{contractDetail.branchName}} &nbsp;|&nbsp; Lưu Kho: {{contractDetail.storage}}</span>
+      <span>Làm hợp Đồng: {{contractDetail.agentName}}</span>
+      <span>Chi nhánh: {{contractDetail.branchName}} &nbsp;|&nbsp; Lưu Kho: {{contractDetail.storageId}}</span>
     </v-layout>
     <div class="class-border"></div>
     <v-layout align-start justify-center column class="customer-info">
@@ -54,9 +54,6 @@ export default {
   props: {
     contractId: String,
   },
-  data: () => ({
-    classStatusContract: "online-status-contract"
-  }),
   created() {
     this.getContractById();
   },

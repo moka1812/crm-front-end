@@ -33,7 +33,8 @@
 </template>
 
 <script>
-
+import { mapActions, mapGetters } from "vuex";
+import { isNullOrUndefined } from 'util';
 export default {
   name: "contract-collatea-info-tab",
   components: {
@@ -63,23 +64,45 @@ export default {
           text: "Tình trạng thanh lý", value: "liquidation_status", align: 'center', sortable: false, class: "header  wrap-text"
         }
       ],
-      collateralInfoListResult: [
-                {
-                    description: 'Laptop 110238384 - không dây sạc - không pin - không main',
-                    property_type:'Laptop',
-                    storage_id:'22131',
-                    storage_location: 'DTH',
-                    liquidation_amount: '0',
-                    liquidation_status: 'Waiting for sale'
-                }
-      ],
+      collateralInfoListResult: [],
       collateralInfoListRequest: false,
     }
   },
-  mounted() {
+  created() {
+    this.getContractById();
+  },
+  computed: {
+    ...mapGetters({
+      contractDetail: 'contract/contractDetail',
+    }),
   },
   methods: {
+    ...mapActions({
+      getContractByContractId: 'contract/getContractByContractId'
+    }),
+    getContractById(){
+      this.getContractByContractId({id: this.contractId});
+      setTimeout(() => {
+        if (isNullOrUndefined(this.contractDetail)===false) {
+          this.collateralInfoListResult = [
+            {
+              description: this.contractDetail.assetDescription,
+              property_type: this.contractDetail.assetType,
+              storage_id: this.contractDetail.storageId,
+              storage_location: this.contractDetail.branchName,
+              liquidation_amount: '',
+              liquidation_status: ''
+            }
+          ];
+        }
+      }, 1000);
+    }
   },
+  watch: {
+    getContract() {
+      this.getContractById();
+    },
+  }
 }
 </script>
 

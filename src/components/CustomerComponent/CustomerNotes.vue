@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div class="contract-notes">
+    <div class="customer-notes">
         <v-layout align-start justify-start column>
             <span v-for="item in notesListResult" :key="item.note_id">
                 {{item.create_data}} &nbsp;-&nbsp; {{item.note}}
@@ -20,7 +20,7 @@
 <script>
 import moment from 'moment'
 export default {
-  name: "contract-notes-tab",
+  name: "customer-notes-tab",
   components: {
   },
   data() {
@@ -75,14 +75,15 @@ export default {
 </script>
 
 <style>
-.contract-notes {
+.customer-notes {
   margin-top: 15px;
   padding: 2vw 1vw 2vw 1vw;
   border: 1px solid #9D9D9D;
   border-radius: 2px;
+  height: 50vh;
 }
 
-.contract-notes span {
+.customer-notes span {
   margin-bottom: 5px;
 }
 

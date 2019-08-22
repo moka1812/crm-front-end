@@ -247,10 +247,12 @@ const ContractService = {
                 createdDate: created,
                 status: item.status,
                 maturesDate: item.matures_date,
-                creater:"Lan Nguyễn",
+                agentName: item.agent_name,
                 clientId: item.client,
                 branchName: item.branch_name,
-                storage: "CMN"
+                storageId: item.storage_id,
+                assetDescription: item.asset_description,
+                assetType: item.asset_type
             };
             return data
         } catch (error) {
