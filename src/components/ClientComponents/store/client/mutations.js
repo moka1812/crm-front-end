@@ -15,7 +15,7 @@ export default {
     //Client Search Function
     [CLIENT_SEARCHING_REQUEST] (state) {
         Vue.set(state, 'clientSearching', true)
-        Vue.set(state, 'clientResult', null)
+        Vue.set(state, 'clientSearchResult', null)
         Vue.set(state, 'clientSearchError', '')
         Vue.set(state, 'clientSearchErrorCode', 0)
     },
@@ -23,7 +23,7 @@ export default {
         Vue.set(state, 'clientSearching', false)
         if (result.status) { // Old Customer
             //Get first client from client array
-            Vue.set(state, 'clientResult', result.data[0])
+            Vue.set(state, 'clientSearchResult', result.data[0])
         }
         Vue.set(state, 'clientSearchErrorCode', 200)
     },
@@ -34,7 +34,7 @@ export default {
     },
     [CLIENT_SEARCHING_RESET] (state) {
         Vue.set(state, 'clientSearching', false)
-        Vue.set(state, 'clientResult', null)
+        Vue.set(state, 'clientSearchResult', null)
         Vue.set(state, 'clientSearchError', '')
         Vue.set(state, 'clientSearchErrorCode', 0)
     },

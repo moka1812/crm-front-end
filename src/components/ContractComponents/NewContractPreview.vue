@@ -15,8 +15,8 @@
             </v-flex>
             <v-flex xs9>
               <p style="padding-left: 65px;"><font size="5"><b style="text-align: -webkit-center;">HỢP ĐỒNG CẦM CỐ</b></font></p>
-              <strong>Mã hợp đồng(HĐ): {{currentBranch}} - {{loanID}}</strong><br>
-              <strong>Mã khách hàng(KH): HCMKH1000-{{clientID}}</strong><br>
+              <strong>Mã hợp đồng(HĐ): {{currentBranch}} - {{loanId}}</strong><br>
+              <strong>Mã khách hàng(KH): HCMKH1000-{{clientId}}</strong><br>
             </v-flex>
           </v-layout>
           <br/>
@@ -369,7 +369,7 @@
           <br/>
           <strong>I. NỘI DUNG UỶ QUYỀN</strong>
           <br/>
-          <span>Trong trường hợp Bên A không hoàn thành nghĩa vụ đóng lãi hoặc chuộc xe máy/ô tô đúng thời hạn đã được thể hiện trong hợp đồng cầm cố số:{{currentBranch}} - {{loanID}} Thì Bên A ủy quyền cho Bên B toàn quyền sở hữu và quyết định (bán, sang tên, ...) xe máy/ô tô được thể hiện trong hợp đồng cầm cố số: {{currentBranch}} - {{loanID}} .Thông tin xe máy/ô tô cụ thể như sau:</span>
+          <span>Trong trường hợp Bên A không hoàn thành nghĩa vụ đóng lãi hoặc chuộc xe máy/ô tô đúng thời hạn đã được thể hiện trong hợp đồng cầm cố số:{{currentBranch}} - {{loanId}} Thì Bên A ủy quyền cho Bên B toàn quyền sở hữu và quyết định (bán, sang tên, ...) xe máy/ô tô được thể hiện trong hợp đồng cầm cố số: {{currentBranch}} - {{loanId}} .Thông tin xe máy/ô tô cụ thể như sau:</span>
           <br/>
           <ul>
             <table>
@@ -451,14 +451,14 @@
           <strong>VUI LÒNG KIỂM TRA SỐ TIỀN VÀ</strong><br>
           <strong>IN PHIẾU THU</strong>
           <v-layout align-center justify-center row class="button">
-            <v-btn round class="btn-back" @click="backHandle" :disabled="created">
+            <v-btn round class="btn-back" @click="backHandle" :disabled="created || contractCreatingRequest">
               Back
             </v-btn>
-            <v-btn fab dark small class="mx-2 btn-print" :loading="printing">
-              <i class="material-icons" @click="printHandle">print</i>
+            <v-btn fab dark small class="mx-2 btn-print" :loading="printing" @click="printHandle">
+              <i class="material-icons">print</i>
             </v-btn>
-            <v-btn v-if="contractType==='Bike/Car'" round class="mx-2 btn-print" :loading="printing">
-              <i class="material-icons" @click="authorizedPrintHandle">print</i>
+            <v-btn v-if="contractType==='Bike/Car'" round class="mx-2 btn-print" :loading="printing" @click="authorizedPrintHandle">
+              <i class="material-icons">print</i>
               Giấy UỶ Quyền
             </v-btn>
             <v-btn round class="btn-confirm" @click="endHandle" :disabled="!created">
@@ -511,18 +511,19 @@ export default {
       clientId: 'XXXX',
       printed: false,
       authorizedPrinted: false,
+      printType: null,
     }
   },
   mounted() {
     if (!this.newClient) {
-      this.clientId = this.clientResult.mifosId
+      this.clientId = this.clientSearchResult.mifosId
     }
   },
   computed: {
     ...mapGetters({
       currentBranch: 'branch/currentBranch',
       currentBranchAddress: 'branch/currentBranchAddress',
-      clientResult: 'client/clientResult',
+      clientSearchResult: 'client/clientSearchResult',
       clientCreatingRequest: 'client/clientCreatingRequest',
       clientCreatingErrorCode: 'client/clientCreatingErrorCode',
       clientCreatingResult: 'client/clientCreatingResult',
@@ -572,21 +573,25 @@ export default {
     backHandle() {
       this.$emit('back')
     },
-    printHandle: async function() {
+    printHandle() {
       if (!this.created) {
-        await this.$emit('create')
+       this.$emit('create')
+       this.printType = 'print'
+      } else {
+        this.$htmlToPaper('print', () => {
+          this.printed = true
+        })
       }
-      this.$htmlToPaper('print', () => {
-        this.printed = true
-      })
     },
-    authorizedPrintHandle: async function() {
+    authorizedPrintHandle() {
       if (!this.created) {
-        await this.$emit('create')
+        this.$emit('create')
+        this.printType = 'authorizedPrint'
+      } else {
+        this.$htmlToPaper('authorizedPrint', () => {
+          this.authorizedPrinted = true
+        })
       }
-      this.$htmlToPaper('authorizedPrint', () => {
-        this.authorizedPrinted = true
-      })
     },
     endHandle() {
       this.$emit('end')
@@ -596,6 +601,14 @@ export default {
     created() {
       if (this.created === true) {
         this.loanId = this.contractCreatingResult.mifos_id
+
+        // Callback print
+        if (this.printType === 'print') {
+          this.printHandle()
+        } else if (this.printType === 'authorizedPrint') {
+          this.authorizedPrintHandle()
+        }
+        this.printType = null
       }
     },
     clientCreatingErrorCode() {

@@ -1491,17 +1491,17 @@ export default {
     try {
       const phone = this.$route.params.orderDetail.phone
       this.searchClient({phone: phone}).then(() => {
-          if (this.clientResult !== null) {
+          if (this.clientSearchResult !== null) {
             this.newClient = false
-            this.firstNameInput = this.clientResult.firstName
-            this.lastNameInput = this.clientResult.lastName
-            this.phone1Input = this.clientResult.primaryPhone
-            this.phone2Input = this.clientResult.alternativePhone
-            this.dobInput = this.clientResult.dateOfBirth
-            this.nationalIDInput = this.clientResult.nationalId
-            this.addressInput = this.clientResult.address
-            this.districtInput = this.clientResult.district
-            this.cityInput = this.clientResult.city
+            this.firstNameInput = this.clientSearchResult.firstName
+            this.lastNameInput = this.clientSearchResult.lastName
+            this.phone1Input = this.clientSearchResult.primaryPhone
+            this.phone2Input = this.clientSearchResult.alternativePhone
+            this.dobInput = this.clientSearchResult.dateOfBirth
+            this.nationalIDInput = this.clientSearchResult.nationalId
+            this.addressInput = this.clientSearchResult.address
+            this.districtInput = this.clientSearchResult.district
+            this.cityInput = this.clientSearchResult.city
           } else {
             this.phone1Input = phone
             this.lastNameInput = this.$route.params.orderDetail.name
@@ -1528,7 +1528,7 @@ export default {
         CAssetUpdatingErrorCode: 'asset/CAssetUpdatingErrorCode',
         CAssetUpdatingError: 'asset/CAssetUpdatingError',
         productListResult: 'product/productListResult',
-        clientResult: 'client/clientResult',
+        clientSearchResult: 'client/clientSearchResult',
         clientCreatingResult: 'client/clientCreatingResult',
         clientCreatingErrorCode: 'client/clientCreatingErrorCode',
         clientCreatingError: 'client/clientCreatingError',
@@ -1690,7 +1690,7 @@ export default {
                 district: this.districtInput,
                 city: this.cityInput,
                 DOB: moment(this.dobInput, "DD/MM/YYYY").format("YYYY-MM-DD"),
-                nationalID: this.nationalID,
+                nationalID: this.nationalIDInput,
             }
             await this.createClient(data)
             if (this.clientCreatingErrorCode === 201) {
@@ -1705,7 +1705,7 @@ export default {
                 return null
             }
         }
-        return this.clientResult.id
+        return this.clientSearchResult.id
     },
     updateAsset: async function() {
         const data = {}

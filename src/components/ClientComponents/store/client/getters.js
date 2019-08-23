@@ -11,8 +11,8 @@ export default  {
         return state.clientSearching
     },
 
-    clientResult: (state) => {
-        return state.clientResult
+    clientSearchResult: (state) => {
+        return state.clientSearchResult
     },
 
     clientCreatingRequest: (state) => {

@@ -2,7 +2,7 @@ export default function initialState () {
     return {
         //Client Search Function
         clientSearching: false,
-        clientResult: null,
+        clientSearchResult: null,
         clientSearchErrorCode: 0,
         clientSearchError: '',
         

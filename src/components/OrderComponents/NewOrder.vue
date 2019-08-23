@@ -225,7 +225,7 @@ export default {
       clientSearching:'client/clientSearching',
       clientSearchErrorCode:'client/clientSearchErrorCode',
       clientSearchError:'client/clientSearchError',
-      clientResult: 'client/clientResult',
+      clientSearchResult: 'client/clientSearchResult',
       temporaryOrderDetail: 'order/temporaryOrderDetail',
       SAssetListResult: 'asset/SAssetListResult',
     }),
@@ -252,11 +252,11 @@ export default {
     },
   },
   watch: {
-    //When clientResult changes
-    clientResult() {
-      if (this.clientResult !== null) {
-        this.firstNameInput = this.clientResult.firstName
-        this.lastNameInput = this.clientResult.lastName
+    //When clientSearchResult changes
+    clientSearchResult() {
+      if (this.clientSearchResult !== null) {
+        this.firstNameInput = this.clientSearchResult.firstName
+        this.lastNameInput = this.clientSearchResult.lastName
       } else {
         this.firstNameInput = ''
         this.lastNameInput = ''
