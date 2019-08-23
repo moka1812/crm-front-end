@@ -648,6 +648,8 @@ export default {
             this.terminate()
         },
         contractHandle() {
+
+            // No change in order detail
             if (this.updateFromContract) {
                 const orderDetail = {
                     phone:  this.orderDetail.phone,
@@ -656,14 +658,64 @@ export default {
                     validatorAmount: this.orderDetail.validatorAmount,
                     assetType: this.orderDetail.asset,
                     asset: this.orderDetail.assetDescription,
-                    assetID: this.orderDetail.assetID,
+                    assetID: this.assetID,
                     orderID: this.orderDetail.orderID,
                     source: this.orderDetail.source,
                 }
                 this.$router.push({name: 'new_contract', params: {orderDetail}})
                 this.dialog = false
             } else {
+                // Update order detail to create contract
 
+                const assetTypeID = this.findAssetTypeID(this.assetTypeInput)
+
+                let appointmentDateTime = null
+                //When appointmentDateTimeInput enable
+                if (this.appointmentDisable === false) {
+                    //Format from 01/01/2019 12:12 to 2019/01/01 12:12
+                    appointmentDateTime = moment(this.appointmentDateTimeInput, "DD/MM/YYYY HH:mm").format("YYYY-MM-DD HH:mm")
+                }
+
+                const data = {
+                    orderID: this.orderID,
+                    phone: this.phoneInput,
+                    name: this.nameInput,
+                    expectedAmount: this.expectedAmountInput === '' ? null : this.expectedAmountInput,
+                    validatorAmount: this.validatorAmountInput === '' ? null : this.validatorAmountInput,
+                    source: this.sourceInput,
+                    staff: this.orderDetail.staff,
+                    note: this.noteInput,
+                    appointmentDateTime: appointmentDateTime,
+                    CAssetID: this.assetID,
+                    assetTypeID: assetTypeID,
+                    assetTypeDescription: this.assetInput,
+                }
+
+                this.updateOrder(data).then(() => {
+                    if (this.orderUpdatingErrorCode === 200) {
+                        // Begin create Contract
+                        const orderDetail = {
+                            phone:  this.phoneInput,
+                            name: this.nameInput,
+                            expectedAmount: this.expectedAmountInput,
+                            validatorAmount: this.validatorAmountInput,
+                            assetType: this.assetTypeInput,
+                            asset: this.assetInput,
+                            assetID: this.assetID,
+                            orderID: this.orderID,
+                            source: this.sourceInput,
+                        }
+                        this.$router.push({name: 'new_contract', params: {orderDetail}})
+                        this.dialog = false
+                    } else {
+                        this.$notify({
+                            group: 'foo',
+                            type: 'error',
+                            title: "Error: "+this.orderUpdatingErrorCode,
+                            text: this.orderUpdatingError
+                        });
+                    }
+                })
             }
             
         },

@@ -84,7 +84,7 @@
                             <v-flex sm5>
                                 <date-picker 
                                     v-model="dobInput" 
-                                    label="DOB*" 
+                                    label="Ngày Sinh*" 
                                     :readonly="!newClient"
                                     :rules="dobRules"
                                 />
@@ -291,7 +291,7 @@
                                 <v-spacer/>
                                 <v-flex sm5>
                                     <v-text-field
-                                        v-model="vehicleStreamInput"
+                                        v-model="vehicleTypeInput"
                                         label="Dòng xe"
                                         :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
@@ -645,7 +645,7 @@
                             <v-flex sm5>
                                 <date-picker 
                                     v-model="dobInput" 
-                                    label="DOB*" 
+                                    label="Ngày Sinh*" 
                                     :readonly="newClient ? !edit1 : true "
                                     :rules="dobRules"
                                 />
@@ -933,7 +933,7 @@
                                 <v-spacer/>
                                 <v-flex sm5>
                                     <v-text-field
-                                        v-model="vehicleStreamInput"
+                                        v-model="vehicleTypeInput"
                                         label="Dòng xe"
                                         :rules="[v => !!v || 'Yều cầu cần có']"
                                         :readonly="!editAuthorized"
@@ -1317,6 +1317,7 @@
                                 color="#dd1e26"
                                 round
                                 @click="contract=true"
+                                :disabled="edit3"
                             >
                                 Confirm
                             </v-btn>
@@ -1346,22 +1347,35 @@
         </v-window>
         <template v-else>
             <new-contract-preview
+                :contractType="authorizedType"
                 :transactionDate="openingDateInput"
                 :customerName="`${firstNameInput} ${lastNameInput}`"
+                :anotherCustomerName="customer2Input"
                 :phoneNumber="phone1Input"
                 :birthDay="dobInput"
                 :nationalID="nationalIDInput"
+                :anothernationalID="nationalID2Input"
                 :address="`${addressInput}, ${districtInput}, ${cityInput}`"
                 :asset="assetTypeInput"
                 :description="assetInput"
                 :accessory="accessoryInput"
-                :approvedAmount="approvedAmountInput"
+                :approvedAmount="parseFloat(approvedAmountInput)"
                 :date="expirationDateInput"
                 :fee="parseFloat(interestRateInput) - 1.5"
-                :receivedAmountInput="receivedAmountInput"
-                :interestMoneyHint="interestValueInput"
+                :receivedAmount="parseFloat(receivedAmountInput)"
+                :interestMoneyHint="parseFloat(interestValueInput)"
+                :productName="productListResult[packageInput].productName"
+                :repayEvery="productListResult[packageInput].repayEvery"
+                :vehicleID="vehicleIDInput"
+                :chassisNumber="chassisNumberInput"
+                :label="labelInput"
+                :vehicleType="vehicleTypeInput"
+                :color="colorInput"
+                :licensePlate="licensePlateInput"
+                :newClient="this.newClient"
                 @back="contract=false" 
-                @end="createHandle"
+                @end="endHandle"
+                @create="createHandle"
             />
         </template>
     </v-container>
@@ -1423,7 +1437,7 @@ export default {
       authorizedType: 'normal',
       isAuthorizedForm: false,
       labelInput: '',
-      vehicleStreamInput: '',
+      vehicleTypeInput: '',
       chassisNumberInput: '',
       colorInput: '',
       vehicleIDInput: '',
@@ -1638,7 +1652,14 @@ export default {
             const productName = this.productListResult[this.packageInput].productName
             this.costInput = String(getCost(this.approvedAmountInput, this.interestRateInput, productName))
             this.roundingInput = String(getRoundFee(this.approvedAmountInput, this.interestRateInput, productName))
-            this.interestValueInput = String((this.approvedAmountInput - this.costInput).toFixed(3))
+
+            if (productName.includes('Prepaid Interest')) {
+                this.interestValueInput = String((this.approvedAmountInput - this.costInput).toFixed(3))
+            } else {
+                const interestValue = Math.round(this.approvedAmountInput * 1000000 * this.interestRateInput / 100) / 1000000
+                this.interestValueInput = String(interestValue.toFixed(3))
+            }
+             
         } else {
             this.costInput = '0'
             this.roundingInput = '0'
@@ -1752,8 +1773,6 @@ export default {
                     title: "Tạo hợp đồng thành công",
                     text: ''
                 });
-                this.contract = false
-                this.step ++
 
             } else {
                 this.$notify({
@@ -1764,6 +1783,10 @@ export default {
                 });
             }
         })
+    },
+    endHandle() {
+        this.contract = false
+        this.step ++
     },
   }
 }

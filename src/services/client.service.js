@@ -106,7 +106,7 @@ const ClientService = {
                     fulladdress: item.fulladdress,
                     email: item.email,
                     created: created,
-                    created_By: item.created_by,
+                    createdBy: item.created_by,
                     createdName: item.created_name,
                     primaryPhone: item.primary_phone,
                     alternativePhone: item.alternative_phone,
@@ -122,6 +122,7 @@ const ClientService = {
                     lastUpdateBy: item.last_update_by,
                     note: item.note,
                     branch: item.branch,
+                    mifosId: item.mifos_id,
                 })
             }
             return data

@@ -30,6 +30,7 @@ const AssetService = {
     },
     updateCAsset: async function(id, newData){
         const data = {
+            asset: newData.asset,
             description: newData.description,
         }
 
