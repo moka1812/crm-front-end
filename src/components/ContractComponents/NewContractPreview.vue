@@ -461,7 +461,7 @@
               <i class="material-icons">print</i>
               Giấy UỶ Quyền
             </v-btn>
-            <v-btn round class="btn-confirm" @click="endHandle" :disabled="!created">
+            <v-btn round class="btn-confirm" @click="endHandle" :disabled="endDisable">
               End
             </v-btn>
           </v-layout>
@@ -538,6 +538,15 @@ export default {
       }
       return false
     },
+    endDisable() {
+      if (this.created) {
+        if (this.contractType==='Bike/Car') {
+          return !this.printed && !this.authorizedPrinted
+        }
+        return !this.printed
+      }
+      return true
+    },
     printing() {
       return this.clientCreatingRequest || this.CAssetUpdatingRequest || this.contractCreatingRequest
     },
@@ -602,13 +611,16 @@ export default {
       if (this.created === true) {
         this.loanId = this.contractCreatingResult.mifos_id
 
-        // Callback print
-        if (this.printType === 'print') {
-          this.printHandle()
-        } else if (this.printType === 'authorizedPrint') {
-          this.authorizedPrintHandle()
-        }
-        this.printType = null
+        //Waiting for update clientId and loanId
+        setTimeout(() => {
+          // Callback print
+          if (this.printType === 'print') {
+            this.printHandle()
+          } else if (this.printType === 'authorizedPrint') {
+            this.authorizedPrintHandle()
+          }
+          this.printType = null
+        }, 500)
       }
     },
     clientCreatingErrorCode() {
