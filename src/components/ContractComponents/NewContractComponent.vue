@@ -1,14 +1,20 @@
 <template>
     <v-container fluid class="pa-0 ma-2">
-        <h2 v-if="contract">Kiểm tra hợp đồng</h2>
+        <h2 v-if="contract">Kiểm Tra Hợp Đồng</h2>
         <v-layout v-else row>
             <v-flex md5 class="title">
-                <h2 v-show="step==1">New Contract - Customer Info</h2>
-                <h2 v-show="step==2">New Contract - Asset Info</h2>
-                <h2 v-show="step==3">New Contract - Contract Info</h2>
-                <h2 v-show="step==4">New Contract - Confirmation</h2>
+                <h2 v-show="step==1">Hợp Đồng Mới - Thông Tin KH</h2>
+                <h2 v-show="step==2 && !isAuthorizedForm">Hợp Đồng Mới - Thông Tin Tài Sản</h2>
+                <h2 v-show="step==2 && isAuthorizedForm">
+                    Hợp Đồng Mới - 
+                    <template v-if="authorizedType==='Bike/Car'">Giấy Uỷ Quyền</template>
+                    <template v-else-if="authorizedType==='Realestate'">Hợp Đồng Mua Bán</template>
+                </h2>
+                <h2 v-show="step==3">Hợp Đồng Mới - Thông Tin HĐ</h2>
+                <h2 v-show="step==4">Hợp Đồng Mới - Xác Nhận</h2>
+                <h2 v-show="step==5">Hợp Đồng Mới - Hoàn Thành</h2>
             </v-flex>
-            <v-flex md7 v-show="contract">
+            <v-flex md7 v-show="!contract">
                 <v-stepper v-model="step" class="elevation-0 background">
                     <v-stepper-header>
                         <template v-for="index in 4" class="step">
@@ -78,7 +84,7 @@
                             <v-flex sm5>
                                 <date-picker 
                                     v-model="dobInput" 
-                                    label="DOB*" 
+                                    label="Ngày Sinh*" 
                                     :readonly="!newClient"
                                     :rules="dobRules"
                                 />
@@ -110,7 +116,7 @@
                                     :items="sourceItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Source"
-                                    :disabled="!newClient"
+                                    :disabled="true"
                                 >
                                 </v-select>
                             </v-flex>
@@ -231,7 +237,14 @@
                                 <v-text-field
                                     v-model="approvedAmountInput"
                                     :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ',
+                                            v => {
+                                                if (parseFloat(v) > validatorAmountInput) {
+                                                    return 'Không được lớn hơn giá thẩm định'
+                                                }
+                                                return true
+                                            },
                                         ]"
                                     label="Giá cầm"
                                     :hint="approvedAmountHint"
@@ -278,7 +291,7 @@
                                 <v-spacer/>
                                 <v-flex sm5>
                                     <v-text-field
-                                        v-model="vehicleStreamInput"
+                                        v-model="vehicleTypeInput"
                                         label="Dòng xe"
                                         :rules="[v => !!v || 'Yều cầu cần có']"
                                     >
@@ -428,7 +441,13 @@
                                     v-model="approvedAmountInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ',
+                                            v => {
+                                                if (parseFloat(v) > validatorAmountInput) {
+                                                    return 'Không được lớn hơn giá thẩm định'
+                                                }
+                                                return true
+                                            },
                                         ]"
                                     label="Giá cầm*"
                                     :hint="approvedAmountHint"
@@ -570,7 +589,7 @@
             </v-window-item>
             <v-window-item :value="4">
                 <v-form v-model="valid1" class="form">
-                    <center><p class="title-form">Customer Info</p></center>
+                    <center><p class="title-form">Thông Tin Khách Hàng</p></center>
                     <v-container :style="{'padding-top': '0px'}">
                         <v-layout>
                             <v-flex sm5>
@@ -626,7 +645,7 @@
                             <v-flex sm5>
                                 <date-picker 
                                     v-model="dobInput" 
-                                    label="DOB*" 
+                                    label="Ngày Sinh*" 
                                     :readonly="newClient ? !edit1 : true "
                                     :rules="dobRules"
                                 />
@@ -660,7 +679,7 @@
                                     :items="sourceItems"
                                     :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Source"
-                                    :disabled="newClient ? !edit1 : true "
+                                    :disabled="true"
                                 >
                                 </v-select>
                             </v-flex>
@@ -740,6 +759,7 @@
                                 round
                                 @click="edit1=false"
                                 v-show="edit1"
+                                :disabled="!valid1"
                             >
                                 Accept
                             </v-btn>
@@ -748,7 +768,7 @@
                 </v-form>
                 <br/>
                 <v-form v-model="valid2" class="form">
-                    <center><p class="title-form">Asset Info</p></center>
+                    <center><p class="title-form">Thông Tin Tài Sản</p></center>
                     <v-container>
                         <v-layout>
                             <v-flex sm5>
@@ -818,7 +838,14 @@
                                 <v-text-field
                                     v-model="approvedAmountInput"
                                     :rules="[
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ',
+                                            v => {
+                                                if (parseFloat(v) > validatorAmountInput) {
+                                                    return 'Không được lớn hơn giá thẩm định'
+                                                }
+                                                return true
+                                            },
                                         ]"
                                     label="Giá cầm"
                                     :hint="approvedAmountHint"
@@ -878,6 +905,7 @@
                                 round
                                 @click="edit2=false"
                                 v-show="edit2"
+                                :disabled="!valid2"
                             >
                                 Accept
                             </v-btn>
@@ -886,7 +914,12 @@
                 </v-form>
                 <br/>
                 <v-form v-model="authorizedValid" v-show="isAuthorizedForm" class="form">
-                    <center><p class="title-form">Contract Info</p></center>
+                    <center>
+                        <p class="title-form">
+                            <template v-if="authorizedType==='Bike/Car'">Giấy Uỷ Quyền</template>
+                            <template v-else-if="authorizedType==='Realestate'">Hợp Đồng Mua Bán</template>
+                        </p>
+                    </center>
                     <v-container>
                         <template v-if="authorizedType==='Bike/Car'">
                             <v-layout>
@@ -902,7 +935,7 @@
                                 <v-spacer/>
                                 <v-flex sm5>
                                     <v-text-field
-                                        v-model="vehicleStreamInput"
+                                        v-model="vehicleTypeInput"
                                         label="Dòng xe"
                                         :rules="[v => !!v || 'Yều cầu cần có']"
                                         :readonly="!editAuthorized"
@@ -1027,6 +1060,7 @@
                                 round
                                 @click="editAuthorized=false"
                                 v-show="editAuthorized"
+                                :disabled="!authorizedValid"
                             >
                                 Accept
                             </v-btn>
@@ -1035,7 +1069,7 @@
                 </v-form>
                 <br/>
                 <v-form v-model="valid3" class="form">
-                    <center><p class="title-form">Contract Info</p></center>
+                    <center><p class="title-form">Thông Tin Hợp Đồng</p></center>
                     <v-container>
                         <v-layout>
                             <v-flex sm4>
@@ -1094,7 +1128,13 @@
                                     v-model="approvedAmountInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ'
+                                            v => /^-?\d*(\.[0-9]{1,3})?$/.test(v) || 'Dữ liệu không hợp lệ',
+                                            v => {
+                                                if (parseFloat(v) > validatorAmountInput) {
+                                                    return 'Không được lớn hơn giá thẩm định'
+                                                }
+                                                return true
+                                            },
                                         ]"
                                     label="Giá cầm*"
                                     :hint="approvedAmountHint"
@@ -1273,6 +1313,7 @@
                                 round
                                 @click="edit3=false"
                                 v-show="edit3"
+                                :disabled="!valid3"
                             >
                                 Accept
                             </v-btn>
@@ -1280,6 +1321,7 @@
                                 color="#dd1e26"
                                 round
                                 @click="contract=true"
+                                :disabled="edit3"
                             >
                                 Confirm
                             </v-btn>
@@ -1309,22 +1351,35 @@
         </v-window>
         <template v-else>
             <new-contract-preview
+                :contractType="authorizedType"
                 :transactionDate="openingDateInput"
                 :customerName="`${firstNameInput} ${lastNameInput}`"
+                :anotherCustomerName="customer2Input"
                 :phoneNumber="phone1Input"
                 :birthDay="dobInput"
                 :nationalID="nationalIDInput"
+                :anothernationalID="nationalID2Input"
                 :address="`${addressInput}, ${districtInput}, ${cityInput}`"
                 :asset="assetTypeInput"
                 :description="assetInput"
                 :accessory="accessoryInput"
-                :approvedAmount="approvedAmountInput"
+                :approvedAmount="parseFloat(approvedAmountInput)"
                 :date="expirationDateInput"
                 :fee="parseFloat(interestRateInput) - 1.5"
-                :receivedAmountInput="receivedAmountInput"
-                :interestMoneyHint="interestValueInput"
+                :receivedAmount="parseFloat(receivedAmountInput)"
+                :interestMoney="parseFloat(interestValueInput)"
+                :productName="productListResult[packageInput].productName"
+                :repayEvery="productListResult[packageInput].repayEvery"
+                :vehicleID="vehicleIDInput"
+                :chassisNumber="chassisNumberInput"
+                :label="labelInput"
+                :vehicleType="vehicleTypeInput"
+                :color="colorInput"
+                :licensePlate="licensePlateInput"
+                :newClient="this.newClient"
                 @back="contract=false" 
-                @end="createHandle"
+                @end="endHandle"
+                @create="createHandle"
             />
         </template>
     </v-container>
@@ -1386,7 +1441,7 @@ export default {
       authorizedType: 'normal',
       isAuthorizedForm: false,
       labelInput: '',
-      vehicleStreamInput: '',
+      vehicleTypeInput: '',
       chassisNumberInput: '',
       colorInput: '',
       vehicleIDInput: '',
@@ -1440,17 +1495,17 @@ export default {
     try {
       const phone = this.$route.params.orderDetail.phone
       this.searchClient({phone: phone}).then(() => {
-          if (this.clientResult !== null) {
+          if (this.clientSearchResult !== null) {
             this.newClient = false
-            this.firstNameInput = this.clientResult.firstName
-            this.lastNameInput = this.clientResult.lastName
-            this.phone1Input = this.clientResult.primaryPhone
-            this.phone2Input = this.clientResult.alternativePhone
-            this.dobInput = this.clientResult.dateOfBirth
-            this.nationalIDInput = this.clientResult.nationalId
-            this.addressInput = this.clientResult.address
-            this.districtInput = this.clientResult.district
-            this.cityInput = this.clientResult.city
+            this.firstNameInput = this.clientSearchResult.firstName
+            this.lastNameInput = this.clientSearchResult.lastName
+            this.phone1Input = this.clientSearchResult.primaryPhone
+            this.phone2Input = this.clientSearchResult.alternativePhone
+            this.dobInput = this.clientSearchResult.dateOfBirth
+            this.nationalIDInput = this.clientSearchResult.nationalId
+            this.addressInput = this.clientSearchResult.address
+            this.districtInput = this.clientSearchResult.district
+            this.cityInput = this.clientSearchResult.city
           } else {
             this.phone1Input = phone
             this.lastNameInput = this.$route.params.orderDetail.name
@@ -1477,7 +1532,7 @@ export default {
         CAssetUpdatingErrorCode: 'asset/CAssetUpdatingErrorCode',
         CAssetUpdatingError: 'asset/CAssetUpdatingError',
         productListResult: 'product/productListResult',
-        clientResult: 'order/clientResult',
+        clientSearchResult: 'client/clientSearchResult',
         clientCreatingResult: 'client/clientCreatingResult',
         clientCreatingErrorCode: 'client/clientCreatingErrorCode',
         clientCreatingError: 'client/clientCreatingError',
@@ -1565,12 +1620,16 @@ export default {
     interestRateInput() {
         this.changeCaculate()
     },
+    validatorAmountInput() {
+        const value = this.approvedAmountInput
+        this.approvedAmountInput = 0
+    }
   },
   methods: {
     ...mapActions({
         getSAssetList: 'asset/getSAssetList',
         getProduct: 'product/getProduct',
-        searchClient: 'order/searchClient',
+        searchClient: 'client/searchClient',
         createClient: 'client/createClient',
         updateCAsset: 'asset/updateCAsset',
         createContract: 'contract/createContract',
@@ -1601,7 +1660,14 @@ export default {
             const productName = this.productListResult[this.packageInput].productName
             this.costInput = String(getCost(this.approvedAmountInput, this.interestRateInput, productName))
             this.roundingInput = String(getRoundFee(this.approvedAmountInput, this.interestRateInput, productName))
-            this.interestValueInput = String((this.approvedAmountInput - this.costInput).toFixed(3))
+
+            if (productName.includes('Prepaid Interest')) {
+                this.interestValueInput = String((this.approvedAmountInput - this.costInput).toFixed(3))
+            } else {
+                const interestValue = Math.round(this.approvedAmountInput * 1000000 * this.interestRateInput / 100) / 1000000
+                this.interestValueInput = String(interestValue.toFixed(3))
+            }
+             
         } else {
             this.costInput = '0'
             this.roundingInput = '0'
@@ -1632,7 +1698,7 @@ export default {
                 district: this.districtInput,
                 city: this.cityInput,
                 DOB: moment(this.dobInput, "DD/MM/YYYY").format("YYYY-MM-DD"),
-                nationalID: this.nationalID,
+                nationalID: this.nationalIDInput,
             }
             await this.createClient(data)
             if (this.clientCreatingErrorCode === 201) {
@@ -1647,7 +1713,7 @@ export default {
                 return null
             }
         }
-        return this.clientResult.id
+        return this.clientSearchResult.id
     },
     updateAsset: async function() {
         const data = {}
@@ -1715,8 +1781,6 @@ export default {
                     title: "Tạo hợp đồng thành công",
                     text: ''
                 });
-                this.contract = false
-                this.step ++
 
             } else {
                 this.$notify({
@@ -1727,6 +1791,10 @@ export default {
                 });
             }
         })
+    },
+    endHandle() {
+        this.contract = false
+        this.step ++
     },
   }
 }
