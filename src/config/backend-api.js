@@ -57,3 +57,16 @@ export const deleteCustomerDocument = `${baseURL}/client-docs/:id/`
 export const customerDocumentApi = `${baseURL}/client-docs/`
 
 export const customerById = `${baseURL}/client/:id/`
+
+export const contractActive = `${baseURL}/client/:id/active-contracts/`
+
+export const contractClose = `${baseURL}/client/:id/close-contracts/`
+
+export const customerBankAccout = `${baseURL}/client/:id/bank_accounts/`
+
+export const uploadBankAccout = `${baseURL}/client-banks/`
+
+export const deleteBankAccout = `${baseURL}/client-banks/:id/`
+
+export const updateBankAcout = `${baseURL}/client-banks/:id/`
+
