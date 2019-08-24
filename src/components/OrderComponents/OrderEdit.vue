@@ -200,6 +200,7 @@
                     class="contactBtn"
                     @click="this.contractHandle"
                     v-if="contractDisable"
+                    :disabled="orderUpdating"
                     color="#43425d"
                     round
                 >

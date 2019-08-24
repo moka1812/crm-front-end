@@ -759,6 +759,7 @@
                                 round
                                 @click="edit1=false"
                                 v-show="edit1"
+                                :disabled="!valid1"
                             >
                                 Accept
                             </v-btn>
@@ -904,6 +905,7 @@
                                 round
                                 @click="edit2=false"
                                 v-show="edit2"
+                                :disabled="!valid2"
                             >
                                 Accept
                             </v-btn>
@@ -1058,6 +1060,7 @@
                                 round
                                 @click="editAuthorized=false"
                                 v-show="editAuthorized"
+                                :disabled="!authorizedValid"
                             >
                                 Accept
                             </v-btn>
@@ -1310,6 +1313,7 @@
                                 round
                                 @click="edit3=false"
                                 v-show="edit3"
+                                :disabled="!valid3"
                             >
                                 Accept
                             </v-btn>
@@ -1363,7 +1367,7 @@
                 :date="expirationDateInput"
                 :fee="parseFloat(interestRateInput) - 1.5"
                 :receivedAmount="parseFloat(receivedAmountInput)"
-                :interestMoneyHint="parseFloat(interestValueInput)"
+                :interestMoney="parseFloat(interestValueInput)"
                 :productName="productListResult[packageInput].productName"
                 :repayEvery="productListResult[packageInput].repayEvery"
                 :vehicleID="vehicleIDInput"
@@ -1616,6 +1620,10 @@ export default {
     interestRateInput() {
         this.changeCaculate()
     },
+    validatorAmountInput() {
+        const value = this.approvedAmountInput
+        this.approvedAmountInput = 0
+    }
   },
   methods: {
     ...mapActions({

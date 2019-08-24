@@ -494,7 +494,7 @@ export default {
     interestRate: Number,
     fee: Number,
     receivedAmount: String,
-    interestMoneyHint: Number,
+    interestMoney: Number,
     productName: String,
     repayEvery: Number,
     vehicleID: String,
@@ -557,7 +557,7 @@ export default {
       return (this.receivedAmount * 1000000).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     },
     formatedInterestMoneyHint() {
-      return (this.interestMoneyHint * 1000000).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+      return (this.interestMoney * 1000000).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     },
     period() {
       if (this.repayEvery === 30) {
