@@ -1,10 +1,10 @@
 import ApiService from './api.service'
-import { ProfileService, CurrentBranchService } from './storage.service'
+import { ProfileService } from './storage.service'
 import { 
-    deleteCustomerDocument, customerDoucument, customerBankAccout, customerSummary,
+    deleteCustomerDocument, customerDoucument, customerBankAccout,
     customerApi, customerById, customerDocumentApi, contractActive, contractClose, 
-    uploadBankAccout, updateCustomerNote
-,deleteBankAccout, updateBankAcout} from '../config/backend-api'
+    uploadBankAccout,deleteBankAccout, updateBankAcout, updateCustomerNote
+} from '../config/backend-api'
 import moment from 'moment'
 
 class CustomerError extends Error {
@@ -311,7 +311,7 @@ const CustomerService = {
                 fullName: item.full_name,
                 primaryPhone: item.primary_phone,
                 alternativePhone: item.alternative_phone,
-                address: item.address + " " + item.district+ " " + item.city,
+                address: item.fulladdress,
                 email: item.email,
                 dateOfBirth: dateOfBirth,
                 nationalId: item.national_id,
@@ -332,19 +332,16 @@ const CustomerService = {
         const data = []
         try {
             for (let item of rawData) {
-                //Example created: "2019-05-31T14:16:03.932314+07:00"
-                const closedDate = new moment(item.close_date, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-
+            
                 data.push({
                     id: item.id,
                     customerId: item.mifos_id,
-                    customerName: item.first_name +' '+ item.last_name,
-                    externalId: closedDate,
+                    customerName: item.full_name,
+                    nationalId: item.national_id,
                     status: item.status,
-                    office: item.client,
-                    lastContact: item.asset,
-                    matures_date: item.agent,
-                    activeLoan: item.market_amount,
+                    branchName: item.branch_name,
+                    primaryPhone: item.primary_phone,
+                    createdName: item.created_name,
                 })
             }
             return data

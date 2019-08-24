@@ -79,14 +79,16 @@ export default {
       }
     },
     getClassStatus(status, matures_date){
-      if (status==='Active') {
+      if (isNullOrUndefined(status)){
+        return '';
+      } else if (status.toUpperCase()==='ACTIVE') {
         if (this.isOverdue(matures_date)===true) {
           return 'overdue-status';
         }
         return 'active-status';
-      } else if (status==='Waiting') {
+      } else if (status.toUpperCase()==='WAITING') {
         return 'waiting-status';
-      } else if (status==='Closed') {
+      } else if (status.toUpperCase()==='CLOSED') {
         return 'close-status';
       }
     },
