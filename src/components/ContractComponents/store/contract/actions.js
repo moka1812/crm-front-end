@@ -184,4 +184,17 @@ export default {
         }
     },
     
+    async updateNote({commit}, payload) {
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const data = has.call(payload, 'data') ? payload.data : null
+            const {cus} = await ContractService.updateNote(id, data)
+        } catch(error) {
+            if (error instanceof ContractError) {
+                commit(CONTRACT_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CONTRACT_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
 }

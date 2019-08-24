@@ -7,10 +7,10 @@
       </v-layout>
       <v-layout align-space-around justify-start row fill-height fluid class="content-contract-detail">
           <v-flex v-if="flagSchedule === false" xs3 class="container box-contract-info">
-              <contract-info v-bind:contractId = "contractId"/>
+              <contract-info v-bind:contractId="contractId"/>
           </v-flex>
           <v-flex class="container box-contract-tabs" v-bind="[flagSchedule? 'xs12' :'xs9']">
-              <contract-tabs v-bind:contractId = "contractId"/>
+              <contract-tabs v-bind:contractId="contractId"/>
           </v-flex>
        </v-layout>
       </v-layout>
@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     getContractById() {
-      this.contractId = this.$route.query.id;
+      this.contractId = String(this.$route.query.id);
     },
   }
 };

@@ -1,8 +1,9 @@
 import ApiService from './api.service'
 import { ProfileService, CurrentBranchService } from './storage.service'
-import { AssetService, AssetError } from './asset.serivce'
-import { deleteCustomerDocument, customerDoucument, customerBankAccout, customerSummary,
-customerApi, customerById, customerDocumentApi, contractActive, contractClose, uploadBankAccout
+import { 
+    deleteCustomerDocument, customerDoucument, customerBankAccout, customerSummary,
+    customerApi, customerById, customerDocumentApi, contractActive, contractClose, 
+    uploadBankAccout, updateCustomerNote
 ,deleteBankAccout, updateBankAcout} from '../config/backend-api'
 import moment from 'moment'
 
@@ -34,7 +35,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -168,7 +169,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -208,7 +209,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
 
     },
@@ -226,7 +227,7 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -242,27 +243,44 @@ const CustomerService = {
 
         } catch (error) {
 
-            throw CustomerError(error.response.status, error.response.data.detail)
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
     // delete client bank
     updateBankAccout: async function(id, data) {
-    try {
+        try {
 
-        const url = updateBankAcout.replace(":id", id)
+            const url = updateBankAcout.replace(":id", id)
 
 
-        const response = await ApiService.put(url, data)
-        
-        return {
-            cus: response.data,
+            const response = await ApiService.put(url, data)
+            
+            return {
+                cus: response.data,
+            }
+
+        } catch (error) {
+
+            throw new CustomerError(error.response.status, error.response.data.detail)
         }
+    },
+    updateNote: async function(id, data) {
+        try {
+    
+            const url = updateCustomerNote.replace(":id", id)
+    
+    
+            const response = await ApiService.patch(url, data)
+            
+            return {
+                cus: response.data,
+            }
+    
+        } catch (error) {
 
-    } catch (error) {
-
-        throw CustomerError(error.response.status, error.response.data.detail)
-    }
+            throw new CustomerError(error.response.status, error.response.data.detail)
+        }
     },
 
     filterRawBankAccout: function(rawData) {
@@ -287,12 +305,21 @@ const CustomerService = {
     filterRawCustomer: function(item) {
         let data = null;
         try {
+            let dateOfBirth = new moment(item.date_of_birth, "YYYY-MM-DD").format("DD/MM/YYYY")
             data = {
                 id: item.id,
                 fullName: item.full_name,
                 primaryPhone: item.primary_phone,
                 alternativePhone: item.alternative_phone,
                 address: item.address + " " + item.district+ " " + item.city,
+                email: item.email,
+                dateOfBirth: dateOfBirth,
+                nationalId: item.national_id,
+                adress: item.address,
+                district: item.district,
+                city: item.city,
+                occupation: item.occupation,
+                note:  item.note,
             };
             return data
         } catch (error) {
@@ -305,9 +332,8 @@ const CustomerService = {
         const data = []
         try {
             for (let item of rawData) {
-                //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
-                const closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+                //Example created: "2019-05-31T14:16:03.932314+07:00"
+                const closedDate = new moment(item.close_date, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
 
                 data.push({
                     id: item.id,
@@ -333,7 +359,7 @@ const CustomerService = {
         try {
             for (let item of rawData.data) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                const created = new moment(item.created, "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
 
                 data.push({
                     id: item.id,
@@ -356,7 +382,7 @@ const CustomerService = {
         try {
             for (let item of rawData.data) {
                 // Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const created = new moment(item.due_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                const created = new moment(item.due_date, "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
                 const type = item.acssetId === null ? '' : item.asset_description
                 data.push({
                     contractId: item.mifos_id,
@@ -380,7 +406,7 @@ const CustomerService = {
         try {
             for (let item of rawData.data) {
                 // Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const dueDate = new moment(item.due_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                const dueDate = new moment(item.due_date, "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
                 const type = item.asset_type === null ? '' : item.asset_description
                 if (type.length > 30) {
                     type = type.substring(0, 30) + '...'

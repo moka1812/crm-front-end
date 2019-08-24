@@ -163,6 +163,9 @@ export default {
     CallTable,
     Loading
   },
+  props: {
+    customerId: String,
+  },
   data() {
     return {
       headers: [
@@ -215,7 +218,7 @@ export default {
     }),
     // get data bank accout
     bankAccout() {
-      this.getBankAccout({id : '1'})
+      this.getBankAccout({id : this.customerId})
     },
     // open modal upload
     upload: function() {
@@ -239,7 +242,7 @@ export default {
       this.deleteBanksAcc({id: this.banksId})
       setTimeout(() => {
       this.dialog = false
-       this.getBankAccout({id : '1'})
+       this.getBankAccout({id : this.customerId})
       },2000)
     },
     onCancel() {
@@ -267,7 +270,7 @@ export default {
       setTimeout(() => {
         this.isLoading = false
         this.dialog = false
-       this.getBankAccout({id : '1'})
+       this.getBankAccout({id : this.customerId})
       },3000)
     },
     // open modal edit

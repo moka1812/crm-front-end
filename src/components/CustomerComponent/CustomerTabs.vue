@@ -9,12 +9,12 @@
       @onClick="handleTabsClick"
     />
     <div>
-      <div v-if="currentTab === 'Summary'"><customer-summary-tab/></div>
-      <div v-if="currentTab === 'ContractNew'"><contract-new-tab/></div>
-      <div v-if="currentTab === 'ContractOld'"><contract-old-tab/></div>
-      <div v-if="currentTab === 'Documents'"><customer-document-tab/></div>
-      <div v-if="currentTab === 'BankAccout'"><bank-accout-tab/></div>
-      <div v-if="currentTab === 'Notes'"><customer-notes-tab/></div>
+      <div v-if="currentTab === 'Summary'"><customer-summary-tab v-bind:customerId="customerId"/></div>
+      <div v-if="currentTab === 'ContractNew'"><contract-new-tab v-bind:customerId="customerId"/></div>
+      <div v-if="currentTab === 'ContractOld'"><contract-old-tab v-bind:customerId="customerId"/></div>
+      <div v-if="currentTab === 'Documents'"><customer-document-tab v-bind:customerId="customerId"/></div>
+      <div v-if="currentTab === 'BankAccout'"><bank-accout-tab v-bind:customerId="customerId"/></div>
+      <div v-if="currentTab === 'Notes'"><customer-notes-tab v-bind:customerId="customerId"/></div>
     </div>
   </v-card>
 </template>
@@ -66,6 +66,9 @@ export default {
     'customer-notes-tab': CustomerNotes,
     'contract-new-tab': ContractNew,
     'contract-old-tab': ContractOld
+  },
+  props: {
+    customerId: String,
   },
   data: () => ({
     tabs: TABS,

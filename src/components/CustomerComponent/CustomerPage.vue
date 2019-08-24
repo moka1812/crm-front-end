@@ -5,7 +5,7 @@
           <v-card class="customer-item" :class="index%2===0?'margin-right':''" v-if="showData(index)">
             <v-layout align-start justify-start column>
               <div class="button">
-                <v-btn class="btn-edit" :to="{ name : 'customer-detail'}">
+                <v-btn class="btn-edit" @click="detail(item.customerId)">
                   <i class="material-icons">mode_edit</i>
                 </v-btn>
               </div>
@@ -171,6 +171,11 @@ export default {
         {customerId:'id39',customerName:'Name39',externalId:'CMND39',status:'Active',office:'TML',lastContact:'9/8/2019',matures_date:'2019-08-11T16:01:14.117509+07:00',activeLoan:'39'},
       ];
       this.totalPage = this.getTotalPage(this.items.length);
+    },
+    detail: function (id) {
+      if (isNullOrUndefined(id) === false) {
+        this.$router.push({path: '/customers/customer-detail', query: {id: id}});
+      }
     }
   }
 };

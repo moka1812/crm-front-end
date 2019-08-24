@@ -113,6 +113,20 @@ export default {
         }
     },
 
+    async updateNote({commit}, payload) {
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const data = has.call(payload, 'data') ? payload.data : null
+            const {cus} = await CustomerService.updateNote(id, data)
+        } catch(error) {
+            if (error instanceof CustomerError) {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CUSTOMER_LIST_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
     async getContractActive({commit}, payload) {
         commit(CONTRACT_ACTIVE_REQUEST)
         try {

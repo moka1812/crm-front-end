@@ -158,6 +158,9 @@ export default {
   components: {
     DatePicker,
   },
+  props: {
+    customerIdS: String,
+  },
   data () {
     return {
       dialog: false,

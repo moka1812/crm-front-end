@@ -1,7 +1,7 @@
 <template>
   <v-layout align-space-around justify-start column>
     <v-layout align-center justify-end row class="customer-button-top">
-      <reminder-call-dialog 
+      <call-dialog 
             :flagCustomer="'customer'"
             :phoneNumber1="'+2371412647231'"
             :phoneNumber2="'+2371412647223'"
@@ -15,30 +15,40 @@
     </v-layout>
     <v-layout align-space-around justify-start row fill-height fluid class="content-customer-detail">
       <v-flex xs4 class="container box-customer-info">
-          <customer-info/>
+          <customer-info v-bind:customerId="customerId"/>
       </v-flex>
       <v-flex xs8 class="container box-customer-tabs">
-          <customer-tabs/>
+          <customer-tabs v-bind:customerId="customerId"/>
       </v-flex>
     </v-layout>
   </v-layout>
 </template>
 
 <script>
-import ReminderCallDialog from '../InterestReminderComponent/ReminderCallDialog.vue'
+import CallDialog from '../commonComponent/CallDialog.vue'
 import CustomerTabs from "./CustomerTabs.vue";
 import CustomerInfo from "./CustomerInfo.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "customer-detail",
-  components: { CustomerInfo, CustomerTabs, ReminderCallDialog },
+  components: { CustomerInfo, CustomerTabs, CallDialog },
   data: () => ({
-    customertId: null
+    customerId: null
   }),
   watch: {
+    '$route': {
+      handler: 'getCustomerById',
+      immediate: true
+    }
+  },
+  created() {
+    this.getCustomerById();
   },
   methods: {
+    getCustomerById() {
+      this.customerId = String(this.$route.query.id);
+    },
   }
 };
 </script>

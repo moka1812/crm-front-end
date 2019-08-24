@@ -24,8 +24,8 @@
       </router-link>
       <span class="label-customer">Số Điện Thoại 1:</span>
       <span>{{this.customerDetail.primaryPhone}}</span>
-      <span class="label-customer">Số Điện Thoại 2:</span>
-      <span>{{this.customerDetail.alternativePhone}}</span>
+      <span v-show="disablePhone()" class="label-customer">Số Điện Thoại 2:</span>
+      <span v-show="disablePhone()">{{this.customerDetail.alternativePhone}}</span>
       <span class="label-customer">Địa chỉ:</span>
       <span>{{this.customerDetail.address}}</span>
     </v-layout>
@@ -68,18 +68,9 @@ export default {
       getContractByContractId: 'contract/getContractByContractId',
       getCustomerByCustomerId: 'customer/getCustomerByCustomerId'
     }),
-    getContractById(){
-      this.getContractByContractId({id: this.contractId});
-      this.customerDetail = {
-        customerID: "",
-        fullName: "",
-        primaryPhone: "",
-        alternativePhone: "",
-        address: "",
-      };
-      setTimeout(() => {
-        this.getCustomerById();
-      }, 1000);
+    getContractById:async function(){
+      await this.getContractByContractId({id: this.contractId});
+      this.getCustomerById();
     },
     getCustomerById(){
       if (isNullOrUndefined(this.contractDetail) === false && 
@@ -116,6 +107,9 @@ export default {
           }
       }
       return false;
+    },
+    disablePhone(){
+      return isNullOrUndefined(this.customerDetail.alternativePhone) === false;
     }
   },
   watch: {

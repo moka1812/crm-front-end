@@ -72,34 +72,13 @@ export default {
           text: "Storage Location", value: "storage_location", align: 'center', sortable: false, class: "header wrap-text"
         },
       ],
-      // scheduleListResult: [
-      //           {
-      //               contractId: 1,
-      //               loan_accout: '01/01/2019',
-      //               paid_date: '01/01/2019',
-      //               assset_type: 'Active',
-      //               amount_paid: 'David',
-      //               storage_location: 'Iphone 7',
-      //               original_loan: '5.000.000',
-      //               loan_balance: '4.99',
-      //           },
-      //            {
-      //                contractId: 1,
-      //               loan_accout: '01/01/2019',
-      //               paid_date: '01/01/2019',
-      //               assset_type: 'Active',
-      //               amount_paid: 'David',
-      //               storage_location: 'Iphone 7',
-      //               original_loan: '5.000.000',
-      //               loan_balance: '4.99',
-      //           },
-            
-      // ],
-      // scheduleListRequest: false,
     }
   },
   created() {
     this.getContractClose();
+  },
+  props: {
+    customerId: String,
   },
   computed: {
     ...mapGetters({
@@ -112,7 +91,7 @@ export default {
       contractClose: "customer/getContractClose",
     }),
     getContractClose() {
-      this.contractClose({id : '3'})
+      this.contractClose({id : this.customerId})
     },
   },
 }
