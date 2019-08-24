@@ -33,7 +33,7 @@ export default {
         Vue.set(state, 'flagSchedule', result)
     },
     [CUSTOMER_LIST_REQUEST] (state) {
-        Vue.set(state, 'CUSTOMERListRequest', true)
+        Vue.set(state, 'customerListRequest', true)
         Vue.set(state, 'customerListResult', [])
         Vue.set(state, 'customerListError', '')
         Vue.set(state, 'customerListErrorCode', 200)
