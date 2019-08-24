@@ -690,7 +690,7 @@ export default {
   padding: 20px;
 }
 
-span .break { 
+span { 
   display:block;
   width:733px;
   word-wrap:break-word;
