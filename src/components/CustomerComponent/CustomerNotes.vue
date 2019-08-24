@@ -1,67 +1,93 @@
 <template>
 <div>
     <div class="customer-notes">
-        <v-layout align-start justify-start column>
-            <span v-for="item in notesListResult" :key="item.note_id">
-                {{item.create_data}} &nbsp;-&nbsp; {{item.note}}
-            </span>
-        </v-layout>
+        <textarea :value="notes" disabled rows="10" style="width:100%;height:100%;"></textarea>
     </div>
     <v-flex xs12 sm12 md12 class="border-text">
         <v-text-field
-            v-on:keyup="addNote"
+            v-on:keyup.enter="onEnterNote"
             v-model="text_note"
             label="Nhập ghi chú..."
             outline></v-text-field>
     </v-flex>
+    <confirm-dialog 
+        :textConfirm="textConfirm" 
+        :showDialog="showDialog" 
+        @callBackFunction="addNote($event)"/>
 </div>
 </template>
 
 <script>
-import moment from 'moment'
+import ConfirmDialog from '../commonComponent/ConfirmDialog.vue'
+import moment from 'moment';
+import {mapActions, mapGetters} from 'vuex'
+import { isNullOrUndefined } from 'util';
+
 export default {
   name: "customer-notes-tab",
-  components: {
+  components: { 
+    ConfirmDialog
+  },
+  props: {
+    customerId: String,
+  },
+  created() {
+    this.getNote();
+  },
+  computed: {
+    ...mapGetters({
+      userLogin: 'auth/name',
+      customerDetail: 'customer/customerDetail',
+    })
   },
   data() {
     return {
-      notesListResult: [
-                {
-                  note_id: 1,
-                  create_data: '2019:03:04',
-                  note:'Laptop abc xyz'
-                },
-                {
-                  note_id: 2,
-                  create_data: '2019:03:04',
-                  note:'Laptop abc xyz'
-                },
-                {
-                  note_id: 3,
-                  create_data: '2019:03:04',
-                  note:'Laptop abc xyz'
-                }
-      ],
-      notesListRequest: false,
+      notes: "",
       text_note: "",
+      textConfirm: "Xác nhận cập nhật ghi chú?",
+      showDialog: false
     }
   },
-  mounted() {
+  watch: {
+    loadNote() {
+      this.getNote()
+    },
   },
   methods: {
-    addNote: function(e) {
-      if (e.keyCode === 13) {
-        this.text_note = this.text_note.trim();
-        if (this.text_note != null && this.text_note != "") {
-          const note_id = this.notesListResult.length + 1;
-          this.notesListResult.push(
-            {
-              note_id: note_id,
-              create_data: this.formatDate(new Date()),
-              note: this.text_note
-            }
-          );
+    ...mapActions({
+      getCustomerByCustomerId: 'customer/getCustomerByCustomerId',
+      updateNote: "customer/updateNote",
+    }),
+    getNote:async function(){
+      await this.getCustomerByCustomerId({id: this.customerId});
+      if (isNullOrUndefined(this.customerDetail) === false &&
+          isNullOrUndefined(this.customerDetail.note) === false) {
+        this.notes = this.customerDetail.note;
+      }
+    },
+    onEnterNote: function() {
+      this.text_note = this.text_note.trim();
+      if (this.text_note != "") {
+        this.showDialog=true;
+      }
+    },
+    addNote: async function(flag) {
+      this.showDialog=false;
+      if (flag === true) {
+        if (this.text_note != "") {
+          this.getNote();
+          if (this.notes!=="") {
+            this.notes = this.notes.concat("\r\n");
+          }
+          this.notes = this.notes.concat(this.userLogin)
+                          .concat(" - ")
+                          .concat(this.formatDate(new Date()))
+                          .concat(" - ")
+                          .concat(this.text_note);
           this.text_note="";
+          await this.updateNote({id : this.customerId, data: {note: this.notes}});
+          this.notes = "";
+          this.getNote();
         }
       }
     },
@@ -77,7 +103,7 @@ export default {
 <style>
 .customer-notes {
   margin-top: 15px;
-  padding: 2vw 1vw 2vw 1vw;
+  padding: 0 1vw 0 1vw;
   border: 1px solid #9D9D9D;
   border-radius: 2px;
   height: 50vh;

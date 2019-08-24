@@ -45,7 +45,7 @@
 </template>
 <script>
 export default {
-  name: "reminder-call-dialog",
+  name: "call-dialog",
   components: {
   },
   data () {

@@ -58,7 +58,7 @@ export default {
           text: "Kho", value: "storage_location", align: 'center', sortable: false, class: "header wrap-text"
         },
         {
-          text: "Giá than lý", value: "liquidation_amount", align: 'center', sortable: false, class: "header  wrap-text"
+          text: "Giá thanh lý", value: "liquidation_amount", align: 'center', sortable: false, class: "header  wrap-text"
         },
         {
           text: "Tình trạng thanh lý", value: "liquidation_status", align: 'center', sortable: false, class: "header  wrap-text"
@@ -80,22 +80,20 @@ export default {
     ...mapActions({
       getContractByContractId: 'contract/getContractByContractId'
     }),
-    getContractById(){
-      this.getContractByContractId({id: this.contractId});
-      setTimeout(() => {
-        if (isNullOrUndefined(this.contractDetail)===false) {
-          this.collateralInfoListResult = [
-            {
-              description: this.contractDetail.assetDescription,
-              property_type: this.contractDetail.assetType,
-              storage_id: this.contractDetail.storageId,
-              storage_location: this.contractDetail.branchName,
-              liquidation_amount: '',
-              liquidation_status: ''
-            }
-          ];
-        }
-      }, 1000);
+    getContractById:async function(){
+      await this.getContractByContractId({id: this.contractId});
+      if (isNullOrUndefined(this.contractDetail)===false) {
+        this.collateralInfoListResult = [
+          {
+            description: this.contractDetail.assetDescription,
+            property_type: this.contractDetail.assetType,
+            storage_id: this.contractDetail.storageId,
+            storage_location: this.contractDetail.branchName,
+            liquidation_amount: '',
+            liquidation_status: ''
+          }
+        ];
+      }
     }
   },
   watch: {

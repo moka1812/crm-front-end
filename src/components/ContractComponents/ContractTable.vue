@@ -43,6 +43,7 @@
 <script>
 import ActionButton from './ActionButton.vue'
 import {mapActions, mapGetters} from 'vuex'
+import { isNullOrUndefined } from 'util';
 
 export default {
     name: "table-lib",
@@ -97,9 +98,9 @@ export default {
       ...mapActions({
         getContractList: 'contract/getContractList',
       }),
-      detail: function (contractID) {
-        if (contractID != null) {
-          this.$router.push({path: '/contracts/contract-detail', query: {id: contractID}});
+      detail: function (id) {
+        if (isNullOrUndefined(id) === false) {
+          this.$router.push({path: '/contracts/contract-detail', query: {id: id}});
         }
       }
     },

@@ -57,7 +57,7 @@
       persistent
     >
       <v-card v-if="dialogFlag === 1">
-        <v-card-title class="headline">Xác nhận giấy tờ này?</v-card-title>
+        <v-card-title class="headline">Xác nhận Xóa giấy tờ này?</v-card-title>
 
         <v-card-actions>
           <v-btn

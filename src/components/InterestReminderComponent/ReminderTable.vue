@@ -31,7 +31,7 @@
               <v-btn fab dark small class="mx-2 btn-file" @click = "detail(props.item.contractId)">
                 <i class="material-icons">insert_drive_file</i>
               </v-btn>
-              <reminder-call-dialog 
+              <call-dialog 
                     :flagCustomer="'reminder'"
                     :phoneNumber1="'+2371412647231'"
                     :phoneNumber2="'+2371412647223'"
@@ -52,15 +52,15 @@
 </template>
 
 <script>
+import CallDialog from '../commonComponent/CallDialog.vue'
 import {mapActions, mapGetters} from 'vuex'
 import ContractNotes from '../ContractComponents/ContractNotes.vue';
-import ReminderCallDialogVue from './ReminderCallDialog.vue';
 
 export default {
   name: "reminder-table",
   components: {
-    'contract-notes': ContractNotes,
-    'reminder-call-dialog': ReminderCallDialogVue,
+    'contract-notes': ContractNotes, 
+    'call-dialog': CallDialog
   },
   data() {
     return {

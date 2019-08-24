@@ -5,43 +5,77 @@
     </div>
     <v-flex xs12 sm12 md12 class="border-text">
         <v-text-field
-            v-on:keyup="addNote"
+            v-on:keyup.enter="onEnterNote"
             v-model="text_note"
             label="Nhập ghi chú..."
             outline></v-text-field>
     </v-flex>
+    <confirm-dialog 
+        :textConfirm="textConfirm" 
+        :showDialog="showDialog" 
+        @callBackFunction="addNote($event)"/>
 </div>
 </template>
 
 <script>
+import ConfirmDialog from '../commonComponent/ConfirmDialog.vue'
 import moment from 'moment';
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
+import { isNullOrUndefined } from 'util';
 
 export default {
   name: "contract-notes-tab",
-  components: {
+  components: { 
+    ConfirmDialog
   },
   props: {
     contractId: String,
   },
+  created() {
+    this.getNote();
+  },
   computed: {
     ...mapGetters({
-      userLogin: 'auth/name'
+      userLogin: 'auth/name',
+      contractDetail: 'contract/contractDetail',
     })
   },
   data() {
     return {
       notes: "",
       text_note: "",
+      textConfirm: "Xác nhận cập nhật ghi chú?",
+      showDialog: false
     }
   },
-  mounted() {
+  watch: {
+    loadNote() {
+      this.getNote()
+    },
   },
   methods: {
-    addNote: function(e) {
-      if (e.keyCode === 13) {
-        this.text_note = this.text_note.trim();
+    ...mapActions({
+      getContractByContractId: 'contract/getContractByContractId',
+      updateNote: "contract/updateNote",
+    }),
+    getNote:async function(){
+      await this.getContractByContractId({id: this.contractId});
+      if (isNullOrUndefined(this.contractDetail) === false &&
+          isNullOrUndefined(this.contractDetail.note) === false) {
+        this.notes = this.contractDetail.note;
+      }
+    },
+    onEnterNote: function() {
+      this.text_note = this.text_note.trim();
+      if (this.text_note != "") {
+        this.showDialog=true;
+      }
+    },
+    addNote: async function(flag) {
+      this.showDialog=false;
+      if (flag === true) {
         if (this.text_note != "") {
+          this.getNote();
           if (this.notes!=="") {
             this.notes = this.notes.concat("\r\n");
           }
@@ -51,6 +85,9 @@ export default {
                           .concat(" - ")
                           .concat(this.text_note);
           this.text_note="";
+          await this.updateNote({id : this.contractId, data: {note: this.notes}});
+          this.notes = "";
+          this.getNote();
         }
       }
     },

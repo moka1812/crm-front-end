@@ -1,7 +1,10 @@
 import ApiService from './api.service'
 import { ProfileService, CurrentBranchService } from './storage.service'
-import { deleteContractDocument, contractDoucument, contractCollectoralInfo, contractSummary,
-contractApi, contractById, contractDocumentApi, contractRepaymentSchedule, contractTransaction } from '../config/backend-api'
+import { 
+    deleteContractDocument, contractDoucument, contractCollectoralInfo, contractSummary,
+    contractApi, contractById, contractDocumentApi, contractRepaymentSchedule, 
+    contractTransaction, updateContractNote
+} from '../config/backend-api'
 import moment from 'moment'
 
 class ContractError extends Error {
@@ -150,6 +153,24 @@ const ContractService = {
         }
     },
 
+    updateNote: async function(id, data) {
+        try {
+    
+            const url = updateContractNote.replace(":id", id)
+    
+    
+            const response = await ApiService.patch(url, data)
+            
+            return {
+                cus: response.data,
+            }
+    
+        } catch (error) {
+    
+            throw new ContractError(error.response.status, error.response.data.detail)
+        }
+    },
+
     getContractSummary: async function(id) {
         try {
 
@@ -252,7 +273,8 @@ const ContractService = {
                 branchName: item.branch_name,
                 storageId: item.storage_id,
                 assetDescription: item.asset_description,
-                assetType: item.asset_type
+                assetType: item.asset_type,
+                note: item.note,
             };
             return data
         } catch (error) {
@@ -266,11 +288,11 @@ const ContractService = {
         try {
             for (let item of rawData) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+                const created = new moment(item.created, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
                 
                 const closedDate = null;
                 if (item.close_date !== null) {
-                    closedDate = new moment(item.close_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
+                    closedDate = new moment(item.close_date, "YYYY-MM-DD[T]HH:mm").format("DD/MM/YYYY")
                 }
                  
                 data.push({
@@ -304,7 +326,7 @@ const ContractService = {
         try {
             for (let item of rawData.data) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const created = new moment(item.created.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                const created = new moment(item.created, "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
 
                 data.push({
                     id: item.id,
@@ -327,8 +349,8 @@ const ContractService = {
         try {
             for (let item of rawData.detail.repaymentSchedule.periods) {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                // const date = new moment(item.dueDate.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
-                // const paid = new moment(item.date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                // const date = new moment(item.dueDate, "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                // const paid = new moment(item.date, "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
                 const date = '15/03/2016'
                 const paid = '15/03/2016'
 
@@ -418,7 +440,7 @@ const ContractService = {
                 //Example created: "2019-05-31T14:16:03.932314+07:00"   
                 const date = '11/02/2016'
                 // if (item.date !== null && item.date !== '') {
-                //     date = new moment(item.date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                //     date = new moment(item.date, "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
                 // }
             
                 data.push({

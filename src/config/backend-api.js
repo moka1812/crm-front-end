@@ -48,6 +48,8 @@ export const contractTransaction = `${baseURL}/contracts/:id/transaction-log/`
 
 export const contractRepaymentSchedule = `${baseURL}/contracts/:id/repayment-schedule/`
 
+export const updateContractNote = `${baseURL}/contracts/:id/`
+
 export const customerApi = `${baseURL}/client/`
 
 export const customerDoucument = `${baseURL}/client/:id/client-docs/`
@@ -69,4 +71,6 @@ export const uploadBankAccout = `${baseURL}/client-banks/`
 export const deleteBankAccout = `${baseURL}/client-banks/:id/`
 
 export const updateBankAcout = `${baseURL}/client-banks/:id/`
+
+export const updateCustomerNote = `${baseURL}/client/:id/`
 

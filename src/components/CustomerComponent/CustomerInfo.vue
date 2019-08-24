@@ -4,7 +4,7 @@
           <img src="../../assets/default-avatar.png" alt="logo" class="avatar-img">
           <div class="box-customer-name">
             <h2 class="customer-name">{{customertDetail.customerName}}</h2>
-            <customer-info-edit-dialog/>
+            <customer-info-edit-dialog v-bind:customerIdS="customerId"/>
           </div>
           <span>Mã KH #: {{customertDetail.customerId}}</span>
           <span>Chi Nhánh: {{customertDetail.branch}}</span>

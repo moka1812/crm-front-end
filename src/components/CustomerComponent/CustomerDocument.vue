@@ -31,7 +31,7 @@
             </v-btn>
           </td>
           <td class="text-xs-center content">
-            <v-btn @click.stop="openDialog(props.item.id)" class="btn-download">
+            <v-btn @click.stop="openDialog(props.item.id)" class="btn-delete">
               <i class="material-icons">delete</i>
             </v-btn>
           </td>
@@ -123,6 +123,9 @@ export default {
   components: {
     Loading
   },
+  props: {
+    customerId: String,
+  },
   data() {
     return {
       headers: [
@@ -190,31 +193,16 @@ export default {
       uploadCustomerDocument: "customer/uploadCustomerDocument"
     }),
     getDocument() {
-      this.getCustomerDocument({ id: "1" });
+      this.getCustomerDocument({ id: this.customerId });
     },
     viewDocument: function(link) {
       window.open(link, "_blank");
-    },
-    async downloadItem(url) {
-      axios.get(url, {
-        crossdomain: true,
-        })
-        .then(({ data }) => {
-          let blob = new Blob([data], { type: 'image/png' })
-          let link = document.createElement('a')
-          link.href = window.URL.createObjectURL(blob)
-          link.download = 'image.png'
-          link.click()
-        .catch(error => {
-          console.error(error)
-        })
-      })
     },
     deleteDocument: function() {
       this.deleteCustomerDocument({ id: this.documentId });
       this.dialog = false;
       setTimeout(() => {
-        this.getCustomerDocument({ id: "1" });
+        this.getCustomerDocument({ id: this.customerId });
       }, 1000);
     },
     back: function() {
@@ -267,7 +255,7 @@ export default {
       setTimeout(() => {
         this.isLoading = false;
         this.dialog = false;
-        this.getCustomerDocument({ id: "1" });
+        this.getCustomerDocument({ id: this.customerId });
       }, 5000);
       this.fileUpload = null;
       this.confirmDisabled = true;
