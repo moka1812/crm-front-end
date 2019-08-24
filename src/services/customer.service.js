@@ -1,8 +1,9 @@
 import ApiService from './api.service'
 import { ProfileService, CurrentBranchService } from './storage.service'
 import { AssetService, AssetError } from './asset.serivce'
-import { deleteCustomerDocument, customerDoucument, customerCollectoralInfo, customerSummary,
-customerApi, customerById, customerDocumentApi, customerRepaymentSchedule, customerTransaction } from '../config/backend-api'
+import { deleteCustomerDocument, customerDoucument, customerBankAccout, customerSummary,
+customerApi, customerById, customerDocumentApi, contractActive, contractClose, uploadBankAccout
+,deleteBankAccout, updateBankAcout} from '../config/backend-api'
 import moment from 'moment'
 
 class CustomerError extends Error {
@@ -133,25 +134,41 @@ const CustomerService = {
         }
     },
 
-    getCustomerRepaymentSchedule: async function(id) {
+    getContractActive: async function(id) {
         try {
 
-            const url = customerRepaymentSchedule.replace(":id", id)
+            const url = contractActive.replace(":id", id)
 
             const response = await ApiService.get(url)
 
-            const data = this.filterRawRepaymentSchedule(response.data)
+            const data = this.filterRawContractActive(response.data)
 
-            const total = this.filterRawCustomerTotalSchedule(response.data)
-            
             return {
-                customers: data,
-                total: total
+                cus: data,
             }
 
         } catch (error) {
 
             throw new CustomerError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    getContractClose: async function(id) {
+        try {
+
+            const url = contractClose.replace(":id", id)
+
+            const response = await ApiService.get(url)
+
+            const data = this.filterRawContractClose(response.data)
+
+            return {
+                cus: data,
+            }
+
+        } catch (error) {
+
+            throw CustomerError(error.response.status, error.response.data.detail)
         }
     },
 
@@ -174,26 +191,97 @@ const CustomerService = {
             throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
-
-    getCustomerTransactionLog: async function(id) {
+    // get bank accout
+    getBankAccout: async function(id) {
 
         try {
 
-            const url = customerTransaction.replace(":id", id)
+            const url = customerBankAccout.replace(":id", id)
 
             const response = await ApiService.get(url)
 
-            const data = this.filterRawTransactionInfo(response.data)
+            const data = this.filterRawBankAccout(response.data)
             
             return {
-                customers: data,
+                cus: data,
             }
 
         } catch (error) {
 
-            throw new CustomerError(error.response.status, error.response.data.detail)
+            throw CustomerError(error.response.status, error.response.data.detail)
         }
 
+    },
+
+    // upload client bank
+    deleteBankAccout: async function(id) {
+        try {
+            const url = deleteBankAccout.replace(":id", id)
+
+            const response = await ApiService.delete(url)
+            
+            return {
+                cus: response.data,
+            }
+
+        } catch (error) {
+
+            throw CustomerError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    // delete client bank
+    uploadBankAccout: async function(data) {
+        try {
+
+            const response = await ApiService.post(uploadBankAccout, data)
+            
+            return {
+                cus: response.data,
+            }
+
+        } catch (error) {
+
+            throw CustomerError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    // delete client bank
+    updateBankAccout: async function(id, data) {
+    try {
+
+        const url = updateBankAcout.replace(":id", id)
+
+
+        const response = await ApiService.put(url, data)
+        
+        return {
+            cus: response.data,
+        }
+
+    } catch (error) {
+
+        throw CustomerError(error.response.status, error.response.data.detail)
+    }
+    },
+
+    filterRawBankAccout: function(rawData) {
+        const data = []
+        try {
+            for (let item of rawData.data) {
+                data.push({
+                    id: item.id,
+                    name: item.bank_account_name,
+                    bank: item.bank_name,
+                    bank_accout: item.bank_account_no,
+                    branch: item.bank_branch,
+                })
+            }
+            return data
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
     },
 
     filterRawCustomer: function(item) {
@@ -204,7 +292,7 @@ const CustomerService = {
                 fullName: item.full_name,
                 primaryPhone: item.primary_phone,
                 alternativePhone: item.alternative_phone,
-                address: item.fulladdress,
+                address: item.address + " " + item.district+ " " + item.city,
             };
             return data
         } catch (error) {
@@ -263,30 +351,21 @@ const CustomerService = {
         }
     },
 
-    filterRawRepaymentSchedule: function(rawData) {
+    filterRawContractActive: function(rawData) {
         const data = []
         try {
-            for (let item of rawData.detail.repaymentSchedule.periods) {
-                //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                // const date = new moment(item.dueDate.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
-                // const paid = new moment(item.date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
-                const date = '15/03/2016'
-                const paid = '15/03/2016'
-
+            for (let item of rawData.data) {
+                // Example created: "2019-05-31T14:16:03.932314+07:00"   
+                const created = new moment(item.due_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                const type = item.acssetId === null ? '' : item.asset_description
                 data.push({
-                    day: item.daysInPeriod,
-                    date: date,
-                    paid_date: paid,
-                    principal_due: item.due,
-                    blance_of_loan: item.principalLoanBalanceOutstanding,
-                    interest: item.interestDue,
-                    fees: '',
-                    fenalties: '',
-                    due: item.totalDueForPeriod,
-                    pain: item.totalPaidForPeriod,
-                    in_advance: item.totalPaidInAdvanceForPeriod,
-                    late: item.totalPaidLateForPeriod,
-                    outstanding: item.totalOutstandingForPeriod
+                    contractId: item.mifos_id,
+                    loan_accout: item.interest_value,
+                    paid_date: created,
+                    assset_type:  '',
+                    storage_location: item.branch_name,
+                    status: item.status,
+                    loan_balance: item.approved_amount
                 })
             }
             return data
@@ -296,82 +375,25 @@ const CustomerService = {
         }
     },
 
-    filterRawCustomerTotalSchedule: function(item) {
-        let total = null;
-        try {
-            total = {
-                // Total Outstanding
-                totalOutstanding: item.detail.repaymentSchedule.totalOutstanding,
-                // Total Late
-                totalPaidLate: item.detail.repaymentSchedule.totalPaidLate,
-                // Total In Advance
-                totalAdvancePayment: item.detail.repaymentSchedule.totalAdvancePayment,
-                // Total Paid
-                totalRepayment: item.detail.repaymentSchedule.totalRepayment,
-                // Total Due
-                totalRepaymentExpected: item.detail.repaymentSchedule.totalRepaymentExpected,
-                // Total Penalties
-                totalPenaltyChargesCharged: item.detail.repaymentSchedule.totalPenaltyChargesCharged,
-                // Total Fees
-                totalFeeChargesCharged: item.detail.repaymentSchedule.totalFeeChargesCharged,
-                //Total Interest
-                totalInterestCharged: item.detail.repaymentSchedule.totalInterestCharged,
-                // Total Principle due
-                totalPrincipalExpected: item.detail.repaymentSchedule.totalPrincipalExpected,
-            }
-            return total
-        } catch (error) {
-            console.log(error)
-            throw error
-        }
-    },
-
-    // chưa có bản map, đang chờ bản map
-    filterRawCollectoralInfo: function(rawData) {
+    filterRawContractClose: function(rawData) {
         const data = []
         try {
-
-        } catch (error) {
-            console.log(error)
-            throw error
-        }
-    },
-
-    filterRawTransactionInfo: function(rawData) {
-        const data = []
-        if (rawData.detail.length > 0) {
-            data.push(
-                {
-                    office: '',
-                    transaction_date: '',
-                    transaction_type: '',
-                    amount: '',
-                    principal: 'Gốc',
-                    interest: 'Lãi',
-                    fee: 'Phí',
-                    penalties: 'Lãi thêm',
-                    loan_balance: '',
-                },
-            )
-        }
-        try {
-            for (let item of rawData.detail) {
-                //Example created: "2019-05-31T14:16:03.932314+07:00"   
-                const date = '11/02/2016'
-                // if (item.date !== null && item.date !== '') {
-                //     date = new moment(item.date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
-                // }
-            
+            for (let item of rawData.data) {
+                // Example created: "2019-05-31T14:16:03.932314+07:00"   
+                const dueDate = new moment(item.due_date.substring(0, 16), "YYYY-MM-DD[T]HH:mm").format("DD-MM-YYYY HH:mm")
+                const type = item.asset_type === null ? '' : item.asset_description
+                if (type.length > 30) {
+                    type = type.substring(0, 30) + '...'
+                }
+                const store = item.storage_id === null ? '' : item.branch_name
                 data.push({
-                    office: item.officeName,
-                    transaction_date: date,
-                    transaction_type: item.type.value,
-                    amount: item.amount,
-                    principal:  item.principalPortion,
-                    fee: item.feeChargesPortion,
-                    interest: item.interestPortion,
-                    penalties: item.penaltyChargesPortion,
-                    loan_balance: item.outstandingLoanBalance,
+                    contractId: item.mifos_id,
+                    loan_accout: item.interest_value,
+                    paid_date: dueDate,
+                    assset_type:  type,
+                    storage_location: store,
+                    status: item.status,
+                    loan_balance: item.approved_amount
                 })
             }
             return data
@@ -380,96 +402,6 @@ const CustomerService = {
             throw error
         }
     },
-
-    filterRawSummary: function(rawData) {
-        let data = []
-        let principal = null
-        let interest = null
-        let fees = null
-        let storage = null
-        let peanalties = null
-        principal = {
-            original: 'Gốc',
-            css:'bold-text',
-            loan_amount: rawData.detail.principalDisbursed,
-            paid: rawData.detail.principalPaid,
-            waived: rawData.detail.principalNetDisbursed,
-            outstanding: rawData.detail.principalOutstanding,
-            unpaid: rawData.detail.principalWrittenOff,
-            overdue: rawData.detail.principalOverdue,
-        }
-        data.push(principal)
-        interest = {
-            original: 'Lãi',
-            css:'bold-text',
-            loan_amount: rawData.detail.interestCharged,
-            paid: rawData.detail.interestPaid,
-            waived: rawData.detail.interestWaived,
-            outstanding: rawData.detail.interestOutstanding,
-            unpaid: rawData.detail.interestWrittenOff,
-            overdue: rawData.detail.interestOverdue,
-        }
-        data.push(interest)
-        fees = {
-            original: 'Phí',
-            css:'bold-text',
-            loan_amount: rawData.detail.feeChargesCharged,
-            paid: rawData.detail.feeChargesPaid,
-            waived: rawData.detail.interestWaived,
-            outstanding: rawData.detail.interestOutstanding,
-            unpaid: rawData.detail.interestWrittenOff,
-            overdue: rawData.detail.interestOverdue,
-        }
-        data.push(fees)
-        storage = {
-            original: 'Storage',
-            css:'normal-text',
-            loan_amount: 0,
-            paid: 0,
-            waived: 0,
-            outstanding: 0,
-            unpaid: 0,
-            overdue: 0,
-        }
-        data.push(storage)
-        peanalties = {
-            original: 'Lãi trễ',
-            css:'bold-text',
-            loan_amount: rawData.detail.penaltyChargesCharged,
-            paid: rawData.detail.penaltyChargesPaid,
-            waived: rawData.detail.penaltyChargesWaived,
-            outstanding: rawData.detail.penaltyChargesOutstanding,
-            unpaid: rawData.detail.penaltyChargesWrittenOff,
-            overdue: rawData.detail.penaltyChargesOverdue,
-        }
-        data.push(peanalties)
-        // const total = {
-        //     original: 'Tổng',
-        //     css:'bold-text',
-        //     loan_amount: rawData.detail.totalExpectedRepayment,
-        //     paid: rawData.detail.totalRepayment,
-        //     waived: rawData.detail.totalWaived,
-        //     outstanding: rawData.detail.totalOutstanding,
-        //     unpaid: rawData.detail.totalWrittenOff.totalWrittenOff,
-        //     overdue: rawData.detail.totalOverdue,
-        // }
-        // data.push(total)
-        return data
-    },
-
-    filterTotalSummary: function(rawData) {
-        const total = {
-            original: 'Tổng',
-            css:'bold-text',
-            loan_amount: rawData.detail.totalExpectedRepayment,
-            paid: rawData.detail.totalRepayment,
-            waived: rawData.detail.totalWaived,
-            outstanding: rawData.detail.totalOutstanding,
-            unpaid: rawData.detail.totalWrittenOff.totalWrittenOff,
-            overdue: rawData.detail.totalOverdue,
-        }
-        return total
-    }
 
 }
 

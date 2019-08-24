@@ -222,6 +222,10 @@ export default {
       this.maxWidth = 800
       this.dialog = true
       this.dialogFlag = 3
+      this.nameInput = ''
+      this.bankName = ''
+      this.bankNo = ''
+      this.bankBranch = ''
     },
     // open modal delete
     deleteBankAccout: function(id) {
