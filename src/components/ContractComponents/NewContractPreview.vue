@@ -631,7 +631,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .container-repayment-preview {
   padding: 0px !important;
 }
@@ -690,7 +690,7 @@ export default {
   padding: 20px;
 }
 
-span { 
+span .break { 
   display:block;
   width:733px;
   word-wrap:break-word;
