@@ -3,12 +3,12 @@
     <v-layout align-center justify-center column class="customer-info">
           <img src="../../assets/default-avatar.png" alt="logo" class="avatar-img">
           <div class="box-customer-name">
-            <h2 class="customer-name">{{customertDetail.customerName}}</h2>
+            <h2 class="customer-name">{{this.customerDetail.fullName}}</h2>
             <customer-info-edit-dialog v-bind:customerIdS="customerId"/>
           </div>
-          <span>Mã KH #: {{customertDetail.customerId}}</span>
-          <span>Chi Nhánh: {{customertDetail.branch}}</span>
-          <span>Người Tạo: {{customertDetail.staff}}</span>
+          <span>Mã KH #: {{this.customerDetail.customerId}}</span>
+          <span>Chi Nhánh: {{this.customerDetail.branchName}}</span>
+          <span>Người Tạo: {{this.customerDetail.createdName}}</span>
     </v-layout>
     <v-layout align-center justify-center row class="customer-info-bottom">
       <v-flex xs5 class="rating-customer">
@@ -22,7 +22,14 @@
         |
       </v-flex>
       <v-flex xs5>
-        <span>2 Order - 10 Khoản vay</span>
+        <span>
+          {{
+              this.convertNullUndefined(this.customerTH.totalOrder)
+            + ' Order - ' 
+            + this.convertNullUndefined(this.customerTH.totalLoan) 
+            + ' Khoản vay'
+          }}
+        </span>
       </v-flex>
     </v-layout>
     <div class="class-border"></div>
@@ -35,40 +42,40 @@
           <tr>
             <td>
               <span class="label">Số Điện Thoại 1:</span><br>
-              <span>+84013218328</span>
+              <span>{{this.customerDetail.primaryPhone}}</span>
             </td>
             <td>
-              <span class="label">Số Điện Thoại 2:</span><br>
-              <span>+84013218328</span>
+              <span v-show="disablePhone()" class="label">Số Điện Thoại 2:</span><br>
+              <span v-show="disablePhone()">{{this.customerDetail.alternativePhone}}</span>
             </td>
           </tr>
           <tr style="height:8px;"></tr>
           <tr>
             <td colspan="2">
               <span class="label">Địa Chỉ Nhà:</span><br>
-              <span>245 Lê Văn Việt - P.Tăng Nhơn Phú A - Q.9 - Tp.HCM</span>
+              <span>{{this.customerDetail.address}}</span>
             </td>
           </tr>
           <tr style="height:8px;"></tr>
           <tr>
             <td>
               <span class="label">CMND/HC:</span><br>
-              <span>241234353</span>
+              <span>{{this.customerDetail.nationalId}}</span>
             </td>
             <td>
-              <span class="label">Ngày Cấp:</span><br>
-              <span>2018/03/16</span>
+              <span class="label">Ngày Tạo:</span><br>
+              <span>{{this.customerDetail.created}}</span>
             </td>
           </tr>
           <tr style="height:8px;"></tr>
           <tr>
             <td>
               <span class="label">Năm Sinh:</span><br>
-              <span>1996/03/16</span>
+              <span>{{this.customerDetail.dateOfBirth}}</span>
             </td>
             <td>
               <span class="label">Giới Tính:</span><br>
-              <span>Nam</span>
+              <span>{{this.customerDetail.gender}}</span>
             </td>
           </tr>
         </tbody>
@@ -83,37 +90,37 @@
         <tbody>
           <tr>
             <td>
-              <span>Client loan cycle:</span>
-              <span>11</span>
+              <span>Tổng số HĐ:</span>
+              <span>{{this.customerTH.totalContract}}</span>
             </td>
             <td>
-              <span class="label">Last contact:</span>
-              <span>2018/03/11</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span>Total active loan:</span>
-              <span>11</span>
-            </td>
-            <td>
-              <span class="label">Last disbursal date:</span>
+              <span class="label">Liên hệ gần nhất:</span>
+              <span></span>
             </td>
           </tr>
           <tr>
             <td>
-              <span>Total loan:</span>
-              <span>12</span>
+              <span>Tổng HĐ đang mở:</span>
+              <span>{{this.customerTH.totalActiveContract}}</span>
             </td>
             <td>
-              <span>2018/03/11</span>
+              <span class="label">Lần giải ngân gần nhất:</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span>Tổng khoản vay:</span>
+              <span>{{this.customerTH.totalLoan}}</span>
+            </td>
+            <td>
+              <span>{{this.customerTH.lastDisburse}}</span>
             </td>
           </tr>
         </tbody>
       </table>
       <v-layout align-center justify-center row class="performance-history-bottom">
         <img src="../../assets/default-avatar.png" alt="logo" class="avatar-img">
-        <span>Cập nhật gần nhât: </span><strong>Davit phạm</strong>
+        <span>Cập nhật gần nhât: </span><strong>{{this.customerTH.lastUpdatedName}}</strong>
       </v-layout>
     </v-layout>
   </v-card>
@@ -122,6 +129,7 @@
 <script>
 import CustomerInfoEditDialog from './CustomerInfoEditDialog.vue'
 import { mapActions, mapGetters } from "vuex";
+import { isNullOrUndefined } from 'util';
 
 export default {
   name: "customer-info",
@@ -130,24 +138,37 @@ export default {
     customerId: String,
   },
   data: () => ({
-    customertDetail: {
-      customerId:'32785423',
-      customerName: "Trịnh thanh bình",
-      externalId: "3242141",
-      branch: "TML",
-      staff: "An Nhiên"
-    }
+    customerTH: {}
   }),
   created() {
+    this.getCustomerById();
   },
   computed: {
-    
+    ...mapGetters({
+      customerDetail: 'customer/customerDetail',
+      // customerTH: 'customer/customerTH'
+    }),
   },
   methods: {
+    ...mapActions({
+      getCustomerByCustomerId: 'customer/getCustomerByCustomerId',
+      getCustomerTransactionHistory: 'customer/getCustomerTransactionHistory'
+    }),
+    getCustomerById:async function(){
+      await this.getCustomerByCustomerId({id: this.customerId});
+      // await this.getCustomerTransactionHistory({id: this.customerId});
+    },
+    disablePhone(){
+      return isNullOrUndefined(this.customerDetail.alternativePhone) === false;
+    },
+    convertNullUndefined(value) {
+      if (isNullOrUndefined(value) === true) {
+        return '0'
+      } else {
+        return value;
+      }
+    }
   },
-  watch: {
-  },
-  
 };
 </script>
 

@@ -39,12 +39,14 @@ export default {
     [CUSTOMER_LIST_REQUEST] (state) {
         Vue.set(state, 'customerListRequest', true)
         Vue.set(state, 'customerListResult', [])
+        Vue.set(state, 'customerCountResult', 0)
         Vue.set(state, 'customerListError', '')
         Vue.set(state, 'customerListErrorCode', 200)
     },
-    [CUSTOMER_LIST_SUCCESS] (state, {customers}) {
+    [CUSTOMER_LIST_SUCCESS] (state, {customers, count}) {
         Vue.set(state, 'customerListRequest', false)
         Vue.set(state, 'customerListResult', customers)
+        Vue.set(state, 'customerCountResult', count)
         Vue.set(state, 'customerListError', '')
         Vue.set(state, 'customerListErrorCode', 200)
     },
@@ -61,13 +63,13 @@ export default {
     },
     [CUSTOMER_DETAIL_ERROR] (state, {errorCode, errorMessage}) {
         Vue.set(state, 'customerDetailForm', false)
-        Vue.set(state, 'customerDetail', null)
+        Vue.set(state, 'customerDetail', {})
         Vue.set(state, 'customerDetailError', errorMessage)
         Vue.set(state, 'customerDetailErrorCode', errorCode)
     },
     [CUSTOMER_DETAIL_REQUEST] (state) {
         Vue.set(state, 'customerDetailForm', false)
-        Vue.set(state, 'customerDetail', null)
+        Vue.set(state, 'customerDetail', {})
         Vue.set(state, 'customerDetailErrorCode', 0)
         Vue.set(state, 'customerDetailError', '')
     },
@@ -79,13 +81,13 @@ export default {
     },
     [CUSTOMER_TH_ERROR] (state, {errorCode, errorMessage}) {
         Vue.set(state, 'customerTHForm', false)
-        Vue.set(state, 'customerTH', null)
+        Vue.set(state, 'customerTH', {})
         Vue.set(state, 'customerTHError', errorMessage)
         Vue.set(state, 'customerTHErrorCode', errorCode)
     },
     [CUSTOMER_TH_REQUEST] (state) {
         Vue.set(state, 'customerTHForm', false)
-        Vue.set(state, 'customerTH', null)
+        Vue.set(state, 'customerTH', {})
         Vue.set(state, 'customerTHErrorCode', 0)
         Vue.set(state, 'customerTHError', '')
     },

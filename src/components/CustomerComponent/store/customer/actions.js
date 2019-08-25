@@ -38,8 +38,8 @@ export default {
         try {
             const page = has.call(payload, 'page') ? payload.page : null
             const condition = has.call(payload, 'condition') ? payload.condition : null
-            const {customers} = await CustomerService.getCustomerList(page, condition)
-            commit(CUSTOMER_LIST_SUCCESS, {customers})
+            const {customers, count} = await CustomerService.getCustomerList(page, condition)
+            commit(CUSTOMER_LIST_SUCCESS, {customers, count})
         } catch (error) {
             if (error instanceof CustomerError) {
                 commit(CUSTOMER_LIST_ERROR, {errorCode: error.errorCode, errorMessage: error.message})

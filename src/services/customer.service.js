@@ -33,13 +33,16 @@ const CustomerService = {
                 url = customerApi.concat("?name=", condition);
             }
 
+            if (page !== null && page !== 1) {
+                url = `${url}?page_size=${page}`
+            }
             const response = await ApiService.get(url)
 
-            const data = this.filterRawCustomerList(response.data)
+            const data = this.filterRawCustomerList(response.data.results)
             
             return {
                 customers: data,
-                // count: response.data['count'],
+                count: response.data.count,
                 // links: response.data['links'],
             }
 
