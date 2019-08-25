@@ -23,6 +23,11 @@ export default  {
         return state.customerDetail
     },
 
+    customerTH: (state) => {
+        return state.customerTH
+    },
+
+
     customerDetailErrorCode: (state) => {
         return state.customerDetailErrorCode
     },
