@@ -6,6 +6,7 @@ import {
     CUSTOMER_LIST_SUCCESS,
     CUSTOMER_LIST_ERROR,
     CUSTOMER_DETAIL_SUCCESS,
+    CUSTOMER_DETAIL_ERROR,
     CUSTOMER_DETAIL_REQUEST,
     CUSTOMER_FINDING_ERROR,
     CUSTOMER_FINDING_SUCCESS,
@@ -26,6 +27,9 @@ import {
     CONTRACT_CLOSE_RESULT,
     BANK_ACCOUT_REQUEST,
     BANK_ACCOUT_RESULT,
+    CUSTOMER_TH_REQUEST,
+    CUSTOMER_TH_SUCCESS,
+    CUSTOMER_TH_ERROR,
 } from './types'
 
 export default {
@@ -55,11 +59,35 @@ export default {
         Vue.set(state, 'customerDetailErrorCode', 200)
         Vue.set(state, 'customerDetailError', '')
     },
+    [CUSTOMER_DETAIL_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'customerDetailForm', false)
+        Vue.set(state, 'customerDetail', null)
+        Vue.set(state, 'customerDetailError', errorMessage)
+        Vue.set(state, 'customerDetailErrorCode', errorCode)
+    },
     [CUSTOMER_DETAIL_REQUEST] (state) {
         Vue.set(state, 'customerDetailForm', false)
         Vue.set(state, 'customerDetail', null)
         Vue.set(state, 'customerDetailErrorCode', 0)
         Vue.set(state, 'customerDetailError', '')
+    },
+    [CUSTOMER_TH_SUCCESS] (state, {customerTH}) {
+        Vue.set(state, 'customerTHForm', true)
+        Vue.set(state, 'customerTH', customerTH)
+        Vue.set(state, 'customerTHErrorCode', 200)
+        Vue.set(state, 'customerTHError', '')
+    },
+    [CUSTOMER_TH_ERROR] (state, {errorCode, errorMessage}) {
+        Vue.set(state, 'customerTHForm', false)
+        Vue.set(state, 'customerTH', null)
+        Vue.set(state, 'customerTHError', errorMessage)
+        Vue.set(state, 'customerTHErrorCode', errorCode)
+    },
+    [CUSTOMER_TH_REQUEST] (state) {
+        Vue.set(state, 'customerTHForm', false)
+        Vue.set(state, 'customerTH', null)
+        Vue.set(state, 'customerTHErrorCode', 0)
+        Vue.set(state, 'customerTHError', '')
     },
     //customer Finding Function
     [CUSTOMER_FINDING_REQUEST] (state) {

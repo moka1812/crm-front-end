@@ -24,6 +24,9 @@ import {
     CONTRACT_CLOSE_RESULT,    
     BANK_ACCOUT_REQUEST,
     BANK_ACCOUT_RESULT,
+    CUSTOMER_TH_SUCCESS,
+    CUSTOMER_TH_ERROR,
+    CUSTOMER_TH_REQUEST
 } from './types'
 import {CustomerService, CustomerError} from '../../../../services/customer.service'
 
@@ -34,7 +37,8 @@ export default {
         commit(CUSTOMER_LIST_REQUEST)
         try {
             const page = has.call(payload, 'page') ? payload.page : null
-            const {customers} = await CustomerService.getCustomerList(page)
+            const condition = has.call(payload, 'condition') ? payload.condition : null
+            const {customers} = await CustomerService.getCustomerList(page, condition)
             commit(CUSTOMER_LIST_SUCCESS, {customers})
         } catch (error) {
             if (error instanceof CustomerError) {
@@ -45,29 +49,32 @@ export default {
         }
     },
 
-    async getCustomerDetail({commit, getters}, payload) {
-        commit(CUSTOMER_DETAIL_REQUEST)
-        const customerListResult = getters.customerListResult
-        for (let customer of customerListResult) {
-            if (customer.customerID == payload.customerID) {
-                commit(CUSTOMER_DETAIL_SUCCESS, {customer})
-                return true
-            }
-        }
-        commit(CUSTOMER_DETAIL_ERROR, {errorCode: 404, errorMessage: "Not found"})
-    },
-
     async getCustomerByCustomerId({commit}, payload) {
-        commit(CUSTOMER_FINDING_REQUEST)
+        commit(CUSTOMER_DETAIL_REQUEST)
         try {
             const id = has.call(payload, 'id') ? payload.id : null
             const {customer} = await CustomerService.getCustomerByCustomerId(id)
             commit(CUSTOMER_DETAIL_SUCCESS, {customer})
         } catch (error) {
             if (error instanceof CustomerError) {
-                commit(CUSTOMER_FINDING_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+                commit(CUSTOMER_DETAIL_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
             } else {
-                commit(CUSTOMER_FINDING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+                commit(CUSTOMER_DETAIL_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
+            }
+        }
+    },
+
+    async getCustomerTransactionHistory({commit}, payload) {
+        commit(CUSTOMER_TH_REQUEST)
+        try {
+            const id = has.call(payload, 'id') ? payload.id : null
+            const {customerTH} = await CustomerService.getCustomerTransactionHistory(id)
+            commit(CUSTOMER_TH_SUCCESS, {customerTH})
+        } catch (error) {
+            if (error instanceof CustomerError) {
+                commit(CUSTOMER_TH_ERROR, {errorCode: error.errorCode, errorMessage: error.message})
+            } else {
+                commit(CUSTOMER_TH_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
     },

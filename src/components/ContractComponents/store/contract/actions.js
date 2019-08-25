@@ -69,18 +69,6 @@ export default {
         }
     },
 
-    async getContractDetail({commit, getters}, payload) {
-        commit(CONTRACT_DETAIL_REQUEST)
-        const contractListResult = getters.contractListResult
-        for (let contract of contractListResult) {
-            if (contract.contractID == payload.contractID) {
-                commit(CONTRACT_DETAIL_SUCCESS, {contract})
-                return true
-            }
-        }
-        commit(CONTRACT_DETAIL_ERROR, {errorCode: 404, errorMessage: "Not found"})
-    },
-
     async getContractByContractId({commit}, payload) {
         commit(CONTRACT_FINDING_REQUEST)
         try {

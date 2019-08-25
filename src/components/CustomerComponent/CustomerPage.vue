@@ -71,6 +71,9 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   name: "customer-page",
   components: {},
+  props: {
+    condition: String,
+  },
   data: function() {
     return {
       curentPage: 1,
@@ -120,7 +123,7 @@ export default {
       }
     },
     getListCustomers:async function() {
-      await this.getCustomerList(this.curentPage);
+      await this.getCustomerList({page: this.curentPage, condition: this.condition});
       this.totalPage = this.getTotalPage(this.customerListResult.length);
     },
     detail: function (id) {

@@ -12,6 +12,11 @@ export default function initialState () {
         customerDetailErrorCode: 0,
         customerDetailError: '',
 
+        customerTHForm: false,
+        customerTH: null,
+        customerTHErrorCode: 0,
+        customerTHError: '',
+
         customerFindingError: '',
         customerFindingErrorCode: 0,
 

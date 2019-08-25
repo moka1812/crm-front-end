@@ -74,3 +74,4 @@ export const updateBankAcout = `${baseURL}/client-banks/:id/`
 
 export const updateCustomerNote = `${baseURL}/client/:id/`
 
+export const customerTransactionHistory = `${baseURL}/client/:id/transaction_history/`

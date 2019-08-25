@@ -3,9 +3,11 @@ import { ProfileService } from './storage.service'
 import { 
     deleteCustomerDocument, customerDoucument, customerBankAccout,
     customerApi, customerById, customerDocumentApi, contractActive, contractClose, 
-    uploadBankAccout,deleteBankAccout, updateBankAcout, updateCustomerNote
+    uploadBankAccout,deleteBankAccout, updateBankAcout, updateCustomerNote,
+    customerTransactionHistory,
 } from '../config/backend-api'
 import moment from 'moment'
+import { isNullOrUndefined } from 'util';
 
 class CustomerError extends Error {
     constructor(errorCode, message) {
@@ -18,10 +20,18 @@ class CustomerError extends Error {
 
 const CustomerService = {
 
-    getCustomerList: async function(page) {
+    getCustomerList: async function(page, condition) {
         try {
 
-            let url = customerApi
+            let url = null;
+            
+            if (isNullOrUndefined(condition) === true || condition === "") {
+                url = customerApi;
+            } else if (isNaN(condition) === false) {
+                url = customerApi.concat("?nationalid=", condition);
+            } else {
+                url = customerApi.concat("?name=", condition);
+            }
 
             const response = await ApiService.get(url)
 
@@ -50,6 +60,27 @@ const CustomerService = {
             
             return {
                 customer: data,
+                // count: response.data['count'],
+                // links: response.data['links'],
+            }
+
+        } catch (error) {
+
+            throw new CustomerError(error.response.status, error.response.data.detail)
+        }
+    },
+
+    getCustomerTransactionHistory: async function(id) {
+        try {
+
+            const url = customerTransactionHistory.replace(":id", id)
+
+            const response = await ApiService.get(url)
+
+            const data = this.filterRawCustomerTH(response.data)
+            
+            return {
+                customerTH: data,
                 // count: response.data['count'],
                 // links: response.data['links'],
             }
@@ -305,10 +336,16 @@ const CustomerService = {
     filterRawCustomer: function(item) {
         let data = null;
         try {
-            let dateOfBirth = new moment(item.date_of_birth, "YYYY-MM-DD").format("DD/MM/YYYY")
-            data = {
+            const dateOfBirth = new moment(item.date_of_birth, "YYYY-MM-DD").format("DD/MM/YYYY")
+            const created = new moment(item.created, "YYYY-MM-DD").format("DD/MM/YYYY")
+            data =  {
                 id: item.id,
                 fullName: item.full_name,
+                customerId: item.mifos_id,
+                createdName: item.created_name,
+                branchName: item.branch_name,
+                created: created,
+                gender: item.gender,
                 primaryPhone: item.primary_phone,
                 alternativePhone: item.alternative_phone,
                 address: item.fulladdress,
@@ -319,7 +356,25 @@ const CustomerService = {
                 district: item.district,
                 city: item.city,
                 occupation: item.occupation,
-                note:  item.note,
+                note: item.note,
+            };
+            return data
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+    },
+    filterRawCustomerTH: function(item) {
+        let data = null;
+        try {
+            const lastDisburse = new moment(item.last_disburse, "YYYY-MM-DD").format("DD/MM/YYYY")
+            data =  {
+                totalOrder: item.total_order,
+                totalLoan: item.total_loan,
+                totalContract: item.total_contract,
+                totalActiveContract: item.total_active_contract,
+                lastDisburse: lastDisburse,
+                lastUpdatedName: item.last_updated_name,
             };
             return data
         } catch (error) {
