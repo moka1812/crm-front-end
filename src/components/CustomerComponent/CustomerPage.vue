@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-layout wrap class="customer-items">
         <v-flex xs12 sm12 md6 lg6 xl6 v-for="(item, index) in this.customerListResult" :key="item.customerId">
-          <v-card class="customer-item" :class="index%2===0?'margin-right':''" v-if="showData(index)">
+          <v-card class="customer-item" :class="index%2===0?'margin-right':''">
             <v-layout align-start justify-start column>
               <div class="button">
                 <v-btn class="btn-edit" @click="detail(item.id)">
@@ -60,6 +60,7 @@
       <v-pagination v-model="curentPage"
                     :length="totalPage" 
                     :color="'#DD1E26'"
+                    @input="getListCustomers"
                     :total-visible="5"></v-pagination>
     </v-layout>
   </div>
@@ -81,15 +82,10 @@ export default {
       totalPage: 0,
     };
   },
-  watch: {
-    pagination: {
-      handler: 'getListCustomers',
-      immediate: true
-    }
-  },
   computed: {
     ...mapGetters({
       customerListResult: 'customer/customerListResult',
+      customerCountResult: 'customer/customerCountResult',
       customerListRequest: 'customer/customerListRequest',
       customerListErrorCode: 'customer/customerListErrorCode',
       customerListError: 'customer/customerListError',
@@ -102,14 +98,6 @@ export default {
     ...mapActions({
       getCustomerList: 'customer/getCustomerList',
     }),
-    showData(row) {
-      const lastRowNumber = this.curentPage * this.rowOfPage - 1;
-      const firstRowNumber = lastRowNumber - this.rowOfPage + 1;
-      if (row >= firstRowNumber && row <= lastRowNumber) {
-        return true;
-      }
-      return false;
-    },
     getTotalPage(totalRows) {
       return Math.ceil(totalRows/this.rowOfPage);
     },
@@ -124,7 +112,7 @@ export default {
     },
     getListCustomers:async function() {
       await this.getCustomerList({page: this.curentPage, condition: this.condition});
-      this.totalPage = this.getTotalPage(this.customerListResult.length);
+      this.totalPage = this.getTotalPage(this.customerCountResult);
     },
     detail: function (id) {
       if (isNullOrUndefined(id) === false) {

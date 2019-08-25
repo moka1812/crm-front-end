@@ -4,6 +4,7 @@ export default function initialState () {
         flagSchedule: false,
         customerListRequest: false,
         customerListResult: [],
+        customerCountResult: [],
         customerListErrorCode: 0,
         customerListError: '',
 

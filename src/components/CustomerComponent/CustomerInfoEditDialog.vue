@@ -113,7 +113,7 @@
                       <date-picker 
                           v-model="submitedDate"
                           outline
-                          label="Ngày cấp"
+                          label="Ngày tạo"
                           placeholder="dd/mm/yyyy"/>
                     </td>
                   </tr>
@@ -163,6 +163,7 @@ export default {
   },
   data () {
     return {
+      customerDetailInput: {},
       dialog: false,
       customerName: "Trịnh thanh bình",
       customerId:"32785423",
@@ -177,10 +178,25 @@ export default {
       sex:"Nam",
       sexItems: [
         "Nam",
-        "Nữ",
-        "Khác"
+        "Nữ"
       ]
     }
+  },
+  created() {
+    this.getCustomerById();
+  },
+  computed: {
+    ...mapGetters({
+      customerDetail: 'customer/customerDetail'
+    }),
+  },
+  methods: {
+    ...mapActions({
+      getCustomerByCustomerId: 'customer/getCustomerByCustomerId'
+    }),
+    getCustomerById:async function(){
+      await this.getCustomerByCustomerId({id: this.customerIdS})
+    },
   },
 }
 </script>

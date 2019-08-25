@@ -8,6 +8,9 @@ export default  {
     customerListResult: (state) => {
         return state.customerListResult
     },
+    customerCountResult: (state) => {
+        return state.customerCountResult
+    },
     customerListErrorCode: (state) => {
         return state.customerListErrorCode
     },
@@ -23,17 +26,28 @@ export default  {
         return state.customerDetail
     },
 
-    customerTH: (state) => {
-        return state.customerTH
-    },
-
-
     customerDetailErrorCode: (state) => {
         return state.customerDetailErrorCode
     },
 
     customerDetailError: (state) => {
         return state.customerDetailError
+    },
+
+    customerTHForm: (state) => {
+        return state.customerTHForm
+    },
+
+    customerTH: (state) => {
+        return state.customerTH
+    },
+
+    customerTHErrorCode: (state) => {
+        return state.customerTHErrorCode
+    },
+
+    customerTHError: (state) => {
+        return state.customerTHError
     },
 
     documentListResult: (state) => {
