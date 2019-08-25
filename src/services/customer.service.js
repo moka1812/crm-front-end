@@ -3,9 +3,10 @@ import { ProfileService } from './storage.service'
 import { 
     deleteCustomerDocument, customerDoucument, customerBankAccout,
     customerApi, customerById, customerDocumentApi, contractActive, contractClose, 
-    uploadBankAccout,deleteBankAccout, updateBankAcout, updateCustomerNote
+    uploadBankAccout,deleteBankAccout, updateBankAcout, updateCustomerNote,
 } from '../config/backend-api'
 import moment from 'moment'
+import { isNullOrUndefined } from 'util';
 
 class CustomerError extends Error {
     constructor(errorCode, message) {
@@ -18,10 +19,18 @@ class CustomerError extends Error {
 
 const CustomerService = {
 
-    getCustomerList: async function(page) {
+    getCustomerList: async function(page, condition) {
         try {
 
-            let url = customerApi
+            let url = null;
+            
+            if (isNullOrUndefined(condition) === true || condition === "") {
+                url = customerApi;
+            } else if (isNaN(condition) === false) {
+                url = customerApi.concat("?nationalid=", condition);
+            } else {
+                url = customerApi.concat("?name=", condition);
+            }
 
             const response = await ApiService.get(url)
 

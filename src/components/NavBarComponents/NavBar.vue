@@ -1,6 +1,17 @@
 <template>
     <v-toolbar color="#ffffff" app fixed>
-
+       <div class="search-field-menu">
+         <v-text-field
+            v-model="txtFilter"
+            placeholder="Họ tên, CMND/HC, số điện thoại,..."
+            outline
+            round
+            single-line
+            filled
+            prepend-inner-icon="search"
+            v-on:keyup.enter="onSearch"
+          ></v-text-field>
+       </div>
       <v-spacer/>
 
       <v-toolbar-items>
@@ -70,7 +81,8 @@ export default {
           key: 'logout',
           title: 'Logout' 
         }
-      ]
+      ],
+      txtFilter: ""
     }
   },
   computed: {
@@ -90,8 +102,65 @@ export default {
     },
     logout: function() {
       this.$store.dispatch('auth/logout')
+    },
+    onSearch(){
+      const name = this.$router.history.current.name;
+      if (name==="customers") {
+        this.$router.push({name: 'orders'});
+        this.$router.push({name: 'customers', params: { textSearch: this.txtFilter}});
+      } else {
+        this.$router.push({name: 'customers', params: { textSearch: this.txtFilter}});
+      }
     }
   }
 }
 
 </script>
+<style>
+.search-field-menu {
+  height: 100%;
+  display: contents;
+}
+
+.search-field-menu .v-text-field:hover,
+.search-field-menu .v-input__slot:hover {
+  box-shadow: 0px 3px 3px 0px #898585;
+}
+
+.search-field-menu .v-text-field,
+.search-field-menu .v-input__slot {
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 50px !important;
+  width: 100%!important;
+  min-height: 40px!important;
+  background-color: #ffffff!important;
+}
+
+.search-field-menu .v-text-field--box .v-input__slot, 
+.search-field-menu .v-text-field--outline .v-input__slot {
+  border-width: 1px!important;
+  border-color: #D0D6DC!important;
+}
+
+.search-field-menu .v-text-field--box .v-input__slot:hover, 
+.search-field-menu .v-text-field--outline .v-input__slot:hover{
+  border-color: #1C78D3!important;
+}
+
+.search-field-menu .v-text-field__slot {
+  height: 30px!important;
+}
+
+.search-field-menu .v-input__prepend-inner {
+  margin: 8px 8px 0px 2px!important;
+}
+
+.search-field-menu .v-input {
+  font-size: 15px !important;
+}
+
+.search-field-menu .v-text-field__details {
+  display: none;
+}
+</style>
