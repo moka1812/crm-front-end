@@ -3,7 +3,7 @@
     <v-layout align-center justify-center column class="contract-detail">
       <div class="titile-contract-info">
         <i class="material-icons" 
-           :class="getClassStatus(contractDetail.status, contractDetail.maturesDate)">
+           :class="getClassStatus(contractDetail.status)">
           fiber_manual_record
         </i>
         <strong>#{{contractDetail.contractID}}</strong>
@@ -78,37 +78,18 @@ export default {
         this.getCustomerByCustomerId({id: this.contractDetail.clientId})
       }
     },
-    getClassStatus(status, matures_date){
+    getClassStatus(status){
       if (isNullOrUndefined(status)){
         return '';
       } else if (status.toUpperCase()==='ACTIVE') {
-        if (this.isOverdue(matures_date)===true) {
-          return 'overdue-status';
-        }
         return 'active-status';
-      } else if (status.toUpperCase()==='WAITING') {
+      } else if (status.toUpperCase()==='OVERDUE') {
+          return 'overdue-status';
+      }else if (status.toUpperCase()==='WAITING') {
         return 'waiting-status';
       } else if (status.toUpperCase()==='CLOSED') {
         return 'close-status';
       }
-    },
-    isOverdue(matures_date) {
-      if (isNullOrUndefined (matures_date) === false &&  matures_date !== "") {
-          try {
-            const matures_date_tmp = new moment(matures_date, "YYYY-MM-DD[T]HH:mm");
-            if (matures_date_tmp.isValid() === true) {
-              const overdueDate = matures_date_tmp.toDate();
-              const currentDate = new Date();
-              if (overdueDate - currentDate < 0) {
-                return true;
-              }
-            }
-          } catch(e) {
-            console.log('Exception: ', e);
-            return false;
-          }
-      }
-      return false;
     },
     disablePhone(){
       return isNullOrUndefined(this.customerDetail.alternativePhone) === false;

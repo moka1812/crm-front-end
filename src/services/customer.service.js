@@ -4,7 +4,7 @@ import {
     deleteCustomerDocument, customerDoucument, customerBankAccout,
     customerApi, customerById, customerDocumentApi, contractActive, contractClose, 
     uploadBankAccout,deleteBankAccout, updateBankAcout, updateCustomerNote,
-    customerTransactionHistory,
+    customerTransactionHistory, updateCustomer
 } from '../config/backend-api'
 import moment from 'moment'
 import { isNullOrUndefined } from 'util';
@@ -316,6 +316,23 @@ const CustomerService = {
             throw new CustomerError(error.response.status, error.response.data.detail)
         }
     },
+    updateCustomer: async function(id, customer) {
+        try {
+    
+            const url = updateCustomer.replace(":id", id)
+    
+    
+            const response = await ApiService.put(url, customer)
+            
+            return {
+                cus: response.data,
+            }
+    
+        } catch (error) {
+
+            throw new CustomerError(error.response.status, error.response.data.detail)
+        }
+    },
 
     filterRawBankAccout: function(rawData) {
         const data = []
@@ -344,6 +361,8 @@ const CustomerService = {
             data =  {
                 id: item.id,
                 fullName: item.full_name,
+                firstName: item.first_name,
+                lastName: item.last_name,
                 customerId: item.mifos_id,
                 createdName: item.created_name,
                 branchName: item.branch_name,
@@ -355,7 +374,7 @@ const CustomerService = {
                 email: item.email,
                 dateOfBirth: dateOfBirth,
                 nationalId: item.national_id,
-                adress: item.address,
+                address: item.address,
                 district: item.district,
                 city: item.city,
                 occupation: item.occupation,

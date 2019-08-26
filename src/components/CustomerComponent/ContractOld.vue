@@ -15,7 +15,14 @@
 
       <template v-slot:items="props">
         <tr>
-          <td class="text-xs-center content">{{ props.item.contractId }}</td>
+          <td class="text-xs-center content">
+            <div class="icon-status">
+              <i class="material-icons close-status">
+                fiber_manual_record
+              </i>
+              <span>{{ props.item.contractId }}</span>
+            </div>
+          </td>
           <td class="text-xs-center content">{{ props.item.loan_accout }}</td>
           <td class="text-xs-center content ">{{ props.item.paid_date }}</td>
           <td class="text-xs-center content">{{ props.item.assset_type }}</td>
@@ -139,5 +146,17 @@ td.content {
 .wrap-text {
   word-wrap: break-word;
   white-space: pre-line !important;
+}
+
+.icon-status {
+  display: inline-flex;
+  margin-right: 5px;
+  text-align: left;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.close-status {
+  color: #CECFD0;
 }
 </style>
