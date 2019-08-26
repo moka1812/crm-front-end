@@ -44,8 +44,8 @@ const ClientService = {
             const url = `${clientAPI}?phone=${phone}`
 
             const response = await ApiService.get(url)
-
-            if (response.data.length === 0) { //New Client
+            console.log(response.data)
+            if (response.data.results.length === 0) { //New Client
                 return {
                     status: false,
                     data: null
@@ -53,7 +53,7 @@ const ClientService = {
             } else {
                 return {
                     status: true,
-                    data: this.filterRawClientList(response.data)
+                    data: this.filterRawClientList(response.data.results)
                 }
             }
 
@@ -68,7 +68,7 @@ const ClientService = {
 
             const response = await ApiService.get(url)
 
-            if (response.data.length === 0) { //New Client
+            if (response.data.results.length === 0) { //New Client
                 return {
                     status: false,
                     data: null
@@ -76,7 +76,7 @@ const ClientService = {
             } else {
                 return {
                     status: true,
-                    data: this.filterRawClientList(response.data)
+                    data: this.filterRawClientList(response.data.results)
                 }
             }
 
