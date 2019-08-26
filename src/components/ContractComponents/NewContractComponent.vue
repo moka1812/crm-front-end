@@ -171,12 +171,13 @@
                 </v-form>
             </v-window-item>
             <v-window-item :value="2" class="padding">
-                <v-form v-model="valid2" v-show="!isAuthorizedForm">
+                <v-form ref="form2_1" v-model="valid2" v-show="!isAuthorizedForm">
                     <v-container>
                         <v-layout>
                             <v-flex sm5>
                                 <v-textarea
-                                    v-model.lazy="assetInput"
+                                    :key="autoGrowHack"
+                                    v-model="assetInput"
                                     label="Mô tả tài sản*"
                                     rows="1"
                                     auto-grow
@@ -225,6 +226,7 @@
                         <v-layout>
                             <v-flex sm5>
                                 <v-textarea
+                                    :key="autoGrowHack"
                                     v-model.lazy="accessoryInput"
                                     label="Phụ Kiện"
                                     rows="1"
@@ -462,6 +464,7 @@
                                         ]"
                                     label="Khoản làm tròn"
                                     readonly
+                                    persistent-hint
                                     :hint="roundingHint"
                                 >
                                 </v-text-field>
@@ -479,6 +482,7 @@
                                         ]"
                                     label="Gốc*"
                                     :hint="costHint"
+                                    persistent-hint
                                     readonly
                                 >
                                 </v-text-field>
@@ -512,6 +516,7 @@
                                         ]"
                                     label="Tiền lãi"
                                     :hint="interestValueHint"
+                                    persistent-hint
                                     readonly
                                 >
                                 </v-text-field>
@@ -524,6 +529,7 @@
                                         ]"
                                     label="Số tiền nhận được"
                                     :hint="this.receivedAmountHint"
+                                    persistent-hint
                                     readonly
                                 >
                                 </v-text-field>
@@ -767,12 +773,13 @@
                     </v-container>
                 </v-form>
                 <br/>
-                <v-form v-model="valid2" class="form">
+                <v-form ref="form2_2" v-model="valid2" class="form">
                     <center><p class="title-form">Thông Tin Tài Sản</p></center>
                     <v-container>
                         <v-layout>
                             <v-flex sm5>
                                 <v-textarea
+                                    :key="autoGrowHack"
                                     v-model.lazy="assetInput"
                                     label="Mô tả tài sản*"
                                     rows="1"
@@ -825,6 +832,7 @@
                         <v-layout>
                             <v-flex sm5>
                                 <v-textarea
+                                    :key="autoGrowHack"
                                     v-model.lazy="accessoryInput"
                                     label="Phụ Kiện"
                                     rows="1"
@@ -836,6 +844,7 @@
                             <v-spacer/>
                             <v-flex sm5>
                                 <v-text-field
+                                    :key="autoCallRules"
                                     v-model="approvedAmountInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
@@ -1150,6 +1159,7 @@
                                         ]"
                                     label="Khoản làm tròn"
                                     readonly
+                                    persistent-hint
                                     :hint="roundingHint"
                                 >
                                 </v-text-field>
@@ -1167,6 +1177,7 @@
                                         ]"
                                     label="Gốc*"
                                     :hint="costHint"
+                                    persistent-hint
                                     readonly
                                 >
                                 </v-text-field>
@@ -1201,6 +1212,7 @@
                                         ]"
                                     label="Tiền lãi"
                                     :hint="interestValueHint"
+                                    persistent-hint
                                     readonly
                                 >
                                 </v-text-field>
@@ -1213,6 +1225,7 @@
                                         ]"
                                     label="Số tiền nhận được"
                                     :hint="this.receivedAmountHint"
+                                    persistent-hint
                                     readonly
                                 >
                                 </v-text-field>
@@ -1482,7 +1495,9 @@ export default {
                 }
                 return 'Yêu cầu cần có'
             }
-        ]
+        ],
+        autoGrowHack: false,
+        autoCallRules: false,
     }
   },
   beforeCreate() {
@@ -1621,9 +1636,12 @@ export default {
         this.changeCaculate()
     },
     validatorAmountInput() {
-        const value = this.approvedAmountInput
-        this.approvedAmountInput = 0
-    }
+        this.$refs.form2_1.validate()
+        this.$refs.form2_2.validate()
+    },
+    step() {
+        this.forceReRender()
+    },
   },
   methods: {
     ...mapActions({
@@ -1634,6 +1652,12 @@ export default {
         updateCAsset: 'asset/updateCAsset',
         createContract: 'contract/createContract',
     }),
+    forceReRender() {
+      this.autoGrowHack = !this.autoGrowHack
+    },
+    forceReRenderApprovedAmount() {
+      this.autoCallRules = !this.autoCallRules
+    },
     //Find asset from asset description
     findAssetNameType(assetType) {
       for (let item of this.SAssetListResult) {
