@@ -9,6 +9,7 @@ import {
     CONTRACT_CREATING_REQUEST,
     CONTRACT_CREATING_SUCCESS,
     CONTRACT_CREATING_ERROR,
+    CONTRACT_CREATING_RESET,
 
     CONTRACT_DETAIL_REQUEST,
     CONTRACT_DETAIL_SUCCESS,
@@ -67,6 +68,12 @@ export default {
         Vue.set(state, 'contractCreatingRequest', false)
         Vue.set(state, 'contractCreatingError', errorMessage)
         Vue.set(state, 'contractCreatingErrorCode', errorCode)
+    },
+    [CONTRACT_CREATING_RESET] (state) {
+        Vue.set(state, 'contractCreatingRequest', false)
+        Vue.set(state, 'contractCreatingResult', null)
+        Vue.set(state, 'contractCreatingError', '')
+        Vue.set(state, 'contractCreatingErrorCode', 0)
     },
     [CONTRACT_DETAIL_SUCCESS] (state, {contract}) {
         Vue.set(state, 'contractDetailForm', true)

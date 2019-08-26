@@ -111,14 +111,13 @@
                             <v-flex sm7>
                             </v-flex>
                             <v-flex sm5>
-                                <v-select
+                                <v-text-field
                                     v-model="sourceInput"
                                     :items="sourceItems"
-                                    :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Source"
                                     :disabled="true"
                                 >
-                                </v-select>
+                                </v-text-field>
                             </v-flex>
                             <v-spacer/>
                         </v-layout>
@@ -432,6 +431,11 @@
                                     v-model="interestRateInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
+                                            v => {
+                                                if (v>0 && v<=9) {
+                                                    return true
+                                                } return 'Lãi suất phải nằm từ 0 đến 9%'
+                                            }
                                         ]"
                                     label="Lãi suất*"
                                     :disabled="interestRateDisabled"
@@ -680,14 +684,13 @@
                             <v-flex sm7>
                             </v-flex>
                             <v-flex sm5>
-                                <v-select
+                                <v-text-field
                                     v-model="sourceInput"
                                     :items="sourceItems"
-                                    :rules="[v => !!v || 'Yều cầu cần có']"
                                     label="Source"
                                     :disabled="true"
                                 >
-                                </v-select>
+                                </v-text-field>
                             </v-flex>
                             <v-spacer/>
                         </v-layout>
@@ -1125,6 +1128,11 @@
                                     v-model="interestRateInput"
                                     :rules="[
                                             v => !!v || 'Yều cầu cần có',
+                                            v => {
+                                                if (v>0 && v<=9) {
+                                                    return true
+                                                } return 'Lãi suất phải nằm từ 0 đến 9%'
+                                            }
                                         ]"
                                     label="Lãi suất*"
                                     :disabled="interestRateDisabled"
@@ -1402,7 +1410,6 @@ import {mapActions, mapGetters} from 'vuex'
 import DatePicker from "@/components/ContractComponents/DatePicker.vue"
 import NewContractPreview from "@/components/ContractComponents/NewContractPreview.vue"
 import changeDigitToText from '../../mixins/money'
-import sourceItems from '../../mixins/source_items'
 import contractItems from './utils/contract_items'
 import cityItems from './utils/city_items'
 import moment from 'moment'
@@ -1443,7 +1450,6 @@ export default {
       cityInput: Object.keys(cityItems)[0],
       cityItems: Object.keys(cityItems),
       sourceInput: '',
-      sourceItems: sourceItems,
       assetInput: '',
       expectedAmountInput: '',
       assetTypeInput: '',
@@ -1539,6 +1545,9 @@ export default {
         
     }
     this.getProduct()
+  },
+  beforeDestroy() {
+    this.resetContractCreatingResult()
   },
   computed: {
     ...mapGetters({
@@ -1651,6 +1660,7 @@ export default {
         createClient: 'client/createClient',
         updateCAsset: 'asset/updateCAsset',
         createContract: 'contract/createContract',
+        resetContractCreatingResult: 'contract/resetContractCreatingResult',
     }),
     forceReRender() {
       this.autoGrowHack = !this.autoGrowHack

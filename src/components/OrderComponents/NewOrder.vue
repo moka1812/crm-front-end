@@ -38,14 +38,22 @@
                         </v-flex>
                         <v-flex sm6>
                           <v-select
-                              v-model="sourceInput"
-                              :items="sourceItems"
-                              :rules="[v => !!v || 'Yều cầu cần có']"
-                              label="Source*"
-                              :disabled="disabled"
-                              required
-                              >
+                            v-if="newClient"
+                            v-model="sourceInput"
+                            :items="sourceItems"
+                            :rules="[v => !!v || 'Yều cầu cần có']"
+                            label="Source*"
+                            :disabled="disabled"
+                            required
+                          >
                           </v-select>
+                          <v-text-field
+                            v-else
+                            v-model.lazy="sourceInput"
+                            label="Source*"
+                            readonly
+                          >
+                          </v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout>
@@ -211,6 +219,7 @@ export default {
       agentInput: '',
       //for Search Client fuction
       searchTime: null,
+      newClient: true,
     }
   },
   mounted() {
@@ -257,9 +266,13 @@ export default {
       if (this.clientSearchResult !== null) {
         this.firstNameInput = this.clientSearchResult.firstName
         this.lastNameInput = this.clientSearchResult.lastName
+        this.sourceInput = this.clientSearchResult.source
+        this.newClient = false
       } else {
         this.firstNameInput = ''
         this.lastNameInput = ''
+        this.sourceInput = ''
+        this.newClient = true
       }
     },
     //When finish call API get SAsset, Update assetTypeItems
