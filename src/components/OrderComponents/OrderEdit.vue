@@ -649,7 +649,6 @@ export default {
             this.terminate()
         },
         contractHandle() {
-
             // No change in order detail
             if (this.updateFromContract) {
                 const orderDetail = {

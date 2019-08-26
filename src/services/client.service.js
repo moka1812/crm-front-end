@@ -44,7 +44,7 @@ const ClientService = {
             const url = `${clientAPI}?phone=${phone}`
 
             const response = await ApiService.get(url)
-            console.log(response.data)
+
             if (response.data.results.length === 0) { //New Client
                 return {
                     status: false,
@@ -123,6 +123,7 @@ const ClientService = {
                     note: item.note,
                     branch: item.branch,
                     mifosId: item.mifos_id,
+                    source: item.source,
                 })
             }
             return data

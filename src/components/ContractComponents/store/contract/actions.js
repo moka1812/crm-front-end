@@ -7,6 +7,7 @@ import {
     CONTRACT_CREATING_REQUEST,
     CONTRACT_CREATING_SUCCESS,
     CONTRACT_CREATING_ERROR,
+    CONTRACT_CREATING_RESET,
 
     CONTRACT_DETAIL_REQUEST,
     CONTRACT_DETAIL_SUCCESS,
@@ -53,6 +54,10 @@ export default {
                 commit(CONTRACT_CREATING_ERROR, {errorCode: 500, errorMessage: "Internal Server Error"})
             }
         }
+    },
+
+    async resetContractCreatingResult({commit}) {
+        commit(CONTRACT_CREATING_RESET)
     },
 
     async getContractList({commit}, payload) {
