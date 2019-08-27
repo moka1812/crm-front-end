@@ -25,7 +25,6 @@ const ContractService = {
             client: newContractInfo.clientID,
             product: newContractInfo.productID,
             required_amount: newContractInfo.expectedAmount * 1000000,
-            market_amount: newContractInfo.marketAmount * 1000000,
             proposed_amount: newContractInfo.validatorAmount * 1000000,
             approved_amount: newContractInfo.approvedAmount * 1000000,
             special_interest_value: newContractInfo.interestRate,

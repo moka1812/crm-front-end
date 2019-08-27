@@ -97,7 +97,7 @@
                                     :readonly="!newClient"
                                     :rules="[
                                         v => !!v || 'Yều cầu cần có',
-                                        v => /^[a-zA-Z]*[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
+                                        v => /^[a-zA-Z]?[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
                                     ]"
                                 >
                                 </v-text-field>
@@ -107,7 +107,7 @@
                             v-model.lazy="addressInput"
                             :rules="[
                                 v => !!v || 'Yều cầu cần có',
-                                v => /^[a-zA-Z]{0,255}$/.test(v) || 'Địa chỉ không quá 255 ký tự',
+                                v => v.length <=255 || 'Địa chỉ không quá 255 ký tự',
                             ]"
                             label="Địa chỉ*"
                             :readonly="!newClient"
@@ -361,7 +361,7 @@
                                         label="CMND/HC 2"
                                         :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            v => /^[a-zA-Z]*[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
+                                            v => /^[a-zA-Z]?[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
                                         ]"
                                     >
                                     </v-text-field>
@@ -678,7 +678,7 @@
                                     :readonly="newClient ? !edit1 : true "
                                     :rules="[
                                         v => !!v || 'Yều cầu cần có',
-                                        v => /^[a-zA-Z]*[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
+                                        v => /^[a-zA-Z]?[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
                                     ]"
                                 >
                                 </v-text-field>
@@ -688,7 +688,7 @@
                             v-model.lazy="addressInput"
                             :rules="[
                                 v => !!v || 'Yêu cầu cần có',
-                                v => /^[a-zA-Z]{0,255}$/.test(v) || 'Địa chỉ không quá 255 ký tự',
+                                v => v.length <=255 || 'Địa chỉ không quá 255 ký tự',
                             ]"
                             label="Địa chỉ*"
                             :readonly="newClient ? !edit1 : true "
@@ -1030,7 +1030,7 @@
                                         label="CMND/HC 2"
                                         :rules="[
                                             v => !!v || 'Yều cầu cần có',
-                                            v => /^[a-zA-Z]*[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
+                                            v => /^[a-zA-Z]?[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
                                         ]"
                                         :readonly="!editAuthorized"
                                     >
@@ -1809,7 +1809,6 @@ export default {
             clientID: clientID,
             productID: this.productListResult[this.packageInput].id,
             expectedAmount: this.expectedAmountInput,
-            marketAmount: this.marketAmount,
             validatorAmount: this.validatorAmountInput,
             approvedAmount: this.approvedAmountInput,
             interestRate: this.interestRateInput,
