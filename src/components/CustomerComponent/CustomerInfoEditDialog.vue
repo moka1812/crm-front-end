@@ -1,7 +1,7 @@
 <template>
   <v-layout justify-center class="customer-edit-content">
     <div class="button">
-      <v-btn class="btn-edit" @click.stop="dialog = true">
+      <v-btn class="btn-edit" @click="getCustomerById">
         <i class="material-icons">border_color</i>
       </v-btn>
     </div>
@@ -21,7 +21,7 @@
                   <tr>
                     <td>
                       <v-text-field
-                        v-model="customerId"
+                        v-model="customerDetailInput.customerId"
                         outline
                         disabled
                         label="Mã khách hàng"
@@ -32,9 +32,9 @@
                   <tr>
                     <td>
                       <v-text-field
-                        v-model="customerName"
+                        v-model="customerDetailInput.firstName"
                         outline
-                        label="Tên khách hàng"
+                        label="Họ"
                         style="width:100%;"
                         rows="1"
                         auto-grow
@@ -45,7 +45,20 @@
                   <tr>
                     <td>
                       <v-text-field
-                        v-model="branch"
+                        v-model="customerDetailInput.lastName"
+                        outline
+                        label="Tên"
+                        style="width:100%;"
+                        rows="1"
+                        auto-grow
+                        :rules="[v => !!v || 'Yều cầu cần có']">
+                      </v-text-field>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <v-text-field
+                        v-model="customerDetailInput.branchName"
                         outline
                         label="Chi nhánh"
                         disabled
@@ -56,7 +69,7 @@
                   <tr>
                     <td>
                       <v-text-field
-                        v-model="staff"
+                        v-model="customerDetailInput.createdName"
                         outline
                         disabled
                         label="Người tạo"
@@ -74,7 +87,7 @@
                   <tr>
                     <td style="width:50%;">
                       <v-text-field
-                          v-model="phoneNumber1"
+                          v-model="customerDetailInput.primaryPhone"
                           outline
                           label="Số Điện Thoại 1"
                           style="width:100%;"
@@ -83,7 +96,7 @@
                     </td>
                     <td style="width:50%;">
                       <v-text-field
-                          v-model="phoneNumber2"
+                          v-model="customerDetailInput.alternativePhone"
                           outline
                           label="Số Điện Thoại 2"
                           style="width:100%;">
@@ -93,7 +106,7 @@
                   <tr>
                     <td colspan="2">
                       <v-text-field
-                          v-model="address"
+                          v-model="customerDetailInput.address"
                           outline
                           label="Địa Chỉ Nhà"
                           style="width:100%;">
@@ -101,9 +114,27 @@
                     </td>
                   </tr>
                   <tr>
+                    <td>
+                      <v-select
+                          v-model="customerDetailInput.district"
+                          :items="districtItems"
+                          label="Quận"
+                          outline>
+                      </v-select>
+                    </td>
+                    <td>
+                      <v-select
+                          v-model="customerDetailInput.city"
+                          :items="cityItems"
+                          label="Thành phố"
+                          outline>
+                      </v-select>
+                    </td>
+                  </tr>
+                  <tr>
                     <td style="width:50%;">
                       <v-text-field
-                          v-model="externalId"
+                          v-model="customerDetailInput.nationalId"
                           outline
                           label="CMND/HC"
                           style="width:100%;">
@@ -111,8 +142,9 @@
                     </td>
                     <td style="width:50%;">
                       <date-picker 
-                          v-model="submitedDate"
+                          v-model="customerDetailInput.created"
                           outline
+                          disable
                           label="Ngày tạo"
                           placeholder="dd/mm/yyyy"/>
                     </td>
@@ -120,14 +152,14 @@
                   <tr>
                     <td style="width:50%;">
                       <date-picker 
-                          v-model="birthday"
+                          v-model="customerDetailInput.dateOfBirth"
                           outline
                           label="Ngày sinh"
                           placeholder="dd/mm/yyyy"/>
                     </td>
                     <td style="width:50%;">
                       <v-select
-                          v-model="sex"
+                          v-model="customerDetailInput.gender"
                           :items="sexItems"
                           label="Giới tính"
                           outline>
@@ -142,7 +174,7 @@
             <v-btn round class="btn-cancel" @click.stop="dialog = false">
               Cancel
             </v-btn>
-            <v-btn round class="btn-ok" @click.stop="dialog = false">
+            <v-btn round class="btn-ok" @click="onClickUpdateCustomer">
               Ok
             </v-btn>
         </v-layout>
@@ -153,6 +185,7 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import DatePicker from "@/components/ContractComponents/DatePicker.vue"
+import { isNullOrUndefined } from 'util';
 export default {
   name: "customer-info-edit-dialog",
   components: {
@@ -165,25 +198,10 @@ export default {
     return {
       customerDetailInput: {},
       dialog: false,
-      customerName: "Trịnh thanh bình",
-      customerId:"32785423",
-      externalId: "3242141",
-      branch: "TML",
-      staff: "An Nhiên",
-      submitedDate:'2018/03/16',
-      address:"245 Lê Văn Việt - P.Tăng Nhơn Phú A - Q.9 - Tp.HCM",
-      phoneNumber1:'+84013218328',
-      phoneNumber2:'+84013218328',
-      birthday:'14/08/1996',
-      sex:"Nam",
-      sexItems: [
-        "Nam",
-        "Nữ"
-      ]
+      districtItems: ['Quận 1', 'Quận 2', 'Quận 3'],
+      cityItems: ['Tp.HCM', 'Hà Nội'],
+      sexItems: [ "Nam", "Nữ"]
     }
-  },
-  created() {
-    this.getCustomerById();
   },
   computed: {
     ...mapGetters({
@@ -192,11 +210,51 @@ export default {
   },
   methods: {
     ...mapActions({
-      getCustomerByCustomerId: 'customer/getCustomerByCustomerId'
+      getCustomerByCustomerId: 'customer/getCustomerByCustomerId',
+      updateCustomer: 'customer/updateCustomer'
     }),
-    getCustomerById:async function(){
+    getCustomerById:async function() {
       await this.getCustomerByCustomerId({id: this.customerIdS})
+      if (isNullOrUndefined(this.customerDetail)===false) {
+        this.customerDetailInput = {
+          lastName: this.customerDetail.lastName,
+          firstName: this.customerDetail.firstName,
+          customerId: this.customerDetail.customerId,
+          createdName: this.customerDetail.createdName,
+          branchName: this.customerDetail.branchName,
+          created: this.customerDetail.created,
+          gender: this.customerDetail.gender,
+          primaryPhone: this.customerDetail.primaryPhone,
+          alternativePhone: this.customerDetail.alternativePhone,
+          dateOfBirth: this.customerDetail.dateOfBirth,
+          nationalId: this.customerDetail.nationalId,
+          address: this.customerDetail.address,
+          district: this.customerDetail.district,
+          city: this.customerDetail.city,
+        }
+        this.dialog = true;
+      }
     },
+    onClickUpdateCustomer:async function() {
+      const customerUpdate = {
+          last_name: this.customerDetail.lastName,
+          first_name: this.customerDetail.firstName,
+          gender: this.customerDetail.gender,
+          primary_phone: this.customerDetail.primaryPhone,
+          alternative_phone: this.customerDetail.alternativePhone,
+          date_of_birth: this.customerDetail.dateOfBirth,
+          national_id: this.customerDetail.nationalId,
+          address: this.customerDetail.address,
+          district: this.customerDetail.district,
+          city: this.customerDetail.city,
+        }
+      const data = {
+        id: this.customerIdS,
+        customer: customerUpdate
+      }
+      await this.updateCustomer(data);
+      this.dialog = false;
+    }
   },
 }
 </script>

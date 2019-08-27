@@ -26,12 +26,12 @@
                         </td>
                       </tr>
                       <tr>
-                        <td style="width:50%"><span>CMND/HC:{{item.nationalId}}</span></td>
-                        <td style="width:50%"><span>Chi nhánh:{{item.branchName}}</span></td>
+                        <td style="width:35%"><span>CMND/HC:{{item.nationalId}}</span></td>
+                        <td style="width:65%"><span>Chi nhánh:{{item.branchName}}</span></td>
                       </tr>
                       <tr>
-                        <td style="width:50%"><span>Liên hệ:{{item.primaryPhone}}</span></td>
-                        <td style="width:50%"><span>Người tạo:{{item.createdName}}</span></td>
+                        <td style="width:35%"><span>Liên hệ:{{item.primaryPhone}}</span></td>
+                        <td style="width:65%"><span>Người tạo:{{item.createdName}}</span></td>
                       </tr>
                     </tbody>
                   </table>

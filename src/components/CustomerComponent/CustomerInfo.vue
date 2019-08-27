@@ -167,6 +167,10 @@ export default {
       } else {
         return value;
       }
+    },
+    updateData:async function(id) {
+      await this.getCustomerByCustomerId({id: this.customerId});
+      // await this.getCustomerTransactionHistory({id: this.customerId});
     }
   },
 };

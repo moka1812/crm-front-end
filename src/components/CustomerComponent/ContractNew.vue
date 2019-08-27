@@ -15,7 +15,15 @@
 
       <template v-slot:items="props">
         <tr>
-          <td class="text-xs-center content">{{ props.item.contractId }}</td>
+          <td class="text-xs-center content">
+            <div class="icon-status">
+              <i class="material-icons" 
+                :class="getClassStatus(props.item.status)">
+                fiber_manual_record
+              </i>
+              <span>{{ props.item.contractId }}</span>
+            </div>
+          </td>
           <td class="text-xs-center content">{{ props.item.loan_accout }}</td>
           <td class="text-xs-center content ">{{ props.item.paid_date }}</td>
           <td class="text-xs-center content">{{ props.item.assset_type }}</td>
@@ -42,6 +50,7 @@ import ActionButton from "@/components/OrderComponents/ActionButton.vue";
 import CallButton from "@/components/OrderComponents/CallButton.vue"
 import CallTable from "@/components/OrderComponents/CallTable.vue"
 import { mapActions, mapGetters } from "vuex";
+import { isNullOrUndefined } from 'util';
 
 export default {
   name: "contract-new-tab",
@@ -93,6 +102,19 @@ export default {
     getActiveContract() {
       this.getContractActive({id : this.customerId})
     },
+    getClassStatus(status){
+      if (isNullOrUndefined(status)){
+        return '';
+      } else if (status.toUpperCase()==='ACTIVE') {
+        return 'active-status';
+      } else if (status.toUpperCase()==='OVERDUE') {
+          return 'overdue-status';
+      }else if (status.toUpperCase()==='WAITING') {
+        return 'waiting-status';
+      } else if (status.toUpperCase()==='CLOSED') {
+        return 'close-status';
+      }
+    },
   },
 }
 </script>
@@ -139,5 +161,29 @@ td.content {
 .wrap-text {
   word-wrap: break-word;
   white-space: pre-line !important;
+}
+
+.icon-status {
+  display: inline-flex;
+  margin-right: 5px;
+  text-align: left;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.active-status {
+  color: #00FF5F;
+}
+
+.waiting-status {
+  color: #F6AC3B;
+}
+
+.close-status {
+  color: #CECFD0;
+}
+
+.overdue-status {
+  color: #DD1E26;
 }
 </style>
