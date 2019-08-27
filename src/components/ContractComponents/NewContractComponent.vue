@@ -95,14 +95,20 @@
                                     v-model.lazy="nationalIDInput"
                                     label="CMND/HC*"
                                     :readonly="!newClient"
-                                    :rules="[v => !!v || 'Yều cầu cần có']"
+                                    :rules="[
+                                        v => !!v || 'Yều cầu cần có',
+                                        v => /^[a-zA-Z]*[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
+                                    ]"
                                 >
                                 </v-text-field>
                             </v-flex>
                         </v-layout>
                         <v-text-field
                             v-model.lazy="addressInput"
-                            :rules="[v => !!v || 'Yều cầu cần có']"
+                            :rules="[
+                                v => !!v || 'Yều cầu cần có',
+                                v => /^[a-zA-Z]{0,255}$/.test(v) || 'Địa chỉ không quá 255 ký tự',
+                            ]"
                             label="Địa chỉ*"
                             :readonly="!newClient"
                         >
@@ -353,7 +359,10 @@
                                     <v-text-field
                                         v-model="nationalID2Input"
                                         label="CMND/HC 2"
-                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^[a-zA-Z]*[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
+                                        ]"
                                     >
                                     </v-text-field>
                                 </v-flex>
@@ -608,6 +617,7 @@
                                     label="Họ*"
                                     :rules="[
                                         v => !!v || 'Yêu cầu cần có',
+                                        v => /^[a-zA-Z]{0,50}$/.test(v) || 'Không quá 50 ký tự',
                                     ]"
                                     :readonly="newClient ? !edit1 : true "
                                     hint="Ví dụ: Phạm"
@@ -666,7 +676,10 @@
                                     v-model.lazy="nationalIDInput"
                                     label="CMND/HC*"
                                     :readonly="newClient ? !edit1 : true "
-                                    :rules="[v => !!v || 'Yều cầu cần có']"
+                                    :rules="[
+                                        v => !!v || 'Yều cầu cần có',
+                                        v => /^[a-zA-Z]*[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
+                                    ]"
                                 >
                                 </v-text-field>
                             </v-flex>
@@ -675,6 +688,7 @@
                             v-model.lazy="addressInput"
                             :rules="[
                                 v => !!v || 'Yêu cầu cần có',
+                                v => /^[a-zA-Z]{0,255}$/.test(v) || 'Địa chỉ không quá 255 ký tự',
                             ]"
                             label="Địa chỉ*"
                             :readonly="newClient ? !edit1 : true "
@@ -1014,7 +1028,10 @@
                                     <v-text-field
                                         v-model="nationalID2Input"
                                         label="CMND/HC 2"
-                                        :rules="[v => !!v || 'Yều cầu cần có']"
+                                        :rules="[
+                                            v => !!v || 'Yều cầu cần có',
+                                            v => /^[a-zA-Z]*[0-9]{0,20}$/.test(v) || 'CMND/HC không quá 20 ký tự',
+                                        ]"
                                         :readonly="!editAuthorized"
                                     >
                                     </v-text-field>
@@ -1413,7 +1430,7 @@ import changeDigitToText from '../../mixins/money'
 import contractItems from './utils/contract_items'
 import cityItems from './utils/city_items'
 import moment from 'moment'
-import {getCost, getRoundFee} from './utils/caculate'
+import {getCost, getRoundFee, getInterestValue} from './utils/caculate'
 
 const has = Object.prototype.hasOwnProperty
 
@@ -1694,13 +1711,7 @@ export default {
             const productName = this.productListResult[this.packageInput].productName
             this.costInput = String(getCost(this.approvedAmountInput, this.interestRateInput, productName))
             this.roundingInput = String(getRoundFee(this.approvedAmountInput, this.interestRateInput, productName))
-
-            if (productName.includes('Prepaid Interest')) {
-                this.interestValueInput = String((this.approvedAmountInput - this.costInput).toFixed(3))
-            } else {
-                const interestValue = Math.round(this.approvedAmountInput * 1000000 * this.interestRateInput / 100) / 1000000
-                this.interestValueInput = String(interestValue.toFixed(3))
-            }
+            this.interestValueInput = String(getInterestValue(this.approvedAmountInput, productName, this.costInput, this.interestRateInput))
              
         } else {
             this.costInput = '0'
